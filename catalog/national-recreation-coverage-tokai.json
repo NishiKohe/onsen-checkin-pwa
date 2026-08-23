@@ -1,0 +1,13 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"東海",
+  "officialCountInScope":5,
+  "status":"5/5 complete",
+  "existingTagged":["奥飛騨温泉郷"],
+  "runtimeAdded":["白川郷平瀬温泉","小坂温泉郷","畑毛温泉","梅ヶ島温泉郷"],
+  "parentMultiZone":["小坂温泉郷","梅ヶ島温泉郷"],
+  "runtimePath":"data/national-recreation-tokai.json",
+  "overridePath":"data/national-recreation-overrides-tokai.json",
+  "sourcePath":"catalog/national-recreation-spa-required.json"
+}
