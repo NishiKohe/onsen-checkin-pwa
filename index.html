@@ -16,6 +16,7 @@
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
   <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="./collection-progress.css" />
 </head>
 <body>
   <header class="header">
@@ -85,10 +86,24 @@
     </section>
   </main>
 
+  <section id="collectionView" class="collection-view" hidden aria-label="タグ達成状況">
+    <div class="collection-header">
+      <h2>タグ達成状況</h2>
+      <p id="collectionSummary">集計中…</p>
+    </div>
+    <div id="collectionGrid" class="collection-grid"></div>
+  </section>
+
+  <nav class="app-tabs" aria-label="画面切り替え">
+    <button type="button" class="app-tab active" data-app-tab="map" aria-selected="true">地図</button>
+    <button type="button" class="app-tab" data-app-tab="collection" aria-selected="false">達成状況</button>
+  </nav>
+
   <script src="./app.js"></script>
   <script src="./ui-enhancements.js"></script>
   <script src="./heritage-ui.js"></script>
   <script src="./fixed-selection-ui.js"></script>
+  <script src="./collection-progress-ui.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
