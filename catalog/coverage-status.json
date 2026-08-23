@@ -1,7 +1,7 @@
 {
-  "version": 9,
+  "version": 10,
   "updatedAt": "2026-08-23",
-  "currentMapCount": 123,
+  "currentMapCount": 130,
   "runtimeData": {
     "mode": "manifest_merge",
     "manifestPath": "onsen-data-manifest.json",
@@ -13,7 +13,8 @@
       "data/onsen-musume-kanto-chichibu.json",
       "data/onsen-musume-koshinetsu-hokuriku-simple.json",
       "data/onsen-musume-koshinetsu-hokuriku-areas.json",
-      "data/onsen-musume-tokai.json"
+      "data/onsen-musume-tokai.json",
+      "data/onsen-musume-kinki.json"
     ],
     "multiZoneCheckinSupported": true,
     "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
@@ -29,13 +30,15 @@
         "北海道・東北": "complete",
         "関東": "18/18 complete",
         "甲信越・北陸": "22/22 complete",
-        "東海": "19/19 complete"
+        "東海": "19/19 complete",
+        "近畿": "11/11 complete"
       },
       "regionalMasters": [
         "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
         "catalog/onsen-musume-normalized-kanto.json",
         "catalog/onsen-musume-normalized-koshinetsu-hokuriku.json",
-        "catalog/onsen-musume-normalized-tokai.json"
+        "catalog/onsen-musume-normalized-tokai.json",
+        "catalog/onsen-musume-normalized-kinki.json"
       ],
       "note": "親温泉郷と子温泉が併存するケースではデータ上の親子関係を保持。地図は親を優先しつつ、温泉むすめ等で独立価値の高い子温泉は個別スポットを残す。"
     },
@@ -72,7 +75,6 @@
     "西表島温泉"
   ],
   "nextPass": [
-    "近畿ブロックの温泉むすめ対象を親温泉郷優先ルールで追加",
     "中国四国ブロックを地域ファイル化（はわい・東郷、あしずりは親マルチゾーン）",
     "九州沖縄を地域ファイル化（平戸・阿蘇・西表島は境界確認）",
     "国民保養温泉地79件を重複統合",
