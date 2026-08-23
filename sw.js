@@ -1,10 +1,11 @@
-const CACHE_NAME = "onsen-checkin-v21";
+const CACHE_NAME = "onsen-checkin-v22";
 const APP_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
   "./app.js",
   "./ui-enhancements.js",
+  "./heritage-ui.js",
   "./onsen.json",
   "./onsen-data-manifest.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
@@ -30,6 +31,8 @@ const APP_ASSETS = [
   "./data/national-recreation-overrides-kinki.json",
   "./data/national-recreation-overrides-chugoku-shikoku.json",
   "./data/national-recreation-overrides-kyushu.json",
+  "./data/onsen-heritage-new.json",
+  "./data/onsen-heritage-overrides.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
@@ -51,8 +54,12 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const networkFirst = ["/onsen.json", "/app.js", "/ui-enhancements.js", "/onsen-data-manifest.json"];
-  if (networkFirst.some((suffix) => url.pathname.endsWith(suffix)) || url.pathname.includes("/data/onsen-") || url.pathname.includes("/data/national-recreation-")) {
+  const networkFirst = ["/onsen.json", "/app.js", "/ui-enhancements.js", "/heritage-ui.js", "/onsen-data-manifest.json"];
+  if (
+    networkFirst.some((suffix) => url.pathname.endsWith(suffix)) ||
+    url.pathname.includes("/data/onsen-") ||
+    url.pathname.includes("/data/national-recreation-")
+  ) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
