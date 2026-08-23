@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "currentMapCount": 38,
+  "requiredCoverage": {
+    "onsenMusume": {
+      "charactersDomestic": 134,
+      "normalizedSpotCandidates": 133,
+      "highConfidenceNormalization": 111,
+      "needsAreaBoundaryVerification": 22,
+      "mandatory": true,
+      "note": "有馬輪花・有馬楓花は同一の有馬温泉に統合。親温泉郷と子温泉が別キャラとして存在するケースは両方を候補として保持し、位置登録範囲の重なりを許容する。"
+    },
+    "onsenHeritage": {
+      "mandatory": true,
+      "status": "manual_current_verification_required",
+      "note": "現行公式一覧が安定取得できないため、認定宿・施設の公式記載を集約して所属温泉地へ正規化する。"
+    },
+    "nationalRecreationSpa": {
+      "officialCount": 79,
+      "mandatory": false,
+      "status": "source_ready"
+    },
+    "secretHotSpringAssociation": {
+      "activeMemberInns": 105,
+      "mandatory": false,
+      "status": "facility_to_area_normalization_required"
+    }
+  },
+  "onsenMusumeAreaVerificationQueue": [
+    "大子温泉",
+    "那須温泉郷",
+    "水上温泉",
+    "秩父温泉郷",
+    "鴨川温泉郷",
+    "南房総温泉郷",
+    "箱根温泉郷",
+    "輪島温泉郷",
+    "河口湖温泉郷",
+    "山中湖温泉",
+    "湯田中渋温泉郷",
+    "飛騨高山温泉",
+    "下田温泉",
+    "南知多温泉郷",
+    "蒲郡温泉郷",
+    "志摩温泉郷",
+    "鳥羽温泉郷",
+    "はわい温泉・東郷温泉",
+    "あしずり温泉郷",
+    "平戸温泉",
+    "阿蘇温泉郷",
+    "西表島温泉"
+  ],
+  "nextPass": [
+    "温泉むすめ133候補へ緯度経度・checkinRadiusM付与",
+    "国民保養温泉地79件を重複統合",
+    "日本秘湯を守る会105宿を温泉地へ正規化",
+    "温泉遺産認定宿を現行情報で個別照合",
+    "全候補にバッジソースを付与して重複統合"
+  ]
+}
