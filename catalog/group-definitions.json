@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-08-23",
   "design": {
     "spotBadge": "各グループ所属温泉地に付与する称号",
@@ -53,6 +53,19 @@
       "completionBadge": {"name": "美作三湯・踏破", "rarity": "SSR"},
       "sourceUrl": "https://www.okayama-kanko.jp/feature/onsen/top",
       "evidenceLevel": "prefectural_official_tourism"
+    },
+    {
+      "id": "jomo_sanmeito",
+      "name": "上毛三名湯",
+      "aliases": ["上州三名湯"],
+      "category": "regional_historical",
+      "members": ["kusatsu", "ikaho", "shima"],
+      "memberNames": ["草津温泉", "伊香保温泉", "四万温泉"],
+      "spotBadgeRarity": "SR",
+      "completionBadge": {"name": "上毛三名湯・踏破", "rarity": "SSR"},
+      "sourceUrl": "https://www.town.nakanojo.gunma.jp/soshiki/9/1177.html",
+      "evidenceLevel": "municipal_government",
+      "note": "中之条町公式が四万温泉を草津・伊香保とともに『上毛三名湯』と明記。"
     },
     {
       "id": "nihon_sandai_yakuto",
