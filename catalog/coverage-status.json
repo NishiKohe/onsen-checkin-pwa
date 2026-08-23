@@ -1,7 +1,14 @@
 {
-  "version": 4,
+  "version": 5,
   "updatedAt": "2026-08-23",
-  "currentMapCount": 63,
+  "currentMapCount": 81,
+  "runtimeData": {
+    "mode": "manifest_merge",
+    "manifestPath": "onsen-data-manifest.json",
+    "basePath": "onsen.json",
+    "regionalFiles": ["data/onsen-musume-hokkaido-tohoku.json"],
+    "multiZoneCheckinSupported": true
+  },
   "requiredCoverage": {
     "onsenMusume": {
       "charactersDomestic": 134,
@@ -15,9 +22,10 @@
         "completedAreas": 27,
         "completedRegion": "北海道・東北",
         "regionalPath": "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
-        "pendingAppAddsInRegion": 18
+        "runtimeAddedFromRegion": 18,
+        "pendingAppAddsInRegion": 0
       },
-      "note": "有馬輪花・有馬楓花は同一の有馬温泉に統合。親温泉郷と子温泉が別キャラとして存在するケースは両方を候補として保持し、位置登録範囲の重なりを許容する。"
+      "note": "有馬輪花・有馬楓花は同一の有馬温泉に統合。親温泉郷と子温泉が別キャラとして存在するケースは両方を候補として保持し、位置登録範囲の重なりを許容する。広域温泉郷はcheckinZones[]で複数有効地点を持てる。"
     },
     "onsenHeritage": {
       "mandatory": true,
@@ -86,8 +94,7 @@
     "西表島温泉"
   ],
   "nextPass": [
-    "北海道・東北の未収録18件をonsen.jsonへ追加",
-    "関東18候補へ緯度経度・checkinRadiusM付与",
+    "関東18候補へ緯度経度・checkinZones/checkinRadiusM付与し地域ファイルへ追加",
     "中部以西も地域別に133候補の座標・チェックイン範囲を確定",
     "国民保養温泉地79件を重複統合",
     "日本秘湯を守る会105宿を温泉地へ正規化",
