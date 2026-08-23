@@ -1,0 +1,11 @@
+[
+  {"id":"daigo","name":"大子温泉","prefecture":"茨城県","lat":36.7690778,"lng":140.359167,"checkinRadiusM":1600,"onsenMusume":{"characters":["大子紅葉"]},"badges":["onsen_musume"],"summary":"久慈川流域、大子町中心部周辺に広がる温泉地。","referenceNote":"温泉むすめ必須収録。代表座標・範囲はMVP暫定値。"},
+  {"id":"manza","name":"万座温泉","prefecture":"群馬県","lat":36.637515,"lng":138.510009,"checkinRadiusM":1200,"onsenMusume":{"characters":["万座千斗星"]},"badges":["onsen_musume"],"summary":"標高約1,800m級の高地に位置する温泉地。","referenceNote":"温泉むすめ必須収録。代表座標・範囲はMVP暫定値。"},
+  {"id":"shima","name":"四万温泉","prefecture":"群馬県","lat":36.684947,"lng":138.7753855,"checkinRadiusM":1800,"onsenMusume":{"characters":["四万治佳"]},"badges":["onsen_musume"],"summary":"四万川沿いに温泉街が続く群馬県の温泉地。","referenceNote":"温泉むすめ必須収録。代表座標・範囲はMVP暫定値。"},
+  {"id":"minakami","name":"水上温泉","prefecture":"群馬県","lat":36.7837,"lng":138.969,"checkinRadiusM":1800,"onsenMusume":{"characters":["水上凛心"]},"badges":["onsen_musume"],"summary":"水上駅周辺から利根川沿いに広がる温泉地。","referenceNote":"水上温泉郷全体ではなく温泉むすめ対象の水上温泉として収録。代表座標・範囲はMVP暫定値。"},
+  {"id":"shirako","name":"白子温泉","prefecture":"千葉県","lat":35.4488,"lng":140.3985,"checkinRadiusM":1800,"onsenMusume":{"characters":["白子ひまり"]},"badges":["onsen_musume"],"summary":"九十九里浜沿岸の白子町に広がる温泉地。","referenceNote":"温泉むすめ必須収録。複数宿の集積エリアを代表点化したMVP暫定値。"},
+  {"id":"otemachi","name":"大手町温泉","prefecture":"東京都","lat":35.6880043,"lng":139.7626877,"checkinRadiusM":450,"onsenMusume":{"characters":["大手町梨稟"]},"badges":["onsen_musume"],"summary":"東京都心・大手町で地下深部から湧出する温泉。","referenceNote":"温泉むすめ必須収録。大手町1丁目・星のや東京周辺を代表点化。"},
+  {"id":"yugawara","name":"湯河原温泉","prefecture":"神奈川県","lat":35.152583,"lng":139.072475,"checkinRadiusM":1800,"onsenMusume":{"characters":["湯河原伊露羽"]},"badges":["onsen_musume"],"summary":"千歳川・藤木川流域に広がる歴史ある温泉地。","referenceNote":"温泉むすめ必須収録。奥湯河原とは親子・連続エリアとして扱う余地あり。"},
+  {"id":"gora","name":"強羅温泉","prefecture":"神奈川県","lat":35.2498128,"lng":139.0470013,"checkinRadiusM":1000,"onsenMusume":{"characters":["強羅かんな"]},"badges":["onsen_musume","hakone_junanayu"],"summary":"箱根登山鉄道の強羅駅周辺に広がる箱根十七湯の一つ。","referenceNote":"温泉むすめ必須収録。箱根温泉郷親スポットとは別に個別収録。"},
+  {"id":"sengokuhara","name":"仙石原温泉","prefecture":"神奈川県","lat":35.2645151,"lng":139.014026,"checkinRadiusM":1800,"onsenMusume":{"characters":["仙石原三香沙"]},"badges":["onsen_musume","hakone_junanayu"],"summary":"箱根北部の高原・仙石原に広がる温泉地。","referenceNote":"温泉むすめ必須収録。箱根温泉郷親スポットとは別に個別収録。"}
+]
