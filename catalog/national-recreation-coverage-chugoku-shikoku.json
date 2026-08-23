@@ -1,0 +1,13 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"中国・四国",
+  "officialCountInScope":14,
+  "status":"14/14 complete",
+  "existingTagged":["湯原温泉","奥津温泉","湯郷温泉","塩江温泉郷"],
+  "runtimeAdded":["鹿野・吉岡温泉","関金温泉","岩井温泉","三瓶温泉","鷺の湯温泉","湯来・湯の山温泉","矢野温泉","俵山温泉","三丘温泉","湯ノ浦温泉"],
+  "parentMultiZone":["鹿野・吉岡温泉","湯原温泉","湯来・湯の山温泉"],
+  "runtimePath":"data/national-recreation-chugoku-shikoku.json",
+  "overridePath":"data/national-recreation-overrides-chugoku-shikoku.json",
+  "sourcePath":"catalog/national-recreation-spa-required.json"
+}
