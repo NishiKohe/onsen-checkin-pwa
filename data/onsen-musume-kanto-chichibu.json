@@ -1,0 +1,23 @@
+[
+  {
+    "id": "chichibu_onsenkyo",
+    "name": "秩父温泉郷",
+    "prefecture": "埼玉県",
+    "lat": 35.9922,
+    "lng": 139.0848,
+    "onsenMusumeCharacters": ["秩父美祭"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["秩父温泉 満願の湯", "秩父湯元 武甲温泉", "大滝温泉"],
+    "checkinZones": [
+      {"label":"秩父温泉 満願の湯","lat":36.08161,"lng":139.07133,"radiusM":900},
+      {"label":"秩父湯元 武甲温泉","lat":35.9852,"lng":139.1004,"radiusM":900},
+      {"label":"大滝温泉","lat":35.94994,"lng":138.93822,"radiusM":900}
+    ],
+    "summary": "秩父地域に点在する温泉・鉱泉を親スポットとしてまとめた温泉郷。歴史的な秩父七湯は詳細実績として別管理する。",
+    "referenceNote": "秩父観光協会が現行の温泉スポットとして満願の湯・武甲温泉・大滝温泉等を案内。温泉むすめ対象の親スポットとして代表3ゾーンを暫定設定。",
+    "sourceUrls": [
+      "https://www.chichibuji.gr.jp/spot/",
+      "https://www.chichibuji.gr.jp/spot/spot-syousai116/"
+    ]
+  }
+]
