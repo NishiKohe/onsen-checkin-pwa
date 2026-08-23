@@ -1,0 +1,26 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"九州・沖縄",
+  "areas":[
+    {"prefecture":"福岡県","area":"原鶴温泉","character":"原鶴美鵺","runtimeStatus":"added","runtimeId":"harazuru","displayModel":"single"},
+    {"prefecture":"佐賀県","area":"嬉野温泉","character":"嬉野六香","runtimeStatus":"existing","runtimeId":"ureshino","displayModel":"single"},
+    {"prefecture":"佐賀県","area":"武雄温泉","character":"武雄星知","runtimeStatus":"existing","runtimeId":"takeo","displayModel":"single"},
+    {"prefecture":"長崎県","area":"平戸温泉","character":"平戸基恵","runtimeStatus":"added","runtimeId":"hirado","displayModel":"parent_multi_zone"},
+    {"prefecture":"長崎県","area":"雲仙温泉","character":"雲仙伊乃里","runtimeStatus":"existing","runtimeId":"unzen","displayModel":"single"},
+    {"prefecture":"長崎県","area":"小浜温泉","character":"小浜あまね","runtimeStatus":"added","runtimeId":"obama_nagasaki","displayModel":"single"},
+    {"prefecture":"熊本県","area":"黒川温泉","character":"黒川姫楽","runtimeStatus":"existing","runtimeId":"kurokawa","displayModel":"single"},
+    {"prefecture":"熊本県","area":"阿蘇温泉郷","character":"阿蘇ほむら","runtimeStatus":"added","runtimeId":"aso_onsenkyo","displayModel":"parent_multi_zone"},
+    {"prefecture":"熊本県","area":"人吉温泉","character":"人吉青井","runtimeStatus":"added","runtimeId":"hitoyoshi","displayModel":"single"},
+    {"prefecture":"熊本県","area":"玉名温泉","character":"玉名満美","runtimeStatus":"added","runtimeId":"tamana","displayModel":"single"},
+    {"prefecture":"大分県","area":"由布院温泉","character":"奏･バーデン･由布院","runtimeStatus":"existing","runtimeId":"yufuin","displayModel":"single"},
+    {"prefecture":"大分県","area":"別府温泉","character":"別府環綺","runtimeStatus":"existing","runtimeId":"beppu","displayModel":"single"},
+    {"prefecture":"大分県","area":"日田温泉","character":"日田絢芽","runtimeStatus":"added","runtimeId":"hita","displayModel":"single"},
+    {"prefecture":"大分県","area":"湯平温泉","character":"湯平燈華","runtimeStatus":"added","runtimeId":"yunohira","displayModel":"single"},
+    {"prefecture":"宮崎県","area":"北郷温泉郷","character":"北郷このみ","runtimeStatus":"added","runtimeId":"kitago_onsenkyo","displayModel":"parent_multi_zone"},
+    {"prefecture":"鹿児島県","area":"指宿温泉","character":"指宿絵璃菜","runtimeStatus":"existing","runtimeId":"ibusuki","displayModel":"single"},
+    {"prefecture":"鹿児島県","area":"霧島温泉郷","character":"霧島黒恵","runtimeStatus":"existing","runtimeId":"kirishima","displayModel":"parent_existing"},
+    {"prefecture":"沖縄県","area":"西表島温泉","character":"西表島八重夏","runtimeStatus":"added_legacy","runtimeId":"iriomotejima_onsen","displayModel":"legacy_required","operatingStatus":"closed_or_current_use_unverified"}
+  ],
+  "summary":{"total":18,"existing":8,"added":10,"pending":0,"legacyOrUncertain":1}
+}
