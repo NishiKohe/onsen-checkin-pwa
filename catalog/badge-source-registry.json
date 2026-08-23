@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-08-23",
   "policy": {
     "mandatorySources": [
@@ -10,6 +10,8 @@
       "national_recreation_spa",
       "secret_hot_spring_association",
       "nippon_onsen_100",
+      "onsen_election",
+      "goshuin_onsen",
       "nihon_hyakumeito",
       "shin_nihon_hyakumeito"
     ]
@@ -64,6 +66,26 @@
       "mandatory": false,
       "sourceUrl": "https://www.kankokeizai.com/index_100sen/",
       "note": "毎年度更新。年度と順位を保持し、最新年度バッジと歴代上位バッジを分離する。",
+      "provisionalRarity": "R"
+    },
+    {
+      "id": "onsen_election",
+      "name": "温泉総選挙",
+      "type": "annual_ranking",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "sourceUrl": "https://kanko.onsen-ouen.jp/",
+      "note": "年度別・部門別・エリア別の受賞履歴を保持する。",
+      "provisionalRarity": "R"
+    },
+    {
+      "id": "goshuin_onsen",
+      "name": "温泉むすめ 御泉印",
+      "type": "collectible_program",
+      "scope": "onsen_area_or_facility",
+      "mandatory": false,
+      "sourceUrl": "https://onsen-musume.jp/news/199926",
+      "note": "公式企画として2023年に全国26か所予定で開始。現在は各温泉地・施設で継続/追加されているため、現行販売状況を別途確認する。",
       "provisionalRarity": "R"
     },
     {
