@@ -1,7 +1,8 @@
 {
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-08-24",
   "purpose": "現地でチェックイン操作を逃した場合の復元と、将来の温泉以外の収集カテゴリ共通化のための訪問記録スキーマ",
+  "storageScope": "onsenApp:user:<userId>:<key>",
   "localStorage": {
     "checkins": "既存互換の確定訪問。verificationType / verificationLevel / evidence を追加して拡張",
     "visitCandidatesV1": "GPS・写真EXIF・写真時刻＋旅行位置ログなどから生成した未確定の訪問候補",
@@ -18,6 +19,7 @@
   "candidateStrengths": ["verified_range", "nearby", "photo_verified_range", "photo_nearby", "photo_time_verified_range", "photo_time_nearby"],
   "futureEntityTypes": ["onsen", "castle", "national_treasure", "world_heritage", "scenic_place"],
   "designRules": [
+    "すべての訪問・候補・旅行ログはユーザーID単位の名前空間に保存する",
     "取り逃し救済そのものは無料機能として扱える設計にする",
     "通常コンプリート率にはonsiteとrecordedの両方を含める",
     "現地踏破・一日踏破などの厳密実績はonsiteのみを条件にできる",
