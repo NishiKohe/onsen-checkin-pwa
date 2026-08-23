@@ -24,6 +24,7 @@ const uiFilterState = {
   prefecture: "",
   visit: "all",
   onsenMusume: false,
+  nationalRecreation: false,
   onsenArea: false,
   legacy: false
 };
@@ -70,7 +71,7 @@ function setupSearchSuggestions() {
   const values = new Set();
   for (const spot of spots) {
     if (spot?.name) values.add(spot.name);
-    for (const character of spot?.onsenMusumeCharacters || []) values.add(character);
+    for (const character of getOnsenMusumeCharacters(spot)) values.add(character);
   }
   for (const value of [...values].sort((a, b) => a.localeCompare(b, "ja"))) {
     const option = document.createElement("option");
@@ -150,6 +151,7 @@ function resetAllFilters() {
   uiFilterState.prefecture = "";
   uiFilterState.visit = "all";
   uiFilterState.onsenMusume = false;
+  uiFilterState.nationalRecreation = false;
   uiFilterState.onsenArea = false;
   uiFilterState.legacy = false;
 
@@ -186,6 +188,7 @@ function getVisibleSpots() {
     if (uiFilterState.visit === "visited" && !visited.has(spot.id)) return false;
     if (uiFilterState.visit === "unvisited" && visited.has(spot.id)) return false;
     if (uiFilterState.onsenMusume && !isOnsenMusumeSpot(spot)) return false;
+    if (uiFilterState.nationalRecreation && !isNationalRecreationSpot(spot)) return false;
     if (uiFilterState.onsenArea && !isOnsenAreaSpot(spot)) return false;
     if (uiFilterState.legacy && !isLegacySpot(spot)) return false;
     if (query && !getSpotSearchText(spot).includes(query)) return false;
@@ -237,12 +240,12 @@ function focusBestSearchMatch() {
 function searchRank(spot, query) {
   if (!query) return 10;
   const name = normalizeSearchText(spot.name || "");
-  const chars = (spot.onsenMusumeCharacters || []).map(normalizeSearchText);
+  const chars = getOnsenMusumeCharacters(spot).map(normalizeSearchText);
   if (name === query) return 0;
   if (chars.includes(query)) return 1;
   if (name.startsWith(query)) return 2;
   if (name.includes(query)) return 3;
-  if (chars.some((name) => name.includes(query))) return 4;
+  if (chars.some((characterName) => characterName.includes(query))) return 4;
   return 10;
 }
 
@@ -251,9 +254,10 @@ function getSpotSearchText(spot) {
     spot.name,
     spot.prefecture,
     spot.summary,
-    ...(spot.onsenMusumeCharacters || []),
+    ...getOnsenMusumeCharacters(spot),
     ...(spot.subAreas || []),
-    ...(spot.tags || [])
+    ...(spot.tags || []),
+    ...(spot.badges || [])
   ].filter(Boolean).join(" "));
 }
 
@@ -261,8 +265,18 @@ function normalizeSearchText(value) {
   return String(value || "").trim().toLowerCase().replace(/\s+/g, "");
 }
 
+function getOnsenMusumeCharacters(spot) {
+  if (Array.isArray(spot?.onsenMusumeCharacters)) return spot.onsenMusumeCharacters;
+  if (Array.isArray(spot?.onsenMusume?.characters)) return spot.onsenMusume.characters;
+  return [];
+}
+
 function isOnsenMusumeSpot(spot) {
-  return Array.isArray(spot?.onsenMusumeCharacters) && spot.onsenMusumeCharacters.length > 0;
+  return getOnsenMusumeCharacters(spot).length > 0 || (spot?.badges || []).includes("onsen_musume");
+}
+
+function isNationalRecreationSpot(spot) {
+  return spot?.nationalRecreationSpa === true || (spot?.badges || []).includes("national_recreation_spa");
 }
 
 function isOnsenAreaSpot(spot) {
@@ -292,9 +306,9 @@ function renderEnhancedSpotDetails(spot) {
   }
 
   addSpotTag(tagContainer, spot.prefecture);
-  if (isOnsenMusumeSpot(spot)) {
-    addSpotTag(tagContainer, `温泉むすめ: ${spot.onsenMusumeCharacters.join("・")}`, "accent");
-  }
+  const characters = getOnsenMusumeCharacters(spot);
+  if (characters.length) addSpotTag(tagContainer, `温泉むすめ: ${characters.join("・")}`, "accent");
+  if (isNationalRecreationSpot(spot)) addSpotTag(tagContainer, "SR 国民保養温泉地", "accent");
   if (isOnsenAreaSpot(spot)) addSpotTag(tagContainer, "温泉郷・複数エリア");
   if (isLegacySpot(spot)) addSpotTag(tagContainer, "レガシー温泉地", "warning");
 
