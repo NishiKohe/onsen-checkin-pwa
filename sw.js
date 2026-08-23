@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v30";
+const CACHE_NAME = "onsen-checkin-v31";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const APP_ASSETS = [
   "./visit-log.css",
   "./visit-log-preload.js",
   "./visit-log-ui.js",
+  "./photo-recovery-fallback.js",
   "./app.js",
   "./ui-enhancements.js",
   "./heritage-ui.js",
@@ -79,6 +80,7 @@ self.addEventListener("fetch", (event) => {
     "/visit-log.css",
     "/visit-log-preload.js",
     "/visit-log-ui.js",
+    "/photo-recovery-fallback.js",
     "/onsen.json",
     "/app.js",
     "/ui-enhancements.js",
