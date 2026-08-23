@@ -87,11 +87,41 @@
   </main>
 
   <section id="collectionView" class="collection-view" hidden aria-label="タグ達成状況">
-    <div class="collection-header">
-      <h2>タグ達成状況</h2>
-      <p id="collectionSummary">集計中…</p>
+    <div class="collection-shell">
+      <div class="collection-header">
+        <div>
+          <span class="collection-eyebrow">COLLECTION</span>
+          <h2>タグ達成状況</h2>
+          <p id="collectionSummary">集計中…</p>
+        </div>
+      </div>
+
+      <div class="collection-overview" aria-label="達成状況サマリー">
+        <div class="collection-metric">
+          <span>訪問温泉地</span>
+          <b id="collectionVisitedMetric">0</b>
+        </div>
+        <div class="collection-metric">
+          <span>コンプリート</span>
+          <b id="collectionCompletedMetric">0/0</b>
+        </div>
+        <div class="collection-metric">
+          <span>有効グループ称号</span>
+          <b id="collectionGroupsMetric">0</b>
+        </div>
+      </div>
+
+      <div class="collection-toolbar" aria-label="達成状況の絞り込み">
+        <input id="collectionSearchInput" type="search" placeholder="称号・温泉名で絞り込み" autocomplete="off" />
+        <div class="collection-filter-row">
+          <button type="button" class="collection-filter active" data-collection-filter="all">すべて</button>
+          <button type="button" class="collection-filter" data-collection-filter="incomplete">未完了</button>
+          <button type="button" class="collection-filter" data-collection-filter="complete">達成済</button>
+        </div>
+      </div>
+
+      <div id="collectionGrid" class="collection-grid"></div>
     </div>
-    <div id="collectionGrid" class="collection-grid"></div>
   </section>
 
   <nav class="app-tabs" aria-label="画面切り替え">
