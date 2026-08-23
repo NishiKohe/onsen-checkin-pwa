@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "purpose": "現地でチェックイン操作を逃した場合の復元と、将来の温泉以外の収集カテゴリ共通化のための訪問記録スキーマ",
+  "localStorage": {
+    "checkins": "既存互換の確定訪問。verificationType / verificationLevel / evidence を追加して拡張",
+    "visitCandidatesV1": "GPS・写真EXIFなどから生成した未確定の訪問候補",
+    "visitSessionsV1": "旅行モードの開始・終了セッション",
+    "visitSettingsV1": "旅行モード状態など",
+    "visitLogMigrationV1": "旧checkinsへの検証区分付与済みフラグ"
+  },
+  "verificationLevels": {
+    "onsite": "現地確認済。GPSチェックイン、チェックイン範囲内GPS候補の復元、チェックイン範囲内GPS EXIF写真",
+    "recorded": "訪問記録。自己申告、範囲外の付近検出など。通常コレクション率には含めるが厳密な現地踏破条件には使わない"
+  },
+  "verificationTypes": ["gps_manual", "gps_legacy", "gps_recovered", "photo_exif", "self_report_nearby", "self_report"],
+  "candidateStrengths": ["verified_range", "nearby", "photo_verified_range", "photo_nearby"],
+  "futureEntityTypes": ["onsen", "castle", "national_treasure", "world_heritage", "scenic_place"],
+  "designRules": [
+    "取り逃し救済そのものは無料機能として扱える設計にする",
+    "通常コンプリート率にはonsiteとrecordedの両方を含める",
+    "現地踏破・一日踏破などの厳密実績はonsiteのみを条件にできる",
+    "写真は端末内でEXIFのみ解析し画像本体はlocalStorageへ保存しない",
+    "PWAでは完全バックグラウンド常時測位を前提にせず、アプリ起動中の位置取得と旅行モード前景watchPositionで候補を収集する",
+    "entityTypeを持たせ、将来の百名城・国宝・景勝地・世界遺産にも同じ訪問モデルを使う"
+  ]
+}
