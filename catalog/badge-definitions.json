@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-08-23",
   "rarityPolicy": {
     "tiers": ["N", "R", "SR", "SSR", "UR"],
@@ -14,19 +14,22 @@
   },
   "badges": [
     {"id":"onsen_musume","name":"温泉むすめ","category":"selection","rule":"温泉むすめ公式キャラクター対応温泉地","rarity":"R"},
+    {"id":"goshuin_onsen","name":"御泉印","category":"collectible","rule":"温泉むすめ御泉印の現行販売実績または公式参加実績がある温泉地","rarity":"R"},
     {"id":"onsen_heritage","name":"温泉遺産","category":"selection","rule":"日本温泉遺産を守る会の認定施設が存在する温泉地","rarity":"SR"},
     {"id":"national_recreation_spa","name":"国民保養温泉地","category":"official","rule":"環境大臣指定の国民保養温泉地","rarity":"SR"},
     {"id":"secret_hot_spring","name":"秘湯を守る会","category":"selection","rule":"日本秘湯を守る会会員宿が存在する温泉地","rarity":"SR"},
     {"id":"nippon_onsen_100","name":"にっぽんの温泉100選","category":"ranking","rule":"最新年度の100選入り","rarity":"R","seasonal":true},
     {"id":"nippon_onsen_top10","name":"温泉100選 TOP10","category":"ranking","rule":"最新年度のにっぽんの温泉100選10位以内","rarity":"SSR","seasonal":true},
     {"id":"nippon_onsen_no1","name":"温泉100選 王者","category":"ranking","rule":"当該年度1位","rarity":"UR","seasonal":true},
+    {"id":"onsen_election_entry","name":"温泉総選挙エントリー","category":"ranking","rule":"温泉総選挙の当該年度エントリー温泉地","rarity":"R","seasonal":true},
+    {"id":"onsen_election_award","name":"温泉総選挙 入賞","category":"ranking","rule":"温泉総選挙の年度・部門・エリア別ランキング入賞","rarity":"SR","seasonal":true},
+    {"id":"onsen_election_winner","name":"温泉総選挙 部門王者","category":"ranking","rule":"温泉総選挙の当該年度部門1位","rarity":"SSR","seasonal":true},
     {"id":"nihon_sanmeisen","name":"日本三名泉","category":"historical","rule":"草津・有馬・下呂","rarity":"UR"},
     {"id":"nihon_sankoto","name":"日本三古湯","category":"historical","rule":"有馬・道後・白浜","rarity":"UR"},
     {"id":"nihon_hyakumeito","name":"日本百名湯","category":"selection","rule":"日本百名湯選出","rarity":"SR"},
     {"id":"shin_nihon_hyakumeito","name":"新日本百名湯","category":"selection","rule":"新日本百名湯選出","rarity":"SR"},
     {"id":"cultural_property_bath","name":"文化財の湯","category":"culture","rule":"温泉旅館・浴場等に国指定/登録文化財を含む","rarity":"SSR"},
     {"id":"japan_heritage_related","name":"日本遺産の湯","category":"culture","rule":"日本遺産ストーリーに温泉地が明確に含まれる","rarity":"SSR"},
-
     {"id":"acidic","name":"酸性の湯","category":"chemistry","rule":"代表分析値 pH < 3","rarity":"auto"},
     {"id":"strong_acid","name":"強酸性","category":"chemistry","rule":"代表分析値 pH < 2","rarity":"auto"},
     {"id":"alkaline","name":"アルカリの湯","category":"chemistry","rule":"代表分析値 pH >= 8.5","rarity":"auto"},
@@ -40,7 +43,6 @@
     {"id":"bicarbonate_spring","name":"炭酸水素塩泉","category":"chemistry","rule":"代表泉質に炭酸水素塩泉を含む","rarity":"auto"},
     {"id":"sulfate_spring","name":"硫酸塩泉","category":"chemistry","rule":"代表泉質に硫酸塩泉を含む","rarity":"auto"},
     {"id":"simple_spring","name":"単純温泉","category":"chemistry","rule":"代表泉質が単純温泉","rarity":"auto"},
-
     {"id":"high_temperature_source","name":"高温源泉","category":"source","rule":"代表源泉温度 >= 80℃（暫定）","rarity":"auto"},
     {"id":"boiling_source","name":"沸騰級源泉","category":"source","rule":"代表源泉温度 >= 95℃（暫定）","rarity":"auto"},
     {"id":"high_mineral","name":"濃厚ミネラル","category":"source","rule":"溶存物質量が高い温泉。閾値は全件分析後に決定","rarity":"auto"},
@@ -48,20 +50,17 @@
     {"id":"artesian_flow","name":"自噴泉","category":"source","rule":"主要源泉に自噴が確認できる","rarity":"auto"},
     {"id":"footbath_source","name":"足元湧出","category":"source","rule":"温泉地内に足元湧出の代表的浴槽が存在","rarity":"SSR"},
     {"id":"free_flowing","name":"源泉かけ流し文化","category":"source","rule":"温泉地として源泉かけ流しを明確に掲げる、または代表的共同浴場等で確認","rarity":"auto"},
-
     {"id":"ancient_1000","name":"千年湯","category":"history","rule":"開湯伝承または史料上1000年以上","rarity":"auto"},
     {"id":"ancient_1500","name":"古代湯","category":"history","rule":"開湯伝承または史料上1500年以上","rarity":"SSR"},
     {"id":"chronicle_onsen","name":"古典に残る湯","category":"history","rule":"日本書紀・万葉集等の古典史料に温泉地が登場","rarity":"SSR"},
     {"id":"sengoku_connection","name":"戦国ゆかり","category":"history","rule":"戦国武将・大名との具体的史料/伝承が確認できる","rarity":"auto"},
     {"id":"toji_culture","name":"湯治文化","category":"culture","rule":"現在または近現代まで湯治文化が明確に残る","rarity":"auto"},
     {"id":"public_bath_culture","name":"外湯文化","category":"culture","rule":"複数の共同浴場・外湯巡り文化を有する","rarity":"auto"},
-
     {"id":"volcanic","name":"火山の湯","category":"geography","rule":"火山地帯の熱源と明確に関連","rarity":"auto"},
     {"id":"seaside","name":"海辺の湯","category":"geography","rule":"温泉街が海岸に立地","rarity":"auto"},
     {"id":"island","name":"島の湯","category":"geography","rule":"離島に所在","rarity":"auto"},
     {"id":"highland","name":"高原の湯","category":"geography","rule":"温泉地中心標高1000m以上（暫定）","rarity":"auto"},
     {"id":"snow_country","name":"雪国の湯","category":"geography","rule":"豪雪地帯等の公的区分または明確な積雪地域","rarity":"auto"},
-
     {"id":"sand_bath","name":"砂むし","category":"experience","rule":"温泉熱を用いた砂浴文化が代表体験として存在","rarity":"UR"},
     {"id":"steam_bath","name":"蒸し湯","category":"experience","rule":"温泉蒸気を使った伝統的蒸し湯が存在","rarity":"SSR"},
     {"id":"mud_bath","name":"泥湯","category":"experience","rule":"代表的な泥湯体験が存在","rarity":"SSR"},
