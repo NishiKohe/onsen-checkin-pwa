@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-08-23",
   "scope": "甲信越・北陸",
   "areas": [
@@ -11,15 +11,15 @@
     {"prefecture":"石川県","area":"和倉温泉","character":"和倉雅奈","runtimeStatus":"existing","runtimeId":"wakura","displayModel":"single"},
     {"prefecture":"石川県","area":"山中温泉","character":"山中そらら","runtimeStatus":"existing","runtimeId":"yamanaka","displayModel":"single"},
     {"prefecture":"石川県","area":"山代温泉","character":"山代八咫","runtimeStatus":"existing","runtimeId":"yamashiro","displayModel":"single"},
-    {"prefecture":"石川県","area":"輪島温泉郷","character":"輪島かさね","runtimeStatus":"pending_add","displayModel":"parent_multi_zone","needsBoundaryVerification":true},
+    {"prefecture":"石川県","area":"輪島温泉郷","character":"輪島かさね","runtimeStatus":"existing","runtimeId":"wajima_onsenkyo","displayModel":"parent_multi_zone"},
     {"prefecture":"福井県","area":"あわら温泉","character":"芦原小梅","runtimeStatus":"existing","runtimeId":"awara","displayModel":"single"},
     {"prefecture":"山梨県","area":"石和温泉","character":"石和 紅","runtimeStatus":"existing","runtimeId":"isawa","displayModel":"single"},
-    {"prefecture":"山梨県","area":"河口湖温泉郷","character":"河口湖多佳美","runtimeStatus":"pending_add","displayModel":"parent_multi_zone","needsBoundaryVerification":true},
-    {"prefecture":"山梨県","area":"山中湖温泉","character":"山中湖 忍","runtimeStatus":"pending_add","displayModel":"parent_multi_zone","needsBoundaryVerification":true},
+    {"prefecture":"山梨県","area":"富士河口湖温泉郷","character":"河口湖多佳美","runtimeStatus":"existing","runtimeId":"kawaguchiko_onsenkyo","displayModel":"parent_multi_zone"},
+    {"prefecture":"山梨県","area":"山中湖温泉","character":"山中湖 忍","runtimeStatus":"existing","runtimeId":"yamanakako_onsen","displayModel":"parent_multi_zone"},
     {"prefecture":"長野県","area":"白骨温泉","character":"白骨朋依","runtimeStatus":"existing","runtimeId":"shirahone","displayModel":"single"},
     {"prefecture":"長野県","area":"野沢温泉","character":"野沢菜々","runtimeStatus":"existing","runtimeId":"nozawa","displayModel":"single"},
     {"prefecture":"長野県","area":"昼神温泉","character":"昼神夜空","runtimeStatus":"existing","runtimeId":"hirugami","displayModel":"single"},
-    {"prefecture":"長野県","area":"湯田中渋温泉郷","character":"湯田中渋穂波","runtimeStatus":"pending_add","displayModel":"parent_multi_zone","needsBoundaryVerification":true,"childRuntimeIds":["shibu"]},
+    {"prefecture":"長野県","area":"湯田中渋温泉郷","character":"湯田中渋穂波","runtimeStatus":"existing","runtimeId":"yudanaka_shibu_onsenkyo","displayModel":"parent_multi_zone","childRuntimeIds":["shibu"]},
     {"prefecture":"長野県","area":"上諏訪温泉","character":"上諏訪雫音","runtimeStatus":"existing","runtimeId":"kamisuwa","displayModel":"single"},
     {"prefecture":"長野県","area":"下諏訪温泉","character":"下諏訪綿音","runtimeStatus":"existing","runtimeId":"shimosuwa","displayModel":"single"},
     {"prefecture":"長野県","area":"別所温泉","character":"別所愛染","runtimeStatus":"existing","runtimeId":"bessho","displayModel":"single"},
@@ -28,8 +28,8 @@
   ],
   "summary": {
     "total": 22,
-    "existing": 18,
-    "pendingAdd": 4,
-    "parentMultiZonePending": 4
+    "existing": 22,
+    "pendingAdd": 0,
+    "parentMultiZonePending": 0
   }
 }
