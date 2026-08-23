@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "scope": "近畿",
+  "areas": [
+    {"prefecture":"滋賀県","area":"おごと温泉","character":"おごと寧々","runtimeStatus":"added","runtimeId":"ogoto","displayModel":"single"},
+    {"prefecture":"京都府","area":"嵐山温泉","character":"嵐山紫雨","runtimeStatus":"added","runtimeId":"arashiyama","displayModel":"single"},
+    {"prefecture":"大阪府","area":"犬鳴山温泉","character":"犬鳴山 命","runtimeStatus":"added","runtimeId":"inunakiyama","displayModel":"single"},
+    {"prefecture":"兵庫県","area":"有馬温泉","character":"有馬輪花・有馬楓花","runtimeStatus":"existing","runtimeId":"arima","displayModel":"single"},
+    {"prefecture":"兵庫県","area":"城崎温泉","character":"城崎亜莉咲","runtimeStatus":"existing","runtimeId":"kinosaki","displayModel":"single"},
+    {"prefecture":"兵庫県","area":"湯村温泉","character":"湯村千代","runtimeStatus":"added","runtimeId":"yumura_hyogo","displayModel":"single"},
+    {"prefecture":"奈良県","area":"十津川温泉郷","character":"十津川飛香","runtimeStatus":"added","runtimeId":"totsukawa_onsenkyo","displayModel":"parent_multi_zone","subAreas":["湯泉地温泉","十津川温泉","上湯温泉"]},
+    {"prefecture":"奈良県","area":"洞川温泉","character":"洞川 蓮","runtimeStatus":"added","runtimeId":"dorogawa","displayModel":"single"},
+    {"prefecture":"和歌山県","area":"白浜温泉","character":"白浜帆南美","runtimeStatus":"existing","runtimeId":"shirahama","displayModel":"single"},
+    {"prefecture":"和歌山県","area":"龍神温泉","character":"龍神 晴","runtimeStatus":"existing","runtimeId":"ryujin","displayModel":"single"},
+    {"prefecture":"和歌山県","area":"南紀勝浦温泉","character":"南紀勝浦樹紀","runtimeStatus":"added","runtimeId":"nanki_katsuura","displayModel":"single"}
+  ],
+  "summary": {"total":11,"existingBeforeThisPass":4,"addedThisPass":7,"runtimeCoverage":"11/11 complete"}
+}
