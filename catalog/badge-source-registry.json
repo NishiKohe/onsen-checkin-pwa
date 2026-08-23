@@ -1,20 +1,23 @@
 {
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-08-23",
   "policy": {
-    "mandatorySources": [
-      "onsen_musume",
-      "onsen_heritage"
-    ],
-    "recommendedCoverageSources": [
+    "lifecyclePolicyPath": "catalog/badge-lifecycle-policy.json",
+    "mandatorySources": ["onsen_musume", "onsen_heritage"],
+    "permanentCoreSources": [
       "national_recreation_spa",
-      "secret_hot_spring_association",
-      "nippon_onsen_100",
-      "onsen_election",
-      "goshuin_onsen",
+      "nihon_sanmeisen",
+      "nihon_sankoto",
       "nihon_hyakumeito",
-      "shin_nihon_hyakumeito"
-    ]
+      "nihon_hyakumeito_noguchi",
+      "meito_hyakusen",
+      "shin_nihon_hyakumeito",
+      "registered_cultural_property",
+      "japan_heritage"
+    ],
+    "stableProgramSources": ["onsen_musume", "onsen_heritage", "secret_hot_spring_association"],
+    "dynamicReferenceSources": ["nippon_onsen_100", "onsen_election", "goshuin_onsen"],
+    "rule": "毎年更新が必要なランキング・投票・販売状況はコア収集率とレアリティ計算から除外する。"
   },
   "sources": [
     {
@@ -23,6 +26,7 @@
       "type": "official_selection",
       "scope": "onsen_area",
       "mandatory": true,
+      "lifecycle": "stable_program",
       "sourceUrl": "https://onsen-musume.jp/character/",
       "currentCountNote": "国内134キャラクター。完全同一温泉地の重複は統合する。",
       "provisionalRarity": "R"
@@ -33,9 +37,10 @@
       "type": "certification",
       "scope": "facility_to_onsen_area",
       "mandatory": true,
+      "lifecycle": "permanent_core",
       "sourceUrl": "http://www.onsen-isan.com/",
       "sourceStatus": "fragmented",
-      "note": "現行公式一覧の取得が不安定。認定宿・施設の現行公式サイト等で個別確認し、所属温泉地へ正規化する。2003年の公式編著『温泉遺産』では源泉掛け流しの宿60軒を掲載。",
+      "note": "現行公式一覧の取得が不安定。認定履歴は恒常称号として保持し、施設の営業状態は別フィールドで管理する。",
       "provisionalRarity": "SR"
     },
     {
@@ -44,8 +49,9 @@
       "type": "government_designation",
       "scope": "onsen_area",
       "mandatory": false,
+      "lifecycle": "permanent_core",
       "sourceUrl": "https://www.env.go.jp/nature/onsen/area/index.html",
-      "currentCountNote": "環境省公式ページでは全国79か所（令和4年10月現在）。",
+      "currentCountNote": "環境省公式の現行指定79か所を実装済み。指定変更時のみ更新する。",
       "provisionalRarity": "SR"
     },
     {
@@ -54,8 +60,9 @@
       "type": "membership",
       "scope": "facility_to_onsen_area",
       "mandatory": false,
+      "lifecycle": "stable_program",
       "sourceUrl": "https://www.hitou.or.jp/provider/list",
-      "currentCountNote": "現行検索結果で会員宿105件。温泉地単位に正規化する。",
+      "currentCountNote": "会員宿を温泉地単位に正規化する。入退会時のみ変動。",
       "provisionalRarity": "SR"
     },
     {
@@ -64,8 +71,9 @@
       "type": "annual_ranking",
       "scope": "onsen_area",
       "mandatory": false,
+      "lifecycle": "dynamic_reference",
       "sourceUrl": "https://www.kankokeizai.com/index_100sen/",
-      "note": "毎年度更新。年度と順位を保持し、最新年度バッジと歴代上位バッジを分離する。",
+      "note": "毎年度更新のためコアバッジから除外。必要なら年度付き参考履歴として保持する。",
       "provisionalRarity": "R"
     },
     {
@@ -74,8 +82,9 @@
       "type": "annual_ranking",
       "scope": "onsen_area",
       "mandatory": false,
+      "lifecycle": "dynamic_reference",
       "sourceUrl": "https://kanko.onsen-ouen.jp/",
-      "note": "年度別・部門別・エリア別の受賞履歴を保持する。",
+      "note": "年度・投票で変動するためコアバッジから除外。",
       "provisionalRarity": "R"
     },
     {
@@ -84,8 +93,9 @@
       "type": "collectible_program",
       "scope": "onsen_area_or_facility",
       "mandatory": false,
+      "lifecycle": "dynamic_reference",
       "sourceUrl": "https://onsen-musume.jp/news/199926",
-      "note": "公式企画として2023年に全国26か所予定で開始。現在は各温泉地・施設で継続/追加されているため、現行販売状況を別途確認する。",
+      "note": "販売場所・在庫・参加状況が変動するため、恒常バッジではなく参考情報・現地収集情報として扱う。",
       "provisionalRarity": "R"
     },
     {
@@ -94,6 +104,7 @@
       "type": "historical_selection",
       "scope": "onsen_area",
       "mandatory": false,
+      "lifecycle": "permanent_core",
       "members": ["草津温泉", "有馬温泉", "下呂温泉"],
       "provisionalRarity": "UR"
     },
@@ -103,16 +114,42 @@
       "type": "historical_selection",
       "scope": "onsen_area",
       "mandatory": false,
+      "lifecycle": "permanent_core",
       "members": ["有馬温泉", "道後温泉", "白浜温泉"],
       "provisionalRarity": "UR"
     },
     {
       "id": "nihon_hyakumeito",
-      "name": "日本百名湯",
+      "name": "松田忠徳・日本百名湯",
       "type": "published_selection",
       "scope": "onsen_area",
       "mandatory": false,
+      "lifecycle": "permanent_core",
       "sourceStatus": "bibliographic",
+      "sourceUrl": "https://ndlsearch.ndl.go.jp/books/R100000002-I000004027478",
+      "note": "日本経済新聞社刊の固定選定。版を明示して恒常バッジとして扱う。",
+      "provisionalRarity": "SR"
+    },
+    {
+      "id": "nihon_hyakumeito_noguchi",
+      "name": "野口悦男・日本百名湯 源泉の宿",
+      "type": "published_selection",
+      "scope": "onsen_area_or_facility",
+      "mandatory": false,
+      "lifecycle": "permanent_core",
+      "sourceStatus": "bibliographic",
+      "note": "山と溪谷社2000年刊の固定選定。源泉・宿重視の別系統百選として保持する。",
+      "provisionalRarity": "SR"
+    },
+    {
+      "id": "meito_hyakusen",
+      "name": "名湯百選",
+      "type": "expert_selection",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "lifecycle": "permanent_core",
+      "sourceUrl": "https://onsen-forum.jp/forum/meitou_list.html",
+      "note": "NPO法人健康と温泉フォーラムによる『温泉療法医がすすめる温泉』。年次ランキングではなく、追加改定時のみ更新する。",
       "provisionalRarity": "SR"
     },
     {
@@ -121,7 +158,9 @@
       "type": "published_selection",
       "scope": "onsen_area",
       "mandatory": false,
-      "sourceStatus": "bibliographic",
+      "lifecycle": "permanent_core",
+      "sourceStatus": "bibliographic_pending_exact_edition",
+      "note": "固定選定として扱うが、全件付与前に編者・版・収録リストを確定する。",
       "provisionalRarity": "SR"
     },
     {
@@ -130,7 +169,8 @@
       "type": "cultural_property",
       "scope": "facility_to_onsen_area",
       "mandatory": false,
-      "note": "国指定・登録有形文化財等の温泉旅館・共同浴場が存在する温泉地。文化庁データとの照合対象。",
+      "lifecycle": "permanent_core",
+      "note": "国指定・登録有形文化財等の温泉旅館・共同浴場が存在する温泉地。",
       "provisionalRarity": "SSR"
     },
     {
@@ -139,6 +179,7 @@
       "type": "cultural_designation",
       "scope": "onsen_area",
       "mandatory": false,
+      "lifecycle": "permanent_core",
       "note": "日本遺産ストーリーの構成文化財または主題として温泉地が含まれる場合。",
       "provisionalRarity": "SSR"
     }
