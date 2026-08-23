@@ -17,6 +17,23 @@
     "officialUrl":"https://namari-onsen-ryokan.com/"
   },
   {
+    "id":"shizukuishi_takakura",
+    "name":"雫石高倉温泉",
+    "prefecture":"岩手県",
+    "lat":39.7751816,
+    "lng":140.9301786,
+    "checkinRadiusM":1100,
+    "onsenHeritage":true,
+    "onsenIsan":true,
+    "onsenHeritageFacilities":["雫石プリンスホテル"],
+    "onsenIsanFacilities":["雫石プリンスホテル"],
+    "badges":["onsen_heritage","highland"],
+    "mandatorySources":["onsen_heritage"],
+    "summary":"岩手山南麓、雫石プリンスホテルに湧く源泉かけ流しの温泉。温泉遺産認定の高倉温泉。",
+    "referenceNote":"雫石プリンスホテルは現在営業中。プリンスホテル公式資料が高倉温泉を温泉遺産認定と明記。座標は雫石プリンスホテル周辺の代表点。",
+    "officialUrl":"https://www.princehotels.co.jp/shizukuishi/"
+  },
+  {
     "id":"kowa_kubi_onsen",
     "name":"強首温泉",
     "prefecture":"秋田県",
@@ -32,6 +49,23 @@
     "summary":"大仙市強首の一軒宿・樅峰苑を中心とする温泉地。登録有形文化財の宿と希少なヨウ素泉で知られる。",
     "referenceNote":"代表点は樅峰苑（大仙市強首字強首268）。宿公式が平成15年12月の日本温泉遺産認定を明記。座標はMapFan掲載値。",
     "officialUrl":"https://syohoen.net/"
+  },
+  {
+    "id":"narada_onsen",
+    "name":"奈良田温泉",
+    "prefecture":"山梨県",
+    "lat":35.576545,
+    "lng":138.3006431,
+    "checkinRadiusM":900,
+    "onsenHeritage":true,
+    "onsenIsan":true,
+    "onsenHeritageFacilities":["奈良田温泉 白根館"],
+    "onsenIsanFacilities":["奈良田温泉 白根館"],
+    "badges":["onsen_heritage","sulfur_spring","free_flowing"],
+    "mandatorySources":["onsen_heritage"],
+    "summary":"南アルプスの秘境・早川町奈良田にある温泉地。白根館は100%源泉かけ流しで温泉遺産認定。",
+    "referenceNote":"代表点は白根館（早川町奈良田344）。山梨県公式観光情報が温泉遺産認定を明記。座標はMapFanの奈良田温泉掲載値。",
+    "officialUrl":"https://r.goope.jp/shiranekan/"
   },
   {
     "id":"kawaura_onsen",
