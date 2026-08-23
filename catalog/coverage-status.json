@@ -1,7 +1,7 @@
 {
-  "version":19,
+  "version":20,
   "updatedAt":"2026-08-23",
-  "currentMapCount":214,
+  "currentMapCount":216,
   "runtimeData":{
     "mode":"manifest_merge",
     "manifestPath":"onsen-data-manifest.json",
@@ -11,9 +11,9 @@
   },
   "uiFeatures":{
     "prefectureOverlay":"47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。",
-    "search":["温泉名","都道府県","温泉むすめ名","構成温泉名","タグ"],
-    "filters":["未訪問","訪問済","温泉むすめ","国民保養","温泉郷","レガシー","都道府県"],
-    "implementation":"ui-enhancements.js"
+    "search":["温泉名","都道府県","温泉むすめ名","構成温泉名","タグ","温泉遺産認定施設名"],
+    "filters":["未訪問","訪問済","温泉むすめ","国民保養","温泉遺産","温泉郷","レガシー","都道府県"],
+    "implementation":["ui-enhancements.js","heritage-ui.js"]
   },
   "requiredCoverage":{
     "onsenMusume":{
@@ -34,8 +34,16 @@
     },
     "onsenHeritage":{
       "mandatory":true,
-      "status":"manual_current_verification_required",
-      "note":"認定宿・施設の公式記載を集約して所属温泉地へ正規化する。"
+      "status":"verified_seed_runtime_in_progress",
+      "badge":"SR",
+      "verifiedFacilities":6,
+      "verifiedOnsenAreas":6,
+      "verifiedPath":"catalog/onsen-heritage-verified.json",
+      "runtimePaths":["data/onsen-heritage-new.json","data/onsen-heritage-overrides.json"],
+      "newMandatorySpots":["鉛温泉","川浦温泉"],
+      "existingTaggedSpots":["草津温泉","田沢湖高原温泉郷","小野川温泉","三朝温泉"],
+      "fullCurrentListStatus":"reconstruction_in_progress",
+      "note":"日本温泉遺産を守る会の現行マスター一覧を安定取得できないため、施設公式等で認定を確認できるものから再構築。日本文化遺産を守る会等の別団体とは分離する。"
     },
     "nationalRecreationSpa":{
       "officialCount":79,
@@ -64,10 +72,11 @@
     "uiRule":"箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯などは親温泉郷の詳細・踏破進捗へ収納。歴史的なくくり自体は全件保持する。"
   },
   "uncertaintyQueue":[
-    {"area":"西表島温泉","issue":"温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"}
+    {"area":"西表島温泉","issue":"温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"},
+    {"area":"川浦温泉","issue":"山県館を代表地点としたMVP座標は住所周辺の暫定値。現地チェックイン前に中心座標を再検証する。"}
   ],
   "nextPass":[
-    "日本温泉遺産を守る会の現行認定宿・施設を公式記載から再構築して必須収録",
+    "日本温泉遺産を守る会の追加認定施設を現行記載から継続再構築",
     "日本秘湯を守る会会員宿105件を温泉地へ正規化",
     "にっぽんの温泉100選・温泉総選挙・御泉印などの選定バッジを全国付与",
     "泉質・源泉・歴史・体験系バッジの根拠データを収集して自動レアリティ算出"
