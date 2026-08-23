@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v1";
+const CACHE_NAME = "onsen-checkin-v2";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -30,7 +30,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  if (url.pathname.endsWith("/onsen.json")) {
+  if (url.pathname.endsWith("/onsen.json") || url.pathname.endsWith("/app.js")) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
