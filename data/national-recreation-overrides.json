@@ -1,7 +1,8 @@
 [
-  {"id":"toyotomi","nationalRecreationSpa":true,"nationalRecreationName":"豊富温泉"},
-  {"id":"sukayu","nationalRecreationSpa":true,"nationalRecreationName":"酸ヶ湯温泉"},
-  {"id":"zao","nationalRecreationSpa":true,"nationalRecreationName":"蔵王温泉"},
-  {"id":"ginzan","nationalRecreationSpa":true,"nationalRecreationName":"銀山温泉"},
-  {"id":"atsumi","nationalRecreationSpa":true,"nationalRecreationName":"あつみ温泉"}
+  {"id":"toyotomi","nationalRecreationSpa":true,"nationalRecreationName":"豊富温泉","badges":["national_recreation_spa"]},
+  {"id":"sukayu","nationalRecreationSpa":true,"nationalRecreationName":"酸ヶ湯温泉","badges":["national_recreation_spa"]},
+  {"id":"zao","nationalRecreationSpa":true,"nationalRecreationName":"蔵王温泉","badges":["national_recreation_spa"]},
+  {"id":"ginzan","nationalRecreationSpa":true,"nationalRecreationName":"銀山温泉","badges":["national_recreation_spa"]},
+  {"id":"atsumi","nationalRecreationSpa":true,"nationalRecreationName":"あつみ温泉","badges":["national_recreation_spa"]},
+  {"id":"shima","nationalRecreationSpa":true,"nationalRecreationName":"四万温泉","badges":["national_recreation_spa"]}
 ]
