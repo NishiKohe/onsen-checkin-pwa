@@ -1,7 +1,7 @@
 {
-  "version":16,
+  "version":17,
   "updatedAt":"2026-08-23",
-  "currentMapCount":187,
+  "currentMapCount":191,
   "runtimeData":{
     "mode":"manifest_merge",
     "manifestPath":"onsen-data-manifest.json",
@@ -20,8 +20,10 @@
       "data/national-recreation-hokkaido-tohoku.json",
       "data/national-recreation-kanto.json",
       "data/national-recreation-koshinetsu-hokuriku.json",
+      "data/national-recreation-tokai.json",
       "data/national-recreation-overrides.json",
-      "data/national-recreation-overrides-koshinetsu-hokuriku.json"
+      "data/national-recreation-overrides-koshinetsu-hokuriku.json",
+      "data/national-recreation-overrides-tokai.json"
     ],
     "multiZoneCheckinSupported":true,
     "displayPolicy":"親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
@@ -63,10 +65,11 @@
       "regionalProgress":{
         "北海道・東北":{"official":24,"status":"24/24 complete","existingTagged":5,"runtimeAdded":19,"coveragePath":"catalog/national-recreation-coverage-hokkaido-tohoku.json"},
         "関東":{"official":6,"status":"6/6 complete","existingTagged":1,"runtimeAdded":5,"coveragePath":"catalog/national-recreation-coverage-kanto.json"},
-        "甲信越・北陸":{"official":12,"status":"12/12 complete","existingTagged":1,"runtimeAdded":11,"coveragePath":"catalog/national-recreation-coverage-koshinetsu-hokuriku.json"}
+        "甲信越・北陸":{"official":12,"status":"12/12 complete","existingTagged":1,"runtimeAdded":11,"coveragePath":"catalog/national-recreation-coverage-koshinetsu-hokuriku.json"},
+        "東海":{"official":5,"status":"5/5 complete","existingTagged":1,"runtimeAdded":4,"coveragePath":"catalog/national-recreation-coverage-tokai.json"}
       },
-      "completedOfficialCount":42,
-      "remainingOfficialCount":37
+      "completedOfficialCount":47,
+      "remainingOfficialCount":32
     },
     "secretHotSpringAssociation":{
       "activeMemberInns":105,
@@ -81,8 +84,8 @@
     {"area":"西表島温泉","issue":"温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"}
   ],
   "nextPass":[
-    "国民保養温泉地の東海5指定を既存187地点と突合・バッジ付与・不足追加",
-    "国民保養温泉地の近畿以西を順次重複統合",
+    "国民保養温泉地の近畿6指定を既存191地点と突合・バッジ付与・不足追加",
+    "国民保養温泉地の中国四国・九州を順次重複統合",
     "日本温泉遺産を守る会の現行認定宿・施設を公式記載から再構築して必須収録",
     "日本秘湯を守る会会員宿を温泉地へ正規化",
     "全候補に選定・歴史・泉質・源泉・体験バッジを付与して重複統合"
