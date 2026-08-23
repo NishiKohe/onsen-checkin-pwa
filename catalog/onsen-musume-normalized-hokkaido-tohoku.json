@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "source": "温泉むすめ公式 CHARACTER",
+  "sourceUrl": "https://onsen-musume.jp/character/",
+  "scope": "北海道・東北",
+  "summary": {
+    "characterCount": 27,
+    "normalizedAreaCount": 27,
+    "alreadyOnMap": 9,
+    "pendingAdd": 18
+  },
+  "areas": [
+    {"id":"noboribetsu","name":"登別温泉","prefecture":"北海道","character":"登別綾瀬","lat":42.493,"lng":141.142,"checkinRadiusM":900,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"yunokawa","name":"湯の川温泉","prefecture":"北海道","character":"湯の川聖羅","lat":41.7803,"lng":140.7829,"checkinRadiusM":1200,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"jozankei","name":"定山渓温泉","prefecture":"北海道","character":"定山渓泉美","lat":42.967602,"lng":141.165659,"checkinRadiusM":1800,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"akanko","name":"阿寒湖温泉","prefecture":"北海道","character":"阿寒湖ぴりか","lat":43.433225,"lng":144.096192,"checkinRadiusM":1400,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"toyako","name":"洞爺湖温泉","prefecture":"北海道","character":"洞爺湖のんの","lat":42.562527,"lng":140.822772,"checkinRadiusM":1800,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"sounkyo","name":"層雲峡温泉","prefecture":"北海道","character":"雪･キャニオン･層雲峡","lat":43.725475,"lng":142.946412,"checkinRadiusM":1200,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"toyotomi","name":"豊富温泉","prefecture":"北海道","character":"豊富水由","lat":45.073457,"lng":141.840336,"checkinRadiusM":900,"mapStatus":"pending_add","coordConfidence":"verified"},
+
+    {"id":"sukayu","name":"酸ヶ湯温泉","prefecture":"青森県","character":"酸ヶ湯紗雪","lat":40.65083,"lng":140.85028,"checkinRadiusM":500,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"asamushi","name":"浅虫温泉","prefecture":"青森県","character":"浅虫夕凪","lat":40.889936,"lng":140.863364,"checkinRadiusM":1000,"mapStatus":"pending_add","coordConfidence":"verified"},
+
+    {"id":"hanamaki","name":"花巻温泉","prefecture":"岩手県","character":"花巻吹歌","lat":39.45382,"lng":141.06937,"checkinRadiusM":1200,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"yamanokami_iwate","name":"山の神温泉","prefecture":"岩手県","character":"山の神皐月","lat":39.452615,"lng":141.005017,"checkinRadiusM":650,"mapStatus":"pending_add","coordConfidence":"verified","note":"長野県にも同名温泉があるため県名付きIDで区別。"},
+
+    {"id":"akiu","name":"秋保温泉","prefecture":"宮城県","character":"秋保那菜子","lat":38.2219,"lng":140.7274,"checkinRadiusM":1500,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"naruko","name":"鳴子温泉","prefecture":"宮城県","character":"鳴子夏月","lat":38.742775,"lng":140.719535,"checkinRadiusM":900,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"sakunami","name":"作並温泉","prefecture":"宮城県","character":"作並日果","lat":38.3179,"lng":140.5932,"checkinRadiusM":1500,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"matsushima_miyagi","name":"松島温泉","prefecture":"宮城県","character":"松島名月","lat":38.3698,"lng":141.0642,"checkinRadiusM":1800,"mapStatus":"pending_add","coordConfidence":"representative","note":"他県にも同名温泉があるため県名付きIDで区別。松島海岸周辺の温泉宿群を代表点化。"},
+
+    {"id":"nyuto","name":"乳頭温泉郷","prefecture":"秋田県","character":"乳頭 和","lat":39.804,"lng":140.769,"checkinRadiusM":2500,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"tamagawa_akita","name":"玉川温泉","prefecture":"秋田県","character":"玉川百合亜","lat":39.965278,"lng":140.720278,"checkinRadiusM":700,"mapStatus":"pending_add","coordConfidence":"verified"},
+
+    {"id":"ginzan","name":"銀山温泉","prefecture":"山形県","character":"銀山心雪","lat":38.5711,"lng":140.531,"checkinRadiusM":450,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"atsumi","name":"あつみ温泉","prefecture":"山形県","character":"あつみ詩鶴","lat":38.62125,"lng":139.591611,"checkinRadiusM":1100,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"zao","name":"蔵王温泉","prefecture":"山形県","character":"蔵王 巴","lat":38.1664,"lng":140.395,"checkinRadiusM":1000,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"onogawa","name":"小野川温泉","prefecture":"山形県","character":"小野川小町","lat":37.880709,"lng":140.0546,"checkinRadiusM":800,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"kaminoyama","name":"かみのやま温泉","prefecture":"山形県","character":"かみのやま 庵","lat":38.157651,"lng":140.276186,"checkinRadiusM":1800,"mapStatus":"pending_add","coordConfidence":"verified"},
+
+    {"id":"iwaki_yumoto","name":"いわき湯本温泉","prefecture":"福島県","character":"いわきあろは","lat":37.006991,"lng":140.846184,"checkinRadiusM":1800,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"iizaka","name":"飯坂温泉","prefecture":"福島県","character":"飯坂真尋","lat":37.8303,"lng":140.4542,"checkinRadiusM":1200,"mapStatus":"present","coordConfidence":"existing"},
+    {"id":"higashiyama_aizu","name":"東山温泉","prefecture":"福島県","character":"東山季利花","lat":37.477977,"lng":139.962645,"checkinRadiusM":1200,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"bandai_atami","name":"磐梯熱海温泉","prefecture":"福島県","character":"磐梯熱海萩","lat":37.481509,"lng":140.270264,"checkinRadiusM":1500,"mapStatus":"pending_add","coordConfidence":"verified"},
+    {"id":"nicchu","name":"日中温泉","prefecture":"福島県","character":"日中早百合","lat":37.77,"lng":139.93,"checkinRadiusM":700,"mapStatus":"pending_add","coordConfidence":"provisional","note":"温泉むすめ公式との対応は確定。旧一軒宿ゆもとやは2025年に閉館しているため、現地代表点は日中ダム直下の旧温泉地周辺として後日精密化する。"}
+  ]
+}
