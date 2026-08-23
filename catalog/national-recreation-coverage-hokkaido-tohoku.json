@@ -1,16 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-08-23",
   "scope": "北海道・東北",
+  "status": "runtime_complete",
   "officialCountInScope": 24,
-  "existingExactMatches": [
+  "existingTagged": [
     "豊富温泉",
     "酸ヶ湯温泉",
     "蔵王温泉",
     "銀山温泉",
     "あつみ温泉"
   ],
-  "pendingAdds": [
+  "addedRuntime": [
     "カルルス温泉",
     "ニセコ温泉郷",
     "芦別温泉",
@@ -20,7 +21,7 @@
     "金田一温泉",
     "鳴子温泉郷",
     "田沢湖高原温泉郷",
-    "秋ノ宮温泉",
+    "秋ノ宮温泉郷",
     "碁点温泉",
     "肘折温泉郷",
     "湯田川温泉",
@@ -31,16 +32,8 @@
     "土湯・高湯温泉郷",
     "二岐・岩瀬湯本・天栄温泉"
   ],
-  "parentMultiZonePriority": [
-    "ニセコ温泉郷",
-    "八幡平温泉郷",
-    "大館ぐるみ温泉郷",
-    "鳴子温泉郷",
-    "田沢湖高原温泉郷",
-    "肘折温泉郷",
-    "土湯・高湯温泉郷",
-    "二岐・岩瀬湯本・天栄温泉"
-  ],
+  "runtimePath": "data/national-recreation-hokkaido-tohoku.json",
   "badgeOverridePath": "data/national-recreation-overrides.json",
-  "sourcePath": "catalog/national-recreation-spa-required.json"
+  "sourcePath": "catalog/national-recreation-spa-required.json",
+  "note": "環境省の令和7年12月現在79件一覧を基準。親温泉郷は複数チェックインゾーンで実装。"
 }
