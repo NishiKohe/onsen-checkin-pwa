@@ -1,0 +1,26 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"中国・四国",
+  "areas":[
+    {"prefecture":"鳥取県","area":"皆生温泉","character":"皆生なぎさ","runtimeStatus":"added","runtimeId":"kaike","displayModel":"single"},
+    {"prefecture":"鳥取県","area":"三朝温泉","character":"三朝歌蓮","runtimeStatus":"existing","runtimeId":"misasa","displayModel":"single"},
+    {"prefecture":"鳥取県","area":"はわい温泉・東郷温泉","character":"はわい東郷浮乃","runtimeStatus":"added","runtimeId":"hawai_togo","displayModel":"parent_multi_zone","subAreas":["はわい温泉","東郷温泉"]},
+    {"prefecture":"島根県","area":"玉造温泉","character":"玉造 彗","runtimeStatus":"existing","runtimeId":"tamatsukuri","displayModel":"single"},
+    {"prefecture":"島根県","area":"温泉津温泉","character":"温泉津佐間","runtimeStatus":"added","runtimeId":"yunotsu","displayModel":"single"},
+    {"prefecture":"島根県","area":"松江しんじ湖温泉","character":"松江しんじ湖しじみ","runtimeStatus":"added","runtimeId":"matsue_shinjiko","displayModel":"single"},
+    {"prefecture":"岡山県","area":"湯原温泉","character":"湯原砂和","runtimeStatus":"existing","runtimeId":"yuhara","displayModel":"single"},
+    {"prefecture":"岡山県","area":"湯郷温泉","character":"湯郷美彩","runtimeStatus":"existing","runtimeId":"yunogo","displayModel":"single"},
+    {"prefecture":"岡山県","area":"奥津温泉","character":"奥津かがみ","runtimeStatus":"existing","runtimeId":"okutsu","displayModel":"single"},
+    {"prefecture":"広島県","area":"宮浜温泉","character":"宮浜仁佳","runtimeStatus":"added","runtimeId":"miyahama","displayModel":"single"},
+    {"prefecture":"山口県","area":"長門湯本温泉","character":"長門 櫻","runtimeStatus":"added","runtimeId":"nagato_yumoto","displayModel":"single"},
+    {"prefecture":"山口県","area":"湯田温泉","character":"湯田 薫","runtimeStatus":"added","runtimeId":"yuda","displayModel":"single"},
+    {"prefecture":"徳島県","area":"祖谷温泉","character":"祖谷メグリ","runtimeStatus":"added","runtimeId":"iya","displayModel":"single"},
+    {"prefecture":"香川県","area":"こんぴら温泉郷","character":"こんぴら桃萌","runtimeStatus":"added","runtimeId":"konpira","displayModel":"single"},
+    {"prefecture":"香川県","area":"塩江温泉郷","character":"塩江修子","runtimeStatus":"added","runtimeId":"shionoe","displayModel":"single"},
+    {"prefecture":"愛媛県","area":"道後温泉","character":"道後泉海","runtimeStatus":"existing","runtimeId":"dogo","displayModel":"single"},
+    {"prefecture":"愛媛県","area":"鈍川温泉","character":"鈍川まなみ","runtimeStatus":"added","runtimeId":"nibukawa","displayModel":"single"},
+    {"prefecture":"高知県","area":"あしずり温泉郷","character":"あしずり 星","runtimeStatus":"added","runtimeId":"ashizuri_onsenkyo","displayModel":"parent_multi_zone"}
+  ],
+  "summary":{"total":18,"existing":6,"added":12,"pending":0}
+}
