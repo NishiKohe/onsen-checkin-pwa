@@ -22,6 +22,21 @@
     "onsenIsanFacilities":["河鹿荘"]
   },
   {
+    "id":"higashiyama_aizu",
+    "onsenHeritage":true,
+    "onsenIsan":true,
+    "onsenHeritageFacilities":["向瀧","くつろぎ宿 新滝"],
+    "onsenIsanFacilities":["向瀧","くつろぎ宿 新滝"],
+    "heritageRelatedBadges":["onsen_heritage","cultural_property_bath"]
+  },
+  {
+    "id":"shinhirayu",
+    "onsenHeritage":true,
+    "onsenIsan":true,
+    "onsenHeritageFacilities":["飛騨牛の宿"],
+    "onsenIsanFacilities":["飛騨牛の宿"]
+  },
+  {
     "id":"misasa",
     "onsenHeritage":true,
     "onsenIsan":true,
