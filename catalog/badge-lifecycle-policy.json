@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "principle": "収集ゲームのコアバッジは、年次更新を必要としない固定選定・歴史称号・公的指定・長期認定を優先する。毎年順位が変わるランキングや販売状況・会員状況は、原則として参考情報レイヤーに分離し、コア収集率やレアリティ計算に含めない。",
+  "classes": {
+    "permanent_core": {
+      "label": "恒常コア",
+      "scoreEligible": true,
+      "defaultVisible": true,
+      "examples": [
+        "日本三名泉",
+        "日本三古湯",
+        "松田忠徳・日本百名湯",
+        "野口悦男・日本百名湯 源泉の宿",
+        "名湯百選",
+        "国民保養温泉地",
+        "温泉遺産",
+        "文化財の湯",
+        "日本遺産の湯"
+      ]
+    },
+    "stable_program": {
+      "label": "準恒常",
+      "scoreEligible": true,
+      "defaultVisible": true,
+      "note": "年次改定ではないが、追加・脱退・閉館などで稀に変動する。変更時のみ更新する。",
+      "examples": ["温泉むすめ", "日本秘湯を守る会"]
+    },
+    "dynamic_reference": {
+      "label": "参考情報",
+      "scoreEligible": false,
+      "defaultVisible": false,
+      "note": "毎年または販売・投票状況で変動するため、コアバッジから除外。必要なら年度付き履歴として保持する。",
+      "examples": ["にっぽんの温泉100選", "温泉総選挙", "じゃらん人気温泉地ランキング", "BIGLOBE温泉大賞", "御泉印の現行販売状況"]
+    }
+  },
+  "rankingHistoryPolicy": {
+    "storeIfCollected": true,
+    "showByDefault": false,
+    "affectsCompletion": false,
+    "affectsRarity": false,
+    "updateRequirement": "原則なし。ユーザーが年度ランキング機能を希望した場合のみ別データセットとして更新する。"
+  }
+}
