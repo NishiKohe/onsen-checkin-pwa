@@ -1,0 +1,40 @@
+[
+  {
+    "id": "gero",
+    "name": "下呂温泉",
+    "prefecture": "岐阜県",
+    "lat": 35.8047,
+    "lng": 137.2456,
+    "summary": "日本三名泉の一つとして知られる温泉地。",
+    "analysis": {
+      "springType": "（例）単純温泉",
+      "sourceTempC": null,
+      "ph": null,
+      "dissolvedSolidsMgKg": null,
+      "flowLMin": null,
+      "analysisDate": null,
+      "analyzer": null
+    },
+    "officialUrl": "",
+    "referenceNote": "分析値は各施設・自治体の温泉分析書/掲示を参照して入力してください。"
+  },
+  {
+    "id": "hirugami",
+    "name": "昼神温泉",
+    "prefecture": "長野県",
+    "lat": 35.4197,
+    "lng": 137.7434,
+    "summary": "南信州の温泉地。星空観光でも知られる。",
+    "analysis": {
+      "springType": "（例）アルカリ性単純硫黄泉",
+      "sourceTempC": null,
+      "ph": null,
+      "dissolvedSolidsMgKg": null,
+      "flowLMin": null,
+      "analysisDate": null,
+      "analyzer": null
+    },
+    "officialUrl": "",
+    "referenceNote": "分析値は各施設・自治体の温泉分析書/掲示を参照して入力してください。"
+  }
+]
