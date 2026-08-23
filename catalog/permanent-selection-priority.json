@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "purpose": "既存温泉地へ年次更新不要の恒常選定バッジを優先付与するためのスキャン順序。",
+  "priority": [
+    {
+      "order": 1,
+      "id": "government_and_historical",
+      "label": "公的指定・歴史称号",
+      "sources": ["国民保養温泉地", "日本三名泉", "日本三古湯", "地域の三湯・七湯・八湯等"]
+    },
+    {
+      "order": 2,
+      "id": "fixed_published_100",
+      "label": "固定百選・百名湯",
+      "sources": ["松田忠徳・日本百名湯", "野口悦男・日本百名湯 源泉の宿", "新日本百名湯"]
+    },
+    {
+      "order": 3,
+      "id": "expert_fixed_selection",
+      "label": "専門家系固定選定",
+      "sources": ["名湯百選"]
+    },
+    {
+      "order": 4,
+      "id": "certification_and_culture",
+      "label": "認定・文化財",
+      "sources": ["温泉遺産", "文化財の湯", "日本遺産の湯"]
+    },
+    {
+      "order": 5,
+      "id": "stable_programs",
+      "label": "準恒常プログラム",
+      "sources": ["温泉むすめ", "日本秘湯を守る会"]
+    }
+  ],
+  "excludedFromCore": [
+    "にっぽんの温泉100選（年度ランキング）",
+    "温泉総選挙",
+    "じゃらん人気温泉地ランキング",
+    "BIGLOBE温泉大賞",
+    "御泉印の現行販売状況"
+  ]
+}
