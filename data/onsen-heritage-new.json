@@ -17,6 +17,23 @@
     "officialUrl":"https://namari-onsen-ryokan.com/"
   },
   {
+    "id":"kowa_kubi_onsen",
+    "name":"強首温泉",
+    "prefecture":"秋田県",
+    "lat":39.5584483,
+    "lng":140.2824735,
+    "checkinRadiusM":800,
+    "onsenHeritage":true,
+    "onsenIsan":true,
+    "onsenHeritageFacilities":["樅峰苑"],
+    "onsenIsanFacilities":["樅峰苑"],
+    "badges":["onsen_heritage","cultural_property_bath","iodine_spring"],
+    "mandatorySources":["onsen_heritage"],
+    "summary":"大仙市強首の一軒宿・樅峰苑を中心とする温泉地。登録有形文化財の宿と希少なヨウ素泉で知られる。",
+    "referenceNote":"代表点は樅峰苑（大仙市強首字強首268）。宿公式が平成15年12月の日本温泉遺産認定を明記。座標はMapFan掲載値。",
+    "officialUrl":"https://syohoen.net/"
+  },
+  {
     "id":"kawaura_onsen",
     "name":"川浦温泉",
     "prefecture":"山梨県",
