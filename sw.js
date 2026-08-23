@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v16";
+const CACHE_NAME = "onsen-checkin-v17";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -18,6 +18,7 @@ const APP_ASSETS = [
   "./data/onsen-musume-chugoku-shikoku.json",
   "./data/onsen-musume-kyushu-okinawa.json",
   "./data/national-recreation-hokkaido-tohoku.json",
+  "./data/national-recreation-kanto.json",
   "./data/national-recreation-overrides.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
@@ -25,17 +26,13 @@ const APP_ASSETS = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_ASSETS))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_ASSETS)));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
-    )
+    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
   );
   self.clients.claim();
 });
@@ -58,7 +55,5 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
-  );
+  event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
 });
