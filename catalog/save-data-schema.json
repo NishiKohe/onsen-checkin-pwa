@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "updatedAt": "2026-08-24",
+  "format": "onsen-checkin-user-save",
+  "scope": "per-user",
+  "profileMetadataKeys": {
+    "profiles": "onsenAppProfilesV1",
+    "currentProfile": "onsenAppCurrentProfileV1",
+    "legacyMigration": "onsenAppProfileMigrationV1"
+  },
+  "userNamespace": "onsenApp:user:<userId>:<key>",
+  "userDataKeys": [
+    "checkins",
+    "visitCandidatesV1",
+    "visitSessionsV1",
+    "visitSettingsV1",
+    "visitLogMigrationV1",
+    "visitLocationSamplesV1"
+  ],
+  "migrationPolicy": [
+    "v32初回起動時に旧グローバルキーを現在の既定ローカルユーザーへコピーする",
+    "旧グローバルキーは安全のため削除せずバックアップとして残す",
+    "以後アプリ本体はユーザー名前空間内の値だけを参照する",
+    "ユーザー切替時はページを再読込し、全UI・達成率・旅行ログを切替先ユーザーから再構築する"
+  ],
+  "futureSync": {
+    "accountBinding": "ローカルprofile idを将来のaccount user idへマッピング可能",
+    "exportEnvelope": {
+      "format": "onsen-checkin-user-save",
+      "schemaVersion": 2,
+      "exportedAt": "unix_ms",
+      "user": "profile metadata",
+      "data": "userDataKeys keyed object"
+    }
+  }
+}
