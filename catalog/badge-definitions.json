@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-08-23",
   "rarityPolicy": {
     "tiers": ["N", "R", "SR", "SSR", "UR"],
@@ -16,6 +16,7 @@
     {"id":"onsen_musume","name":"温泉むすめ","category":"selection","rule":"温泉むすめ公式キャラクター対応温泉地","rarity":"R"},
     {"id":"goshuin_onsen","name":"御泉印","category":"collectible","rule":"温泉むすめ御泉印の現行販売実績または公式参加実績がある温泉地","rarity":"R"},
     {"id":"onsen_heritage","name":"温泉遺産","category":"selection","rule":"日本温泉遺産を守る会の認定施設が存在する温泉地","rarity":"SR"},
+    {"id":"onsen_regional_asset","name":"日本温泉地域資産","category":"selection","rule":"日本温泉地域学会『日本温泉地域資産』に該当する温泉地。公開確認できる2004年第一次選定を先行実装","rarity":"SR","lifecycle":"permanent_core"},
     {"id":"national_recreation_spa","name":"国民保養温泉地","category":"official","rule":"環境大臣指定の国民保養温泉地","rarity":"SR"},
     {"id":"secret_hot_spring","name":"秘湯を守る会","category":"selection","rule":"日本秘湯を守る会会員宿が存在する温泉地","rarity":"SR"},
     {"id":"nippon_onsen_100","name":"にっぽんの温泉100選","category":"ranking","rule":"最新年度の100選入り","rarity":"R","seasonal":true},
