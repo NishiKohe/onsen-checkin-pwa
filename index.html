@@ -15,8 +15,8 @@
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="stylesheet" href="./collection-progress.css" />
+  <link rel="stylesheet" href="./style.css?v=28" />
+  <link rel="stylesheet" href="./collection-progress.css?v=28" />
 </head>
 <body>
   <header class="header">
@@ -129,15 +129,16 @@
     <button type="button" class="app-tab" data-app-tab="collection" aria-selected="false">達成状況</button>
   </nav>
 
-  <script src="./app.js"></script>
-  <script src="./ui-enhancements.js"></script>
-  <script src="./heritage-ui.js"></script>
-  <script src="./fixed-selection-ui.js"></script>
-  <script src="./collection-progress-ui.js"></script>
+  <script src="./app.js?v=28"></script>
+  <script src="./ui-enhancements.js?v=28"></script>
+  <script src="./heritage-ui.js?v=28"></script>
+  <script src="./fixed-selection-ui.js?v=28"></script>
+  <script src="./collection-progress-ui.js?v=28"></script>
+  <script src="./tab-display-fix.js?v=28"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js").catch(console.error);
+        navigator.serviceWorker.register("./sw.js?v=28").catch(console.error);
       });
     }
   </script>
