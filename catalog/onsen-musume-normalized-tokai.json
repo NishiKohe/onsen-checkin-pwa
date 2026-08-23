@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "scope": "東海",
+  "areas": [
+    {"prefecture":"岐阜県","area":"下呂温泉","character":"下呂美月","runtimeStatus":"existing","runtimeId":"gero","displayModel":"single"},
+    {"prefecture":"岐阜県","area":"飛騨高山温泉","character":"高山匠美","runtimeStatus":"added","runtimeId":"hida_takayama","displayModel":"single"},
+    {"prefecture":"岐阜県","area":"長良川温泉","character":"長良川かがり","runtimeStatus":"added","runtimeId":"nagaragawa","displayModel":"single"},
+    {"prefecture":"岐阜県","area":"奥飛騨温泉郷","character":"奥飛騨五十鈴","runtimeStatus":"added","runtimeId":"okuhida","displayModel":"parent_multi_zone","subAreas":["平湯温泉","福地温泉","新平湯温泉","栃尾温泉","新穂高温泉"]},
+    {"prefecture":"岐阜県","area":"平湯温泉","character":"平湯みつば","runtimeStatus":"existing","runtimeId":"hirayu","displayModel":"child_independent"},
+    {"prefecture":"岐阜県","area":"福地温泉","character":"福地珊瑚","runtimeStatus":"existing","runtimeId":"fukuji","displayModel":"child_independent"},
+
+    {"prefecture":"静岡県","area":"熱海温泉","character":"熱海初夏","runtimeStatus":"existing","runtimeId":"atami","displayModel":"single"},
+    {"prefecture":"静岡県","area":"伊東温泉","character":"伊東椿月","runtimeStatus":"existing","runtimeId":"ito","displayModel":"single"},
+    {"prefecture":"静岡県","area":"修善寺温泉","character":"修善寺透子","runtimeStatus":"existing","runtimeId":"shuzenji","displayModel":"single"},
+    {"prefecture":"静岡県","area":"下田温泉","character":"下田莉華","runtimeStatus":"added","runtimeId":"shimoda","displayModel":"single"},
+    {"prefecture":"静岡県","area":"土肥温泉","character":"土肥間由","runtimeStatus":"added","runtimeId":"toi","displayModel":"single"},
+    {"prefecture":"静岡県","area":"舘山寺温泉","character":"舘山寺萌湖","runtimeStatus":"added","runtimeId":"kanzanji","displayModel":"single"},
+    {"prefecture":"静岡県","area":"稲取温泉","character":"稲取ひなめ","runtimeStatus":"added","runtimeId":"inatori","displayModel":"single"},
+    {"prefecture":"静岡県","area":"熱川温泉","character":"熱川 灯","runtimeStatus":"added","runtimeId":"atagawa","displayModel":"single"},
+
+    {"prefecture":"愛知県","area":"南知多温泉郷","character":"南知多まゆの","runtimeStatus":"added","runtimeId":"minamichita","displayModel":"parent_multi_zone","subAreas":["内海","山海","豊浜"]},
+    {"prefecture":"愛知県","area":"蒲郡温泉郷","character":"蒲郡海詩","runtimeStatus":"added","runtimeId":"gamagori_onsenkyo","displayModel":"parent_multi_zone","subAreas":["蒲郡温泉","三谷温泉","形原温泉","西浦温泉"]},
+
+    {"prefecture":"三重県","area":"榊原温泉","character":"榊原伊都","runtimeStatus":"added","runtimeId":"sakakibara","displayModel":"single"},
+    {"prefecture":"三重県","area":"志摩温泉郷","character":"志摩茉莉也","runtimeStatus":"added","runtimeId":"shima_onsenkyo","displayModel":"parent_multi_zone","note":"志摩市観光協会が市内各エリアの温泉をまとめて紹介しているため、ゲーム上は親温泉地として統合する。"},
+    {"prefecture":"三重県","area":"鳥羽温泉郷","character":"鳥羽亜矢海","runtimeStatus":"added","runtimeId":"toba_onsenkyo","displayModel":"parent_multi_zone","note":"鳥羽市内の海辺9エリアに広がる温泉郷として親スポット化。"}
+  ],
+  "summary": {"total":19,"existing":6,"added":13,"pending":0}
+}
