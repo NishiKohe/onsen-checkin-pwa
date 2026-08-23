@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "source": "温泉むすめ公式 CHARACTER",
+  "sourceUrl": "https://onsen-musume.jp/character/",
+  "scope": "関東",
+  "summary": {
+    "characterCount": 18,
+    "normalizedAreaCount": 18,
+    "alreadyOnMapExact": 3,
+    "simplePending": 9,
+    "multiZonePending": 6
+  },
+  "areas": [
+    {"id":"daigo","name":"大子温泉","prefecture":"茨城県","character":"大子紅葉","lat":36.7690778,"lng":140.359167,"checkinRadiusM":1600,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"verified"},
+    {"id":"kinugawa","name":"鬼怒川温泉","prefecture":"栃木県","character":"鬼怒川日向","mapStatus":"present","checkinStrategy":"single_zone"},
+    {"id":"nasu_onsenkyo","name":"那須温泉郷","prefecture":"栃木県","character":"那須一与","mapStatus":"pending_add","checkinStrategy":"multi_zone","normalizationConfidence":"needs_boundary_review","zonePlanMembers":["那須湯本温泉（鹿の湯）","大丸温泉","北温泉","弁天温泉","高雄温泉","八幡温泉","三斗小屋温泉"],"note":"那須町観光協会は歴史上の那須七湯・八湯・十一湯など複数定義を説明。親スポットのチェックインは現役温泉地の複数ゾーン方式とする。"},
+    {"id":"shiobara_onsenkyo","name":"塩原温泉郷","prefecture":"栃木県","character":"塩原八弥","mapStatus":"pending_add","checkinStrategy":"multi_zone","zonePlanMembers":["大網","福渡","塩釜","塩の湯","畑下","門前","古町","中塩原","上塩原","新湯","元湯"],"note":"那須塩原市公式の塩原温泉11湯を各ゾーン化。"},
+    {"id":"kusatsu","name":"草津温泉","prefecture":"群馬県","character":"草津結衣奈","mapStatus":"present","checkinStrategy":"single_zone"},
+    {"id":"ikaho","name":"伊香保温泉","prefecture":"群馬県","character":"伊香保葉凪","mapStatus":"present","checkinStrategy":"single_zone"},
+    {"id":"manza","name":"万座温泉","prefecture":"群馬県","character":"万座千斗星","lat":36.637515,"lng":138.510009,"checkinRadiusM":1200,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"verified"},
+    {"id":"shima","name":"四万温泉","prefecture":"群馬県","character":"四万治佳","lat":36.684947,"lng":138.7753855,"checkinRadiusM":1800,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"verified"},
+    {"id":"minakami","name":"水上温泉","prefecture":"群馬県","character":"水上凛心","lat":36.7837,"lng":138.969,"checkinRadiusM":1800,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"representative","note":"温泉むすめは水上温泉を対象。水上温泉郷全体とは分ける。水上駅〜温泉街を代表点化。"},
+    {"id":"chichibu_onsenkyo","name":"秩父温泉郷","prefecture":"埼玉県","character":"秩父美祭","mapStatus":"pending_add","checkinStrategy":"multi_zone","normalizationConfidence":"needs_boundary_review","zonePlan":"現役の代表鉱泉・温泉宿群を複数ゾーン化。歴史的『秩父七湯』とは別レイヤーで管理。"},
+    {"id":"kamogawa_onsenkyo","name":"鴨川温泉郷","prefecture":"千葉県","character":"鴨川茉凛","mapStatus":"pending_add","checkinStrategy":"multi_zone","normalizationConfidence":"needs_boundary_review","zonePlan":"鴨川市内の主要温泉宿集積地を複数ゾーン化。"},
+    {"id":"minamiboso_onsenkyo","name":"南房総温泉郷","prefecture":"千葉県","character":"南房総日由美","mapStatus":"pending_add","checkinStrategy":"multi_zone","normalizationConfidence":"needs_boundary_review","zonePlan":"南房総市の温泉組合加盟エリアを複数ゾーン化。"},
+    {"id":"shirako","name":"白子温泉","prefecture":"千葉県","character":"白子ひまり","lat":35.4488,"lng":140.3985,"checkinRadiusM":1800,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"representative"},
+    {"id":"otemachi","name":"大手町温泉","prefecture":"東京都","character":"大手町梨稟","lat":35.6880,"lng":139.7627,"checkinRadiusM":450,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"address_representative","note":"星のや東京（大手町1-9-1）周辺を代表点化。"},
+    {"id":"hakone_onsenkyo","name":"箱根温泉郷","prefecture":"神奈川県","character":"箱根彩耶","lat":35.233,"lng":139.104,"mapStatus":"pending_add","checkinStrategy":"multi_zone","normalizationConfidence":"needs_boundary_review","zonePlanMembers":["湯本","塔之沢","大平台","宮ノ下","堂ヶ島","木賀","底倉","二ノ平","小涌谷","強羅","宮城野","仙石原","姥子","芦之湯","湯の花沢","蛸川","芦ノ湖"],"note":"箱根町観光協会公式の箱根十七湯を親スポットの有効ゾーン候補とする。"},
+    {"id":"yugawara","name":"湯河原温泉","prefecture":"神奈川県","character":"湯河原伊露羽","lat":35.152583,"lng":139.072475,"checkinRadiusM":1800,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"verified_representative"},
+    {"id":"gora","name":"強羅温泉","prefecture":"神奈川県","character":"強羅かんな","lat":35.2498128,"lng":139.0470013,"checkinRadiusM":1000,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"verified"},
+    {"id":"sengokuhara","name":"仙石原温泉","prefecture":"神奈川県","character":"仙石原三香沙","lat":35.2645151,"lng":139.014026,"checkinRadiusM":1800,"mapStatus":"pending_add","checkinStrategy":"single_zone","coordConfidence":"verified"}
+  ]
+}
