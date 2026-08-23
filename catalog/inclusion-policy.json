@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "rules": [
+    {
+      "id": "onsen-musume",
+      "label": "温泉むすめ",
+      "required": true,
+      "scope": "domestic",
+      "unit": "onsen-area",
+      "rule": "温泉むすめ公式サイトの国内キャラクターに対応する温泉地は必須収録とする。海外（台湾）は日本地図MVPの対象外として別管理する。",
+      "sourceUrl": "https://onsen-musume.jp/character/"
+    },
+    {
+      "id": "onsen-isan",
+      "label": "温泉遺産",
+      "required": true,
+      "scope": "domestic",
+      "unit": "certified-facility-to-onsen-area",
+      "rule": "日本温泉遺産を守る会の認定対象は宿・温泉施設単位のため、認定施設が属する温泉地を温泉地単位に正規化して必須収録とする。1温泉地に複数の認定施設がある場合は1スポットに統合し、認定施設名を配列で保持する。"
+    }
+  ],
+  "onsenAreaSchema": {
+    "onsenMusume": "boolean",
+    "onsenMusumeCharacters": "string[]",
+    "onsenIsan": "boolean",
+    "onsenIsanFacilities": "string[]"
+  }
+}
