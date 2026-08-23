@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v28";
+const CACHE_NAME = "onsen-checkin-v29";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -88,12 +88,15 @@ self.addEventListener("fetch", (event) => {
     "/data/onsen-analysis-expansion-2.json",
     "/data/regional-group-spots.json"
   ];
-  if (
+
+  const useNetworkFirst =
+    event.request.mode === "navigate" ||
     networkFirst.some((suffix) => url.pathname.endsWith(suffix)) ||
     url.pathname.includes("/catalog/group-definitions") ||
     url.pathname.includes("/data/onsen-") ||
-    url.pathname.includes("/data/national-recreation-")
-  ) {
+    url.pathname.includes("/data/national-recreation-");
+
+  if (useNetworkFirst) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
@@ -101,7 +104,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
           return response;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => caches.match(event.request).then((cached) => cached || caches.match("./index.html")))
     );
     return;
   }
