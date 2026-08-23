@@ -20,14 +20,13 @@
 
   const rawGet = (key) => rawGetItem.call(localStorage, key);
   const rawSet = (key, value) => rawSetItem.call(localStorage, key, String(value));
-  const rawRemove = (key) => rawRemoveItem.call(localStorage, key);
 
   function safeParse(value, fallback) {
     try { return value ? JSON.parse(value) : fallback; } catch { return fallback; }
   }
 
   function makeId() {
-    if (crypto?.randomUUID) return `local-${crypto.randomUUID()}`;
+    if (globalThis.crypto?.randomUUID) return `local-${globalThis.crypto.randomUUID()}`;
     return `local-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
   }
 
@@ -78,7 +77,9 @@
   }
 
   function migrateLegacyData() {
-    if (rawGet(MIGRATION_KEY) === "done") return;
+    const migration = safeParse(rawGet(MIGRATION_KEY), null);
+    if (migration?.status === "done") return;
+
     const profileId = state.currentId;
     const migrated = [];
     for (const key of USER_KEYS) {
@@ -100,7 +101,7 @@
 
   migrateLegacyData();
 
-  // 既存コードの localStorage API を壊さず、ユーザーデータだけ透過的に名前空間化する。
+  // 既存コードのlocalStorage APIを壊さず、ユーザーデータだけ透過的に名前空間化する。
   storageProto.getItem = function patchedGetItem(key) {
     if (this === localStorage && isUserKey(key)) return rawGetItem.call(this, scopedKey(String(key)));
     return rawGetItem.call(this, key);
