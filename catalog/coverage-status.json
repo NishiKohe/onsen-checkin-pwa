@@ -1,7 +1,7 @@
 {
-  "version": 11,
+  "version": 12,
   "updatedAt": "2026-08-23",
-  "currentMapCount": 142,
+  "currentMapCount": 152,
   "runtimeData": {
     "mode": "manifest_merge",
     "manifestPath": "onsen-data-manifest.json",
@@ -15,7 +15,8 @@
       "data/onsen-musume-koshinetsu-hokuriku-areas.json",
       "data/onsen-musume-tokai.json",
       "data/onsen-musume-kinki.json",
-      "data/onsen-musume-chugoku-shikoku.json"
+      "data/onsen-musume-chugoku-shikoku.json",
+      "data/onsen-musume-kyushu-okinawa.json"
     ],
     "multiZoneCheckinSupported": true,
     "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
@@ -25,6 +26,7 @@
       "charactersDomestic": 134,
       "normalizedSpotCandidates": 133,
       "mandatory": true,
+      "status": "runtime_coverage_complete",
       "masterStatus": "all_names_normalized",
       "masterPath": "catalog/onsen-musume-area-master.json",
       "regionProgress": {
@@ -33,7 +35,8 @@
         "甲信越・北陸": "22/22 complete",
         "東海": "19/19 complete",
         "近畿": "11/11 complete",
-        "中国・四国": "18/18 complete"
+        "中国・四国": "18/18 complete",
+        "九州・沖縄": "18/18 complete"
       },
       "regionalMasters": [
         "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
@@ -41,9 +44,10 @@
         "catalog/onsen-musume-normalized-koshinetsu-hokuriku.json",
         "catalog/onsen-musume-normalized-tokai.json",
         "catalog/onsen-musume-normalized-kinki.json",
-        "catalog/onsen-musume-normalized-chugoku-shikoku.json"
+        "catalog/onsen-musume-normalized-chugoku-shikoku.json",
+        "catalog/onsen-musume-normalized-kyushu-okinawa.json"
       ],
-      "note": "親温泉郷と子温泉が併存するケースではデータ上の親子関係を保持。地図は親を優先しつつ、温泉むすめ等で独立価値の高い子温泉は個別スポットを残す。"
+      "note": "国内134キャラクターを133温泉地候補へ正規化して全地域ランタイム実装済み。有馬輪花・有馬楓花は有馬温泉1地点に統合。親温泉郷と子温泉が併存するケースは親子関係を保持し、地図は親を優先しつつ独立価値の高い子温泉は個別スポットを残す。"
     },
     "onsenHeritage": {
       "mandatory": true,
@@ -70,16 +74,16 @@
     ],
     "uiRule": "箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯などは親温泉郷の詳細・踏破進捗へ収納。歴史的なくくり自体は全件保持する。"
   },
-  "onsenMusumeAreaVerificationQueue": [
-    "平戸温泉",
-    "阿蘇温泉郷",
-    "西表島温泉"
+  "uncertaintyQueue": [
+    {
+      "area":"西表島温泉",
+      "issue":"温泉むすめ対象として収録必須だが、旧西表島温泉およびカンパネルラの湯には閉館情報があり、現行旅行商品には利用可能との記載も残るため営業実態を継続確認。ランタイムではレガシー温泉地として表示。"
+    }
   ],
   "nextPass": [
-    "九州沖縄を地域ファイル化（平戸・阿蘇・西表島は境界確認）",
-    "国民保養温泉地79件を重複統合",
-    "日本秘湯を守る会105宿を温泉地へ正規化",
-    "温泉遺産認定宿を現行情報で個別照合",
-    "全候補にバッジソースを付与して重複統合"
+    "環境省の国民保養温泉地79件を全件カタログ化し既存152地点と重複統合",
+    "日本温泉遺産を守る会の現行認定宿・施設を公式記載から再構築して必須収録",
+    "日本秘湯を守る会会員宿を温泉地へ正規化",
+    "全候補に選定・歴史・泉質・源泉・体験バッジを付与して重複統合"
   ]
 }
