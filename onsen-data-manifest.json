@@ -1,5 +1,5 @@
 {
-  "version": 14,
+  "version": 15,
   "files": [
     "./onsen.json",
     "./data/onsen-musume-hokkaido-tohoku.json",
@@ -16,8 +16,10 @@
     "./data/national-recreation-kanto.json",
     "./data/national-recreation-koshinetsu-hokuriku.json",
     "./data/national-recreation-tokai.json",
+    "./data/national-recreation-kinki.json",
     "./data/national-recreation-overrides.json",
     "./data/national-recreation-overrides-koshinetsu-hokuriku.json",
-    "./data/national-recreation-overrides-tokai.json"
+    "./data/national-recreation-overrides-tokai.json",
+    "./data/national-recreation-overrides-kinki.json"
   ]
 }
