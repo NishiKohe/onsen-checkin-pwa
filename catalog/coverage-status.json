@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "updatedAt": "2026-08-23",
   "currentMapCount": 63,
   "requiredCoverage": {
@@ -9,6 +9,14 @@
       "highConfidenceNormalization": 111,
       "needsAreaBoundaryVerification": 22,
       "mandatory": true,
+      "masterStatus": "all_names_normalized",
+      "masterPath": "catalog/onsen-musume-area-master.json",
+      "coordinateEnrichment": {
+        "completedAreas": 27,
+        "completedRegion": "北海道・東北",
+        "regionalPath": "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
+        "pendingAppAddsInRegion": 18
+      },
       "note": "有馬輪花・有馬楓花は同一の有馬温泉に統合。親温泉郷と子温泉が別キャラとして存在するケースは両方を候補として保持し、位置登録範囲の重なりを許容する。"
     },
     "onsenHeritage": {
@@ -28,21 +36,19 @@
     }
   },
   "namedGroups": {
-    "definedGroups": 10,
-    "catalogPath": "catalog/group-definitions.json",
-    "priorityGroups": [
-      "日本三名泉",
-      "日本三古泉",
-      "奥州三名湯",
-      "美作三湯",
-      "日本三大薬湯",
-      "日本三大美人の湯",
-      "日本三大美肌の湯",
-      "別府八湯",
-      "奥飛騨温泉郷 五湯",
-      "加賀温泉郷"
+    "definedGroups": 15,
+    "baseCatalogPath": "catalog/group-definitions.json",
+    "regionalCatalogPath": "catalog/group-definitions-hokkaido-tohoku.json",
+    "baseGroups": 10,
+    "regionalConfirmedOrVariantGroups": 5,
+    "newlyCaptured": [
+      "奥羽三楽郷",
+      "磐越三美人湯",
+      "奥州三高湯",
+      "庄内三名湯",
+      "日本三御湯（出典別バリアント）"
     ],
-    "currentMapCoverage": {
+    "currentMapCoverageForBase10": {
       "日本三名泉": "3/3",
       "日本三古泉": "3/3",
       "奥州三名湯": "3/3",
@@ -53,9 +59,7 @@
       "別府八湯": "8/8",
       "奥飛騨温泉郷 五湯": "5/5",
       "加賀温泉郷（広域4湯）": "4/4"
-    },
-    "lastExpansionAdded": 25,
-    "immediateMissingMembers": []
+    }
   },
   "onsenMusumeAreaVerificationQueue": [
     "大子温泉",
@@ -82,7 +86,9 @@
     "西表島温泉"
   ],
   "nextPass": [
-    "温泉むすめ133候補へ緯度経度・checkinRadiusM付与し、既存63件と重複統合",
+    "北海道・東北の未収録18件をonsen.jsonへ追加",
+    "関東18候補へ緯度経度・checkinRadiusM付与",
+    "中部以西も地域別に133候補の座標・チェックイン範囲を確定",
     "国民保養温泉地79件を重複統合",
     "日本秘湯を守る会105宿を温泉地へ正規化",
     "温泉遺産認定宿を現行情報で個別照合",
