@@ -1,16 +1,18 @@
 {
-  "version": 6,
+  "version": 7,
   "updatedAt": "2026-08-23",
-  "currentMapCount": 90,
+  "currentMapCount": 95,
   "runtimeData": {
     "mode": "manifest_merge",
     "manifestPath": "onsen-data-manifest.json",
     "basePath": "onsen.json",
     "regionalFiles": [
       "data/onsen-musume-hokkaido-tohoku.json",
-      "data/onsen-musume-kanto-simple.json"
+      "data/onsen-musume-kanto-simple.json",
+      "data/onsen-musume-kanto-areas.json"
     ],
-    "multiZoneCheckinSupported": true
+    "multiZoneCheckinSupported": true,
+    "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
   },
   "requiredCoverage": {
     "onsenMusume": {
@@ -22,7 +24,6 @@
       "masterStatus": "all_names_normalized",
       "masterPath": "catalog/onsen-musume-area-master.json",
       "coordinateEnrichment": {
-        "completedAreas": 45,
         "completedRegions": ["北海道・東北", "関東"],
         "regionalPaths": [
           "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
@@ -30,9 +31,11 @@
         ],
         "runtimeAddedHokkaidoTohoku": 18,
         "runtimeAddedKantoSimple": 9,
-        "kantoMultiZonePending": 6
+        "runtimeAddedKantoParentAreas": 5,
+        "kantoCoverage": "17/18",
+        "kantoPending": ["秩父温泉郷"]
       },
-      "note": "有馬輪花・有馬楓花は同一の有馬温泉に統合。親温泉郷と子温泉が別キャラとして存在するケースは両方を候補として保持し、位置登録範囲の重なりを許容する。広域温泉郷はcheckinZones[]で複数有効地点を持てる。"
+      "note": "親温泉郷と子温泉が併存するケースではデータ上の親子関係を保持する。地図表示は親を優先しつつ、温泉むすめ等で独立価値の高い子温泉は個別スポットを残す。"
     },
     "onsenHeritage": {
       "mandatory": true,
@@ -57,34 +60,10 @@
       "catalog/group-definitions-hokkaido-tohoku.json",
       "catalog/group-definitions-kanto.json"
     ],
-    "newlyCapturedKanto": [
-      "箱根七湯",
-      "箱根十七湯",
-      "塩原温泉11湯",
-      "那須七湯（複数バリアント）",
-      "那須八湯",
-      "那須十一湯",
-      "秩父七湯"
-    ],
-    "currentMapCoverageForBase10": {
-      "日本三名泉": "3/3",
-      "日本三古泉": "3/3",
-      "奥州三名湯": "3/3",
-      "美作三湯": "3/3",
-      "日本三大薬湯": "3/3",
-      "日本三大美人の湯": "3/3",
-      "日本三大美肌の湯": "3/3",
-      "別府八湯": "8/8",
-      "奥飛騨温泉郷 五湯": "5/5",
-      "加賀温泉郷（広域4湯）": "4/4"
-    }
+    "uiRule": "箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯などは親温泉郷の詳細・踏破進捗へ収納。歴史的なくくり自体は全件保持する。"
   },
   "onsenMusumeAreaVerificationQueue": [
-    "那須温泉郷",
     "秩父温泉郷",
-    "鴨川温泉郷",
-    "南房総温泉郷",
-    "箱根温泉郷",
     "輪島温泉郷",
     "河口湖温泉郷",
     "山中湖温泉",
@@ -102,13 +81,12 @@
     "西表島温泉"
   ],
   "nextPass": [
-    "関東の広域6温泉郷に構成温泉のcheckinZonesを付与してランタイム追加",
-    "甲信越・北陸の温泉むすめ候補へ緯度経度・checkinZones/checkinRadiusM付与",
-    "東海以西も地域別に133候補の座標・チェックイン範囲を確定",
+    "秩父温泉郷の公式的な範囲と代表チェックインゾーンを確定",
+    "甲信越・北陸の温泉むすめ22候補を既存データと重複統合し、不足分を地域ファイルへ追加",
+    "東海以西も親温泉郷優先の階層ルールで追加",
     "国民保養温泉地79件を重複統合",
     "日本秘湯を守る会105宿を温泉地へ正規化",
     "温泉遺産認定宿を現行情報で個別照合",
-    "全国・地域の追加くくり（名湯・古湯・温泉郷・○湯）を継続収集",
     "全候補にバッジソースを付与して重複統合"
   ]
 }
