@@ -1,7 +1,7 @@
 {
-  "version": 13,
+  "version": 14,
   "updatedAt": "2026-08-23",
-  "currentMapCount": 152,
+  "currentMapCount": 171,
   "runtimeData": {
     "mode": "manifest_merge",
     "manifestPath": "onsen-data-manifest.json",
@@ -17,6 +17,7 @@
       "data/onsen-musume-kinki.json",
       "data/onsen-musume-chugoku-shikoku.json",
       "data/onsen-musume-kyushu-okinawa.json",
+      "data/national-recreation-hokkaido-tohoku.json",
       "data/national-recreation-overrides.json"
     ],
     "multiZoneCheckinSupported": true,
@@ -70,8 +71,10 @@
       "regionalProgress": {
         "北海道・東北": {
           "official": 24,
+          "status": "24/24 complete",
           "existingTagged": 5,
-          "pendingAdd": 19,
+          "runtimeAdded": 19,
+          "runtimePath": "data/national-recreation-hokkaido-tohoku.json",
           "coveragePath": "catalog/national-recreation-coverage-hokkaido-tohoku.json"
         }
       }
@@ -98,8 +101,8 @@
     }
   ],
   "nextPass": [
-    "国民保養温泉地の北海道・東北不足19件を親温泉郷優先ルールでランタイム追加",
-    "国民保養温泉地79件の関東以西を既存152地点と突合・バッジ付与・不足追加",
+    "国民保養温泉地79件の関東を既存171地点と突合・バッジ付与・不足追加",
+    "国民保養温泉地79件の甲信越・北陸〜九州を順次重複統合",
     "日本温泉遺産を守る会の現行認定宿・施設を公式記載から再構築して必須収録",
     "日本秘湯を守る会会員宿を温泉地へ正規化",
     "全候補に選定・歴史・泉質・源泉・体験バッジを付与して重複統合"
