@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v24";
+const CACHE_NAME = "onsen-checkin-v25";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -13,6 +13,9 @@ const APP_ASSETS = [
   "./onsen-data-manifest.json",
   "./catalog/onsen-musume-area-master.json",
   "./catalog/onsen-regional-asset-master.json",
+  "./catalog/group-definitions.json",
+  "./catalog/group-definitions-hokkaido-tohoku.json",
+  "./catalog/group-definitions-kanto.json",
   "./data/fixed-selection-meito100.json",
   "./data/onsen-analysis-overrides-core.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
@@ -68,6 +71,7 @@ self.addEventListener("fetch", (event) => {
     "/heritage-ui.js",
     "/fixed-selection-ui.js",
     "/collection-progress-ui.js",
+    "/collection-progress.css",
     "/onsen-data-manifest.json",
     "/catalog/onsen-musume-area-master.json",
     "/catalog/onsen-regional-asset-master.json",
@@ -76,6 +80,7 @@ self.addEventListener("fetch", (event) => {
   ];
   if (
     networkFirst.some((suffix) => url.pathname.endsWith(suffix)) ||
+    url.pathname.includes("/catalog/group-definitions") ||
     url.pathname.includes("/data/onsen-") ||
     url.pathname.includes("/data/national-recreation-")
   ) {
