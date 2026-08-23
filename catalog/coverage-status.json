@@ -1,5 +1,5 @@
 {
-  "version": 12,
+  "version": 13,
   "updatedAt": "2026-08-23",
   "currentMapCount": 152,
   "runtimeData": {
@@ -16,10 +16,17 @@
       "data/onsen-musume-tokai.json",
       "data/onsen-musume-kinki.json",
       "data/onsen-musume-chugoku-shikoku.json",
-      "data/onsen-musume-kyushu-okinawa.json"
+      "data/onsen-musume-kyushu-okinawa.json",
+      "data/national-recreation-overrides.json"
     ],
     "multiZoneCheckinSupported": true,
     "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
+  },
+  "uiFeatures": {
+    "prefectureOverlay": "47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。",
+    "search": ["温泉名", "都道府県", "温泉むすめ名", "構成温泉名", "タグ"],
+    "filters": ["未訪問", "訪問済", "温泉むすめ", "国民保養", "温泉郷", "レガシー", "都道府県"],
+    "implementation": "ui-enhancements.js"
   },
   "requiredCoverage": {
     "onsenMusume": {
@@ -57,7 +64,17 @@
     "nationalRecreationSpa": {
       "officialCount": 79,
       "mandatory": false,
-      "status": "source_ready"
+      "status": "coverage_in_progress",
+      "masterPath": "catalog/national-recreation-spa-required.json",
+      "badgeOverridePath": "data/national-recreation-overrides.json",
+      "regionalProgress": {
+        "北海道・東北": {
+          "official": 24,
+          "existingTagged": 5,
+          "pendingAdd": 19,
+          "coveragePath": "catalog/national-recreation-coverage-hokkaido-tohoku.json"
+        }
+      }
     },
     "secretHotSpringAssociation": {
       "activeMemberInns": 105,
@@ -81,7 +98,8 @@
     }
   ],
   "nextPass": [
-    "環境省の国民保養温泉地79件を全件カタログ化し既存152地点と重複統合",
+    "国民保養温泉地の北海道・東北不足19件を親温泉郷優先ルールでランタイム追加",
+    "国民保養温泉地79件の関東以西を既存152地点と突合・バッジ付与・不足追加",
     "日本温泉遺産を守る会の現行認定宿・施設を公式記載から再構築して必須収録",
     "日本秘湯を守る会会員宿を温泉地へ正規化",
     "全候補に選定・歴史・泉質・源泉・体験バッジを付与して重複統合"
