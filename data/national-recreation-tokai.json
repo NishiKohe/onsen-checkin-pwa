@@ -34,18 +34,23 @@
     "sourceUrls":["https://www.spa.or.jp/kokumin/1019/","https://www.env.go.jp/nature/onsen/area/index.html"]
   },
   {
-    "id":"hatake_onsen",
-    "name":"畑毛温泉",
+    "id":"hatake_nagoya_onsen",
+    "name":"畑毛・奈古谷温泉",
     "prefecture":"静岡県",
-    "lat":35.0810,
-    "lng":138.9460,
-    "checkinRadiusM":1300,
+    "lat":35.0770,
+    "lng":138.9600,
+    "displayModel":"parent_multi_zone",
+    "subAreas":["畑毛温泉","奈古谷温泉"],
+    "checkinZones":[
+      {"label":"畑毛温泉","lat":35.0810,"lng":138.9460,"radiusM":1300},
+      {"label":"奈古谷温泉","lat":35.0750,"lng":138.9730,"radiusM":1400}
+    ],
     "nationalRecreationSpa":true,
-    "nationalRecreationName":"畑毛温泉",
+    "nationalRecreationName":"畑毛・奈古谷温泉",
     "badges":["national_recreation_spa"],
-    "summary":"伊豆半島北部・函南町にあるぬる湯で知られる温泉地。",
-    "referenceNote":"環境省の国民保養温泉地。温泉宿集積域をMVP代表範囲として設定。",
-    "sourceUrls":["https://www.env.go.jp/nature/onsen/area/index.html"]
+    "summary":"函南町の畑毛温泉と伊豆の国市の奈古谷温泉を一体で指定した国民保養温泉地。",
+    "referenceNote":"日本温泉協会の指定単位に修正。奈古谷ゾーンは奈古谷地区の代表点を基準にしたMVP暫定値。",
+    "sourceUrls":["https://www.spa.or.jp/kokumin/1023/","https://www.spa.or.jp/search_p/detail_p/?F_ID=220950"]
   },
   {
     "id":"umegashima_onsenkyo",
