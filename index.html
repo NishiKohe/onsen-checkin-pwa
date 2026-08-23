@@ -27,11 +27,36 @@
   </header>
 
   <main class="main">
-    <div id="map"></div>
+    <div class="map-shell">
+      <div id="map"></div>
+
+      <div class="map-tools" aria-label="温泉検索と絞り込み">
+        <div class="search-row">
+          <input id="searchInput" type="search" list="searchSuggestions" placeholder="温泉名・温泉むすめ・都道府県で検索" autocomplete="off" />
+          <datalist id="searchSuggestions"></datalist>
+          <button id="btnClearSearch" class="tool-button" type="button" aria-label="検索をクリア">×</button>
+        </div>
+
+        <div class="filter-row">
+          <select id="prefFilter" aria-label="都道府県で絞り込み">
+            <option value="">全国</option>
+          </select>
+          <button class="filter-chip active" type="button" data-visit="all">すべて</button>
+          <button class="filter-chip" type="button" data-visit="unvisited">未訪問</button>
+          <button class="filter-chip" type="button" data-visit="visited">訪問済</button>
+          <button class="filter-chip" type="button" data-tag="onsenMusume">温泉むすめ</button>
+          <button class="filter-chip" type="button" data-tag="onsenArea">温泉郷</button>
+          <button class="filter-chip" type="button" data-tag="legacy">レガシー</button>
+          <button id="btnResetFilters" class="filter-chip reset-chip" type="button">リセット</button>
+        </div>
+        <div id="filterCount" class="filter-count">表示 —</div>
+      </div>
+    </div>
 
     <section class="panel">
       <h2 id="spotTitle">スポットを選択</h2>
       <p id="spotSub">地図のピンをタップしてください</p>
+      <div id="spotTags" class="tag-list"></div>
 
       <div class="kv">
         <div><span>距離</span><b id="spotDist">-</b></div>
@@ -39,6 +64,11 @@
       </div>
 
       <button id="btnCheckin" disabled>チェックイン</button>
+
+      <details id="subAreasDetails" class="details" hidden>
+        <summary>構成温泉・チェックイン地点</summary>
+        <ul id="subAreasList" class="subarea-list"></ul>
+      </details>
 
       <details class="details">
         <summary>温泉分析（基本）</summary>
@@ -54,6 +84,7 @@
   </main>
 
   <script src="./app.js"></script>
+  <script src="./ui-enhancements.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
