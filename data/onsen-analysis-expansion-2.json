@@ -1,0 +1,228 @@
+[
+  {
+    "id": "harazuru",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "原鶴温泉（温泉地概況）",
+      "springType": "弱アルカリ性単純温泉・アルカリ性単純温泉・単純硫黄泉",
+      "ph": "約8〜8.5以上（源泉により異なる）",
+      "totalFlowLMin": 3000,
+      "verified": true,
+      "sources": [
+        {"name": "原鶴温泉旅館協同組合「W美肌の湯」", "url": "https://www.harazuru.jp/page.php?PAGE_NO=182"},
+        {"name": "朝倉市「原鶴温泉」", "url": "https://www.city.asakura.lg.jp/site/kanko/1740.html"}
+      ],
+      "referenceNote": "宿ごとに自家源泉があり泉質差があるため温泉地概況として表示。旅館組合は源泉34本・毎分約3,000Lと案内。"
+    }
+  },
+  {
+    "id": "obama_nagasaki",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "小浜温泉（温泉地概況）",
+      "springType": "塩化物泉",
+      "sourceTempC": 105,
+      "verified": true,
+      "sources": [
+        {"name": "小浜温泉旅館組合「小浜温泉について」", "url": "https://obama.or.jp/onsen/"},
+        {"name": "日本温泉協会「雲仙・小浜」", "url": "https://www.spa.or.jp/kokumin/1119/"}
+      ],
+      "referenceNote": "小浜温泉旅館組合が源泉温度105℃、泉質を塩化物泉と案内。複数源泉のため温泉地概況として表示。"
+    }
+  },
+  {
+    "id": "nagato_yumoto",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "恩湯泉（代表）",
+      "springType": "アルカリ性単純温泉",
+      "sourceTempC": 39.0,
+      "ph": 9.62,
+      "flowLMin": 36.5,
+      "verified": true,
+      "sources": [
+        {"name": "長門湯本温泉旅館協同組合「温泉成分」", "url": "https://ryokan.yumotoonsen.com/ingredient/"}
+      ],
+      "referenceNote": "温泉地には旅館配湯用の市有源泉もあるため、源泉掛け流しの恩湯泉を代表分析として表示。"
+    }
+  },
+  {
+    "id": "yuda",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "湯田温泉ミックス泉（代表）",
+      "springType": "アルカリ性単純温泉",
+      "sourceTempC": 63.6,
+      "verified": true,
+      "sources": [
+        {"name": "湯田温泉旅館協同組合「温泉の成分・効用」", "url": "https://yudaonsen.com/yudaonsen/benefits/"}
+      ],
+      "referenceNote": "公式分析表の湯田温泉ミックス泉を代表値として表示。温泉地全体では7源泉、最高温度72℃、湯量は1日約2,000トンと案内される。"
+    }
+  },
+  {
+    "id": "konpira",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "こんぴら温泉郷（温泉地概況）",
+      "springType": "炭酸水素塩泉・単純弱放射能冷鉱泉・ナトリウム-塩化物温泉など（源泉・施設により異なる）",
+      "verified": true,
+      "sources": [
+        {"name": "日本温泉協会「こんぴら温泉郷」", "url": "https://www.spa.or.jp/search_p/detail_p/?F_ID=371110"},
+        {"name": "琴平花壇「温泉・スパ」", "url": "https://kotohira-kadan.jp/hotspring/"},
+        {"name": "紅梅亭「温泉」", "url": "https://www.koubaitei.jp/hotspa_hanaterasu/"}
+      ],
+      "referenceNote": "こんぴら温泉郷では複数の源泉が使われ、泉質が一種類ではないため、確認できる主要泉質を併記。"
+    }
+  },
+  {
+    "id": "shionoe",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "塩江温泉郷（温泉地概況）",
+      "springType": "硫黄泉・放射能泉",
+      "verified": true,
+      "sources": [
+        {"name": "日本温泉協会「塩江温泉郷」", "url": "https://www.spa.or.jp/kokumin/1099/"},
+        {"name": "高松市「塩江温泉郷観光活性化基本構想」", "url": "https://www.city.takamatsu.kagawa.jp/kurashi/shinotorikumi/keikaku/sonota/shionoe.html"}
+      ],
+      "referenceNote": "温泉郷内に複数源泉があるため、日本温泉協会が示す主要泉質を温泉地概況として表示。"
+    }
+  },
+  {
+    "id": "yumura_hyogo",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "荒湯源泉（代表）",
+      "springType": "ナトリウム-塩化物・硫酸塩・炭酸水素塩泉（低張性弱アルカリ性高温泉）",
+      "sourceTempC": 100.1,
+      "ph": 7.58,
+      "dissolvedSolidsMgKg": 1095,
+      "flowLMin": 470,
+      "analysisDate": "2018-09",
+      "analyzer": "兵庫県立健康科学研究所",
+      "verified": true,
+      "sources": [
+        {"name": "新温泉町「温泉分析結果（H30.9調査）」", "url": "https://www.town.shinonsen.hyogo.jp/page/index.php?detail_mode=guide&mode=detail&page_id=57e360c0a3ee0403fec3e385590627ad"},
+        {"name": "新温泉町「湯村温泉」", "url": "https://www.town.shinonsen.hyogo.jp/page/?mode=detail&page_id=56a48415080cf3241f78579b049a0f9d"}
+      ],
+      "referenceNote": "2018年町分析の荒湯源泉を代表値とし、湧出量は町の現行観光案内にある自然湧出約470L/分を表示。"
+    }
+  },
+  {
+    "id": "inunakiyama",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "犬鳴山温泉（温泉地概況）",
+      "springType": "ナトリウム-炭酸水素塩泉",
+      "verified": true,
+      "sources": [
+        {"name": "泉佐野市 広報資料「犬鳴山温泉」", "url": "https://www.city.izumisano.lg.jp/material/files/group/19/201512.pdf"}
+      ],
+      "referenceNote": "泉佐野市公式資料の泉質表記を採用。施設ごとの分析値は異なるため単一pH・温度は設定しない。"
+    }
+  },
+  {
+    "id": "totsukawa_onsenkyo",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "湯泉地温泉（温泉郷内代表）",
+      "springType": "単純硫黄温泉（アルカリ性低張性高温泉）",
+      "sourceTempC": 56.6,
+      "ph": 8.6,
+      "flowLMin": 350,
+      "verified": true,
+      "sources": [
+        {"name": "十津川村「源泉かけ流し宣言」", "url": "https://www.vill.totsukawa.lg.jp/sonpo/pdf/r6/6.pdf"}
+      ],
+      "referenceNote": "十津川温泉郷は湯泉地・十津川・上湯の3温泉で泉質が異なるため、湯泉地温泉を代表値として表示。"
+    }
+  },
+  {
+    "id": "matsue_shinjiko",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "松江しんじ湖温泉（温泉地概況）",
+      "springType": "ナトリウム・カルシウム-硫酸塩・塩化物泉",
+      "sourceTempC": 77,
+      "verified": true,
+      "sources": [
+        {"name": "国土交通省・松江市資料「いで湯と歴史と水の都 松江しんじ湖温泉」", "url": "https://www.mlit.go.jp/river/kankyo/main/kankyou/machizukuri/natunomizube/pdf/87-029.pdf"}
+      ],
+      "referenceNote": "地下約1,250mから湧出する温泉について、公的資料の泉質・泉温を温泉地概況として表示。"
+    }
+  },
+  {
+    "id": "arashiyama",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "嵐山温泉（源泉概況）",
+      "springType": "単純温泉（低張性弱アルカリ性温泉）",
+      "sourceTempC": 35.2,
+      "flowLMin": 81.0,
+      "verified": true,
+      "sources": [
+        {"name": "京都市公式 京都観光Navi「嵐山温泉」", "url": "https://ja.kyoto.travel/tourism/single01.php?tourism_id=189"}
+      ],
+      "referenceNote": "京都市公式が源泉の湧出口35.2℃、地下1,200mで44.1℃、湧出量81.0L/分と案内。"
+    }
+  },
+  {
+    "id": "nibukawa",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "鈍川温泉（温泉地概況）",
+      "springType": "アルカリ性単純温泉（ラドン含有）",
+      "ph": 9.8,
+      "verified": true,
+      "sources": [
+        {"name": "今治市 市長記者発表「美人の湯 鈍川温泉」", "url": "https://www.city.imabari.ehime.jp/bosai/mayor/file/72/72-1222-0951e190ca2adddfcf280c4c24a08a44.pdf"},
+        {"name": "今治市「鈍川温泉」", "url": "https://www.city.imabari.ehime.jp/kanko/spot/?a=1301"}
+      ],
+      "referenceNote": "今治市がpH9.8とラドン含有を温泉地の特徴として案内。源泉別の細かな分析値は今後追加。"
+    }
+  },
+  {
+    "id": "hawai_togo",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "はわい温泉・東郷温泉（温泉地概況）",
+      "springType": "塩化物・硫酸塩泉",
+      "sourceTempC": "東郷温泉 約70",
+      "verified": true,
+      "sources": [
+        {"name": "はわい温泉・東郷温泉旅館組合「温泉のご紹介」", "url": "https://www.hawai-togo.jp/html/information.html"},
+        {"name": "湯梨浜町観光協会「まちの紹介」", "url": "https://www.yurihama-kankou.jp/%E3%81%BE%E3%81%A1%E3%81%AE%E7%B4%B9%E4%BB%8B/"}
+      ],
+      "referenceNote": "はわい・東郷の両温泉を統合した親スポットのため共通の主要泉質を表示。東郷温泉は観光協会が約70℃と案内。"
+    }
+  },
+  {
+    "id": "dorogawa",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "洞川温泉（温泉地概況）",
+      "springType": "弱アルカリ性単純温泉",
+      "verified": true,
+      "sources": [
+        {"name": "天川村観光資料「温泉・薬湯」", "url": "https://www.vill.tenkawa.nara.jp/tourism/wp-content/uploads/2025/05/92096ae9a9b4fa27ade2e77da5c1ceab.pdf"}
+      ],
+      "referenceNote": "天川村公式観光資料が洞川温泉を弱アルカリ性単純泉として案内。"
+    }
+  },
+  {
+    "id": "nanki_katsuura",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "はまゆ源泉（代表）",
+      "springType": "含硫黄-ナトリウム・カルシウム-塩化物泉（弱アルカリ性低張性高温泉）",
+      "sourceTempC": 46.3,
+      "verified": true,
+      "sources": [
+        {"name": "那智勝浦観光サイト「はまゆ」", "url": "https://nachikan.jp/en/spa/5904/"},
+        {"name": "那智勝浦観光サイト「温泉」", "url": "https://nachikan.jp/spa/"}
+      ],
+      "referenceNote": "南紀勝浦温泉は源泉数・泉質の幅が大きいため、町観光サイト掲載の『はまゆ』を代表源泉として表示。"
+    }
+  }
+]
