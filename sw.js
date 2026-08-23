@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v32";
+const CACHE_NAME = "onsen-checkin-v33";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -6,8 +6,10 @@ const APP_ASSETS = [
   "./collection-progress.css",
   "./visit-log.css",
   "./profile-storage.css",
+  "./trip-power-mode.css",
   "./profile-storage.js",
   "./visit-log-preload.js",
+  "./trip-power-mode.js",
   "./visit-log-ui.js",
   "./photo-recovery-fallback.js",
   "./collection-details-fix.js",
@@ -26,6 +28,7 @@ const APP_ASSETS = [
   "./catalog/group-definitions-kanto.json",
   "./catalog/visit-record-schema.json",
   "./catalog/save-data-schema.json",
+  "./catalog/travel-tracking-policy.json",
   "./data/fixed-selection-meito100.json",
   "./data/onsen-analysis-overrides-core.json",
   "./data/onsen-analysis-expansion.json",
@@ -83,8 +86,10 @@ self.addEventListener("fetch", (event) => {
     "/collection-progress.css",
     "/visit-log.css",
     "/profile-storage.css",
+    "/trip-power-mode.css",
     "/profile-storage.js",
     "/visit-log-preload.js",
+    "/trip-power-mode.js",
     "/visit-log-ui.js",
     "/photo-recovery-fallback.js",
     "/collection-details-fix.js",
@@ -100,6 +105,7 @@ self.addEventListener("fetch", (event) => {
     "/catalog/onsen-regional-asset-master.json",
     "/catalog/visit-record-schema.json",
     "/catalog/save-data-schema.json",
+    "/catalog/travel-tracking-policy.json",
     "/data/fixed-selection-meito100.json",
     "/data/onsen-analysis-overrides-core.json",
     "/data/onsen-analysis-expansion.json",
