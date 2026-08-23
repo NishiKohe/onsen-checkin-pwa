@@ -1,1 +1,162 @@
-{"version":24,"updatedAt":"2026-08-23","currentMapCount":223,"runtimeData":{"mode":"manifest_merge_plus_runtime_overlays","manifestPath":"onsen-data-manifest.json","basePath":"onsen.json","multiZoneCheckinSupported":true,"displayPolicy":"親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。","fixedSelectionRuntime":"fixed-selection-ui.js","collectionProgressRuntime":"collection-progress-ui.js","analysisOverrideRuntime":"data/onsen-analysis-overrides-core.json","analysisExpansionRuntime":"data/onsen-analysis-expansion.json","regionalGroupSpotsRuntime":"data/regional-group-spots.json","groupDefinitionPaths":["catalog/group-definitions.json","catalog/group-definitions-hokkaido-tohoku.json","catalog/group-definitions-kanto.json"]},"uiFeatures":{"prefectureOverlay":"47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。","search":["温泉名","都道府県","温泉むすめ名","構成温泉名","タグ","温泉遺産認定施設名","固定選定名","日本温泉地域資産名","地域・歴史グループ名"],"filters":["未訪問","訪問済","温泉むすめ","国民保養","温泉遺産","日本温泉地域資産","固定百選","温泉郷","レガシー","都道府県"],"collectionProgress":"達成状況タブを地図から独立した専用ダッシュボード化。訪問数・コンプリート数・有効グループ数、称号/温泉名検索、未完了/達成済フィルター、カテゴリ別カードを表示。温泉名タップ時のみ地図タブへ遷移して対象温泉へフォーカス。","groupBadges":"構成温泉が現行runtimeですべて解決できるグループだけ自動有効化。各温泉詳細では最大3称号を表示し、超過分はまとめる。達成状況では有効グループを全件表示。","analysisDisplay":"分析値は温泉地概況または代表源泉の対象を明記し、出典確認済み・暫定・未登録を区別。一般referenceNoteと分析出典を分離。","implementation":["ui-enhancements.js","heritage-ui.js","fixed-selection-ui.js","collection-progress-ui.js"]},"badgeLifecycle":{"policyPath":"catalog/badge-lifecycle-policy.json","corePrinciple":"年次更新を必要としない固定選定・歴史称号・公的指定・長期認定をコア収集対象とする。年次ランキングは参考情報レイヤーに分離し、収集率・レアリティ計算には含めない。"},"requiredCoverage":{"onsenMusume":{"charactersDomestic":134,"normalizedSpotCandidates":133,"mandatory":true,"status":"master_complete_runtime_reconciliation_enabled","masterPath":"catalog/onsen-musume-area-master.json","runtimeReconciliation":"collection-progress-ui.js","reconciliationPolicy":"公式マスターを起動時に都道府県＋温泉名・構成温泉名で既存spotへ再付与し、manifest分割によるタグ欠落を補正。熱海温泉=熱海初夏、伊東温泉=伊東椿月を含む。","regionProgress":{"北海道・東北":"complete","関東":"18/18 complete","甲信越・北陸":"22/22 complete","東海":"19/19 complete","近畿":"11/11 complete","中国・四国":"18/18 complete","九州・沖縄":"18/18 complete"}},"onsenHeritage":{"mandatory":true,"status":"verified_seed_runtime_in_progress","badge":"SR","verifiedFacilities":12,"verifiedOnsenAreas":11,"verifiedPath":"catalog/onsen-heritage-verified.json","runtimePaths":["data/onsen-heritage-new.json","data/onsen-heritage-overrides.json"],"newMandatorySpots":["鉛温泉","雫石高倉温泉","強首温泉","奈良田温泉","川浦温泉"],"existingTaggedSpots":["草津温泉","田沢湖高原温泉郷","小野川温泉","東山温泉","新平湯温泉","三朝温泉"],"fullCurrentListStatus":"reconstruction_in_progress","note":"日本温泉遺産を守る会の現行マスター一覧を安定取得できないため、施設公式等で認定を確認できるものから再構築。"},"nationalRecreationSpa":{"officialCount":79,"status":"79/79 runtime_coverage_complete","masterPath":"catalog/national-recreation-spa-required.json","completedOfficialCount":79,"remainingOfficialCount":0,"badge":"SR"},"onsenRegionalAsset":{"issuer":"日本温泉地域学会","status":"2004_public_baseline_runtime_matching_enabled","masterPath":"catalog/onsen-regional-asset-master.json","publicBaselineYear":2004,"publicBaselineAssetCount":125,"normalizedAreaRecords":102,"normalizedAssetCount":122,"nonSpotAssets":3,"latestEditionYear":2025,"latestPubliclyStatedSelectionCount":150,"badge":"SR","note":"2019新版・2025増刷改訂版は150件と公式発表されているが、全150件本文一覧は公式Webで公開されていないため、公開確認できる第一次選定125資産を先行実装。"},"secretHotSpringAssociation":{"activeMemberInns":105,"status":"facility_to_area_normalization_required"}},"analysisCoverage":{"status":"verified_analysis_50_runtime_enabled","runtimePaths":["data/onsen-analysis-overrides-core.json","data/onsen-analysis-expansion.json","data/regional-group-spots.json"],"verifiedSpots":50,"coreSeedSpots":16,"expandedExistingSpots":30,"newRegionalSpotAnalyses":4,"verifiedSpotIds":["atami","ito","kusatsu","gero","arima","dogo","shirahama","yuhara","okutsu","yunogo","ikaho","shima","iizaka","akiu","naruko","matsunoyama","noboribetsu","yunokawa","jozankei","akanko","toyako","toyotomi","sukayu","asamushi","hanamaki","atsumi","onogawa","tsukioka","unazuki","isawa","shirahone","kamisuwa","shimosuwa","bessho","kakeyu","togurakamiyamada","wakura","yamashiro","awara","kinosaki","ogoto","kaike","yunotsu","yugawara","kinugawa","nyuto","tsuchiyu","takayu","hondani_ehime","yuno_yamaguchi"],"newThisPass":["noboribetsu","yunokawa","jozankei","akanko","toyako","toyotomi","sukayu","asamushi","hanamaki","atsumi","onogawa","tsukioka","unazuki","isawa","shirahone","kamisuwa","shimosuwa","bessho","kakeyu","togurakamiyamada","wakura","yamashiro","awara","kinosaki","ogoto","kaike","yunotsu","yugawara","kinugawa","nyuto","tsuchiyu","takayu","hondani_ehime","yuno_yamaguchi"],"uiPolicy":"複数源泉の温泉地に単一値を推測しない。温泉地概況か代表源泉かを明示し、未登録は未登録と表示。出典URLを分析欄に表示。","next":"主要称号・温泉むすめ・国民保養温泉地を優先し、公式分析表・自治体資料から100温泉地を次の目標に補完。"},"permanentSelections":{"meitoHyakusen":{"officialCount":100,"status":"master_complete_runtime_name_matching_enabled","masterPath":"data/fixed-selection-meito100.json","source":"NPO法人 健康と温泉フォーラム『名湯百選一覧』","badge":"SR","lifecycle":"permanent_core","runtimeMatching":"都道府県＋温泉名・別名・構成温泉名で照合。既存地にSR名湯百選を後付けし、未一致は追加キューへ回す。"},"matsudaHyakumeito":{"status":"source_reconstruction_next","lifecycle":"permanent_core"},"noguchiHyakumeito":{"status":"source_reconstruction_next","lifecycle":"permanent_core"}},"namedGroups":{"definedGroups":26,"newThisPass":["ふくしま三名湯","伊予の三湯","防長三名湯"],"newRuntimeSpots":["土湯温泉","高湯温泉","本谷温泉","湯野温泉（山口県）"],"runtimePolicy":"membersまたはcanonicalMembersの全IDが現行spotsに存在し、source_conflictでないグループだけ有効化。未収録構成湯を含む称号は達成不能防止のためUIへ出さない。","uiRule":"美作三湯・奥州三名湯・上毛三名湯・ふくしま三名湯・伊予の三湯・防長三名湯・日本三大薬湯等は達成状況の主要称号として表示。親温泉郷内の細分類は、構成IDが独立spotとして揃うまで詳細・資料データとして保持する。"},"uncertaintyQueue":[{"area":"西表島温泉","issue":"温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"},{"area":"川浦温泉","issue":"山県館を代表地点としたMVP座標は住所周辺の暫定値。現地チェックイン前に中心座標を再検証する。"},{"area":"日本温泉地域資産","issue":"2019新版・2025増刷改訂版の150件全件リストを一次資料として確保できた時点で2004公開ベースから差分更新する。"}],"nextPass":["温泉むすめ公式マスターとruntime照合結果のunmatchedを0件まで監査し、coverage-statusのcompleteを実照合ベースで確定","地域・歴史グループを全国から追加発掘し、一次・公的根拠と構成温泉が揃うものを達成可能称号へ昇格","公式分析表・自治体資料による分析情報を50温泉地から100温泉地へ拡張","日本温泉地域資産2019/2025版150件の一次資料を確保して公開第一次選定ベースとの差分を反映","名湯百選100件の既存223地点への自動一致結果を確認し、未収録温泉だけを恒常選定追加キュー化","松田忠徳・日本百名湯の固定リストを版固定で再構築して横断付与","野口悦男・日本百名湯 源泉の宿の固定リストを版固定で再構築して横断付与","日本温泉遺産を守る会の追加認定施設を現行記載から継続再構築","日本秘湯を守る会会員宿105件を温泉地へ正規化","泉質・源泉・歴史・体験系バッジの根拠データを収集して自動レアリティ算出"]}
+{
+  "version": 25,
+  "updatedAt": "2026-08-23",
+  "currentMapCount": 223,
+  "runtimeData": {
+    "mode": "manifest_merge_plus_runtime_overlays",
+    "manifestPath": "onsen-data-manifest.json",
+    "basePath": "onsen.json",
+    "multiZoneCheckinSupported": true,
+    "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。",
+    "fixedSelectionRuntime": "fixed-selection-ui.js",
+    "collectionProgressRuntime": "collection-progress-ui.js",
+    "tabDisplayHardSwitchRuntime": "tab-display-fix.js",
+    "analysisOverrideRuntime": "data/onsen-analysis-overrides-core.json",
+    "analysisExpansionRuntime": "data/onsen-analysis-expansion.json",
+    "analysisExpansionRuntime2": "data/onsen-analysis-expansion-2.json",
+    "regionalGroupSpotsRuntime": "data/regional-group-spots.json",
+    "groupDefinitionPaths": [
+      "catalog/group-definitions.json",
+      "catalog/group-definitions-hokkaido-tohoku.json",
+      "catalog/group-definitions-kanto.json"
+    ]
+  },
+  "uiFeatures": {
+    "prefectureOverlay": "47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。",
+    "search": ["温泉名", "都道府県", "温泉むすめ名", "構成温泉名", "タグ", "温泉遺産認定施設名", "固定選定名", "日本温泉地域資産名", "地域・歴史グループ名"],
+    "filters": ["未訪問", "訪問済", "温泉むすめ", "国民保養", "温泉遺産", "日本温泉地域資産", "固定百選", "温泉郷", "レガシー", "都道府県"],
+    "collectionProgress": "達成状況タブを地図から独立した専用ダッシュボード化。訪問数・コンプリート数・有効グループ数、称号/温泉名検索、未完了/達成済フィルター、カテゴリ別カードを表示。温泉名タップ時のみ地図タブへ遷移して対象温泉へフォーカス。Android PWAでhidden/CSS競合が発生したため、v28からtab-display-fix.jsがinline display!importantとdata-app-tabを併用して画面を強制排他表示。",
+    "groupBadges": "構成温泉が現行runtimeですべて解決できるグループだけ自動有効化。各温泉詳細では最大3称号を表示し、超過分はまとめる。達成状況では有効グループを全件表示。",
+    "analysisDisplay": "分析値は温泉地概況または代表源泉の対象を明記し、出典確認済み・暫定・未登録を区別。一般referenceNoteと分析出典を分離。",
+    "implementation": ["ui-enhancements.js", "heritage-ui.js", "fixed-selection-ui.js", "collection-progress-ui.js", "tab-display-fix.js"]
+  },
+  "badgeLifecycle": {
+    "policyPath": "catalog/badge-lifecycle-policy.json",
+    "corePrinciple": "年次更新を必要としない固定選定・歴史称号・公的指定・長期認定をコア収集対象とする。年次ランキングは参考情報レイヤーに分離し、収集率・レアリティ計算には含めない。"
+  },
+  "requiredCoverage": {
+    "onsenMusume": {
+      "charactersDomestic": 134,
+      "normalizedSpotCandidates": 133,
+      "mandatory": true,
+      "status": "master_complete_runtime_reconciliation_enabled",
+      "masterPath": "catalog/onsen-musume-area-master.json",
+      "runtimeReconciliation": "collection-progress-ui.js",
+      "reconciliationPolicy": "公式マスターを起動時に都道府県＋温泉名・構成温泉名で既存spotへ再付与し、manifest分割によるタグ欠落を補正。熱海温泉=熱海初夏、伊東温泉=伊東椿月を含む。",
+      "regionProgress": {
+        "北海道・東北": "complete",
+        "関東": "18/18 complete",
+        "甲信越・北陸": "22/22 complete",
+        "東海": "19/19 complete",
+        "近畿": "11/11 complete",
+        "中国・四国": "18/18 complete",
+        "九州・沖縄": "18/18 complete"
+      }
+    },
+    "onsenHeritage": {
+      "mandatory": true,
+      "status": "verified_seed_runtime_in_progress",
+      "badge": "SR",
+      "verifiedFacilities": 12,
+      "verifiedOnsenAreas": 11,
+      "verifiedPath": "catalog/onsen-heritage-verified.json",
+      "runtimePaths": ["data/onsen-heritage-new.json", "data/onsen-heritage-overrides.json"],
+      "newMandatorySpots": ["鉛温泉", "雫石高倉温泉", "強首温泉", "奈良田温泉", "川浦温泉"],
+      "existingTaggedSpots": ["草津温泉", "田沢湖高原温泉郷", "小野川温泉", "東山温泉", "新平湯温泉", "三朝温泉"],
+      "fullCurrentListStatus": "reconstruction_in_progress",
+      "note": "日本温泉遺産を守る会の現行マスター一覧を安定取得できないため、施設公式等で認定を確認できるものから再構築。"
+    },
+    "nationalRecreationSpa": {
+      "officialCount": 79,
+      "status": "79/79 runtime_coverage_complete",
+      "masterPath": "catalog/national-recreation-spa-required.json",
+      "completedOfficialCount": 79,
+      "remainingOfficialCount": 0,
+      "badge": "SR"
+    },
+    "onsenRegionalAsset": {
+      "issuer": "日本温泉地域学会",
+      "status": "2004_public_baseline_runtime_matching_enabled",
+      "masterPath": "catalog/onsen-regional-asset-master.json",
+      "publicBaselineYear": 2004,
+      "publicBaselineAssetCount": 125,
+      "normalizedAreaRecords": 102,
+      "normalizedAssetCount": 122,
+      "nonSpotAssets": 3,
+      "latestEditionYear": 2025,
+      "latestPubliclyStatedSelectionCount": 150,
+      "badge": "SR",
+      "note": "2019新版・2025増刷改訂版は150件と公式発表されているが、全150件本文一覧は公式Webで公開されていないため、公開確認できる第一次選定125資産を先行実装。"
+    },
+    "secretHotSpringAssociation": {
+      "activeMemberInns": 105,
+      "status": "facility_to_area_normalization_required"
+    }
+  },
+  "analysisCoverage": {
+    "status": "verified_analysis_65_runtime_enabled",
+    "runtimePaths": [
+      "data/onsen-analysis-overrides-core.json",
+      "data/onsen-analysis-expansion.json",
+      "data/onsen-analysis-expansion-2.json",
+      "data/regional-group-spots.json"
+    ],
+    "verifiedSpots": 65,
+    "coreSeedSpots": 16,
+    "expandedExistingSpots": 45,
+    "newRegionalSpotAnalyses": 4,
+    "verifiedSpotIds": [
+      "atami", "ito", "kusatsu", "gero", "arima", "dogo", "shirahama", "yuhara", "okutsu", "yunogo", "ikaho", "shima", "iizaka", "akiu", "naruko", "matsunoyama",
+      "noboribetsu", "yunokawa", "jozankei", "akanko", "toyako", "toyotomi", "sukayu", "asamushi", "hanamaki", "atsumi", "onogawa", "tsukioka", "unazuki", "isawa", "shirahone", "kamisuwa", "shimosuwa", "bessho", "kakeyu", "togurakamiyamada", "wakura", "yamashiro", "awara", "kinosaki", "ogoto", "kaike", "yunotsu", "yugawara", "kinugawa", "nyuto", "tsuchiyu", "takayu", "hondani_ehime", "yuno_yamaguchi",
+      "harazuru", "obama_nagasaki", "nagato_yumoto", "yuda", "konpira", "shionoe", "yumura_hyogo", "inunakiyama", "totsukawa_onsenkyo", "matsue_shinjiko", "arashiyama", "nibukawa", "hawai_togo", "dorogawa", "nanki_katsuura"
+    ],
+    "newThisPass": [
+      "harazuru", "obama_nagasaki", "nagato_yumoto", "yuda", "konpira", "shionoe", "yumura_hyogo", "inunakiyama", "totsukawa_onsenkyo", "matsue_shinjiko", "arashiyama", "nibukawa", "hawai_togo", "dorogawa", "nanki_katsuura"
+    ],
+    "uiPolicy": "複数源泉の温泉地に単一値を推測しない。温泉地概況か代表源泉かを明示し、未登録は未登録と表示。出典URLを分析欄に表示。",
+    "next": "主要称号・温泉むすめ・国民保養温泉地を優先し、公式分析表・自治体資料から100温泉地を次の目標に補完。"
+  },
+  "permanentSelections": {
+    "meitoHyakusen": {
+      "officialCount": 100,
+      "status": "master_complete_runtime_name_matching_enabled",
+      "masterPath": "data/fixed-selection-meito100.json",
+      "source": "NPO法人 健康と温泉フォーラム『名湯百選一覧』",
+      "badge": "SR",
+      "lifecycle": "permanent_core",
+      "runtimeMatching": "都道府県＋温泉名・別名・構成温泉名で照合。既存地にSR名湯百選を後付けし、未一致は追加キューへ回す。"
+    },
+    "matsudaHyakumeito": {
+      "status": "source_reconstruction_next",
+      "lifecycle": "permanent_core"
+    },
+    "noguchiHyakumeito": {
+      "status": "source_reconstruction_next",
+      "lifecycle": "permanent_core"
+    }
+  },
+  "namedGroups": {
+    "definedGroups": 26,
+    "newThisPass": ["ふくしま三名湯", "伊予の三湯", "防長三名湯"],
+    "newRuntimeSpots": ["土湯温泉", "高湯温泉", "本谷温泉", "湯野温泉（山口県）"],
+    "runtimePolicy": "membersまたはcanonicalMembersの全IDが現行spotsに存在し、source_conflictでないグループだけ有効化。未収録構成湯を含む称号は達成不能防止のためUIへ出さない。",
+    "uiRule": "美作三湯・奥州三名湯・上毛三名湯・ふくしま三名湯・伊予の三湯・防長三名湯・日本三大薬湯等は達成状況の主要称号として表示。親温泉郷内の細分類は、構成IDが独立spotとして揃うまで詳細・資料データとして保持する。"
+  },
+  "uncertaintyQueue": [
+    {"area": "西表島温泉", "issue": "温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"},
+    {"area": "川浦温泉", "issue": "山県館を代表地点としたMVP座標は住所周辺の暫定値。現地チェックイン前に中心座標を再検証する。"},
+    {"area": "日本温泉地域資産", "issue": "2019新版・2025増刷改訂版の150件全件リストを一次資料として確保できた時点で2004公開ベースから差分更新する。"}
+  ],
+  "nextPass": [
+    "温泉むすめ公式マスターとruntime照合結果のunmatchedを0件まで監査し、coverage-statusのcompleteを実照合ベースで確定",
+    "地域・歴史グループを全国から追加発掘し、一次・公的根拠と構成温泉が揃うものを達成可能称号へ昇格",
+    "公式分析表・自治体資料による分析情報を65温泉地から100温泉地へ拡張",
+    "日本温泉地域資産2019/2025版150件の一次資料を確保して公開第一次選定ベースとの差分を反映",
+    "名湯百選100件の既存223地点への自動一致結果を確認し、未収録温泉だけを恒常選定追加キュー化",
+    "松田忠徳・日本百名湯の固定リストを版固定で再構築して横断付与",
+    "野口悦男・日本百名湯 源泉の宿の固定リストを版固定で再構築して横断付与",
+    "日本温泉遺産を守る会の追加認定施設を現行記載から継続再構築",
+    "日本秘湯を守る会会員宿105件を温泉地へ正規化",
+    "泉質・源泉・歴史・体験系バッジの根拠データを収集して自動レアリティ算出"
+  ]
+}
