@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v26";
+const CACHE_NAME = "onsen-checkin-v27";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -67,6 +67,8 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   const networkFirst = [
+    "/index.html",
+    "/style.css",
     "/onsen.json",
     "/app.js",
     "/ui-enhancements.js",
