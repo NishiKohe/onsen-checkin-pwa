@@ -1,44 +1,23 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-08-23",
   "program": "日本温泉遺産を守る会",
   "sourcePolicy": "現行の認定施設マスター一覧を安定取得できないため、宿泊施設公式サイト・地域公式観光情報・現行宿泊情報などで日本温泉遺産の認定を確認できる施設から再構築する。別団体の日本文化遺産を守る会等とは混同しない。",
   "badge": {"id":"onsen_heritage","name":"温泉遺産","rarity":"SR"},
   "verifiedFacilities": [
-    {
-      "prefecture":"群馬県","onsenArea":"草津温泉","spotId":"kusatsu","facility":"ての字屋","facilityStatus":"active",
-      "evidenceUrl":"https://www.tenojiya.co.jp/distinations/bath/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23",
-      "note":"宿公式が『日本温泉遺産を守る会』認定の宿と明記。"
-    },
-    {
-      "prefecture":"岩手県","onsenArea":"鉛温泉","spotId":"namari_onsen","facility":"藤三旅館","facilityStatus":"active",
-      "evidenceUrl":"https://namari-onsen-ryokan.com/spa/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23",
-      "note":"宿公式が日本温泉遺産を守る会による選定と明記。"
-    },
-    {
-      "prefecture":"秋田県","onsenArea":"田沢湖高原温泉郷","spotId":"tazawako_kogen","facility":"駒ヶ岳グランドホテル","facilityStatus":"suspended",
-      "evidenceUrl":"https://sanrok-komagatake.com/hot_spring/","evidenceType":"facility_official_current_with_suspension","verifiedAt":"2026-08-23",
-      "note":"宿公式が日本温泉遺産を守る会登録を明記。田沢湖・角館観光協会では現在休館中。"
-    },
-    {
-      "prefecture":"山形県","onsenArea":"小野川温泉","spotId":"onogawa","facility":"河鹿荘","facilityStatus":"active",
-      "evidenceUrl":"https://www.ikyu.com/00030208/","evidenceType":"current_accommodation_listing","verifiedAt":"2026-08-23",
-      "note":"現行宿泊情報が平成15年12月2日の温泉遺産認定を明記。施設自体の現行営業は小野川温泉公式で確認。"
-    },
-    {
-      "prefecture":"山梨県","onsenArea":"川浦温泉","spotId":"kawaura_onsen","facility":"山県館","facilityStatus":"active",
-      "evidenceUrl":"https://www.yamagatakan.com/information.html","evidenceType":"facility_official_current","verifiedAt":"2026-08-23",
-      "note":"宿公式が平成16年に日本温泉遺産を守る会より温泉遺産認定の宿となったことを明記。"
-    },
-    {
-      "prefecture":"鳥取県","onsenArea":"三朝温泉","spotId":"misasa","facility":"木屋旅館","facilityStatus":"active",
-      "evidenceUrl":"https://www.misasa.co.jp/about/cultural/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23",
-      "note":"宿公式が『温泉遺産認定の宿』と明記。"
-    }
+    {"prefecture":"群馬県","onsenArea":"草津温泉","spotId":"kusatsu","facility":"ての字屋","facilityStatus":"active","evidenceUrl":"https://www.tenojiya.co.jp/distinations/bath/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23","note":"宿公式が『日本温泉遺産を守る会』認定の宿と明記。"},
+    {"prefecture":"岩手県","onsenArea":"鉛温泉","spotId":"namari_onsen","facility":"藤三旅館","facilityStatus":"active","evidenceUrl":"https://namari-onsen-ryokan.com/spa/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23","note":"宿公式が日本温泉遺産を守る会による選定と明記。"},
+    {"prefecture":"秋田県","onsenArea":"田沢湖高原温泉郷","spotId":"tazawako_kogen","facility":"駒ヶ岳グランドホテル","facilityStatus":"suspended","evidenceUrl":"https://tazawako-kakunodate.com/accommodation/11063/","evidenceType":"local_tourism_official_current_with_suspension","verifiedAt":"2026-08-23","note":"田沢湖・角館観光協会が日本温泉遺産を守る会認定と休館中の双方を明記。"},
+    {"prefecture":"山形県","onsenArea":"小野川温泉","spotId":"onogawa","facility":"河鹿荘","facilityStatus":"active","evidenceUrl":"https://www.ikyu.com/00030208/","evidenceType":"current_accommodation_listing","verifiedAt":"2026-08-23","note":"現行宿泊情報が平成15年12月2日の温泉遺産認定を明記。施設自体の現行営業は小野川温泉公式で確認。"},
+    {"prefecture":"福島県","onsenArea":"東山温泉","spotId":"higashiyama_aizu","facility":"向瀧","facilityStatus":"active","evidenceUrl":"https://www.mukaitaki.com/spa/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23","note":"宿公式が温泉遺産を守る会認定、源泉かけ流し風呂認定、温泉施設の建造物認定を明記。"},
+    {"prefecture":"福島県","onsenArea":"東山温泉","spotId":"higashiyama_aizu","facility":"くつろぎ宿 新滝","facilityStatus":"active","evidenceUrl":"https://www.kutsurogijuku.jp/","evidenceType":"facility_official_material","verifiedAt":"2026-08-23","note":"宿公式パンフレットが自家自噴泉の日本温泉遺産を守る会『温泉遺産』認定を明記。"},
+    {"prefecture":"山梨県","onsenArea":"川浦温泉","spotId":"kawaura_onsen","facility":"山県館","facilityStatus":"active","evidenceUrl":"https://www.yamagatakan.com/information.html","evidenceType":"facility_official_current","verifiedAt":"2026-08-23","note":"宿公式が平成16年に日本温泉遺産を守る会より温泉遺産認定の宿となったことを明記。"},
+    {"prefecture":"岐阜県","onsenArea":"新平湯温泉","spotId":"shinhirayu","facility":"飛騨牛の宿","facilityStatus":"active","evidenceUrl":"https://hidagyunoyado.com/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23","note":"宿公式が『日本温泉遺産を守る会 認定（客室露天風呂）』と明記。"},
+    {"prefecture":"鳥取県","onsenArea":"三朝温泉","spotId":"misasa","facility":"木屋旅館","facilityStatus":"active","evidenceUrl":"https://www.misasa.co.jp/about/cultural/","evidenceType":"facility_official_current","verifiedAt":"2026-08-23","note":"宿公式が『温泉遺産認定の宿』と明記。"}
   ],
   "coverageStatus": {
-    "verifiedFacilities": 6,
-    "verifiedOnsenAreas": 6,
+    "verifiedFacilities": 9,
+    "verifiedOnsenAreas": 8,
     "fullCurrentListStatus": "reconstruction_in_progress"
   }
 }
