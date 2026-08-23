@@ -49,10 +49,10 @@
     }
 
     if (showCollection) {
-      if (typeof window.renderCollectionProgress === "function") window.renderCollectionProgress();
+      if (typeof renderCollectionProgress === "function") renderCollectionProgress();
       collectionView?.scrollTo({ top: 0, behavior: "auto" });
-    } else if (typeof window.map !== "undefined" && window.map) {
-      setTimeout(() => window.map.resize?.(), 0);
+    } else if (typeof map !== "undefined" && map) {
+      setTimeout(() => map.resize?.(), 0);
     }
   }
 
