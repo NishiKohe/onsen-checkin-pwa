@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v27";
+const CACHE_NAME = "onsen-checkin-v28";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const APP_ASSETS = [
   "./heritage-ui.js",
   "./fixed-selection-ui.js",
   "./collection-progress-ui.js",
+  "./tab-display-fix.js",
   "./onsen.json",
   "./onsen-data-manifest.json",
   "./catalog/onsen-musume-area-master.json",
@@ -19,6 +20,7 @@ const APP_ASSETS = [
   "./data/fixed-selection-meito100.json",
   "./data/onsen-analysis-overrides-core.json",
   "./data/onsen-analysis-expansion.json",
+  "./data/onsen-analysis-expansion-2.json",
   "./data/regional-group-spots.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
   "./data/onsen-musume-kanto-simple.json",
@@ -75,6 +77,7 @@ self.addEventListener("fetch", (event) => {
     "/heritage-ui.js",
     "/fixed-selection-ui.js",
     "/collection-progress-ui.js",
+    "/tab-display-fix.js",
     "/collection-progress.css",
     "/onsen-data-manifest.json",
     "/catalog/onsen-musume-area-master.json",
@@ -82,6 +85,7 @@ self.addEventListener("fetch", (event) => {
     "/data/fixed-selection-meito100.json",
     "/data/onsen-analysis-overrides-core.json",
     "/data/onsen-analysis-expansion.json",
+    "/data/onsen-analysis-expansion-2.json",
     "/data/regional-group-spots.json"
   ];
   if (
