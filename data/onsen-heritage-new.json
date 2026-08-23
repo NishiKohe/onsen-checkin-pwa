@@ -1,0 +1,36 @@
+[
+  {
+    "id":"namari_onsen",
+    "name":"鉛温泉",
+    "prefecture":"岩手県",
+    "lat":39.4655448,
+    "lng":140.9920567,
+    "checkinRadiusM":900,
+    "onsenHeritage":true,
+    "onsenIsan":true,
+    "onsenHeritageFacilities":["藤三旅館"],
+    "onsenIsanFacilities":["藤三旅館"],
+    "badges":["onsen_heritage"],
+    "mandatorySources":["onsen_heritage"],
+    "summary":"花巻南温泉峡・豊沢川沿いにある一軒宿を中心とした温泉地。藤三旅館の湯は日本温泉遺産に選定。",
+    "referenceNote":"代表点は藤三旅館。宿公式が日本温泉遺産を守る会による選定を明記。",
+    "officialUrl":"https://namari-onsen-ryokan.com/"
+  },
+  {
+    "id":"kawaura_onsen",
+    "name":"川浦温泉",
+    "prefecture":"山梨県",
+    "lat":35.8290,
+    "lng":138.7280,
+    "checkinRadiusM":1200,
+    "onsenHeritage":true,
+    "onsenIsan":true,
+    "onsenHeritageFacilities":["山県館"],
+    "onsenIsanFacilities":["山県館"],
+    "badges":["onsen_heritage","sengoku_connection"],
+    "mandatorySources":["onsen_heritage"],
+    "summary":"笛吹川上流の渓谷にある一軒宿を中心とした温泉地。山県館は日本温泉遺産認定の宿。",
+    "referenceNote":"山県館（山梨市三富川浦1140）を代表地点とする。代表座標は住所周辺のMVP暫定値で現地検証対象。",
+    "officialUrl":"https://www.yamagatakan.com/"
+  }
+]
