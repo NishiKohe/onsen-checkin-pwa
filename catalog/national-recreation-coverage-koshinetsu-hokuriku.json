@@ -1,0 +1,31 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"甲信越・北陸",
+  "officialCountInScope":12,
+  "status":"12/12 complete",
+  "existingTagged":["白骨温泉"],
+  "runtimeAdded":[
+    "岩室温泉",
+    "六日町温泉",
+    "関・燕温泉",
+    "五頭温泉郷",
+    "白山温泉郷",
+    "下部温泉",
+    "増富温泉",
+    "丸子温泉郷",
+    "田沢・沓掛温泉",
+    "小谷温泉",
+    "美ヶ原温泉"
+  ],
+  "parentMultiZone":[
+    "関・燕温泉",
+    "五頭温泉郷",
+    "白山温泉郷",
+    "丸子温泉郷",
+    "田沢・沓掛温泉"
+  ],
+  "runtimePath":"data/national-recreation-koshinetsu-hokuriku.json",
+  "overridePath":"data/national-recreation-overrides-koshinetsu-hokuriku.json",
+  "sourcePath":"catalog/national-recreation-spa-required.json"
+}
