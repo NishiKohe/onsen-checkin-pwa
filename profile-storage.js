@@ -101,7 +101,6 @@
 
   migrateLegacyData();
 
-  // 既存コードのlocalStorage APIを壊さず、ユーザーデータだけ透過的に名前空間化する。
   storageProto.getItem = function patchedGetItem(key) {
     if (this === localStorage && isUserKey(key)) return rawGetItem.call(this, scopedKey(String(key)));
     return rawGetItem.call(this, key);
