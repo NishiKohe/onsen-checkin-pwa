@@ -1,6 +1,7 @@
 const DEFAULT_CHECKIN_RADIUS_M = 750;
 const REQUIRED_ACCURACY_M = 60;
 const COOLDOWN_HOURS = 24;
+const DATA_MANIFEST_URL = "./onsen-data-manifest.json";
 
 const JAPAN_BOUNDS = [
   [122.0, 20.0],
@@ -19,9 +20,7 @@ init().catch((err) => {
 });
 
 async function init() {
-  const response = await fetch("./onsen.json", { cache: "no-cache" });
-  if (!response.ok) throw new Error(`onsen.json load failed: ${response.status}`);
-  spots = await response.json();
+  spots = await loadOnsenData();
 
   setupMap();
   renderStats();
@@ -31,6 +30,36 @@ async function init() {
   el("btnCheckin").addEventListener("click", onCheckin);
 
   locateOnce(false);
+}
+
+async function loadOnsenData() {
+  let files = ["./onsen.json"];
+
+  try {
+    const manifestResponse = await fetch(DATA_MANIFEST_URL, { cache: "no-cache" });
+    if (manifestResponse.ok) {
+      const manifest = await manifestResponse.json();
+      if (Array.isArray(manifest.files) && manifest.files.length > 0) files = manifest.files;
+    }
+  } catch (err) {
+    console.warn("data manifest load failed; fallback to onsen.json", err);
+  }
+
+  const loaded = await Promise.all(files.map(async (url) => {
+    const response = await fetch(url, { cache: "no-cache" });
+    if (!response.ok) throw new Error(`${url} load failed: ${response.status}`);
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  }));
+
+  const byId = new Map();
+  for (const list of loaded) {
+    for (const spot of list) {
+      if (!spot?.id) continue;
+      byId.set(spot.id, { ...byId.get(spot.id), ...spot });
+    }
+  }
+  return [...byId.values()];
 }
 
 function setupMap() {
@@ -129,18 +158,15 @@ function tuneBaseMap() {
   for (const layer of layers) {
     const id = layer.id.toLowerCase();
 
-    // 温泉ピンを主役にするため、一般施設・交通POIはかなり抑える。
     if (layer.type === "symbol" && /(poi|amenity|shop|tourism|airport|aeroway|transit|station|bus|housenumber)/.test(id)) {
       try { map.setLayoutProperty(layer.id, "visibility", "none"); } catch {}
       continue;
     }
 
-    // 道路は残すが主張を弱める。
     if (layer.type === "line" && /(road|street|highway|transportation)/.test(id)) {
       try { map.setPaintProperty(layer.id, "line-opacity", 0.42); } catch {}
     }
 
-    // 紙地図っぽい淡い和色に寄せる。
     if (layer.type === "background") {
       try { map.setPaintProperty(layer.id, "background-color", "#f4f0e6"); } catch {}
     }
@@ -225,7 +251,7 @@ function buildSpotGeoJSON() {
         name: spot.name,
         prefecture: spot.prefecture,
         visited: visited.has(spot.id),
-        checkinRadiusM: getCheckinRadiusM(spot)
+        zoneCount: getCheckinZones(spot).length
       },
       geometry: { type: "Point", coordinates: [spot.lng, spot.lat] }
     }))
@@ -241,25 +267,54 @@ function selectSpot(id) {
   selectedSpot = spots.find((s) => s.id === id);
   if (!selectedSpot) return;
 
-  const radius = getCheckinRadiusM(selectedSpot);
+  const zones = getCheckinZones(selectedSpot);
   el("spotTitle").textContent = selectedSpot.name;
-  el("spotSub").textContent = `${selectedSpot.prefecture} / チェックイン範囲 約${formatDistanceKm(radius)}（暫定）`;
+  el("spotSub").textContent = zones.length > 1
+    ? `${selectedSpot.prefecture} / チェックイン地点 ${zones.length}か所（暫定）`
+    : `${selectedSpot.prefecture} / チェックイン範囲 約${formatDistanceKm(zones[0].radiusM)}（暫定）`;
 
-  renderCheckinZone(selectedSpot, radius);
+  renderCheckinZones(selectedSpot);
   renderAnalysis(selectedSpot);
   updateDistanceAndButton();
 }
 
-function renderCheckinZone(spot, radiusM) {
+function getCheckinZones(spot) {
+  if (Array.isArray(spot?.checkinZones)) {
+    const zones = spot.checkinZones
+      .map((zone, index) => ({
+        label: zone?.label || `チェックイン地点${index + 1}`,
+        lat: Number(zone?.lat),
+        lng: Number(zone?.lng),
+        radiusM: Number(zone?.radiusM)
+      }))
+      .filter((zone) => Number.isFinite(zone.lat) && Number.isFinite(zone.lng))
+      .map((zone) => ({
+        ...zone,
+        radiusM: Number.isFinite(zone.radiusM) && zone.radiusM > 0 ? zone.radiusM : DEFAULT_CHECKIN_RADIUS_M
+      }));
+    if (zones.length > 0) return zones;
+  }
+
+  return [{
+    label: spot?.name || "温泉地",
+    lat: Number(spot?.lat),
+    lng: Number(spot?.lng),
+    radiusM: getCheckinRadiusM(spot)
+  }].filter((zone) => Number.isFinite(zone.lat) && Number.isFinite(zone.lng));
+}
+
+function renderCheckinZones(spot) {
   const source = map?.getSource("checkin-zone");
   if (!source) return;
+
+  const zones = getCheckinZones(spot);
   source.setData({
     type: "FeatureCollection",
-    features: [{
+    features: zones.map((zone, index) => ({
       type: "Feature",
-      properties: { id: spot.id },
-      geometry: createCirclePolygon(spot.lat, spot.lng, radiusM)
-    }]
+      properties: { id: spot.id, zoneIndex: index, label: zone.label },
+      geometry: createCirclePolygon(zone.lat, zone.lng, zone.radiusM)
+    }))
   });
 }
 
@@ -283,6 +338,28 @@ function createCirclePolygon(lat, lng, radiusM, steps = 64) {
 function getCheckinRadiusM(spot) {
   const radius = Number(spot?.checkinRadiusM);
   return Number.isFinite(radius) && radius > 0 ? radius : DEFAULT_CHECKIN_RADIUS_M;
+}
+
+function getNearestZoneStatus(spot, pos) {
+  const zones = getCheckinZones(spot);
+  if (!pos || zones.length === 0) return null;
+
+  let best = null;
+  for (const zone of zones) {
+    const distanceToCenterM = distanceM(pos.lat, pos.lng, zone.lat, zone.lng);
+    const remainingM = Math.max(0, distanceToCenterM - zone.radiusM);
+    const candidate = {
+      zone,
+      distanceToCenterM,
+      remainingM,
+      inRange: distanceToCenterM <= zone.radiusM
+    };
+    if (!best || candidate.remainingM < best.remainingM ||
+      (candidate.remainingM === best.remainingM && candidate.distanceToCenterM < best.distanceToCenterM)) {
+      best = candidate;
+    }
+  }
+  return best;
 }
 
 function renderAnalysis(spot) {
@@ -366,24 +443,32 @@ function updateDistanceAndButton() {
     return;
   }
 
-  const radius = getCheckinRadiusM(selectedSpot);
-  const distance = distanceM(userPos.lat, userPos.lng, selectedSpot.lat, selectedSpot.lng);
-  el("spotDist").textContent = formatDistanceKm(distance);
+  const nearest = getNearestZoneStatus(selectedSpot, userPos);
+  if (!nearest) {
+    el("spotDist").textContent = "判定地点なし";
+    el("btnCheckin").disabled = true;
+    el("btnCheckin").textContent = "チェックイン地点未設定";
+    return;
+  }
+
+  el("spotDist").textContent = formatDistanceKm(nearest.distanceToCenterM);
 
   const accurateEnough = userAccuracyM !== null && userAccuracyM <= REQUIRED_ACCURACY_M;
-  const inRange = distance <= radius;
   const cooldownOk = !isCooldownActive(selectedSpot.id);
-  el("btnCheckin").disabled = !(accurateEnough && inRange && cooldownOk);
+  el("btnCheckin").disabled = !(accurateEnough && nearest.inRange && cooldownOk);
 
   if (!accurateEnough) {
     el("btnCheckin").textContent = "位置精度が低いです（再取得）";
-  } else if (!inRange) {
-    const remaining = Math.max(0, distance - radius);
-    el("btnCheckin").textContent = `範囲外（あと${formatDistanceKm(remaining)}）`;
+  } else if (!nearest.inRange) {
+    el("btnCheckin").textContent = nearest.remainingM < 1000
+      ? `範囲外（あと${Math.round(nearest.remainingM)}m）`
+      : `範囲外（あと${formatDistanceKm(nearest.remainingM)}）`;
   } else if (!cooldownOk) {
     el("btnCheckin").textContent = "チェックイン済（24時間以内）";
   } else {
-    el("btnCheckin").textContent = "チェックイン";
+    el("btnCheckin").textContent = nearest.zone.label
+      ? `チェックイン（${nearest.zone.label}）`
+      : "チェックイン";
   }
 }
 
@@ -427,6 +512,8 @@ function isCooldownActive(spotId) {
 
 function onCheckin() {
   if (!selectedSpot || !userPos) return;
+  const nearest = getNearestZoneStatus(selectedSpot, userPos);
+  if (!nearest?.inRange) return;
 
   const list = loadCheckins();
   list.push({
@@ -434,11 +521,12 @@ function onCheckin() {
     name: selectedSpot.name,
     prefecture: selectedSpot.prefecture,
     checkedAt: Date.now(),
-    accuracyM: userAccuracyM
+    accuracyM: userAccuracyM,
+    zoneLabel: nearest.zone.label || null
   });
   saveCheckins(list);
 
-  alert(`チェックイン成功！\n${selectedSpot.name}`);
+  alert(`チェックイン成功！\n${selectedSpot.name}${nearest.zone.label ? `\n${nearest.zone.label}` : ""}`);
   renderStats();
   renderHistory();
   refreshSpotSource();
@@ -465,7 +553,8 @@ function renderHistory() {
   for (const item of list) {
     const li = document.createElement("li");
     const dt = new Date(item.checkedAt);
-    li.textContent = `${dt.toLocaleString("ja-JP")}：${item.name}（精度 ${item.accuracyM ?? "—"}m）`;
+    const zone = item.zoneLabel ? ` / ${item.zoneLabel}` : "";
+    li.textContent = `${dt.toLocaleString("ja-JP")}：${item.name}${zone}（精度 ${item.accuracyM ?? "—"}m）`;
     ul.appendChild(li);
   }
 }
