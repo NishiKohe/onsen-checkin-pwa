@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ogoto",
+    "name": "おごと温泉",
+    "prefecture": "滋賀県",
+    "lat": 35.08944,
+    "lng": 135.89400,
+    "checkinRadiusM": 1500,
+    "onsenMusumeCharacters": ["おごと寧々"],
+    "summary": "琵琶湖西岸、大津市雄琴に広がる温泉地。",
+    "referenceNote": "おごと温泉観光協会の観光公園・宿泊エリアを基準にMVP範囲を設定。",
+    "sourceUrls": ["https://www.ogotoonsen.com/"]
+  },
+  {
+    "id": "arashiyama",
+    "name": "嵐山温泉",
+    "prefecture": "京都府",
+    "lat": 35.0103,
+    "lng": 135.6814,
+    "checkinRadiusM": 1300,
+    "onsenMusumeCharacters": ["嵐山紫雨"],
+    "summary": "渡月橋周辺の宿泊施設や日帰り温泉で利用される嵐山の温泉。",
+    "referenceNote": "京都市公式の嵐山温泉所在地と温泉利用施設を基準。",
+    "sourceUrls": ["https://ja.kyoto.travel/tourism/single01.php?tourism_id=189"]
+  },
+  {
+    "id": "inunakiyama",
+    "name": "犬鳴山温泉",
+    "prefecture": "大阪府",
+    "lat": 34.3418,
+    "lng": 135.3761,
+    "checkinRadiusM": 1100,
+    "onsenMusumeCharacters": ["犬鳴山 命"],
+    "summary": "犬鳴山の山麓にある泉佐野市の温泉地。",
+    "referenceNote": "泉佐野市公式が犬鳴山温泉を観光資源として案内。代表的な宿泊・入浴エリアをMVP範囲化。",
+    "sourceUrls": ["https://www.city.izumisano.lg.jp/izumisano/ikitai/inunakiyama_hotsprings.html"]
+  },
+  {
+    "id": "yumura_hyogo",
+    "name": "湯村温泉",
+    "prefecture": "兵庫県",
+    "lat": 35.5537,
+    "lng": 134.4882,
+    "checkinRadiusM": 1000,
+    "onsenMusumeCharacters": ["湯村千代"],
+    "summary": "荒湯を中心に湯けむりが立つ新温泉町の温泉地。",
+    "referenceNote": "新温泉町公式の荒湯・薬師湯等が集まる湯村温泉街を基準。",
+    "sourceUrls": ["https://www.town.shinonsen.hyogo.jp/page/?mode=detail&page_id=56a48415080cf3241f78579b049a0f9d"]
+  },
+  {
+    "id": "totsukawa_onsenkyo",
+    "name": "十津川温泉郷",
+    "prefecture": "奈良県",
+    "lat": 33.9510,
+    "lng": 135.7650,
+    "onsenMusumeCharacters": ["十津川飛香"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["湯泉地温泉", "十津川温泉", "上湯温泉"],
+    "checkinZones": [
+      {"label":"湯泉地温泉","lat":33.9950,"lng":135.7920,"radiusM":1400},
+      {"label":"十津川温泉","lat":33.9340,"lng":135.7550,"radiusM":1600},
+      {"label":"上湯温泉","lat":33.9070,"lng":135.7470,"radiusM":1200}
+    ],
+    "summary": "湯泉地温泉・十津川温泉・上湯温泉の3温泉からなる十津川村の温泉郷。",
+    "referenceNote": "十津川村公式が3つの温泉を十津川温泉郷として明記。ゾーン中心は各温泉エリアの代表点でMVP暫定。",
+    "sourceUrls": ["https://www.vill.totsukawa.lg.jp/traveling_guide/onsen_gou/"]
+  },
+  {
+    "id": "dorogawa",
+    "name": "洞川温泉",
+    "prefecture": "奈良県",
+    "lat": 34.2684,
+    "lng": 135.8794,
+    "checkinRadiusM": 1100,
+    "onsenMusumeCharacters": ["洞川 蓮"],
+    "summary": "大峯信仰の登山基地として栄えた天川村洞川の温泉街。",
+    "referenceNote": "天川村公式の洞川温泉街を基準にMVP範囲を設定。",
+    "sourceUrls": ["https://www.vill.tenkawa.nara.jp/tourism/spot/5171/"]
+  },
+  {
+    "id": "nanki_katsuura",
+    "name": "南紀勝浦温泉",
+    "prefecture": "和歌山県",
+    "lat": 33.6260,
+    "lng": 135.9415,
+    "checkinRadiusM": 2200,
+    "onsenMusumeCharacters": ["南紀勝浦樹紀"],
+    "summary": "紀伊勝浦港周辺を中心に天然温泉宿が集まる那智勝浦町の温泉地。",
+    "referenceNote": "那智勝浦観光サイトが南紀勝浦温泉を主要観光テーマとして案内。MVPでは紀伊勝浦港周辺を代表範囲化。",
+    "sourceUrls": ["https://nachikan.jp/"]
+  }
+]
