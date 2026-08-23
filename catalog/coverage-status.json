@@ -1,19 +1,24 @@
 {
-  "version":20,
+  "version":21,
   "updatedAt":"2026-08-23",
-  "currentMapCount":216,
+  "currentMapCount":219,
   "runtimeData":{
-    "mode":"manifest_merge",
+    "mode":"manifest_merge_plus_runtime_overlays",
     "manifestPath":"onsen-data-manifest.json",
     "basePath":"onsen.json",
     "multiZoneCheckinSupported":true,
-    "displayPolicy":"親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
+    "displayPolicy":"親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。",
+    "fixedSelectionRuntime":"fixed-selection-ui.js"
   },
   "uiFeatures":{
     "prefectureOverlay":"47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。",
-    "search":["温泉名","都道府県","温泉むすめ名","構成温泉名","タグ","温泉遺産認定施設名"],
-    "filters":["未訪問","訪問済","温泉むすめ","国民保養","温泉遺産","温泉郷","レガシー","都道府県"],
-    "implementation":["ui-enhancements.js","heritage-ui.js"]
+    "search":["温泉名","都道府県","温泉むすめ名","構成温泉名","タグ","温泉遺産認定施設名","固定選定名"],
+    "filters":["未訪問","訪問済","温泉むすめ","国民保養","温泉遺産","固定百選","温泉郷","レガシー","都道府県"],
+    "implementation":["ui-enhancements.js","heritage-ui.js","fixed-selection-ui.js"]
+  },
+  "badgeLifecycle":{
+    "policyPath":"catalog/badge-lifecycle-policy.json",
+    "corePrinciple":"年次更新を必要としない固定選定・歴史称号・公的指定・長期認定をコア収集対象とする。年次ランキングは参考情報レイヤーに分離し、収集率・レアリティ計算には含めない。"
   },
   "requiredCoverage":{
     "onsenMusume":{
@@ -36,28 +41,19 @@
       "mandatory":true,
       "status":"verified_seed_runtime_in_progress",
       "badge":"SR",
-      "verifiedFacilities":6,
-      "verifiedOnsenAreas":6,
+      "verifiedFacilities":12,
+      "verifiedOnsenAreas":11,
       "verifiedPath":"catalog/onsen-heritage-verified.json",
       "runtimePaths":["data/onsen-heritage-new.json","data/onsen-heritage-overrides.json"],
-      "newMandatorySpots":["鉛温泉","川浦温泉"],
-      "existingTaggedSpots":["草津温泉","田沢湖高原温泉郷","小野川温泉","三朝温泉"],
+      "newMandatorySpots":["鉛温泉","雫石高倉温泉","強首温泉","奈良田温泉","川浦温泉"],
+      "existingTaggedSpots":["草津温泉","田沢湖高原温泉郷","小野川温泉","東山温泉","新平湯温泉","三朝温泉"],
       "fullCurrentListStatus":"reconstruction_in_progress",
-      "note":"日本温泉遺産を守る会の現行マスター一覧を安定取得できないため、施設公式等で認定を確認できるものから再構築。日本文化遺産を守る会等の別団体とは分離する。"
+      "note":"日本温泉遺産を守る会の現行マスター一覧を安定取得できないため、施設公式等で認定を確認できるものから再構築。"
     },
     "nationalRecreationSpa":{
       "officialCount":79,
       "status":"79/79 runtime_coverage_complete",
       "masterPath":"catalog/national-recreation-spa-required.json",
-      "regionalProgress":{
-        "北海道・東北":{"official":24,"status":"24/24 complete","coveragePath":"catalog/national-recreation-coverage-hokkaido-tohoku.json"},
-        "関東":{"official":6,"status":"6/6 complete","coveragePath":"catalog/national-recreation-coverage-kanto.json"},
-        "甲信越・北陸":{"official":12,"status":"12/12 complete","coveragePath":"catalog/national-recreation-coverage-koshinetsu-hokuriku.json"},
-        "東海":{"official":5,"status":"5/5 complete","coveragePath":"catalog/national-recreation-coverage-tokai.json"},
-        "近畿":{"official":6,"status":"6/6 complete","coveragePath":"catalog/national-recreation-coverage-kinki.json"},
-        "中国・四国":{"official":14,"status":"14/14 complete","coveragePath":"catalog/national-recreation-coverage-chugoku-shikoku.json"},
-        "九州":{"official":12,"status":"12/12 complete","coveragePath":"catalog/national-recreation-coverage-kyushu.json"}
-      },
       "completedOfficialCount":79,
       "remainingOfficialCount":0,
       "badge":"SR"
@@ -65,6 +61,25 @@
     "secretHotSpringAssociation":{
       "activeMemberInns":105,
       "status":"facility_to_area_normalization_required"
+    }
+  },
+  "permanentSelections":{
+    "meitoHyakusen":{
+      "officialCount":100,
+      "status":"master_complete_runtime_name_matching_enabled",
+      "masterPath":"data/fixed-selection-meito100.json",
+      "source":"NPO法人 健康と温泉フォーラム『名湯百選一覧』",
+      "badge":"SR",
+      "lifecycle":"permanent_core",
+      "runtimeMatching":"都道府県＋温泉名・別名・構成温泉名で照合。既存地にSR名湯百選を後付けし、未一致は追加キューへ回す。"
+    },
+    "matsudaHyakumeito":{
+      "status":"source_reconstruction_next",
+      "lifecycle":"permanent_core"
+    },
+    "noguchiHyakumeito":{
+      "status":"source_reconstruction_next",
+      "lifecycle":"permanent_core"
     }
   },
   "namedGroups":{
@@ -76,9 +91,11 @@
     {"area":"川浦温泉","issue":"山県館を代表地点としたMVP座標は住所周辺の暫定値。現地チェックイン前に中心座標を再検証する。"}
   ],
   "nextPass":[
+    "名湯百選100件の既存219地点への自動一致結果を確認し、未収録温泉だけを恒常選定追加キュー化",
+    "松田忠徳・日本百名湯の固定リストを版固定で再構築して横断付与",
+    "野口悦男・日本百名湯 源泉の宿の固定リストを版固定で再構築して横断付与",
     "日本温泉遺産を守る会の追加認定施設を現行記載から継続再構築",
     "日本秘湯を守る会会員宿105件を温泉地へ正規化",
-    "にっぽんの温泉100選・温泉総選挙・御泉印などの選定バッジを全国付与",
     "泉質・源泉・歴史・体験系バッジの根拠データを収集して自動レアリティ算出"
   ]
 }
