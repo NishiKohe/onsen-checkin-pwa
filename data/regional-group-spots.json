@@ -1,0 +1,112 @@
+[
+  {
+    "id": "tsuchiyu",
+    "name": "土湯温泉",
+    "prefecture": "福島県",
+    "lat": 37.681,
+    "lng": 140.327,
+    "checkinRadiusM": 1500,
+    "spotKind": "onsen_area",
+    "displayLevel": "independent_subarea",
+    "parentAreaId": "tsuchiyu_takayu_onsenkyo",
+    "summary": "福島市西部、荒川沿いに温泉街が広がる温泉地。飯坂・高湯とともに「ふくしま三名湯」を構成する。",
+    "sourceUrls": [
+      "https://www.city.fukushima.fukushima.jp/kankounavi/contents/healing/fukushimasanmeito/11313.html",
+      "https://www.spa.or.jp/kokumin/919/"
+    ],
+    "referenceNote": "既存の国民保養温泉地「土湯・高湯温泉郷」の土湯ゾーンと同じ代表中心を使用。親温泉郷との重複チェックイン範囲を許容する独立子温泉地。",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "土湯温泉（温泉地概況）",
+      "springType": "単純温泉・炭酸水素塩泉・硫黄泉",
+      "verified": true,
+      "sources": [
+        {"name": "日本温泉協会「土湯温泉」", "url": "https://www.spa.or.jp/kokumin/919/"},
+        {"name": "福島市「ふくしま三名湯」", "url": "https://www.city.fukushima.fukushima.jp/kankounavi/contents/healing/fukushimasanmeito/11313.html"}
+      ],
+      "referenceNote": "温泉地内に複数源泉・複数泉質があるため、単一のpH・温度にはまとめず泉質構成を表示。"
+    }
+  },
+  {
+    "id": "takayu",
+    "name": "高湯温泉",
+    "prefecture": "福島県",
+    "lat": 37.735,
+    "lng": 140.257,
+    "checkinRadiusM": 1700,
+    "spotKind": "onsen_area",
+    "displayLevel": "independent_subarea",
+    "parentAreaId": "tsuchiyu_takayu_onsenkyo",
+    "summary": "吾妻山麓の標高約750mに位置する硫黄泉の温泉地。飯坂・土湯とともに「ふくしま三名湯」を構成する。",
+    "sourceUrls": [
+      "https://www.city.fukushima.fukushima.jp/kankounavi/contents/healing/fukushimasanmeito/11313.html",
+      "https://www.city.fukushima.fukushima.jp/kohoka-koho/shise/koho/kankobutsu/backnumber/documents/vol31_a3_0203.pdf"
+    ],
+    "referenceNote": "既存の国民保養温泉地「土湯・高湯温泉郷」の高湯ゾーンと同じ代表中心を使用。親温泉郷との重複チェックイン範囲を許容する独立子温泉地。",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "高湯26番 滝の湯（代表）",
+      "springType": "硫黄泉",
+      "sourceTempC": 50.5,
+      "ph": 2.7,
+      "flowLMin": 738,
+      "verified": true,
+      "sources": [
+        {"name": "福島市「高湯温泉・浄土平」", "url": "https://www.city.fukushima.fukushima.jp/kohoka-koho/shise/koho/kankobutsu/backnumber/documents/vol31_a3_0203.pdf"}
+      ],
+      "referenceNote": "高湯温泉は複数源泉を持つため、共同浴場「あったか湯」の源泉・高湯26番滝の湯を代表値として表示。湧出量738L/分は自然湧出。"
+    }
+  },
+  {
+    "id": "hondani_ehime",
+    "name": "本谷温泉",
+    "prefecture": "愛媛県",
+    "lat": 33.92944,
+    "lng": 133.02155,
+    "checkinRadiusM": 700,
+    "spotKind": "onsen_area",
+    "summary": "西条市河之内にある歴史ある温泉。道後・鈍川とともに「伊予の三湯」に数えられる。",
+    "sourceUrls": [
+      "https://www.iyokannet.jp/spot/168/",
+      "https://www.city.saijo.ehime.jp/soshiki/kanko/hondani-onsen-zyoto.html"
+    ],
+    "referenceNote": "温泉地の代表点は本谷温泉施設周辺。2026年に施設運営が移行したが、温泉地・源泉自体をコレクション対象として保持。",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "本谷温泉（温泉地概況）",
+      "springType": "低張性アルカリ性冷鉱泉",
+      "verified": true,
+      "sources": [
+        {"name": "愛媛県公式観光サイト「本谷温泉館」", "url": "https://www.iyokannet.jp/spot/168/"},
+        {"name": "西条市 本谷温泉関連資料", "url": "https://www.city.saijo.ehime.jp/uploaded/attachment/80995.pdf"}
+      ],
+      "referenceNote": "本谷温泉源泉は三芳鉱泉一号泉・二号泉からなる。数値は源泉・施設条件で異なるため、ここでは公式に確認できる泉質区分のみを表示。"
+    }
+  },
+  {
+    "id": "yuno_yamaguchi",
+    "name": "湯野温泉",
+    "prefecture": "山口県",
+    "lat": 34.09299,
+    "lng": 131.67479,
+    "checkinRadiusM": 1300,
+    "spotKind": "onsen_area",
+    "summary": "周南市の夜市川上流にある温泉地。湯田・長門湯本とともに「防長三名湯」に数えられる。",
+    "sourceUrls": [
+      "https://www.city.shunan.lg.jp/site/kanko/14507.html",
+      "https://yuno-onsen.jp/senshitsu/"
+    ],
+    "referenceNote": "湯野温泉街・主要旅館域を代表範囲として登録。防長三名湯の構成温泉として独立チェックイン対象にする。",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "徳山市有3号泉（代表）",
+      "springType": "含弱放射能・アルカリ性単純硫黄泉",
+      "verified": true,
+      "sources": [
+        {"name": "湯野温泉公式「泉質・効果・歴史」", "url": "https://yuno-onsen.jp/senshitsu/"},
+        {"name": "周南市「湯野温泉」", "url": "https://www.city.shunan.lg.jp/site/kanko/14507.html"}
+      ],
+      "referenceNote": "湯野温泉公式が掲示する徳山市有3号泉を代表源泉として表示。"
+    }
+  }
+]
