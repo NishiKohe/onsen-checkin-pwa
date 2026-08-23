@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-24",
+  "defaultMode": "eco",
+  "modes": {
+    "eco": {
+      "label": "省電力",
+      "description": "未取得スポットまでの距離と移動速度に応じて、前景時の測位頻度と高精度GPS利用を自動調整する。",
+      "intervalPolicy": [
+        {"condition": "未取得スポットまで500m以内", "intervalSeconds": 30, "highAccuracy": true},
+        {"condition": "未取得スポットまで2km以内", "intervalSeconds": 45, "highAccuracy": true},
+        {"condition": "未取得スポットまで10km以内", "intervalSeconds": 90, "highAccuracy": false},
+        {"condition": "移動速度8m/s以上", "intervalSeconds": 90, "highAccuracy": false},
+        {"condition": "上記以外", "intervalSeconds": 180, "highAccuracy": false}
+      ]
+    },
+    "precise": {
+      "label": "精密",
+      "description": "前景時に高精度watchPositionを継続利用する。取り逃しに強いが電池消費は増える。"
+    }
+  },
+  "health": {
+    "warningAfterNoSampleMinutes": 30,
+    "display": ["最終位置記録", "位置精度", "測位間隔", "最寄り未取得スポット距離"],
+    "backgroundPolicy": "PWAでは画面OFF・バックグラウンド中の継続測位を保証せず停止し、前景復帰時に再開する。"
+  },
+  "saveFields": {
+    "storage": "visitSettingsV1（ユーザー名前空間内）",
+    "fields": ["trackingMode", "lastLocationSampleAt", "lastLocationAccuracyM", "lastNearestUnvisitedM", "lastTrackingIntervalLabel", "lastTrackingErrorAt", "lastTrackingErrorCode"]
+  }
+}
