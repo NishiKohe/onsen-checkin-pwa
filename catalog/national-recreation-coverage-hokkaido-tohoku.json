@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "scope": "北海道・東北",
+  "officialCountInScope": 24,
+  "existingExactMatches": [
+    "豊富温泉",
+    "酸ヶ湯温泉",
+    "蔵王温泉",
+    "銀山温泉",
+    "あつみ温泉"
+  ],
+  "pendingAdds": [
+    "カルルス温泉",
+    "ニセコ温泉郷",
+    "芦別温泉",
+    "ながぬま温泉",
+    "八幡平温泉郷",
+    "大館ぐるみ温泉郷",
+    "金田一温泉",
+    "鳴子温泉郷",
+    "田沢湖高原温泉郷",
+    "秋ノ宮温泉",
+    "碁点温泉",
+    "肘折温泉郷",
+    "湯田川温泉",
+    "湯野浜温泉",
+    "由良温泉",
+    "岳温泉",
+    "新甲子温泉",
+    "土湯・高湯温泉郷",
+    "二岐・岩瀬湯本・天栄温泉"
+  ],
+  "parentMultiZonePriority": [
+    "ニセコ温泉郷",
+    "八幡平温泉郷",
+    "大館ぐるみ温泉郷",
+    "鳴子温泉郷",
+    "田沢湖高原温泉郷",
+    "肘折温泉郷",
+    "土湯・高湯温泉郷",
+    "二岐・岩瀬湯本・天栄温泉"
+  ],
+  "badgeOverridePath": "data/national-recreation-overrides.json",
+  "sourcePath": "catalog/national-recreation-spa-required.json"
+}
