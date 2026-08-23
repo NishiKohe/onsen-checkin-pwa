@@ -1,7 +1,7 @@
 {
-  "version": 14,
+  "version": 15,
   "updatedAt": "2026-08-23",
-  "currentMapCount": 171,
+  "currentMapCount": 176,
   "runtimeData": {
     "mode": "manifest_merge",
     "manifestPath": "onsen-data-manifest.json",
@@ -18,6 +18,7 @@
       "data/onsen-musume-chugoku-shikoku.json",
       "data/onsen-musume-kyushu-okinawa.json",
       "data/national-recreation-hokkaido-tohoku.json",
+      "data/national-recreation-kanto.json",
       "data/national-recreation-overrides.json"
     ],
     "multiZoneCheckinSupported": true,
@@ -45,17 +46,7 @@
         "近畿": "11/11 complete",
         "中国・四国": "18/18 complete",
         "九州・沖縄": "18/18 complete"
-      },
-      "regionalMasters": [
-        "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
-        "catalog/onsen-musume-normalized-kanto.json",
-        "catalog/onsen-musume-normalized-koshinetsu-hokuriku.json",
-        "catalog/onsen-musume-normalized-tokai.json",
-        "catalog/onsen-musume-normalized-kinki.json",
-        "catalog/onsen-musume-normalized-chugoku-shikoku.json",
-        "catalog/onsen-musume-normalized-kyushu-okinawa.json"
-      ],
-      "note": "国内134キャラクターを133温泉地候補へ正規化して全地域ランタイム実装済み。有馬輪花・有馬楓花は有馬温泉1地点に統合。親温泉郷と子温泉が併存するケースは親子関係を保持し、地図は親を優先しつつ独立価値の高い子温泉は個別スポットを残す。"
+      }
     },
     "onsenHeritage": {
       "mandatory": true,
@@ -64,45 +55,31 @@
     },
     "nationalRecreationSpa": {
       "officialCount": 79,
-      "mandatory": false,
       "status": "coverage_in_progress",
       "masterPath": "catalog/national-recreation-spa-required.json",
       "badgeOverridePath": "data/national-recreation-overrides.json",
       "regionalProgress": {
-        "北海道・東北": {
-          "official": 24,
-          "status": "24/24 complete",
-          "existingTagged": 5,
-          "runtimeAdded": 19,
-          "runtimePath": "data/national-recreation-hokkaido-tohoku.json",
-          "coveragePath": "catalog/national-recreation-coverage-hokkaido-tohoku.json"
-        }
-      }
+        "北海道・東北": {"official":24,"status":"24/24 complete","existingTagged":5,"runtimeAdded":19,"coveragePath":"catalog/national-recreation-coverage-hokkaido-tohoku.json"},
+        "関東": {"official":6,"status":"6/6 complete","existingTagged":1,"runtimeAdded":5,"coveragePath":"catalog/national-recreation-coverage-kanto.json"}
+      },
+      "completedOfficialCount":30,
+      "remainingOfficialCount":49
     },
     "secretHotSpringAssociation": {
       "activeMemberInns": 105,
-      "mandatory": false,
       "status": "facility_to_area_normalization_required"
     }
   },
   "namedGroups": {
     "definedGroups": 22,
-    "catalogPaths": [
-      "catalog/group-definitions.json",
-      "catalog/group-definitions-hokkaido-tohoku.json",
-      "catalog/group-definitions-kanto.json"
-    ],
     "uiRule": "箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯などは親温泉郷の詳細・踏破進捗へ収納。歴史的なくくり自体は全件保持する。"
   },
   "uncertaintyQueue": [
-    {
-      "area":"西表島温泉",
-      "issue":"温泉むすめ対象として収録必須だが、旧西表島温泉およびカンパネルラの湯には閉館情報があり、現行旅行商品には利用可能との記載も残るため営業実態を継続確認。ランタイムではレガシー温泉地として表示。"
-    }
+    {"area":"西表島温泉","issue":"温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"}
   ],
   "nextPass": [
-    "国民保養温泉地79件の関東を既存171地点と突合・バッジ付与・不足追加",
-    "国民保養温泉地79件の甲信越・北陸〜九州を順次重複統合",
+    "国民保養温泉地の甲信越・北陸を既存176地点と突合・バッジ付与・不足追加",
+    "国民保養温泉地の東海以西を順次重複統合",
     "日本温泉遺産を守る会の現行認定宿・施設を公式記載から再構築して必須収録",
     "日本秘湯を守る会会員宿を温泉地へ正規化",
     "全候補に選定・歴史・泉質・源泉・体験バッジを付与して重複統合"
