@@ -1,15 +1,20 @@
-const CACHE_NAME = "onsen-checkin-v23";
+const CACHE_NAME = "onsen-checkin-v24";
 const APP_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
+  "./collection-progress.css",
   "./app.js",
   "./ui-enhancements.js",
   "./heritage-ui.js",
   "./fixed-selection-ui.js",
+  "./collection-progress-ui.js",
   "./onsen.json",
   "./onsen-data-manifest.json",
+  "./catalog/onsen-musume-area-master.json",
+  "./catalog/onsen-regional-asset-master.json",
   "./data/fixed-selection-meito100.json",
+  "./data/onsen-analysis-overrides-core.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
   "./data/onsen-musume-kanto-simple.json",
   "./data/onsen-musume-kanto-areas.json",
@@ -62,8 +67,12 @@ self.addEventListener("fetch", (event) => {
     "/ui-enhancements.js",
     "/heritage-ui.js",
     "/fixed-selection-ui.js",
+    "/collection-progress-ui.js",
     "/onsen-data-manifest.json",
-    "/data/fixed-selection-meito100.json"
+    "/catalog/onsen-musume-area-master.json",
+    "/catalog/onsen-regional-asset-master.json",
+    "/data/fixed-selection-meito100.json",
+    "/data/onsen-analysis-overrides-core.json"
   ];
   if (
     networkFirst.some((suffix) => url.pathname.endsWith(suffix)) ||
