@@ -1,0 +1,35 @@
+[
+  {
+    "id":"yuhara",
+    "nationalRecreationSpa":true,
+    "nationalRecreationName":"湯原温泉",
+    "badges":["national_recreation_spa"],
+    "displayModel":"parent_multi_zone",
+    "subAreas":["湯原温泉","下湯原温泉","郷緑温泉","足温泉","真賀温泉"],
+    "checkinZones":[
+      {"label":"湯原温泉","lat":35.2025,"lng":133.7309,"radiusM":1000},
+      {"label":"下湯原温泉","lat":35.1870,"lng":133.7240,"radiusM":1000},
+      {"label":"郷緑温泉","lat":35.1770,"lng":133.7220,"radiusM":900},
+      {"label":"足温泉","lat":35.1650,"lng":133.7240,"radiusM":900},
+      {"label":"真賀温泉","lat":35.1510,"lng":133.7250,"radiusM":900}
+    ]
+  },
+  {
+    "id":"okutsu",
+    "nationalRecreationSpa":true,
+    "nationalRecreationName":"奥津温泉",
+    "badges":["national_recreation_spa"]
+  },
+  {
+    "id":"yunogo",
+    "nationalRecreationSpa":true,
+    "nationalRecreationName":"湯郷温泉",
+    "badges":["national_recreation_spa"]
+  },
+  {
+    "id":"shionoe",
+    "nationalRecreationSpa":true,
+    "nationalRecreationName":"塩江温泉郷",
+    "badges":["national_recreation_spa"]
+  }
+]
