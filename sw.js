@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v15";
+const CACHE_NAME = "onsen-checkin-v16";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -17,6 +17,7 @@ const APP_ASSETS = [
   "./data/onsen-musume-kinki.json",
   "./data/onsen-musume-chugoku-shikoku.json",
   "./data/onsen-musume-kyushu-okinawa.json",
+  "./data/national-recreation-hokkaido-tohoku.json",
   "./data/national-recreation-overrides.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
@@ -44,7 +45,7 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 
   const networkFirst = ["/onsen.json", "/app.js", "/ui-enhancements.js", "/onsen-data-manifest.json"];
-  if (networkFirst.some((suffix) => url.pathname.endsWith(suffix)) || url.pathname.includes("/data/onsen-")) {
+  if (networkFirst.some((suffix) => url.pathname.endsWith(suffix)) || url.pathname.includes("/data/onsen-") || url.pathname.includes("/data/national-recreation-")) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
