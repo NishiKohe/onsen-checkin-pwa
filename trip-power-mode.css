@@ -1,0 +1,25 @@
+/* 旅行モードの省電力・測位状態 */
+.trip-power-card { margin-top: 10px; }
+.trip-power-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+.trip-power-head h3 { margin: 0; font-size: 15px; }
+.trip-power-head p { margin: 4px 0 0; color: #8fa4b8; font-size: 11px; line-height: 1.5; }
+.trip-power-switch { display: inline-grid; grid-template-columns: repeat(2, auto); gap: 5px; padding: 3px; border: 1px solid #26384b; border-radius: 10px; background: #0d151e; }
+.trip-power-switch button { padding: 7px 9px; border: 0; border-radius: 7px; background: transparent; color: #8198ae; font-size: 10px; font-weight: 800; }
+.trip-power-switch button.active { background: #1c3d34; color: #d1f4e3; }
+.trip-power-status-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.trip-power-status-grid > div { min-width: 0; padding: 9px 10px; border: 1px solid #203143; border-radius: 10px; background: #0e161f; }
+.trip-power-status-grid span { display: block; color: #738aa0; font-size: 9px; }
+.trip-power-status-grid b { display: block; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.trip-tracking-notice { margin-top: 9px; padding: 9px 10px; border: 1px solid #25384a; border-radius: 9px; background: #101a24; color: #8fa4b8; font-size: 10px; line-height: 1.5; }
+.trip-tracking-notice.ok { border-color: #285444; background: #10261f; color: #bce6d3; }
+.trip-tracking-notice.info { border-color: #33506a; background: #122131; color: #b5cce2; }
+.trip-tracking-notice.warning-soft { border-color: #65542d; background: #2f2818; color: #f0d893; }
+.trip-tracking-notice.warning { border-color: #74423a; background: #351c1b; color: #ffc5bb; }
+
+@media (max-width: 620px) {
+  .trip-power-head { flex-direction: column; }
+  .trip-power-switch { width: 100%; box-sizing: border-box; grid-template-columns: 1fr 1fr; }
+  .trip-power-status-grid { grid-template-columns: 1fr; }
+  .trip-power-status-grid > div { display: grid; grid-template-columns: 110px minmax(0, 1fr); align-items: center; gap: 8px; }
+  .trip-power-status-grid b { margin-top: 0; text-align: right; }
+}
