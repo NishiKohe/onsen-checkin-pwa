@@ -20,6 +20,17 @@ if (typeof resetAllFilters === "function") {
   };
 }
 
+// ui-enhancements.js 側が先にイベント登録済みでも、リセット後に必ず解除されるよう補完する。
+const heritageResetButton = document.getElementById("btnResetFilters");
+if (heritageResetButton) {
+  heritageResetButton.addEventListener("click", () => {
+    uiFilterState.onsenHeritage = false;
+    const heritageChip = document.querySelector('[data-tag="onsenHeritage"]');
+    if (heritageChip) heritageChip.classList.remove("active");
+    if (typeof applySpotFilters === "function") applySpotFilters();
+  });
+}
+
 if (typeof getSpotSearchText === "function") {
   const heritageBaseGetSpotSearchText = getSpotSearchText;
   getSpotSearchText = function heritageGetSpotSearchText(spot) {
