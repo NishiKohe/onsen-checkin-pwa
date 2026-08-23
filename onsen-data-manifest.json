@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "files": [
+    "./onsen.json",
+    "./data/onsen-musume-hokkaido-tohoku.json"
+  ]
+}
