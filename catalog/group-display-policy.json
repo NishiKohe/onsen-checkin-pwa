@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "principle": "全ての歴史的・地域的なくくりはデータとして保持するが、地図・バッジUIは独立性に応じて階層化する。",
+  "displayLevels": {
+    "primary_area": "地図上の主要ピン。温泉地・温泉郷として独立して訪問対象になるもの。",
+    "independent_subarea": "親温泉郷に属するが、独自の温泉街・施設群・歴史・温泉むすめ等を持ち、個別訪問価値が高いもの。",
+    "detail_group": "親温泉郷の詳細画面内で進捗として表示する構成湯セット。原則として地図ピンやトップレベルバッジを増やさない。",
+    "historical_variant": "史料・時代により定義が変わる歴史的なくくり。資料として保持し、通常UIでは折りたたむ。"
+  },
+  "pinRule": {
+    "keepSeparatePinWhenAny": [
+      "温泉むすめ等の独立した公式対象になっている",
+      "独立した温泉街・旅館街・共同浴場圏として認識される",
+      "国民保養温泉地等の公的指定で独立単位になっている",
+      "地理的に親温泉郷の他構成地から明確に離れている",
+      "旅行者がその名称を目的地として選ぶ実用性が高い"
+    ],
+    "collapseIntoParentWhen": [
+      "同一温泉郷内の細分類・歴史的列挙が主目的",
+      "個別ピン化すると近接ピンが過密になる",
+      "独立した訪問目的地というより親温泉郷の構成説明として有用"
+    ]
+  },
+  "examples": [
+    {
+      "parent": "塩原温泉郷",
+      "detailGroup": "塩原温泉11湯",
+      "mapPolicy": "parent_primary",
+      "detailPolicy": "11湯を詳細画面のチェックリストとして表示",
+      "badgePolicy": "通常は『塩原温泉郷』バッジを主表示。11湯踏破はサブ実績/上位実績として扱う。"
+    },
+    {
+      "parent": "箱根温泉郷",
+      "detailGroups": ["箱根七湯", "箱根十七湯"],
+      "mapPolicy": "parent_primary_with_selected_independent_subareas",
+      "detailPolicy": "七湯・十七湯は親詳細内の歴史/踏破セクションへ",
+      "badgePolicy": "『箱根温泉郷』を主表示し、七湯/十七湯はコレクション実績へ下げる。"
+    },
+    {
+      "parent": "那須温泉郷",
+      "detailGroups": ["那須七湯", "那須八湯", "那須十一湯"],
+      "mapPolicy": "parent_primary_with_selected_independent_subareas",
+      "detailPolicy": "時代別定義は資料として保持し、通常UIでは折りたたむ",
+      "badgePolicy": "トップレベルは『那須温泉郷』。歴史的七湯等はサブ実績。"
+    },
+    {
+      "parent": "別府温泉郷",
+      "detailGroup": "別府八湯",
+      "mapPolicy": "keep_independent_subareas",
+      "reason": "八湯それぞれの地理・泉質・街区・訪問体験の独立性が高い",
+      "badgePolicy": "別府八湯は主要コレクション実績として維持"
+    },
+    {
+      "parent": "奥飛騨温泉郷",
+      "detailGroup": "奥飛騨五湯",
+      "mapPolicy": "keep_independent_subareas",
+      "reason": "平湯・福地・新平湯・栃尾・新穂高が旅行先として独立して認識される",
+      "badgePolicy": "五湯踏破は主要コレクション実績として維持"
+    }
+  ],
+  "uiRecommendation": {
+    "map": "親温泉郷を優先表示。独立性の高い子温泉のみ個別ピンを併記。",
+    "spotDetail": "所属グループは最大3件程度を主バッジ表示し、残りは『その他の称号・くくり』に折りたたむ。",
+    "collection": "歴史的なくくり・細分類はコレクション図鑑側で全件閲覧可能にする。",
+    "completion": "細分類の全踏破はサブ実績または上位称号として付与し、通常の温泉地バッジ数を肥大化させない。"
+  }
+}
