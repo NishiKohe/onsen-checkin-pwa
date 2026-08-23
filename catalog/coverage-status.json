@@ -1,7 +1,7 @@
 {
-  "version": 7,
+  "version": 8,
   "updatedAt": "2026-08-23",
-  "currentMapCount": 95,
+  "currentMapCount": 109,
   "runtimeData": {
     "mode": "manifest_merge",
     "manifestPath": "onsen-data-manifest.json",
@@ -9,7 +9,9 @@
     "regionalFiles": [
       "data/onsen-musume-hokkaido-tohoku.json",
       "data/onsen-musume-kanto-simple.json",
-      "data/onsen-musume-kanto-areas.json"
+      "data/onsen-musume-kanto-areas.json",
+      "data/onsen-musume-koshinetsu-hokuriku-simple.json",
+      "data/onsen-musume-koshinetsu-hokuriku-areas.json"
     ],
     "multiZoneCheckinSupported": true,
     "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
@@ -18,29 +20,25 @@
     "onsenMusume": {
       "charactersDomestic": 134,
       "normalizedSpotCandidates": 133,
-      "highConfidenceNormalization": 111,
-      "needsAreaBoundaryVerification": 22,
       "mandatory": true,
       "masterStatus": "all_names_normalized",
       "masterPath": "catalog/onsen-musume-area-master.json",
-      "coordinateEnrichment": {
-        "completedRegions": ["北海道・東北", "関東"],
-        "regionalPaths": [
-          "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
-          "catalog/onsen-musume-normalized-kanto.json"
-        ],
-        "runtimeAddedHokkaidoTohoku": 18,
-        "runtimeAddedKantoSimple": 9,
-        "runtimeAddedKantoParentAreas": 5,
-        "kantoCoverage": "17/18",
-        "kantoPending": ["秩父温泉郷"]
+      "regionProgress": {
+        "北海道・東北": "complete",
+        "関東": "17/18（秩父温泉郷のみ要追加）",
+        "甲信越・北陸": "22/22 complete"
       },
-      "note": "親温泉郷と子温泉が併存するケースではデータ上の親子関係を保持する。地図表示は親を優先しつつ、温泉むすめ等で独立価値の高い子温泉は個別スポットを残す。"
+      "regionalMasters": [
+        "catalog/onsen-musume-normalized-hokkaido-tohoku.json",
+        "catalog/onsen-musume-normalized-kanto.json",
+        "catalog/onsen-musume-normalized-koshinetsu-hokuriku.json"
+      ],
+      "note": "親温泉郷と子温泉が併存するケースではデータ上の親子関係を保持。地図は親を優先しつつ、温泉むすめ等で独立価値の高い子温泉は個別スポットを残す。"
     },
     "onsenHeritage": {
       "mandatory": true,
       "status": "manual_current_verification_required",
-      "note": "現行公式一覧が安定取得できないため、認定宿・施設の公式記載を集約して所属温泉地へ正規化する。"
+      "note": "認定宿・施設の公式記載を集約して所属温泉地へ正規化する。"
     },
     "nationalRecreationSpa": {
       "officialCount": 79,
@@ -64,10 +62,6 @@
   },
   "onsenMusumeAreaVerificationQueue": [
     "秩父温泉郷",
-    "輪島温泉郷",
-    "河口湖温泉郷",
-    "山中湖温泉",
-    "湯田中渋温泉郷",
     "飛騨高山温泉",
     "下田温泉",
     "南知多温泉郷",
@@ -81,9 +75,9 @@
     "西表島温泉"
   ],
   "nextPass": [
-    "秩父温泉郷の公式的な範囲と代表チェックインゾーンを確定",
-    "甲信越・北陸の温泉むすめ22候補を既存データと重複統合し、不足分を地域ファイルへ追加",
-    "東海以西も親温泉郷優先の階層ルールで追加",
+    "秩父温泉郷の代表チェックインゾーンを確定",
+    "東海ブロックの温泉むすめ対象を親温泉郷優先ルールで追加",
+    "近畿・中国四国・九州沖縄を順次地域ファイル化",
     "国民保養温泉地79件を重複統合",
     "日本秘湯を守る会105宿を温泉地へ正規化",
     "温泉遺産認定宿を現行情報で個別照合",
