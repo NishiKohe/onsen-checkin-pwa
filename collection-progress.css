@@ -1,4 +1,29 @@
 /* タグ達成状況画面とフッタータブ */
+/*
+ * style.css の .main { display:grid } が HTML hidden 属性より強く効く環境があるため、
+ * タブ表示は hidden だけに依存せず明示的に排他制御する。
+ */
+.has-app-tabs .main[hidden],
+.has-app-tabs .collection-view[hidden] {
+  display: none !important;
+}
+
+body.collection-tab-active .main {
+  display: none !important;
+}
+
+body.collection-tab-active .collection-view {
+  display: block !important;
+}
+
+body:not(.collection-tab-active) .collection-view {
+  display: none !important;
+}
+
+body.collection-tab-active {
+  overflow: hidden;
+}
+
 .has-app-tabs .main,
 .has-app-tabs .collection-view {
   height: calc(100dvh - 50px - 64px);
@@ -11,6 +36,7 @@
 .collection-view {
   box-sizing: border-box;
   overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0 14px calc(24px + env(safe-area-inset-bottom));
   background:
     radial-gradient(circle at 82% -10%, rgba(209, 164, 61, 0.10), transparent 30%),
