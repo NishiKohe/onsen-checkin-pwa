@@ -15,9 +15,10 @@
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
-  <link rel="stylesheet" href="./style.css?v=31" />
-  <link rel="stylesheet" href="./collection-progress.css?v=31" />
-  <link rel="stylesheet" href="./visit-log.css?v=31" />
+  <link rel="stylesheet" href="./style.css?v=32" />
+  <link rel="stylesheet" href="./collection-progress.css?v=32" />
+  <link rel="stylesheet" href="./visit-log.css?v=32" />
+  <link rel="stylesheet" href="./profile-storage.css?v=32" />
 </head>
 <body>
   <header class="header">
@@ -130,19 +131,21 @@
     <button type="button" class="app-tab" data-app-tab="collection" aria-selected="false">達成状況</button>
   </nav>
 
-  <script src="./visit-log-preload.js?v=31"></script>
-  <script src="./app.js?v=31"></script>
-  <script src="./ui-enhancements.js?v=31"></script>
-  <script src="./heritage-ui.js?v=31"></script>
-  <script src="./fixed-selection-ui.js?v=31"></script>
-  <script src="./collection-progress-ui.js?v=31"></script>
-  <script src="./tab-display-fix.js?v=31"></script>
-  <script src="./visit-log-ui.js?v=31"></script>
-  <script src="./photo-recovery-fallback.js?v=31"></script>
+  <script src="./profile-storage.js?v=32"></script>
+  <script src="./visit-log-preload.js?v=32"></script>
+  <script src="./app.js?v=32"></script>
+  <script src="./ui-enhancements.js?v=32"></script>
+  <script src="./heritage-ui.js?v=32"></script>
+  <script src="./fixed-selection-ui.js?v=32"></script>
+  <script src="./collection-progress-ui.js?v=32"></script>
+  <script src="./collection-details-fix.js?v=32"></script>
+  <script src="./tab-display-fix.js?v=32"></script>
+  <script src="./visit-log-ui.js?v=32"></script>
+  <script src="./photo-recovery-fallback.js?v=32"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js?v=31").catch(console.error);
+        navigator.serviceWorker.register("./sw.js?v=32").catch(console.error);
       });
     }
   </script>
