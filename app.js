@@ -2,6 +2,13 @@ const CHECKIN_RADIUS_M = 150;
 const REQUIRED_ACCURACY_M = 60;
 const COOLDOWN_HOURS = 24;
 
+// 日本全域（沖縄〜北海道・離島を含む）を大きく囲う操作範囲。
+// 「世界中まで地図を飛ばせてしまう」状態を防ぐための制限です。
+const JAPAN_BOUNDS = [
+  [122.0, 20.0], // southwest
+  [154.0, 46.5]  // northeast
+];
+
 let map, userMarker, userAccuracyM = null, userPos = null;
 let spots = [];
 let selectedSpot = null;
@@ -31,9 +38,13 @@ async function init() {
 function setupMap() {
   map = new maplibregl.Map({
     container: "map",
-    style: "https://demotiles.maplibre.org/style.json",
+    // 淡色で温泉スポットを目立たせる背景地図。
+    style: "https://tiles.openfreemap.org/styles/positron",
     center: [137.5, 36.2],
-    zoom: 4.5
+    zoom: 4.5,
+    minZoom: 4,
+    maxBounds: JAPAN_BOUNDS,
+    renderWorldCopies: false
   });
 
   map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }), "top-right");
@@ -56,14 +67,14 @@ function setupMap() {
       type: "circle",
       source: "spots",
       paint: {
-        "circle-radius": 8,
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 6, 8, 9, 13, 12],
         "circle-stroke-width": 2,
-        "circle-stroke-color": "#0b0f14",
+        "circle-stroke-color": "#ffffff",
         "circle-color": [
           "case",
           ["boolean", ["feature-state", "visited"], false],
-          "#39d98a",
-          "#2b6cff"
+          "#1f9d68",
+          "#2764c5"
         ]
       }
     });
@@ -151,7 +162,7 @@ function locateOnce(flyToUser) {
       el("spotAcc").textContent = userAccuracyM ? `${userAccuracyM}m` : "—";
 
       if (!userMarker) {
-        userMarker = new maplibregl.Marker({ color: "#ffd166" })
+        userMarker = new maplibregl.Marker({ color: "#e7a928" })
           .setLngLat([userPos.lng, userPos.lat])
           .addTo(map);
       } else {
@@ -193,7 +204,7 @@ function updateDistanceAndButton() {
   }
 
   const distance = distanceM(userPos.lat, userPos.lng, selectedSpot.lat, selectedSpot.lng);
-  el("spotDist").textContent = `${Math.round(distance)}m`;
+  el("spotDist").textContent = formatDistanceKm(distance);
 
   const accurateEnough = userAccuracyM !== null && userAccuracyM <= REQUIRED_ACCURACY_M;
   const inRange = distance <= CHECKIN_RADIUS_M;
@@ -204,12 +215,23 @@ function updateDistanceAndButton() {
   if (!accurateEnough) {
     el("btnCheckin").textContent = "位置精度が低いです（再取得）";
   } else if (!inRange) {
-    el("btnCheckin").textContent = `範囲外（あと${Math.max(0, Math.round(distance - CHECKIN_RADIUS_M))}m）`;
+    const remaining = Math.max(0, distance - CHECKIN_RADIUS_M);
+    // チェックイン直前の誘導だけは実用性のためm表示を残す。
+    el("btnCheckin").textContent = remaining < 1000
+      ? `範囲外（あと${Math.round(remaining)}m）`
+      : `範囲外（あと${formatDistanceKm(remaining)}）`;
   } else if (!cooldownOk) {
     el("btnCheckin").textContent = "チェックイン済（24時間以内）";
   } else {
     el("btnCheckin").textContent = "チェックイン";
   }
+}
+
+function formatDistanceKm(meters) {
+  const km = meters / 1000;
+  if (km < 10) return `${km.toFixed(2)}km`;
+  if (km < 100) return `${km.toFixed(1)}km`;
+  return `${Math.round(km)}km`;
 }
 
 function distanceM(lat1, lon1, lat2, lon2) {
