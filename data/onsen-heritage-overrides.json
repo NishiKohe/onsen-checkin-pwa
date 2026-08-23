@@ -4,8 +4,7 @@
     "onsenHeritage":true,
     "onsenIsan":true,
     "onsenHeritageFacilities":["ての字屋"],
-    "onsenIsanFacilities":["ての字屋"],
-    "badges":["onsen_heritage"]
+    "onsenIsanFacilities":["ての字屋"]
   },
   {
     "id":"tazawako_kogen",
@@ -13,16 +12,14 @@
     "onsenIsan":true,
     "onsenHeritageFacilities":["駒ヶ岳グランドホテル"],
     "onsenIsanFacilities":["駒ヶ岳グランドホテル"],
-    "onsenHeritageFacilityStatuses":{"駒ヶ岳グランドホテル":"suspended"},
-    "badges":["onsen_heritage"]
+    "onsenHeritageFacilityStatuses":{"駒ヶ岳グランドホテル":"suspended"}
   },
   {
     "id":"onogawa",
     "onsenHeritage":true,
     "onsenIsan":true,
     "onsenHeritageFacilities":["河鹿荘"],
-    "onsenIsanFacilities":["河鹿荘"],
-    "badges":["onsen_heritage"]
+    "onsenIsanFacilities":["河鹿荘"]
   },
   {
     "id":"misasa",
@@ -30,6 +27,6 @@
     "onsenIsan":true,
     "onsenHeritageFacilities":["木屋旅館"],
     "onsenIsanFacilities":["木屋旅館"],
-    "badges":["onsen_heritage","cultural_property_bath","japan_heritage_related"]
+    "heritageRelatedBadges":["onsen_heritage","cultural_property_bath","japan_heritage_related"]
   }
 ]
