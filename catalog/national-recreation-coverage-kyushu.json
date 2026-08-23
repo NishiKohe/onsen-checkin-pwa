@@ -1,0 +1,18 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"九州",
+  "officialCountInScope":12,
+  "status":"12/12 complete",
+  "existingDesignationGroups":["雲仙・小浜温泉","鉄輪・明礬・柴石温泉","霧島温泉"],
+  "runtimeAdded":["筑後川温泉","吉井温泉","壱岐湯本温泉","天草下田温泉","南小国温泉郷","湯の児・湯の鶴温泉","湯布院温泉郷","竹田温泉群","隼人・新川渓谷温泉郷"],
+  "sharedDesignationMembers":{
+    "雲仙・小浜温泉":["雲仙温泉","小浜温泉"],
+    "鉄輪・明礬・柴石温泉":["鉄輪温泉","明礬温泉","柴石温泉"],
+    "湯布院温泉郷":["由布院温泉","湯平温泉"],
+    "南小国温泉郷":["黒川温泉"]
+  },
+  "runtimePath":"data/national-recreation-kyushu.json",
+  "overridePath":"data/national-recreation-overrides-kyushu.json",
+  "sourcePath":"catalog/national-recreation-spa-required.json"
+}
