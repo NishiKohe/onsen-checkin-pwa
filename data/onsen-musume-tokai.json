@@ -1,0 +1,204 @@
+[
+  {
+    "id": "hida_takayama",
+    "name": "飛騨高山温泉",
+    "prefecture": "岐阜県",
+    "lat": 36.1408,
+    "lng": 137.2513,
+    "onsenMusumeCharacters": ["高山匠美"],
+    "displayModel": "parent_single_zone",
+    "checkinZones": [
+      {"label":"高山市街温泉宿エリア","lat":36.1408,"lng":137.2513,"radiusM":2200}
+    ],
+    "summary": "高山市街の温泉宿を中心に扱う親スポット。奥飛騨温泉郷とは別スポットとして管理する。",
+    "referenceNote": "飛騨高山観光公式サイトの市街地温泉施設を基準に、MVPでは高山市街を代表ゾーン化。",
+    "sourceUrls": ["https://www.hidatakayama.or.jp/"]
+  },
+  {
+    "id": "nagaragawa",
+    "name": "長良川温泉",
+    "prefecture": "岐阜県",
+    "lat": 35.4420,
+    "lng": 136.7720,
+    "checkinRadiusM": 1200,
+    "onsenMusumeCharacters": ["長良川かがり"],
+    "summary": "長良川・金華山周辺に広がる岐阜市の温泉地。",
+    "referenceNote": "岐阜県観光公式・長良川温泉公式を基準。",
+    "sourceUrls": ["https://nagaragawa.org/","https://www.kankou-gifu.jp/onsen-nagaragawa"]
+  },
+  {
+    "id": "okuhida",
+    "name": "奥飛騨温泉郷",
+    "prefecture": "岐阜県",
+    "lat": 36.2380,
+    "lng": 137.5450,
+    "onsenMusumeCharacters": ["奥飛騨五十鈴"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["平湯温泉","福地温泉","新平湯温泉","栃尾温泉","新穂高温泉"],
+    "checkinZones": [
+      {"label":"平湯温泉","lat":36.1928714,"lng":137.5532006,"radiusM":900},
+      {"label":"福地温泉","lat":36.2244937,"lng":137.5291781,"radiusM":700},
+      {"label":"新平湯温泉","lat":36.2371927,"lng":137.5323304,"radiusM":1200},
+      {"label":"栃尾温泉","lat":36.2487517,"lng":137.5166293,"radiusM":900},
+      {"label":"新穂高温泉","lat":36.2858894,"lng":137.5753158,"radiusM":1800}
+    ],
+    "summary": "平湯・福地・新平湯・栃尾・新穂高の5温泉地からなる温泉郷。構成5湯は独立性が高いため個別ピンも維持する。",
+    "referenceNote": "奥飛騨温泉郷観光協会が5つの温泉地を公式に案内。",
+    "sourceUrls": ["https://okuhida.or.jp/concept/"]
+  },
+  {
+    "id": "shimoda",
+    "name": "下田温泉",
+    "prefecture": "静岡県",
+    "lat": 34.6795,
+    "lng": 138.9450,
+    "onsenMusumeCharacters": ["下田莉華"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["下田市街","蓮台寺周辺"],
+    "checkinZones": [
+      {"label":"下田市街","lat":34.6795,"lng":138.9450,"radiusM":1800},
+      {"label":"蓮台寺周辺","lat":34.6992,"lng":138.9343,"radiusM":1000}
+    ],
+    "summary": "下田市内の温泉宿・源泉エリアを親スポットとしてまとめる。",
+    "referenceNote": "下田市観光協会が下田温泉として観光誘致を実施。MVPでは市街と蓮台寺を代表ゾーン化。",
+    "sourceUrls": ["https://www.shimoda-city.info/"]
+  },
+  {
+    "id": "toi",
+    "name": "土肥温泉",
+    "prefecture": "静岡県",
+    "lat": 34.9105,
+    "lng": 138.7933,
+    "checkinRadiusM": 1500,
+    "onsenMusumeCharacters": ["土肥間由"],
+    "summary": "西伊豆・土肥の海辺に広がる温泉地。",
+    "referenceNote": "伊豆市観光協会土肥支部・土肥温泉旅館協同組合の観光案内を基準。",
+    "sourceUrls": ["https://toi-annai.com/"]
+  },
+  {
+    "id": "kanzanji",
+    "name": "舘山寺温泉",
+    "prefecture": "静岡県",
+    "lat": 34.7619,
+    "lng": 137.6134,
+    "checkinRadiusM": 1400,
+    "onsenMusumeCharacters": ["舘山寺萌湖"],
+    "summary": "浜名湖畔に広がる浜松市の温泉地。",
+    "referenceNote": "舘山寺温泉街を代表点としてMVP登録。",
+    "sourceUrls": []
+  },
+  {
+    "id": "inatori",
+    "name": "稲取温泉",
+    "prefecture": "静岡県",
+    "lat": 34.7730,
+    "lng": 139.0417,
+    "checkinRadiusM": 1400,
+    "onsenMusumeCharacters": ["稲取ひなめ"],
+    "summary": "東伊豆町稲取の海沿いに広がる温泉地。",
+    "referenceNote": "稲取温泉街を代表点としてMVP登録。",
+    "sourceUrls": []
+  },
+  {
+    "id": "atagawa",
+    "name": "熱川温泉",
+    "prefecture": "静岡県",
+    "lat": 34.8152,
+    "lng": 139.0683,
+    "checkinRadiusM": 1200,
+    "onsenMusumeCharacters": ["熱川 灯"],
+    "summary": "東伊豆町熱川の温泉地。",
+    "referenceNote": "伊豆熱川駅周辺の温泉街を代表点としてMVP登録。",
+    "sourceUrls": []
+  },
+  {
+    "id": "minamichita",
+    "name": "南知多温泉郷",
+    "prefecture": "愛知県",
+    "lat": 34.7250,
+    "lng": 136.8900,
+    "onsenMusumeCharacters": ["南知多まゆの"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["内海","山海","豊浜"],
+    "checkinZones": [
+      {"label":"内海","lat":34.7403,"lng":136.8733,"radiusM":1600},
+      {"label":"山海","lat":34.7217,"lng":136.8780,"radiusM":1400},
+      {"label":"豊浜","lat":34.7080,"lng":136.9280,"radiusM":1500}
+    ],
+    "summary": "内海・山海・豊浜の温泉地を総称する南知多の温泉郷。",
+    "referenceNote": "愛知県観光公式が内海・山海・豊浜を南知多温泉郷として明記。",
+    "sourceUrls": ["https://aichinow.pref.aichi.jp/spots/detail/181"]
+  },
+  {
+    "id": "gamagori_onsenkyo",
+    "name": "蒲郡温泉郷",
+    "prefecture": "愛知県",
+    "lat": 34.8070,
+    "lng": 137.2200,
+    "onsenMusumeCharacters": ["蒲郡海詩"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["蒲郡温泉","三谷温泉","形原温泉","西浦温泉"],
+    "checkinZones": [
+      {"label":"蒲郡温泉","lat":34.8149,"lng":137.2263,"radiusM":1700},
+      {"label":"三谷温泉","lat":34.8130,"lng":137.2590,"radiusM":1300},
+      {"label":"形原温泉","lat":34.7980,"lng":137.1820,"radiusM":1400},
+      {"label":"西浦温泉","lat":34.7670,"lng":137.1730,"radiusM":1600}
+    ],
+    "summary": "蒲郡・三谷・形原・西浦の4温泉地からなる蒲郡市の温泉郷。",
+    "referenceNote": "蒲郡市観光協会が4つの温泉郷を公式に案内。",
+    "sourceUrls": ["https://www.gamagori.jp/special/hotspring"]
+  },
+  {
+    "id": "sakakibara",
+    "name": "榊原温泉",
+    "prefecture": "三重県",
+    "lat": 34.7050,
+    "lng": 136.3750,
+    "checkinRadiusM": 1300,
+    "onsenMusumeCharacters": ["榊原伊都"],
+    "summary": "津市榊原町にある歴史ある温泉地。",
+    "referenceNote": "榊原温泉振興協会・津市観光協会の所在地を基準。",
+    "sourceUrls": ["https://sakakibara-onsen.jp/","https://tsukanko.jp/spot/s33/"]
+  },
+  {
+    "id": "shima_onsenkyo",
+    "name": "志摩温泉郷",
+    "prefecture": "三重県",
+    "lat": 34.3200,
+    "lng": 136.8200,
+    "onsenMusumeCharacters": ["志摩茉莉也"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["賢島周辺","志摩スペイン村周辺","ともやま周辺","浜島周辺"],
+    "checkinZones": [
+      {"label":"賢島周辺","lat":34.3090,"lng":136.8180,"radiusM":1900},
+      {"label":"志摩スペイン村周辺","lat":34.3590,"lng":136.8480,"radiusM":1800},
+      {"label":"ともやま周辺","lat":34.2820,"lng":136.8610,"radiusM":1800},
+      {"label":"浜島周辺","lat":34.2960,"lng":136.7620,"radiusM":1800}
+    ],
+    "summary": "志摩市内に点在する天然温泉を親スポットとしてまとめる。",
+    "referenceNote": "志摩市観光協会が賢島・ともやま・志摩スペイン村など市内各所の天然温泉を案内。MVPでは代表4ゾーン化。",
+    "sourceUrls": ["https://www.kanko-shima.com/","https://www.kanko-shima.com/purpose/602/"]
+  },
+  {
+    "id": "toba_onsenkyo",
+    "name": "鳥羽温泉郷",
+    "prefecture": "三重県",
+    "lat": 34.4700,
+    "lng": 136.8700,
+    "onsenMusumeCharacters": ["鳥羽亜矢海"],
+    "displayModel": "parent_multi_zone",
+    "subAreas": ["鳥羽・小浜","安楽島","浦村","石鏡","国崎","相差・畔蛸","答志島・菅島"],
+    "checkinZones": [
+      {"label":"鳥羽・小浜","lat":34.4810,"lng":136.8430,"radiusM":2200},
+      {"label":"安楽島","lat":34.4540,"lng":136.8590,"radiusM":1600},
+      {"label":"浦村","lat":34.4510,"lng":136.8990,"radiusM":1600},
+      {"label":"石鏡・国崎","lat":34.4260,"lng":136.9170,"radiusM":2200},
+      {"label":"相差・畔蛸","lat":34.3870,"lng":136.9020,"radiusM":2200},
+      {"label":"答志島","lat":34.5120,"lng":136.8960,"radiusM":1800},
+      {"label":"菅島","lat":34.4800,"lng":136.9050,"radiusM":1400}
+    ],
+    "summary": "鳥羽市の海辺に広がる複数の湯処をまとめた温泉郷。",
+    "referenceNote": "鳥羽市観光協会が海辺に広がる9つの湯処を鳥羽温泉郷として案内。地図は親1ピン、代表7ゾーンでカバーする。",
+    "sourceUrls": ["https://www.toba.gr.jp/faq/","https://tobakanko.jp/modules/variouscontents/index_php/content0006.html"]
+  }
+]
