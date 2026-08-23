@@ -1,5 +1,5 @@
 {
-  "version": 19,
+  "version": 20,
   "files": [
     "./onsen.json",
     "./data/onsen-musume-hokkaido-tohoku.json",
@@ -28,6 +28,7 @@
     "./data/onsen-heritage-new.json",
     "./data/onsen-heritage-overrides.json",
     "./data/regional-group-spots.json",
-    "./data/onsen-analysis-expansion.json"
+    "./data/onsen-analysis-expansion.json",
+    "./data/onsen-analysis-expansion-2.json"
   ]
 }
