@@ -1,9 +1,10 @@
-const CACHE_NAME = "onsen-checkin-v13";
+const CACHE_NAME = "onsen-checkin-v14";
 const APP_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
   "./app.js",
+  "./ui-enhancements.js",
   "./onsen.json",
   "./onsen-data-manifest.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
@@ -41,7 +42,7 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const networkFirst = ["/onsen.json", "/app.js", "/onsen-data-manifest.json"];
+  const networkFirst = ["/onsen.json", "/app.js", "/ui-enhancements.js", "/onsen-data-manifest.json"];
   if (networkFirst.some((suffix) => url.pathname.endsWith(suffix)) || url.pathname.includes("/data/onsen-")) {
     event.respondWith(
       fetch(event.request)
