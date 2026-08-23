@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v18";
+const CACHE_NAME = "onsen-checkin-v19";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -20,8 +20,10 @@ const APP_ASSETS = [
   "./data/national-recreation-hokkaido-tohoku.json",
   "./data/national-recreation-kanto.json",
   "./data/national-recreation-koshinetsu-hokuriku.json",
+  "./data/national-recreation-tokai.json",
   "./data/national-recreation-overrides.json",
   "./data/national-recreation-overrides-koshinetsu-hokuriku.json",
+  "./data/national-recreation-overrides-tokai.json",
   "./manifest.webmanifest",
   "./icons/icon-192.png",
   "./icons/icon-512.png"
