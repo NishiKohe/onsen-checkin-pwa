@@ -1,0 +1,95 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "scope": "北海道・東北周辺で追加確認した歴史的・地域的なくくり",
+  "designNote": "確定度の高いグループはspotBadge/completionBadge対象。構成に異説があるものはvariantsを保持し、単一の正解に潰さない。",
+  "groups": [
+    {
+      "id": "ou_sanrakukyo",
+      "name": "奥羽三楽郷",
+      "category": "regional_historical",
+      "members": ["kaminoyama", "higashiyama_aizu", "yunohama"],
+      "memberNames": ["かみのやま温泉", "東山温泉", "湯野浜温泉"],
+      "spotBadgeRarity": "SR",
+      "completionBadge": {"name":"奥羽三楽郷・踏破","rarity":"SSR"},
+      "sourceUrls": [
+        "https://yamagatakanko.com/attractions/detail_12299.html",
+        "https://www.aizukanko.com/spot/26"
+      ],
+      "evidenceLevel": "prefectural_and_local_official"
+    },
+    {
+      "id": "banetsu_sanbijinyu",
+      "name": "磐越三美人湯",
+      "aliases": ["磐越三美人"],
+      "category": "project_and_local_official_group",
+      "members": ["iwaki_yumoto", "bandai_atami", "tsukioka"],
+      "memberNames": ["いわき湯本温泉", "磐梯熱海温泉", "月岡温泉"],
+      "spotBadgeRarity": "R",
+      "completionBadge": {"name":"磐越三美人湯・踏破","rarity":"SR"},
+      "sourceUrls": [
+        "https://onsen-musume.jp/character/bandaiatami_hagi",
+        "https://www.bandaiatami.or.jp/bandaiatamihagi/"
+      ],
+      "evidenceLevel": "onsen_musume_official_and_local_tourism_official"
+    },
+    {
+      "id": "oshu_sanko_yu",
+      "name": "奥州三高湯",
+      "category": "regional_historical",
+      "members": ["takayu", "shirabu", "zao"],
+      "memberNames": ["高湯温泉", "白布温泉", "蔵王温泉"],
+      "spotBadgeRarity": "SSR",
+      "completionBadge": {"name":"奥州三高湯・踏破","rarity":"UR"},
+      "sourceUrls": [
+        "https://tamagoyu.jp/spa/",
+        "https://www.spa.or.jp/search_p/detail_p/?F_ID=61120&pg=0"
+      ],
+      "evidenceLevel": "onsen_association_and_local_official"
+    },
+    {
+      "id": "shonai_sanmeito",
+      "name": "庄内三名湯",
+      "aliases": ["庄内三楽湯"],
+      "category": "regional_historical",
+      "members": ["yunohama", "atsumi", "yudagawa"],
+      "memberNames": ["湯野浜温泉", "あつみ温泉", "湯田川温泉"],
+      "spotBadgeRarity": "SR",
+      "completionBadge": {"name":"庄内三名湯・踏破","rarity":"SSR"},
+      "sourceUrls": [
+        "https://www.yutagawaonsen.com/about.html",
+        "https://www.pref.yamagata.jp/337001/kensei/shoukai/yamagataken/shonai.html"
+      ],
+      "evidenceLevel": "local_tourism_and_prefectural_official"
+    },
+    {
+      "id": "nihon_sanmiyu",
+      "name": "日本三御湯",
+      "category": "historical_disputed_definition",
+      "status": "source_conflict",
+      "spotBadgeRarity": "SSR",
+      "completionBadge": {"name":"日本三御湯・踏破","rarity":"UR"},
+      "variants": [
+        {
+          "label": "東北・新潟温泉地紹介資料系",
+          "members": ["akiu", "bessho", "nozawa"],
+          "memberNames": ["秋保温泉", "別所温泉", "野沢温泉"],
+          "sourceUrl": "https://www.t-hoan.or.jp/oyakudachi/pdf/304.pdf"
+        },
+        {
+          "label": "秋保温泉散策資料記載",
+          "members": ["arima", "akiu", "dogo"],
+          "memberNames": ["有馬温泉", "秋保温泉", "道後温泉"],
+          "sourceUrl": "https://www.akiuonsenkumiai.com/pdf/20250123_akiusanpo_B6.pdf"
+        }
+      ],
+      "note": "公的・準公式資料同士で構成が一致しない。ゲーム上は出典別バリアントを保持し、UIでは『諸説あり』表示を前提とする。"
+    }
+  ],
+  "discoveryQueue": [
+    {"name":"扶桑三名湯","status":"needs_source_verification"},
+    {"name":"庄内三楽湯","status":"alias_or_variant_check","note":"庄内三名湯との同義/別称の扱いを追加確認。"},
+    {"name":"奥州三高湯","status":"confirmed"},
+    {"name":"日本三御湯","status":"confirmed_name_disputed_members"}
+  ]
+}
