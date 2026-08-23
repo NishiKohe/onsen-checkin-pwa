@@ -245,14 +245,13 @@
         renderPowerStatus();
       });
     });
-    renderPowerStatus();
     return true;
   }
 
   function renderPowerStatus() {
-    if (!installPowerUi()) {
-      if (!document.getElementById("tripPowerCard")) return;
-    }
+    installPowerUi();
+    if (!document.getElementById("tripPowerCard")) return;
+
     const settings = readSettings();
     const lastAt = runtimeLast?.sampledAt || Number(settings.lastLocationSampleAt || 0) || null;
     const accuracy = runtimeLast?.accuracyM ?? settings.lastLocationAccuracyM ?? null;
@@ -314,8 +313,9 @@
   window.addEventListener("storage", renderPowerStatus);
 
   const uiPoll = setInterval(() => {
-    if (installPowerUi()) {
+    if (document.getElementById("tripPowerCard") || installPowerUi()) {
       clearInterval(uiPoll);
+      renderPowerStatus();
       if (!uiTimer) uiTimer = setInterval(renderPowerStatus, 60000);
     }
   }, 100);
