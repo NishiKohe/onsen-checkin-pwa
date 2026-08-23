@@ -1,0 +1,105 @@
+[
+  {
+    "id": "hakone_onsenkyo",
+    "name": "箱根温泉郷",
+    "prefecture": "神奈川県",
+    "lat": 35.241,
+    "lng": 139.064,
+    "spotKind": "onsenkyo",
+    "displayLevel": "parent",
+    "onsenMusumeCharacters": ["箱根彩耶"],
+    "subAreas": ["湯本温泉","塔之沢温泉","大平台温泉","宮ノ下温泉","堂ヶ島温泉","木賀温泉","底倉温泉","二ノ平温泉","小涌谷温泉","強羅温泉","宮城野温泉","仙石原温泉","姥子温泉","芦之湯温泉","湯の花沢温泉","蛸川温泉","芦ノ湖温泉"],
+    "checkinZones": [
+      {"label":"湯本・塔之沢","lat":35.2322,"lng":139.1069,"radiusM":1300},
+      {"label":"宮ノ下・底倉・木賀","lat":35.2420,"lng":139.0630,"radiusM":1400},
+      {"label":"強羅・二ノ平・小涌谷","lat":35.2507,"lng":139.0488,"radiusM":1600},
+      {"label":"仙石原・姥子","lat":35.2720,"lng":139.0115,"radiusM":2000},
+      {"label":"芦之湯・湯の花沢","lat":35.2235,"lng":139.0410,"radiusM":1700},
+      {"label":"芦ノ湖・蛸川","lat":35.2040,"lng":139.0260,"radiusM":1800}
+    ],
+    "summary": "箱根七湯を起点に、現在は十七湯を数える広域温泉地。地図では親の温泉郷として表示し、構成湯は詳細内で管理する。",
+    "officialUrl": "https://www.hakone.or.jp/6882",
+    "referenceNote": "箱根町観光協会の箱根十七湯を基準。チェックインゾーンはMVP用の代表エリアで、現地テスト後に調整予定。"
+  },
+  {
+    "id": "shiobara_onsenkyo",
+    "name": "塩原温泉郷",
+    "prefecture": "栃木県",
+    "lat": 36.969,
+    "lng": 139.814,
+    "spotKind": "onsenkyo",
+    "displayLevel": "parent",
+    "onsenMusumeCharacters": ["塩原八弥"],
+    "subAreas": ["大網","福渡","塩釜","塩の湯","畑下","門前","古町","中塩原","上塩原","新湯","元湯"],
+    "checkinZones": [
+      {"label":"大網","lat":36.9370,"lng":139.8420,"radiusM":900},
+      {"label":"福渡・塩釜・塩の湯","lat":36.9530,"lng":139.8290,"radiusM":1300},
+      {"label":"畑下・門前・古町","lat":36.9690,"lng":139.8140,"radiusM":1400},
+      {"label":"中塩原・上塩原","lat":36.9900,"lng":139.7980,"radiusM":1500},
+      {"label":"新湯","lat":37.0060,"lng":139.7840,"radiusM":900},
+      {"label":"元湯","lat":37.0200,"lng":139.7700,"radiusM":900}
+    ],
+    "summary": "箒川の渓谷沿いに11の温泉地が連なる温泉郷。地図では塩原温泉郷を主スポットとし、11湯は詳細進捗で保持する。",
+    "officialUrl": "https://www.city.nasushiobara.tochigi.jp/soshikikarasagasu/tsuishin/onsen/2/2267.html",
+    "referenceNote": "那須塩原市公式の塩原温泉11湯を基準。チェックインゾーンはMVP用の代表エリア。"
+  },
+  {
+    "id": "nasu_onsenkyo",
+    "name": "那須温泉郷",
+    "prefecture": "栃木県",
+    "lat": 37.101,
+    "lng": 139.993,
+    "spotKind": "onsenkyo",
+    "displayLevel": "parent",
+    "onsenMusumeCharacters": ["那須一与"],
+    "subAreas": ["那須温泉（鹿の湯）","三斗小屋温泉","大丸温泉","北温泉","弁天温泉","高雄温泉","八幡温泉","新那須温泉"],
+    "historicalSubAreas": ["旭温泉跡","飯盛温泉跡","郭公温泉跡"],
+    "checkinZones": [
+      {"label":"那須湯本・鹿の湯","lat":37.0944,"lng":140.0037,"radiusM":1500},
+      {"label":"高雄・八幡","lat":37.1160,"lng":139.9970,"radiusM":1900},
+      {"label":"大丸・弁天","lat":37.1280,"lng":139.9650,"radiusM":1800},
+      {"label":"北温泉","lat":37.1200,"lng":139.9900,"radiusM":1200},
+      {"label":"新那須","lat":37.0840,"lng":140.0100,"radiusM":1700},
+      {"label":"三斗小屋","lat":37.1310,"lng":139.9230,"radiusM":1400}
+    ],
+    "summary": "那須岳周辺に広がる温泉郷。七湯・八湯・十一湯など時代や資料で異なる括りは詳細データとして保持する。",
+    "officialUrl": "https://www.nasukogen.org/nasuonsen/",
+    "referenceNote": "那須町観光協会の現行案内を基準。旭・飯盛・郭公は跡地のため通常チェックイン対象からは分離。"
+  },
+  {
+    "id": "minamiboso_onsenkyo",
+    "name": "南房総温泉郷",
+    "prefecture": "千葉県",
+    "lat": 34.985,
+    "lng": 139.925,
+    "spotKind": "onsenkyo",
+    "displayLevel": "parent",
+    "onsenMusumeCharacters": ["南房総日由美"],
+    "subAreas": ["岩井温泉","白浜温泉","千倉温泉"],
+    "checkinZones": [
+      {"label":"岩井温泉","lat":35.0960,"lng":139.8490,"radiusM":2200},
+      {"label":"白浜温泉","lat":34.9100,"lng":139.8950,"radiusM":2500},
+      {"label":"千倉温泉","lat":34.9770,"lng":139.9550,"radiusM":2500}
+    ],
+    "summary": "岩井・白浜・千倉の3温泉を主な構成とする南房総の温泉郷。",
+    "officialUrl": "https://www.minamiboso-onsen.com/",
+    "referenceNote": "南房総市温泉組合および千葉県公式観光サイトの3温泉構成を基準。"
+  },
+  {
+    "id": "kamogawa_onsen",
+    "name": "鴨川温泉",
+    "prefecture": "千葉県",
+    "lat": 35.1075,
+    "lng": 140.1047,
+    "spotKind": "onsen_area",
+    "displayLevel": "parent",
+    "onsenMusumeCharacters": ["鴨川茉凛"],
+    "checkinZones": [
+      {"label":"鴨川市街・前原海岸周辺","lat":35.1075,"lng":140.1047,"radiusM":2800},
+      {"label":"天津・小湊周辺","lat":35.1190,"lng":140.1940,"radiusM":2800}
+    ],
+    "summary": "海辺から山間部まで宿が点在する鴨川エリアの天然温泉地。",
+    "officialUrl": "https://maruchiba.jp/feature/detail_115.html",
+    "referenceNote": "千葉県公式観光サイトの鴨川温泉を基準。MVPでは市街・小湊の代表ゾーンで判定する。"
+  }
+]
