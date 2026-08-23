@@ -1,12 +1,12 @@
 {
-  "version": 15,
-  "updatedAt": "2026-08-23",
-  "currentMapCount": 176,
-  "runtimeData": {
-    "mode": "manifest_merge",
-    "manifestPath": "onsen-data-manifest.json",
-    "basePath": "onsen.json",
-    "regionalFiles": [
+  "version":16,
+  "updatedAt":"2026-08-23",
+  "currentMapCount":187,
+  "runtimeData":{
+    "mode":"manifest_merge",
+    "manifestPath":"onsen-data-manifest.json",
+    "basePath":"onsen.json",
+    "regionalFiles":[
       "data/onsen-musume-hokkaido-tohoku.json",
       "data/onsen-musume-kanto-simple.json",
       "data/onsen-musume-kanto-areas.json",
@@ -19,67 +19,70 @@
       "data/onsen-musume-kyushu-okinawa.json",
       "data/national-recreation-hokkaido-tohoku.json",
       "data/national-recreation-kanto.json",
-      "data/national-recreation-overrides.json"
+      "data/national-recreation-koshinetsu-hokuriku.json",
+      "data/national-recreation-overrides.json",
+      "data/national-recreation-overrides-koshinetsu-hokuriku.json"
     ],
-    "multiZoneCheckinSupported": true,
-    "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
+    "multiZoneCheckinSupported":true,
+    "displayPolicy":"親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。"
   },
-  "uiFeatures": {
-    "prefectureOverlay": "47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。",
-    "search": ["温泉名", "都道府県", "温泉むすめ名", "構成温泉名", "タグ"],
-    "filters": ["未訪問", "訪問済", "温泉むすめ", "国民保養", "温泉郷", "レガシー", "都道府県"],
-    "implementation": "ui-enhancements.js"
+  "uiFeatures":{
+    "prefectureOverlay":"47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。",
+    "search":["温泉名","都道府県","温泉むすめ名","構成温泉名","タグ"],
+    "filters":["未訪問","訪問済","温泉むすめ","国民保養","温泉郷","レガシー","都道府県"],
+    "implementation":"ui-enhancements.js"
   },
-  "requiredCoverage": {
-    "onsenMusume": {
-      "charactersDomestic": 134,
-      "normalizedSpotCandidates": 133,
-      "mandatory": true,
-      "status": "runtime_coverage_complete",
-      "masterStatus": "all_names_normalized",
-      "masterPath": "catalog/onsen-musume-area-master.json",
-      "regionProgress": {
-        "北海道・東北": "complete",
-        "関東": "18/18 complete",
-        "甲信越・北陸": "22/22 complete",
-        "東海": "19/19 complete",
-        "近畿": "11/11 complete",
-        "中国・四国": "18/18 complete",
-        "九州・沖縄": "18/18 complete"
+  "requiredCoverage":{
+    "onsenMusume":{
+      "charactersDomestic":134,
+      "normalizedSpotCandidates":133,
+      "mandatory":true,
+      "status":"runtime_coverage_complete",
+      "masterStatus":"all_names_normalized",
+      "masterPath":"catalog/onsen-musume-area-master.json",
+      "regionProgress":{
+        "北海道・東北":"complete",
+        "関東":"18/18 complete",
+        "甲信越・北陸":"22/22 complete",
+        "東海":"19/19 complete",
+        "近畿":"11/11 complete",
+        "中国・四国":"18/18 complete",
+        "九州・沖縄":"18/18 complete"
       }
     },
-    "onsenHeritage": {
-      "mandatory": true,
-      "status": "manual_current_verification_required",
-      "note": "認定宿・施設の公式記載を集約して所属温泉地へ正規化する。"
+    "onsenHeritage":{
+      "mandatory":true,
+      "status":"manual_current_verification_required",
+      "note":"認定宿・施設の公式記載を集約して所属温泉地へ正規化する。"
     },
-    "nationalRecreationSpa": {
-      "officialCount": 79,
-      "status": "coverage_in_progress",
-      "masterPath": "catalog/national-recreation-spa-required.json",
-      "badgeOverridePath": "data/national-recreation-overrides.json",
-      "regionalProgress": {
-        "北海道・東北": {"official":24,"status":"24/24 complete","existingTagged":5,"runtimeAdded":19,"coveragePath":"catalog/national-recreation-coverage-hokkaido-tohoku.json"},
-        "関東": {"official":6,"status":"6/6 complete","existingTagged":1,"runtimeAdded":5,"coveragePath":"catalog/national-recreation-coverage-kanto.json"}
+    "nationalRecreationSpa":{
+      "officialCount":79,
+      "status":"coverage_in_progress",
+      "masterPath":"catalog/national-recreation-spa-required.json",
+      "badgeOverridePath":"data/national-recreation-overrides.json",
+      "regionalProgress":{
+        "北海道・東北":{"official":24,"status":"24/24 complete","existingTagged":5,"runtimeAdded":19,"coveragePath":"catalog/national-recreation-coverage-hokkaido-tohoku.json"},
+        "関東":{"official":6,"status":"6/6 complete","existingTagged":1,"runtimeAdded":5,"coveragePath":"catalog/national-recreation-coverage-kanto.json"},
+        "甲信越・北陸":{"official":12,"status":"12/12 complete","existingTagged":1,"runtimeAdded":11,"coveragePath":"catalog/national-recreation-coverage-koshinetsu-hokuriku.json"}
       },
-      "completedOfficialCount":30,
-      "remainingOfficialCount":49
+      "completedOfficialCount":42,
+      "remainingOfficialCount":37
     },
-    "secretHotSpringAssociation": {
-      "activeMemberInns": 105,
-      "status": "facility_to_area_normalization_required"
+    "secretHotSpringAssociation":{
+      "activeMemberInns":105,
+      "status":"facility_to_area_normalization_required"
     }
   },
-  "namedGroups": {
-    "definedGroups": 22,
-    "uiRule": "箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯などは親温泉郷の詳細・踏破進捗へ収納。歴史的なくくり自体は全件保持する。"
+  "namedGroups":{
+    "definedGroups":22,
+    "uiRule":"箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯などは親温泉郷の詳細・踏破進捗へ収納。歴史的なくくり自体は全件保持する。"
   },
-  "uncertaintyQueue": [
+  "uncertaintyQueue":[
     {"area":"西表島温泉","issue":"温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"}
   ],
-  "nextPass": [
-    "国民保養温泉地の甲信越・北陸を既存176地点と突合・バッジ付与・不足追加",
-    "国民保養温泉地の東海以西を順次重複統合",
+  "nextPass":[
+    "国民保養温泉地の東海5指定を既存187地点と突合・バッジ付与・不足追加",
+    "国民保養温泉地の近畿以西を順次重複統合",
     "日本温泉遺産を守る会の現行認定宿・施設を公式記載から再構築して必須収録",
     "日本秘湯を守る会会員宿を温泉地へ正規化",
     "全候補に選定・歴史・泉質・源泉・体験バッジを付与して重複統合"
