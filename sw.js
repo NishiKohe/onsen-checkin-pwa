@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v22";
+const CACHE_NAME = "onsen-checkin-v23";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -6,8 +6,10 @@ const APP_ASSETS = [
   "./app.js",
   "./ui-enhancements.js",
   "./heritage-ui.js",
+  "./fixed-selection-ui.js",
   "./onsen.json",
   "./onsen-data-manifest.json",
+  "./data/fixed-selection-meito100.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
   "./data/onsen-musume-kanto-simple.json",
   "./data/onsen-musume-kanto-areas.json",
@@ -54,7 +56,15 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  const networkFirst = ["/onsen.json", "/app.js", "/ui-enhancements.js", "/heritage-ui.js", "/onsen-data-manifest.json"];
+  const networkFirst = [
+    "/onsen.json",
+    "/app.js",
+    "/ui-enhancements.js",
+    "/heritage-ui.js",
+    "/fixed-selection-ui.js",
+    "/onsen-data-manifest.json",
+    "/data/fixed-selection-meito100.json"
+  ];
   if (
     networkFirst.some((suffix) => url.pathname.endsWith(suffix)) ||
     url.pathname.includes("/data/onsen-") ||
