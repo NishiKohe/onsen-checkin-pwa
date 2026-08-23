@@ -1,0 +1,33 @@
+:root { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+body { margin: 0; background: #0b0f14; color: #e8eef6; }
+.header { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #1d2a3a; }
+.header h1 { margin: 0; font-size: 16px; }
+.stats { display: flex; gap: 10px; align-items: center; }
+button { background: #2b6cff; border: 0; color: white; padding: 10px 12px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.main { display: grid; grid-template-columns: 1.6fr 1fr; height: calc(100vh - 50px); }
+#map { width: 100%; height: 100%; }
+
+.panel { padding: 12px 14px; border-left: 1px solid #1d2a3a; overflow: auto; }
+.panel h2 { margin: 0 0 4px; font-size: 18px; }
+.panel p { margin: 0 0 10px; color: #b9c7d8; }
+
+.kv { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0 12px; }
+.kv > div { background: #121a24; border: 1px solid #1d2a3a; border-radius: 12px; padding: 10px; }
+.kv span { display: block; font-size: 12px; color: #9fb3c8; }
+.kv b { font-size: 16px; }
+
+.details { margin-top: 12px; background: #121a24; border: 1px solid #1d2a3a; border-radius: 12px; padding: 8px 10px; }
+.details summary { cursor: pointer; font-weight: 700; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.grid .cell { background: #0e141d; border: 1px solid #1d2a3a; border-radius: 10px; padding: 8px; }
+.grid .k { font-size: 12px; color: #9fb3c8; }
+.grid .v { font-size: 14px; font-weight: 700; margin-top: 2px; }
+.note { margin: 8px 0 0; font-size: 12px; color: #9fb3c8; }
+.history { margin: 10px 0 0; padding-left: 18px; color: #cfe0f3; }
+
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; grid-template-rows: 55vh 45vh; }
+  .panel { border-left: 0; border-top: 1px solid #1d2a3a; }
+}
