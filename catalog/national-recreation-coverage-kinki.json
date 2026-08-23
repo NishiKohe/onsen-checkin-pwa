@@ -1,0 +1,13 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"近畿",
+  "officialCountInScope":6,
+  "status":"6/6 complete",
+  "existingTagged":["十津川温泉郷","龍神温泉"],
+  "runtimeAdded":["久美の浜温泉郷","るり渓高原温泉","浜坂温泉郷","熊野本宮温泉郷"],
+  "parentMultiZone":["久美の浜温泉郷","浜坂温泉郷","熊野本宮温泉郷"],
+  "runtimePath":"data/national-recreation-kinki.json",
+  "overridePath":"data/national-recreation-overrides-kinki.json",
+  "sourcePath":"catalog/national-recreation-spa-required.json"
+}
