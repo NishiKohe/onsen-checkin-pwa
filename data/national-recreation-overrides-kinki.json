@@ -1,0 +1,14 @@
+[
+  {
+    "id":"totsukawa_onsenkyo",
+    "nationalRecreationSpa":true,
+    "nationalRecreationName":"十津川温泉郷",
+    "badges":["national_recreation_spa"]
+  },
+  {
+    "id":"ryujin",
+    "nationalRecreationSpa":true,
+    "nationalRecreationName":"龍神温泉郷",
+    "badges":["national_recreation_spa"]
+  }
+]
