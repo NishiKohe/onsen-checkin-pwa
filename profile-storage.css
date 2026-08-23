@@ -1,0 +1,46 @@
+.profile-button {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 7px 9px;
+  border: 1px solid #2a3a4e;
+  background: #121a24;
+  color: #cfe0f3;
+  font-size: 11px;
+}
+
+.profile-dialog {
+  width: min(460px, calc(100vw - 28px));
+  max-height: min(620px, calc(100dvh - 36px));
+  padding: 0;
+  border: 1px solid #2a3a4e;
+  border-radius: 16px;
+  background: #0f151d;
+  color: #e8eef6;
+  box-shadow: 0 24px 80px rgba(0,0,0,.5);
+}
+
+.profile-dialog::backdrop { background: rgba(0,0,0,.66); backdrop-filter: blur(3px); }
+.profile-dialog-card { padding: 16px; }
+.profile-dialog-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.profile-dialog-head span { display: block; color: #d1a43d; font-size: 9px; font-weight: 900; letter-spacing: .16em; }
+.profile-dialog-head h2 { margin: 3px 0 0; font-size: 20px; }
+.profile-close { padding: 6px 10px; background: #17212c; color: #9fb3c8; }
+.profile-list { display: grid; gap: 7px; max-height: 340px; overflow-y: auto; }
+.profile-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; padding: 6px; border: 1px solid #223244; border-radius: 12px; background: #111923; }
+.profile-row.active { border-color: #6b592f; background: #211d15; }
+.profile-select { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; padding: 8px 9px; background: transparent; text-align: left; }
+.profile-select strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.profile-select span { flex: 0 0 auto; color: #8198ae; font-size: 9px; }
+.profile-rename { padding: 7px 8px; background: #17212c; color: #9fb3c8; font-size: 9px; }
+.profile-create-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 7px; margin-top: 12px; }
+.profile-create-row input { min-width: 0; padding: 10px 11px; border: 1px solid #2a3a4e; border-radius: 10px; background: #0b1118; color: #edf4fa; outline: none; }
+.profile-note { margin: 10px 2px 0; color: #7f95aa; font-size: 10px; line-height: 1.5; }
+
+@media (max-width: 520px) {
+  .profile-button { max-width: 92px; padding: 6px 7px; font-size: 10px; }
+  .profile-dialog-card { padding: 13px; }
+  .profile-row { grid-template-columns: 1fr; }
+  .profile-rename { width: 100%; }
+}
