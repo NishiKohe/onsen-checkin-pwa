@@ -1,9 +1,10 @@
 {
-  "version": 3,
+  "version": 4,
   "files": [
     "./onsen.json",
     "./data/onsen-musume-hokkaido-tohoku.json",
     "./data/onsen-musume-kanto-simple.json",
-    "./data/onsen-musume-kanto-areas.json"
+    "./data/onsen-musume-kanto-areas.json",
+    "./data/onsen-musume-koshinetsu-hokuriku-simple.json"
   ]
 }
