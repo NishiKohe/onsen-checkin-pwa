@@ -1,5 +1,5 @@
 {
-  "version": 22,
+  "version": 23,
   "updatedAt": "2026-08-23",
   "currentMapCount": 219,
   "runtimeData": {
@@ -10,13 +10,15 @@
     "displayPolicy": "親温泉郷を優先表示し、細分化された構成湯は詳細データとして保持。別府八湯・奥飛騨五湯等、独立性の高い構成湯は個別ピンを維持する。",
     "fixedSelectionRuntime": "fixed-selection-ui.js",
     "collectionProgressRuntime": "collection-progress-ui.js",
-    "analysisOverrideRuntime": "data/onsen-analysis-overrides-core.json"
+    "analysisOverrideRuntime": "data/onsen-analysis-overrides-core.json",
+    "groupDefinitionPaths": ["catalog/group-definitions.json", "catalog/group-definitions-hokkaido-tohoku.json", "catalog/group-definitions-kanto.json"]
   },
   "uiFeatures": {
     "prefectureOverlay": "47都道府県の境界と県名ラベルを低ズームで表示。県名タップで都道府県絞り込み。",
-    "search": ["温泉名", "都道府県", "温泉むすめ名", "構成温泉名", "タグ", "温泉遺産認定施設名", "固定選定名", "日本温泉地域資産名"],
+    "search": ["温泉名", "都道府県", "温泉むすめ名", "構成温泉名", "タグ", "温泉遺産認定施設名", "固定選定名", "日本温泉地域資産名", "地域・歴史グループ名"],
     "filters": ["未訪問", "訪問済", "温泉むすめ", "国民保養", "温泉遺産", "日本温泉地域資産", "固定百選", "温泉郷", "レガシー", "都道府県"],
-    "collectionProgress": "フッターの達成状況タブで温泉むすめ、日本三古湯、日本三名泉、国民保養温泉地、温泉遺産、日本温泉地域資産、名湯百選の訪問数・対象数・取得率と未訪問一覧を表示。",
+    "collectionProgress": "達成状況タブを地図から独立した専用ダッシュボード化。訪問数・コンプリート数・有効グループ数、称号/温泉名検索、未完了/達成済フィルター、カテゴリ別カードを表示。温泉名タップ時のみ地図タブへ遷移して対象温泉へフォーカス。",
+    "groupBadges": "構成温泉が現行runtimeですべて解決できるグループだけ自動有効化。各温泉詳細では最大3称号を表示し、超過分はまとめる。達成状況では有効グループを全件表示。",
     "analysisDisplay": "分析値は温泉地概況または代表源泉の対象を明記し、出典確認済み・暫定・未登録を区別。一般referenceNoteと分析出典を分離。",
     "implementation": ["ui-enhancements.js", "heritage-ui.js", "fixed-selection-ui.js", "collection-progress-ui.js"]
   },
@@ -86,10 +88,11 @@
   "analysisCoverage": {
     "status": "representative_analysis_seed_runtime_enabled",
     "runtimePath": "data/onsen-analysis-overrides-core.json",
-    "verifiedSeedSpots": 7,
-    "seedSpotIds": ["atami", "ito", "kusatsu", "gero", "arima", "dogo", "shirahama"],
+    "verifiedSeedSpots": 16,
+    "seedSpotIds": ["atami", "ito", "kusatsu", "gero", "arima", "dogo", "shirahama", "yuhara", "okutsu", "yunogo", "ikaho", "shima", "iizaka", "akiu", "naruko", "matsunoyama"],
+    "newThisPass": ["yuhara", "okutsu", "yunogo", "ikaho", "shima", "iizaka", "akiu", "naruko", "matsunoyama"],
     "uiPolicy": "複数源泉の温泉地に単一値を推測しない。温泉地概況か代表源泉かを明示し、未登録は未登録と表示。出典URLを分析欄に表示。",
-    "next": "自治体・観光協会・現地掲示の分析表を優先し、主要温泉地から順次拡張。"
+    "next": "自治体・観光協会・現地掲示の分析表を優先し、グループ称号対象と主要温泉地から順次拡張。"
   },
   "permanentSelections": {
     "meitoHyakusen": {
@@ -111,8 +114,10 @@
     }
   },
   "namedGroups": {
-    "definedGroups": 22,
-    "uiRule": "箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯などは親温泉郷の詳細・踏破進捗へ収納。歴史的なくくり自体は全件保持する。"
+    "definedGroups": 23,
+    "newThisPass": ["上毛三名湯"],
+    "runtimePolicy": "membersまたはcanonicalMembersの全IDが現行spotsに存在し、source_conflictでないグループだけ有効化。未収録構成湯を含む称号は達成不能防止のためUIへ出さない。",
+    "uiRule": "美作三湯・奥州三名湯・上毛三名湯・日本三大薬湯等は達成状況の主要称号として表示。箱根七湯・十七湯、塩原11湯、那須七湯/八湯/十一湯など親温泉郷内の細分類は、構成IDが独立spotとして揃うまで詳細・資料データとして保持する。"
   },
   "uncertaintyQueue": [
     {"area": "西表島温泉", "issue": "温泉むすめ対象として収録必須だが現役温泉施設の営業実態を継続確認。ランタイムではレガシー温泉地として表示。"},
@@ -121,8 +126,9 @@
   ],
   "nextPass": [
     "温泉むすめ公式マスターとruntime照合結果のunmatchedを0件まで監査し、coverage-statusのcompleteを実照合ベースで確定",
-    "日本温泉地域資産2019/2025版150件の一次資料を確保して公開第一次選定ベースとの差分を反映",
+    "地域・歴史グループ定義の未解決member IDを追加温泉データで埋め、達成可能な称号を段階的に自動昇格",
     "主要温泉地の温泉分析情報を公式分析表・自治体資料から順次補完",
+    "日本温泉地域資産2019/2025版150件の一次資料を確保して公開第一次選定ベースとの差分を反映",
     "名湯百選100件の既存219地点への自動一致結果を確認し、未収録温泉だけを恒常選定追加キュー化",
     "松田忠徳・日本百名湯の固定リストを版固定で再構築して横断付与",
     "野口悦男・日本百名湯 源泉の宿の固定リストを版固定で再構築して横断付与",
