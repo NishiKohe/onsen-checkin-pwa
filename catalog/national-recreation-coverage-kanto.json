@@ -1,0 +1,13 @@
+{
+  "version":1,
+  "updatedAt":"2026-08-23",
+  "scope":"関東",
+  "status":"runtime_complete",
+  "officialCountInScope":6,
+  "existingTagged":["四万温泉"],
+  "addedRuntime":["奥日光湯元温泉","板室温泉","鹿沢温泉","みなかみ町国民保養温泉地","芦之湯温泉"],
+  "runtimePath":"data/national-recreation-kanto.json",
+  "badgeOverridePath":"data/national-recreation-overrides.json",
+  "sourcePath":"catalog/national-recreation-spa-required.json",
+  "note":"みなかみ町国民保養温泉地は上牧・奈女沢・湯宿・川古・猿ヶ京・法師の6ゾーン。芦之湯は箱根温泉郷の構成湯だが、国民保養温泉地として独立スポットを維持。"
+}
