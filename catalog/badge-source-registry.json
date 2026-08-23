@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-23",
+  "policy": {
+    "mandatorySources": [
+      "onsen_musume",
+      "onsen_heritage"
+    ],
+    "recommendedCoverageSources": [
+      "national_recreation_spa",
+      "secret_hot_spring_association",
+      "nippon_onsen_100",
+      "nihon_hyakumeito",
+      "shin_nihon_hyakumeito"
+    ]
+  },
+  "sources": [
+    {
+      "id": "onsen_musume",
+      "name": "温泉むすめ",
+      "type": "official_selection",
+      "scope": "onsen_area",
+      "mandatory": true,
+      "sourceUrl": "https://onsen-musume.jp/character/",
+      "currentCountNote": "国内134キャラクター。完全同一温泉地の重複は統合する。",
+      "provisionalRarity": "R"
+    },
+    {
+      "id": "onsen_heritage",
+      "name": "日本温泉遺産を守る会 認定",
+      "type": "certification",
+      "scope": "facility_to_onsen_area",
+      "mandatory": true,
+      "sourceUrl": "http://www.onsen-isan.com/",
+      "sourceStatus": "fragmented",
+      "note": "現行公式一覧の取得が不安定。認定宿・施設の現行公式サイト等で個別確認し、所属温泉地へ正規化する。2003年の公式編著『温泉遺産』では源泉掛け流しの宿60軒を掲載。",
+      "provisionalRarity": "SR"
+    },
+    {
+      "id": "national_recreation_spa",
+      "name": "国民保養温泉地",
+      "type": "government_designation",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "sourceUrl": "https://www.env.go.jp/nature/onsen/area/index.html",
+      "currentCountNote": "環境省公式ページでは全国79か所（令和4年10月現在）。",
+      "provisionalRarity": "SR"
+    },
+    {
+      "id": "secret_hot_spring_association",
+      "name": "日本秘湯を守る会",
+      "type": "membership",
+      "scope": "facility_to_onsen_area",
+      "mandatory": false,
+      "sourceUrl": "https://www.hitou.or.jp/provider/list",
+      "currentCountNote": "現行検索結果で会員宿105件。温泉地単位に正規化する。",
+      "provisionalRarity": "SR"
+    },
+    {
+      "id": "nippon_onsen_100",
+      "name": "にっぽんの温泉100選",
+      "type": "annual_ranking",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "sourceUrl": "https://www.kankokeizai.com/index_100sen/",
+      "note": "毎年度更新。年度と順位を保持し、最新年度バッジと歴代上位バッジを分離する。",
+      "provisionalRarity": "R"
+    },
+    {
+      "id": "nihon_sanmeisen",
+      "name": "日本三名泉",
+      "type": "historical_selection",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "members": ["草津温泉", "有馬温泉", "下呂温泉"],
+      "provisionalRarity": "UR"
+    },
+    {
+      "id": "nihon_sankoto",
+      "name": "日本三古湯",
+      "type": "historical_selection",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "members": ["有馬温泉", "道後温泉", "白浜温泉"],
+      "provisionalRarity": "UR"
+    },
+    {
+      "id": "nihon_hyakumeito",
+      "name": "日本百名湯",
+      "type": "published_selection",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "sourceStatus": "bibliographic",
+      "provisionalRarity": "SR"
+    },
+    {
+      "id": "shin_nihon_hyakumeito",
+      "name": "新日本百名湯",
+      "type": "published_selection",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "sourceStatus": "bibliographic",
+      "provisionalRarity": "SR"
+    },
+    {
+      "id": "registered_cultural_property",
+      "name": "温泉文化財建築",
+      "type": "cultural_property",
+      "scope": "facility_to_onsen_area",
+      "mandatory": false,
+      "note": "国指定・登録有形文化財等の温泉旅館・共同浴場が存在する温泉地。文化庁データとの照合対象。",
+      "provisionalRarity": "SSR"
+    },
+    {
+      "id": "japan_heritage",
+      "name": "日本遺産関連温泉地",
+      "type": "cultural_designation",
+      "scope": "onsen_area",
+      "mandatory": false,
+      "note": "日本遺産ストーリーの構成文化財または主題として温泉地が含まれる場合。",
+      "provisionalRarity": "SSR"
+    }
+  ]
+}
