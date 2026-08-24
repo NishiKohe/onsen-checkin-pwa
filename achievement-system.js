@@ -119,6 +119,14 @@
     return Array.isArray(items) ? Math.max(0, items.length) : 0;
   }
 
+  function totalRequirementForSpots(list, config) {
+    return uniqueSpots(list).reduce((sum, spot) => sum + itemWeightForSpot(spot, config), 0);
+  }
+
+  function minimumPrefectureRequirement(definition) {
+    return ["national_recreation_spa", "meito_hyakusen"].includes(definition?.id) ? 2 : 1;
+  }
+
   function spotRequirementAchievement({ id, category, name, description, title, rarity, spots, config = null, verification = "any", kind = "collection", scope = null }) {
     const unique = uniqueSpots(spots);
     const weights = {};
@@ -208,6 +216,7 @@
           scope: { collectionId: definition.id, level: "region", name: region.name }
         }));
         for (const pref of region.prefectures) {
+          if (totalRequirementForSpots(pref.spots, config) < minimumPrefectureRequirement(definition)) continue;
           definitions.push(spotRequirementAchievement({
             id: `area:${definition.id}:pref:${pref.name}`,
             category: "地域制覇",
