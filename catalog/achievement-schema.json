@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "introducedIn": "v41",
+  "stateKey": "achievementStateV1",
+  "scope": "per-user",
+  "principles": [
+    "実績は達成条件、称号は実績解除時に得る装備可能な肩書として分離する",
+    "通常実績はGPS確認・自己申告を含む通常訪問記録から再計算する",
+    "将来の現地踏破実績はverification=onsiteでGPS現地確認のみを条件にできる",
+    "初回導入時は過去のチェックイン時刻から可能な限り本来の達成日を復元する",
+    "定義変更後も一度解除した実績記録と称号文字列は保存して失わない"
+  ],
+  "stateShape": {
+    "version": 1,
+    "initializedAt": "unix_ms",
+    "updatedAt": "unix_ms",
+    "equippedTitleId": "title:<achievementId> | null",
+    "unlocks": "achievementId -> { achievementId, achievementName, titleId, titleLabel, rarity, unlockedAt, recognizedAt, verification }",
+    "unreadIds": "achievementId[]"
+  },
+  "rarities": ["N", "R", "SR", "SSR", "LEGEND"],
+  "initialSources": [
+    "訪問温泉地数マイルストーン",
+    "既存コレクション全制覇",
+    "CollectionAreaHierarchyに登録された地方・都道府県制覇"
+  ]
+}
