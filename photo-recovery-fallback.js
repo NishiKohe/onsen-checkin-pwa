@@ -82,7 +82,7 @@
 
     const status = document.getElementById("tripPhotoStatus");
     if (status) {
-      status.textContent = "写真は端末内で解析します。Androidでは写真ピッカーがGPSを伏せる場合があるため、撮影日時＋旅行ログでも復元します。";
+      status.textContent = "GPSがあれば自動判定、GPSがなくても撮影日時＋旅行ログを確認します。どちらも使えない場合は訪問場所を手動で指定できます。画像内容そのものの判定は行いません。";
     }
   }
 
@@ -98,24 +98,31 @@
 
     try {
       const meta = await readPhotoMetadata(file);
-      const takenAt = meta.takenAt || plausibleFileModified(file.lastModified) || null;
+      const metadataTakenAt = meta.takenAt || null;
+      const fileModifiedAt = plausibleFileModified(file.lastModified) || null;
 
       if (Number.isFinite(meta.lat) && Number.isFinite(meta.lng)) {
         const match = findNearestSpotForPoint(meta.lat, meta.lng);
         if (!match || match.remainingM > PHOTO_NEARBY_MARGIN_M) {
-          setStatus("写真のGPSは取得できましたが、近くに収録温泉が見つかりませんでした。");
+          setStatus("写真内のGPSは取得できましたが、近くに収録温泉が見つかりませんでした。場所を指定して『訪問記録（自己申告）』として保存できます。");
+          showManualPhotoFallback({
+            takenAt: metadataTakenAt,
+            suggestedAt: fileModifiedAt,
+            originalDateText: meta.originalDateText || null,
+            reason: "gps_unmatched"
+          });
           return;
         }
         savePhotoCandidate({
           match,
-          detectedAt: takenAt || Date.now(),
+          detectedAt: metadataTakenAt || Date.now(),
           source: "photo_exif",
           strength: match.inRange ? "photo_verified_range" : "photo_nearby",
           evidence: {
             type: "photo_exif",
             lat: meta.lat,
             lng: meta.lng,
-            takenAt,
+            takenAt: metadataTakenAt,
             originalDateText: meta.originalDateText || null,
             metadataSource: meta.source || "jpeg_exif"
           }
@@ -125,8 +132,10 @@
         return;
       }
 
-      if (takenAt) {
-        const sampleMatch = findClosestLocationSample(takenAt);
+      // file.lastModified は写真ピッカーやコピー時に変わることがあるため、
+      // 自動GPS照合には使わない。EXIF/XMPの撮影日時だけを旅行ログ相関に使う。
+      if (metadataTakenAt) {
+        const sampleMatch = findClosestLocationSample(metadataTakenAt);
         if (sampleMatch && sampleMatch.timeGapMs <= PHOTO_SAMPLE_MAX_GAP_MS) {
           const match = findNearestSpotForPoint(sampleMatch.sample.lat, sampleMatch.sample.lng);
           if (match && match.remainingM <= PHOTO_NEARBY_MARGIN_M) {
@@ -135,12 +144,12 @@
               sampleMatch.timeGapMs <= PHOTO_SAMPLE_ONSITE_GAP_MS;
             savePhotoCandidate({
               match,
-              detectedAt: takenAt,
+              detectedAt: metadataTakenAt,
               source: "photo_time_triplog",
               strength: onsite ? "photo_time_verified_range" : "photo_time_nearby",
               evidence: {
                 type: "photo_time_triplog",
-                takenAt,
+                takenAt: metadataTakenAt,
                 photoOriginalDateText: meta.originalDateText || null,
                 sampleLat: sampleMatch.sample.lat,
                 sampleLng: sampleMatch.sample.lng,
@@ -150,23 +159,39 @@
               }
             });
             const gapMin = Math.round(sampleMatch.timeGapMs / 60000);
-            setStatus(`写真GPSはAndroid側で非共有でしたが、撮影時刻と${gapMin}分差の旅行GPSログから ${match.spot.name} を候補にしました。`);
+            setStatus(`写真GPSは取得できませんでしたが、撮影時刻と${gapMin}分差の旅行GPSログから ${match.spot.name} を候補にしました。`);
             refreshUi();
             return;
           }
         }
 
-        setStatus(`写真GPSはブラウザへ渡されていません。撮影日時 ${formatDateTime(takenAt)} は取得できたので、場所だけ指定して訪問記録にできます。`);
-        showManualPhotoFallback(takenAt, meta.originalDateText || null);
+        setStatus(`位置情報なし。撮影日時 ${formatDateTime(metadataTakenAt)} は取得できました。場所を指定して『訪問記録（自己申告）』として保存できます。`);
+        showManualPhotoFallback({
+          takenAt: metadataTakenAt,
+          suggestedAt: fileModifiedAt,
+          originalDateText: meta.originalDateText || null,
+          reason: "no_gps_trip_match"
+        });
         return;
       }
 
-      setStatus("写真GPSはAndroid側で非共有になっており、撮影日時も取得できませんでした。場所を指定して訪問記録にできます。");
-      showManualPhotoFallback(null, null);
+      setStatus("位置情報なし・撮影日時なし。このJPGから現地を自動確認できません。場所と訪問日を指定して『訪問記録（自己申告）』として保存できます。GPS現地踏破には含まれません。");
+      showManualPhotoFallback({
+        takenAt: null,
+        suggestedAt: fileModifiedAt,
+        originalDateText: null,
+        reason: "no_metadata"
+      });
     } catch (err) {
       console.warn("photo recovery fallback failed", err);
-      setStatus("この写真から位置情報を直接取得できませんでした。場所を指定して訪問記録にできます。");
-      showManualPhotoFallback(plausibleFileModified(file.lastModified), null);
+      const fileModifiedAt = plausibleFileModified(file.lastModified) || null;
+      setStatus("この写真からGPS・撮影日時を取得できませんでした。場所と訪問日を指定して『訪問記録（自己申告）』として保存できます。GPS現地踏破には含まれません。");
+      showManualPhotoFallback({
+        takenAt: null,
+        suggestedAt: fileModifiedAt,
+        originalDateText: null,
+        reason: "metadata_parse_failed"
+      });
     } finally {
       event.target.value = "";
     }
@@ -240,34 +265,57 @@
     document.getElementById("tripPhotoFallbackForm")?.remove();
   }
 
-  function showManualPhotoFallback(takenAt, originalDateText) {
+  function showManualPhotoFallback({ takenAt, suggestedAt, originalDateText, reason }) {
     const status = document.getElementById("tripPhotoStatus");
     if (!status) return;
+
+    const initialDateAt = takenAt || suggestedAt || null;
     const form = document.createElement("div");
     form.id = "tripPhotoFallbackForm";
     form.className = "trip-manual-form";
     form.style.marginTop = "10px";
     form.innerHTML = `
-      <input id="tripPhotoFallbackSpot" type="search" list="tripSpotSuggestions" placeholder="写真の場所の温泉名" autocomplete="off" />
-      <button id="tripPhotoFallbackSave" type="button">写真の訪問記録に追加</button>`;
+      <input id="tripPhotoFallbackSpot" type="search" list="tripSpotSuggestions" placeholder="写真を撮った温泉名" autocomplete="off" />
+      <input id="tripPhotoFallbackDate" type="date" aria-label="訪問日" />
+      <button id="tripPhotoFallbackSave" type="button">訪問記録として保存</button>
+      <div class="trip-inline-note" style="grid-column:1/-1">この操作は自己申告の訪問記録です。通常の達成率には含まれますが、GPS現地確認・現地踏破称号には含まれません。画像内容そのものから場所を推定する処理は行いません。</div>`;
     status.insertAdjacentElement("afterend", form);
+
+    const dateInput = form.querySelector("#tripPhotoFallbackDate");
+    if (dateInput && initialDateAt) dateInput.value = formatLocalDate(initialDateAt);
+
+    const spotInput = form.querySelector("#tripPhotoFallbackSpot");
+    setTimeout(() => {
+      form.scrollIntoView?.({ block: "nearest", behavior: "smooth" });
+      spotInput?.focus?.({ preventScroll: true });
+    }, 0);
+
     form.querySelector("#tripPhotoFallbackSave")?.addEventListener("click", () => {
-      const input = form.querySelector("#tripPhotoFallbackSpot");
-      const spot = spots.find((item) => normalizeName(item.name) === normalizeName(input?.value || ""));
+      const spot = spots.find((item) => normalizeName(item.name) === normalizeName(spotInput?.value || ""));
       if (!spot) {
-        setStatus("候補から温泉名を選んでください。");
+        setStatus("候補から温泉名を選んでください。写真の画像内容から場所を自動推定することはしません。");
         return;
       }
       if (loadCheckins().some((item) => item.spotId === spot.id)) {
         setStatus(`${spot.name} はすでに訪問済みです。`);
         return;
       }
+
+      const selectedDate = parseLocalDateNoon(dateInput?.value || "");
+      const checkedAt = selectedDate || takenAt || suggestedAt || Date.now();
+      const dateSource = selectedDate
+        ? "user_selected_date"
+        : takenAt
+          ? "photo_metadata"
+          : suggestedAt
+            ? "file_modified_reference"
+            : "recorded_at_fallback";
       const list = loadCheckins();
       list.push({
         spotId: spot.id,
         name: spot.name,
         prefecture: spot.prefecture,
-        checkedAt: takenAt || Date.now(),
+        checkedAt,
         accuracyM: null,
         zoneLabel: null,
         entityType: "onsen",
@@ -275,11 +323,20 @@
         verificationLevel: "recorded",
         recordSource: "photo_manual_fallback",
         recordedAt: Date.now(),
-        evidence: [{ type: "photo_timestamp_manual_place", takenAt: takenAt || null, originalDateText: originalDateText || null }]
+        evidence: [{
+          type: "photo_manual_place",
+          takenAt: takenAt || null,
+          suggestedAt: suggestedAt || null,
+          originalDateText: originalDateText || null,
+          dateSource,
+          fallbackReason: reason || null,
+          userSelectedSpot: true,
+          imageContentAnalyzed: false
+        }]
       });
       saveCheckins(list);
       clearPhotoFallbackForm();
-      setStatus(`${spot.name} を写真の撮影日付き「訪問記録」として追加しました。`);
+      setStatus(`${spot.name} を「訪問記録（自己申告）」として追加しました。GPS現地踏破には含まれません。`);
       refreshUi();
     });
   }
@@ -303,6 +360,23 @@
 
   function formatDateTime(value) {
     return new Date(value).toLocaleString("ja-JP", { year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" });
+  }
+
+  function formatLocalDate(value) {
+    const date = new Date(value);
+    if (!Number.isFinite(date.getTime())) return "";
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function parseLocalDateNoon(value) {
+    const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ""));
+    if (!match) return null;
+    const [, y, m, d] = match.map(Number);
+    const time = new Date(y, m - 1, d, 12, 0, 0, 0).getTime();
+    return Number.isFinite(time) ? time : null;
   }
 
   function haversineM(lat1, lon1, lat2, lon2) {
