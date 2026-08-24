@@ -3,14 +3,15 @@
   const CURRENT_PROFILE_KEY = "onsenAppCurrentProfileV1";
   const MIGRATION_KEY = "onsenAppProfileMigrationV1";
   const PREFIX = "onsenApp:user:";
-  const SAVE_SCHEMA_VERSION = 2;
+  const SAVE_SCHEMA_VERSION = 3;
   const USER_KEYS = new Set([
     "checkins",
     "visitCandidatesV1",
     "visitSessionsV1",
     "visitSettingsV1",
     "visitLogMigrationV1",
-    "visitLocationSamplesV1"
+    "visitLocationSamplesV1",
+    "achievementStateV1"
   ]);
 
   const storageProto = Storage.prototype;
@@ -227,7 +228,7 @@
           <input id="profileNewName" type="text" maxlength="40" placeholder="新しいユーザー名" />
           <button id="profileCreate" type="button">追加</button>
         </div>
-        <p class="profile-note">訪問・達成状況・旅行ログはユーザーごとに別保存されます。現在は端末内保存です。</p>
+        <p class="profile-note">訪問・達成状況・旅行ログ・実績・装備称号はユーザーごとに別保存されます。現在は端末内保存です。</p>
       </form>`;
     document.body.appendChild(dialog);
 
