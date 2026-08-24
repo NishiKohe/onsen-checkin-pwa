@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "introducedIn": "v42",
   "purpose": "実績一覧を次の旅先選びに使えるよう、解除まで近い実績を優先提示する",
   "nearCompletion": {
@@ -20,14 +20,16 @@
       "collectionId": "national_recreation_spa",
       "areaHierarchy": true,
       "regionAchievements": true,
-      "prefectureAchievements": true
+      "prefectureAchievements": "対象2件以上の都道府県のみ",
+      "singleTargetPrefectureUi": "進捗確認用として薄く表示し、県称号には数えない"
     },
     {
       "collectionId": "meito_hyakusen",
       "areaHierarchy": true,
       "regionAchievements": true,
-      "prefectureAchievements": true
+      "prefectureAchievements": "対象2件以上の都道府県のみ",
+      "singleTargetPrefectureUi": "進捗確認用として薄く表示し、県称号には数えない"
     }
   ],
-  "futureDensityRule": "対象1件だけの都道府県称号は、地方称号とのバランスを見て表示密度を調整する"
+  "onsenMusumePolicy": "温泉むすめは県単位のコンプリート体験を重視し、1温泉地県でも県実績を維持する"
 }
