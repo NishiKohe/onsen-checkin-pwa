@@ -1,0 +1,105 @@
+/* v42 near-completion achievement recommendations */
+.achievement-next-up {
+  margin-bottom: 12px;
+  padding: 11px;
+  border: 1px solid #33465b;
+  border-radius: 13px;
+  background: linear-gradient(145deg, rgba(22,34,47,.96), rgba(13,20,29,.98));
+}
+.achievement-next-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.achievement-next-head > div > span {
+  display: block;
+  color: #d1a43d;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+.achievement-next-head strong {
+  display: block;
+  margin-top: 2px;
+  color: #edf4fa;
+  font-size: 13px;
+}
+.achievement-next-head p {
+  margin: 3px 0 0;
+  color: #8197aa;
+  font-size: 9px;
+  line-height: 1.4;
+}
+.achievement-next-head > b {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border: 1px solid #3c5066;
+  border-radius: 999px;
+  color: #bdcfdf;
+  font-size: 9px;
+}
+.achievement-next-list { display: grid; gap: 6px; }
+.achievement-next-card {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  border: 1px solid #26394c;
+  border-radius: 10px;
+  background: #0e161f;
+}
+.achievement-next-main { min-width: 0; }
+.achievement-next-main > span {
+  display: inline-block;
+  margin-bottom: 3px;
+  padding: 1px 5px;
+  border: 1px solid #46596a;
+  border-radius: 999px;
+  color: #9eb4c6;
+  font-size: 7px;
+  font-weight: 900;
+}
+.achievement-next-card[data-rarity="SR"] .achievement-next-main > span { border-color:#5d5835; color:#e2ce83; }
+.achievement-next-card[data-rarity="SSR"] .achievement-next-main > span { border-color:#6c4d73; color:#e4b8ed; }
+.achievement-next-card[data-rarity="LEGEND"] .achievement-next-main > span { border-color:#8a6431; color:#ffd27c; }
+.achievement-next-main strong {
+  display: block;
+  overflow: hidden;
+  color: #e8f0f7;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.achievement-next-main p {
+  margin: 3px 0 0;
+  overflow: hidden;
+  color: #758da2;
+  font-size: 8px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.achievement-next-count {
+  min-width: 54px;
+  text-align: center;
+}
+.achievement-next-count b {
+  display: block;
+  color: #ffe39a;
+  font-size: 14px;
+}
+.achievement-next-count span {
+  display: block;
+  margin-top: 1px;
+  color: #897a52;
+  font-size: 7px;
+}
+.achievement-next-empty {
+  padding: 12px 8px;
+  color: #71889c;
+  font-size: 9px;
+  text-align: center;
+}
