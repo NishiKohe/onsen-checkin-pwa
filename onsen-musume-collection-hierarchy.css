@@ -1,0 +1,262 @@
+/* 温泉むすめ：全国→地方→都道府県の達成階層 */
+.musume-hierarchy {
+  border-top: 1px solid #1d2a3a;
+  padding: 12px;
+  background: #101821;
+}
+
+.musume-hierarchy-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.musume-hierarchy-head > div:first-child > span {
+  display: block;
+  margin-bottom: 3px;
+  color: #d1a43d;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+
+.musume-hierarchy-head strong {
+  display: block;
+  color: #edf4fa;
+  font-size: 14px;
+}
+
+.musume-hierarchy-head p {
+  margin: 4px 0 0;
+  color: #879db2;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.musume-earned-count {
+  flex: 0 0 auto;
+  min-width: 64px;
+  padding: 7px 9px;
+  border: 1px solid #34485f;
+  border-radius: 10px;
+  background: #0d141d;
+  text-align: center;
+}
+
+.musume-earned-count span {
+  display: block;
+  color: #7f95aa;
+  font-size: 8px;
+}
+
+.musume-earned-count b {
+  display: block;
+  margin-top: 2px;
+  color: #ffe8a8;
+  font-size: 14px;
+}
+
+.musume-scope-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 7px 8px;
+  border-radius: 10px;
+  background: #0d141d;
+}
+
+.musume-scope-bar > span {
+  color: #73899f;
+  font-size: 9px;
+}
+
+.musume-scope-bar > strong {
+  min-width: 0;
+  margin-right: auto;
+  color: #dbe7f1;
+  font-size: 10px;
+}
+
+.musume-scope-reset,
+.musume-area-chip {
+  border: 1px solid #2c3d50;
+  background: #15202b;
+  color: #c5d5e3;
+}
+
+.musume-scope-reset {
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 9px;
+}
+
+.musume-scope-reset.active,
+.musume-area-chip.active {
+  border-color: #6b592f;
+  background: #3a3020;
+  color: #ffe8a8;
+}
+
+.musume-region-list {
+  display: grid;
+  gap: 8px;
+}
+
+.musume-region-box {
+  overflow: hidden;
+  border: 1px solid #223245;
+  border-radius: 11px;
+  background: #0d151e;
+}
+
+.musume-region-box.complete {
+  border-color: rgba(209, 164, 61, .55);
+  box-shadow: inset 0 0 0 1px rgba(209, 164, 61, .05);
+}
+
+.musume-region-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px;
+}
+
+.musume-area-chip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  padding: 7px 8px;
+  border-radius: 9px;
+  text-align: left;
+}
+
+.musume-region {
+  background: #172330;
+}
+
+.musume-pref {
+  width: 100%;
+  background: #111b25;
+}
+
+.musume-area-chip-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.musume-area-chip strong {
+  color: #eaf2f8;
+  font-size: 10px;
+}
+
+.musume-area-chip em {
+  color: #7e95aa;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.musume-area-chip.complete {
+  border-color: rgba(209, 164, 61, .58);
+  background: #30281c;
+}
+
+.musume-area-chip.complete .musume-area-chip-label,
+.musume-area-chip.complete em {
+  color: #ffe8a8;
+}
+
+.musume-title-state {
+  color: #768da3;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.musume-region-box.complete .musume-title-state {
+  color: #f1cf79;
+  font-weight: 800;
+}
+
+.musume-pref-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 0 7px 7px;
+}
+
+.musume-pref-wrap {
+  min-width: 0;
+}
+
+.musume-pref-title {
+  display: block;
+  margin: 3px 2px 0;
+  overflow: hidden;
+  color: #d1a43d;
+  font-size: 7px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.collection-target[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  .musume-pref-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 460px) {
+  .musume-hierarchy {
+    padding: 10px 8px;
+  }
+
+  .musume-hierarchy-head {
+    align-items: stretch;
+  }
+
+  .musume-hierarchy-head p {
+    font-size: 9px;
+  }
+
+  .musume-earned-count {
+    min-width: 58px;
+    padding: 6px 7px;
+  }
+
+  .musume-region-top {
+    grid-template-columns: 1fr;
+  }
+
+  .musume-title-state {
+    padding: 0 3px 2px;
+    white-space: normal;
+  }
+
+  .musume-pref-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+  }
+
+  .musume-area-chip {
+    gap: 5px;
+    padding: 7px 6px;
+  }
+
+  .musume-area-chip-label {
+    font-size: 10px;
+  }
+}
