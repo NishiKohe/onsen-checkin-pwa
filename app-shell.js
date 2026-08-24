@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v40";
+  const BUILD = "v41";
   const VALID_TABS = new Set(["map", "collection", "trip"]);
   const CARD_MOVE_THRESHOLD_PX = 12;
   const CARD_CLICK_SUPPRESS_MS = 900;
