@@ -23,6 +23,16 @@
     };
   }
 
+  function resizeMap() {
+    requestAnimationFrame(() => {
+      try {
+        if (typeof map !== "undefined" && map?.resize) map.resize();
+      } catch (err) {
+        console.warn("app shell map resize skipped", err);
+      }
+    });
+  }
+
   function ownTabNavigation() {
     const current = document.querySelector(".app-tabs");
     if (!current) return null;
@@ -92,9 +102,7 @@
       window.OnsenTripPower?.render?.();
     }
 
-    if (target === "map" && typeof window.map !== "undefined" && window.map) {
-      requestAnimationFrame(() => window.map?.resize?.());
-    }
+    if (target === "map") resizeMap();
 
     scheduleLayout();
     window.dispatchEvent(new CustomEvent("onsen-app-tab-changed", {
@@ -126,9 +134,7 @@
     root.style.setProperty("--app-content-h", `${contentH}px`);
     document.body?.classList.add("measured-app-layout");
 
-    if (root.dataset.appTab === "map" && typeof window.map !== "undefined" && window.map) {
-      requestAnimationFrame(() => window.map?.resize?.());
-    }
+    if (root.dataset.appTab === "map") resizeMap();
   }
 
   function scheduleLayout() {
