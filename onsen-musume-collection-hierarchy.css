@@ -209,7 +209,137 @@
   white-space: nowrap;
 }
 
-.collection-target[hidden] {
+.musume-character-panel {
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid #24364a;
+  border-radius: 12px;
+  background: #0d151e;
+}
+
+.musume-character-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 11px;
+  border-bottom: 1px solid #223245;
+  background: #111b25;
+}
+
+.musume-character-heading span {
+  display: block;
+  margin-bottom: 2px;
+  color: #d1a43d;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .15em;
+}
+
+.musume-character-heading strong {
+  display: block;
+  color: #edf4fa;
+  font-size: 13px;
+}
+
+.musume-character-heading p {
+  margin: 3px 0 0;
+  color: #7f95aa;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.musume-character-count {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  border: 1px solid #34485f;
+  border-radius: 999px;
+  color: #cfe0ee;
+  font-size: 10px;
+}
+
+.musume-character-list {
+  display: grid;
+}
+
+.musume-character-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 0;
+  padding: 10px 11px;
+  border: 0;
+  border-bottom: 1px solid rgba(34, 50, 69, .78);
+  border-radius: 0;
+  background: transparent;
+  color: #dce9f5;
+  text-align: left;
+}
+
+.musume-character-row:last-child {
+  border-bottom: 0;
+}
+
+.musume-character-row:hover,
+.musume-character-row:focus-visible {
+  background: #16212d;
+  outline: none;
+}
+
+.musume-character-row.visited {
+  background: rgba(48, 40, 28, .34);
+}
+
+.musume-character-mark {
+  color: #8096ad;
+  font-size: 14px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.musume-character-row.visited .musume-character-mark,
+.musume-character-row.visited .musume-character-main strong {
+  color: #ffe8a8;
+}
+
+.musume-character-main {
+  min-width: 0;
+}
+
+.musume-character-main strong {
+  display: block;
+  overflow: hidden;
+  color: #e7f0f7;
+  font-size: 13px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.musume-character-main small {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  color: #8399ad;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.musume-character-pref {
+  color: #7f95aa;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.musume-source-target-list {
+  display: none !important;
+}
+
+.collection-target[hidden],
+.musume-character-row[hidden] {
   display: none !important;
 }
 
@@ -258,5 +388,13 @@
 
   .musume-area-chip-label {
     font-size: 10px;
+  }
+
+  .musume-character-row {
+    padding: 9px 8px;
+  }
+
+  .musume-character-main strong {
+    font-size: 12px;
   }
 }
