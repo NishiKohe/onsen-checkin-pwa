@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "introducedIn": "v42",
+  "purpose": "実績一覧を次の旅先選びに使えるよう、解除まで近い実績を優先提示する",
+  "nearCompletion": {
+    "minimumRemaining": 1,
+    "maximumRemaining": 3,
+    "maximumDisplayed": 6,
+    "sortOrder": [
+      "残り数が少ない",
+      "レアリティが高い",
+      "達成率が高い",
+      "実績名"
+    ],
+    "showsMissingSpotNames": true,
+    "imageRecognitionUsed": false
+  },
+  "selectionCollections": [
+    {
+      "collectionId": "national_recreation_spa",
+      "areaHierarchy": true,
+      "regionAchievements": true,
+      "prefectureAchievements": true
+    },
+    {
+      "collectionId": "meito_hyakusen",
+      "areaHierarchy": true,
+      "regionAchievements": true,
+      "prefectureAchievements": true
+    }
+  ],
+  "futureDensityRule": "対象1件だけの都道府県称号は、地方称号とのバランスを見て表示密度を調整する"
+}
