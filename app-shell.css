@@ -1,0 +1,157 @@
+:root {
+  --app-header-h: 50px;
+  --app-tabs-h: 64px;
+  --app-content-h: calc(100dvh - 114px);
+  --app-tab-count: 3;
+}
+
+body.has-app-tabs {
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+/* iOS standalone + viewport-fit=cover を含め、上端safe areaをヘッダー側で吸収する。 */
+.header {
+  padding-top: calc(12px + env(safe-area-inset-top));
+}
+
+.header h1 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.app-build-badge {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 5px;
+  border: 1px solid #314155;
+  border-radius: 999px;
+  background: #111923;
+  color: #7f95aa;
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: .04em;
+}
+
+.app-build-badge.warning {
+  border-color: #795544;
+  color: #ffc9a8;
+  background: #31241f;
+}
+
+.app-tabs {
+  grid-template-columns: repeat(var(--app-tab-count), minmax(0, 1fr)) !important;
+}
+
+/* 表示責務を data-app-tab へ一本化。hidden/旧body class/inline styleの競合を避ける。 */
+html[data-app-tab] body .main,
+html[data-app-tab] body #collectionView,
+html[data-app-tab] body #tripView {
+  display: none !important;
+}
+
+html[data-app-tab="map"] body .main {
+  display: grid !important;
+}
+
+html[data-app-tab="collection"] body #collectionView {
+  display: block !important;
+}
+
+html[data-app-tab="trip"] body #tripView {
+  display: block !important;
+}
+
+.has-app-tabs .main,
+.has-app-tabs .collection-view,
+.has-app-tabs .trip-view {
+  box-sizing: border-box;
+  height: var(--app-content-h) !important;
+  max-height: var(--app-content-h) !important;
+  min-height: 0;
+}
+
+.has-app-tabs .main {
+  overflow: hidden;
+}
+
+.has-app-tabs .map-shell,
+.has-app-tabs .panel {
+  min-width: 0;
+  min-height: 0;
+}
+
+.has-app-tabs .panel {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+}
+
+.has-app-tabs .collection-view,
+.has-app-tabs .trip-view {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* collection detailsの開閉表現もApp Shellへ統合。 */
+.collection-card-summary {
+  position: relative;
+  padding-right: 34px;
+  cursor: pointer;
+  list-style: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.collection-card-summary::-webkit-details-marker {
+  display: none;
+}
+
+.collection-card-summary::after {
+  content: "▾";
+  position: absolute;
+  right: 12px;
+  bottom: 11px;
+  color: #8096ad;
+  font-size: 12px;
+  line-height: 1;
+  transition: transform .16s ease, color .16s ease;
+  pointer-events: none;
+}
+
+details.collection-card[open] > .collection-card-summary::after {
+  transform: rotate(180deg);
+  color: #d1a43d;
+}
+
+details.collection-card[open] > .collection-card-summary {
+  background: rgba(28, 40, 53, .72);
+}
+
+@media (max-width: 900px) {
+  .has-app-tabs .main {
+    grid-template-rows: minmax(0, 55fr) minmax(0, 45fr) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .header {
+    padding-top: calc(10px + env(safe-area-inset-top));
+  }
+
+  .has-app-tabs .main {
+    grid-template-rows: minmax(0, 58fr) minmax(0, 42fr) !important;
+  }
+
+  .app-build-badge {
+    padding: 2px 4px;
+    font-size: 7px;
+  }
+}
