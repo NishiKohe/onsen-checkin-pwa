@@ -1,0 +1,49 @@
+:root {
+  --app-header-h: 50px;
+  --app-tabs-h: 64px;
+}
+
+/*
+ * 固定px/vhの組み合わせをやめ、実測したヘッダー・フッター高から
+ * 3画面共通の利用可能高さを作る。
+ */
+.has-app-tabs .main,
+.has-app-tabs .collection-view,
+.trip-view {
+  box-sizing: border-box;
+  height: calc(100vh - var(--app-header-h) - var(--app-tabs-h)) !important;
+  height: calc(100dvh - var(--app-header-h) - var(--app-tabs-h)) !important;
+  max-height: calc(100dvh - var(--app-header-h) - var(--app-tabs-h)) !important;
+  min-height: 0;
+}
+
+.has-app-tabs .main {
+  overflow: hidden;
+}
+
+.has-app-tabs .map-shell,
+.has-app-tabs .panel {
+  min-width: 0;
+  min-height: 0;
+}
+
+.has-app-tabs .panel {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: calc(18px + env(safe-area-inset-bottom));
+}
+
+/* style.css の 55vh + 45vh / 58vh + 42vh は、
+   フッターを差し引いた .main より大きくなるため残り領域内の比率へ変更。 */
+@media (max-width: 900px) {
+  .has-app-tabs .main {
+    grid-template-rows: minmax(0, 55fr) minmax(0, 45fr) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .has-app-tabs .main {
+    grid-template-rows: minmax(0, 58fr) minmax(0, 42fr) !important;
+  }
+}
