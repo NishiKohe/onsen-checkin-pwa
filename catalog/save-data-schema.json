@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-08-24",
   "format": "onsen-checkin-user-save",
   "scope": "per-user",
@@ -15,19 +15,21 @@
     "visitSessionsV1",
     "visitSettingsV1",
     "visitLogMigrationV1",
-    "visitLocationSamplesV1"
+    "visitLocationSamplesV1",
+    "achievementStateV1"
   ],
   "migrationPolicy": [
     "v32初回起動時に旧グローバルキーを現在の既定ローカルユーザーへコピーする",
     "旧グローバルキーは安全のため削除せずバックアップとして残す",
     "以後アプリ本体はユーザー名前空間内の値だけを参照する",
-    "ユーザー切替時はページを再読込し、全UI・達成率・旅行ログを切替先ユーザーから再構築する"
+    "ユーザー切替時はページを再読込し、全UI・達成率・旅行ログ・実績・装備称号を切替先ユーザーから再構築する",
+    "v41でachievementStateV1をユーザー別保存へ追加。既存ユーザーは現在の訪問履歴から実績を初回再計算する"
   ],
   "futureSync": {
     "accountBinding": "ローカルprofile idを将来のaccount user idへマッピング可能",
     "exportEnvelope": {
       "format": "onsen-checkin-user-save",
-      "schemaVersion": 2,
+      "schemaVersion": 3,
       "exportedAt": "unix_ms",
       "user": "profile metadata",
       "data": "userDataKeys keyed object"
