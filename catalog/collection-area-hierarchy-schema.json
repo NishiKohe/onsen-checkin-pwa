@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "introducedAt": "v40",
+  "purpose": "達成状況の全国→地方→都道府県→個別対象をコレクション横断で再利用するための設定モデル",
+  "runtime": {
+    "engine": "collection-area-hierarchy.js",
+    "style": "collection-area-hierarchy.css",
+    "registerApi": "window.CollectionAreaHierarchy.register(config)"
+  },
+  "config": {
+    "required": ["collectionId"],
+    "fields": {
+      "collectionId": "getCollectionDefinitions() が返す definition.id",
+      "hierarchyEyebrow": "階層見出しの小見出し",
+      "hierarchyTitle": "地方・都道府県ブロックの見出し",
+      "hierarchyDescription": "階層UIの説明",
+      "earnedLabel": "獲得称号カウンタのラベル",
+      "nationalLabel": "全国スコープの表示名",
+      "noteSuffix": "元コレクション説明へ追記する文言",
+      "progressMode": "spots または items。items時はgetItemsForSpotの個数で進捗表示",
+      "makeCompletionTitle": "地方・都道府県コンプリート称号名を返す関数",
+      "regionRemainingLabel": "地方コンプリートまでの残数文言を返す関数",
+      "getItemsForSpot": "任意。1スポットから個別表示対象を返す関数",
+      "itemEyebrow": "個別対象見出しの小見出し",
+      "itemTitle": "個別対象一覧タイトル",
+      "itemDescription": "個別対象一覧説明",
+      "itemCountSuffix": "人・件・城などの単位",
+      "hideSourceTargets": "個別対象UIを使う場合に既存スポット一覧を隠すか"
+    }
+  },
+  "geography": {
+    "levels": ["national", "region", "prefecture", "item_or_spot"],
+    "regions": ["北海道", "東北", "関東", "甲信越", "北陸", "東海", "近畿", "中国", "四国", "九州・沖縄"],
+    "prefectureNormalization": "都道府県接尾辞あり/なしを正規化。三重/三重県などの表記揺れを同一扱い。"
+  },
+  "currentRegistrations": [
+    {
+      "collectionId": "onsen_musume",
+      "adapter": "collection-area-hierarchy-onsen-musume.js",
+      "progressMode": "items",
+      "itemUnit": "人",
+      "completionTitlePattern": "<地方または都道府県> 温泉むすめ全制覇"
+    }
+  ],
+  "nextCandidates": [
+    "national_recreation_spa",
+    "meito_hyakusen",
+    "onsen_heritage",
+    "future_castles"
+  ]
+}
