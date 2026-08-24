@@ -1,9 +1,10 @@
-const CACHE_NAME = "onsen-checkin-v34";
+const CACHE_NAME = "onsen-checkin-v35";
 const APP_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
   "./collection-progress.css",
+  "./onsen-musume-collection-hierarchy.css",
   "./visit-log.css",
   "./profile-storage.css",
   "./trip-power-mode.css",
@@ -13,6 +14,7 @@ const APP_ASSETS = [
   "./visit-log-ui.js",
   "./photo-recovery-fallback.js",
   "./collection-details-fix.js",
+  "./onsen-musume-collection-hierarchy.js",
   "./app.js",
   "./ui-enhancements.js",
   "./heritage-ui.js",
@@ -84,6 +86,7 @@ self.addEventListener("fetch", (event) => {
     "/index.html",
     "/style.css",
     "/collection-progress.css",
+    "/onsen-musume-collection-hierarchy.css",
     "/visit-log.css",
     "/profile-storage.css",
     "/trip-power-mode.css",
@@ -93,6 +96,7 @@ self.addEventListener("fetch", (event) => {
     "/visit-log-ui.js",
     "/photo-recovery-fallback.js",
     "/collection-details-fix.js",
+    "/onsen-musume-collection-hierarchy.js",
     "/onsen.json",
     "/app.js",
     "/ui-enhancements.js",
