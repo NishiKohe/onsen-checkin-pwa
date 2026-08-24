@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v39";
+  const BUILD = "v40";
   const VALID_TABS = new Set(["map", "collection", "trip"]);
   const CARD_MOVE_THRESHOLD_PX = 12;
   const CARD_CLICK_SUPPRESS_MS = 900;
@@ -38,8 +38,6 @@
     if (!current) return null;
     if (current.dataset.appShellOwned === "1") return current;
 
-    // v27-v37で積み重なった個別タブハンドラをDOMごと交換して切り離し、
-    // v38以降はこのApp Shellだけが画面遷移を管理する。
     const clone = current.cloneNode(true);
     clone.dataset.appShellOwned = "1";
     current.replaceWith(clone);
@@ -65,7 +63,6 @@
     if (!node) return;
     node.hidden = !visible;
     node.setAttribute("aria-hidden", visible ? "false" : "true");
-    // 旧バージョンが残したinline displayを解除し、表示責務をapp-shell.cssへ戻す。
     node.style.removeProperty("display");
   }
 
@@ -97,7 +94,6 @@
     }
 
     if (target === "trip") {
-      // visit-log-ui.jsはstorageイベントで再描画するため、公開APIを増やさず最新化できる。
       window.dispatchEvent(new Event("storage"));
       window.OnsenTripPower?.render?.();
     }
@@ -275,10 +271,11 @@
       tripTabConsistent: !views.trip || buttons.some((button) => button.dataset.appTab === "trip"),
       viewportMeasured: contentH >= 220,
       collectionCardsStructured: cards.length === 0 || cards.every((card) =>
-        !!card.querySelector(":scope > summary.collection-card-summary") && !!card.querySelector(":scope > .collection-target-list, :scope > .musume-hierarchy")
+        !!card.querySelector(":scope > summary.collection-card-summary") && !!card.querySelector(":scope > .collection-target-list, :scope > .collection-area-hierarchy")
       ),
+      collectionHierarchyReady: !!window.CollectionAreaHierarchy,
       profileStorageReady: !!window.OnsenUserStorage,
-      legacyUiShimsUnloaded: ![...document.scripts].some((script) => /(?:tab-display-fix|collection-details-fix|layout-viewport-fix)\.js/.test(script.src))
+      legacyUiShimsUnloaded: ![...document.scripts].some((script) => /(?:tab-display-fix|collection-details-fix|layout-viewport-fix|onsen-musume-collection-hierarchy)\.js/.test(script.src))
     };
     const ok = Object.values(checks).every(Boolean);
     const result = {
@@ -359,7 +356,6 @@
       if (document.visibilityState === "visible") scheduleLayout();
     });
 
-    // 既存コードが呼ぶ公開関数もApp Shellへ集約する。
     window.setCollectionAppTab = (tab) => showTab(tab, { source: "legacy-api" });
     window.openTripView = () => showTab("trip", { source: "trip-api" });
 
