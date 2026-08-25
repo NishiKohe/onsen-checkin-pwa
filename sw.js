@@ -1,8 +1,9 @@
-const CACHE_NAME = "onsen-checkin-v46";
+const CACHE_NAME = "onsen-checkin-v47";
 const APP_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
+  "./map-tools-toggle.css",
   "./collection-progress.css",
   "./collection-area-hierarchy.css",
   "./collection-navigation-ui.css",
@@ -22,6 +23,7 @@ const APP_ASSETS = [
   "./photo-recovery-fallback.js",
   "./domain-model.js",
   "./domain-runtime-bridge.js",
+  "./map-tools-toggle.js",
   "./collection-area-hierarchy.js",
   "./collection-area-hierarchy-onsen-musume.js",
   "./collection-area-hierarchy-selections.js",
@@ -41,6 +43,7 @@ const APP_ASSETS = [
   "./onsen.json",
   "./onsen-data-manifest.json",
   "./catalog/domain-model-schema.json",
+  "./catalog/analysis-coverage-status.json",
   "./catalog/onsen-musume-area-master.json",
   "./catalog/onsen-regional-asset-master.json",
   "./catalog/group-definitions.json",
@@ -59,6 +62,7 @@ const APP_ASSETS = [
   "./data/onsen-analysis-expansion.json",
   "./data/onsen-analysis-expansion-2.json",
   "./data/onsen-analysis-expansion-3.json",
+  "./data/onsen-analysis-expansion-4.json",
   "./data/regional-group-spots.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
   "./data/onsen-musume-kanto-simple.json",
@@ -109,6 +113,7 @@ self.addEventListener("fetch", (event) => {
   const networkFirst = [
     "/index.html",
     "/style.css",
+    "/map-tools-toggle.css",
     "/collection-progress.css",
     "/collection-area-hierarchy.css",
     "/collection-navigation-ui.css",
@@ -128,6 +133,7 @@ self.addEventListener("fetch", (event) => {
     "/photo-recovery-fallback.js",
     "/domain-model.js",
     "/domain-runtime-bridge.js",
+    "/map-tools-toggle.js",
     "/collection-area-hierarchy.js",
     "/collection-area-hierarchy-onsen-musume.js",
     "/collection-area-hierarchy-selections.js",
@@ -147,6 +153,7 @@ self.addEventListener("fetch", (event) => {
     "/collection-progress-ui.js",
     "/onsen-data-manifest.json",
     "/catalog/domain-model-schema.json",
+    "/catalog/analysis-coverage-status.json",
     "/catalog/onsen-musume-area-master.json",
     "/catalog/onsen-regional-asset-master.json",
     "/catalog/visit-record-schema.json",
@@ -162,6 +169,7 @@ self.addEventListener("fetch", (event) => {
     "/data/onsen-analysis-expansion.json",
     "/data/onsen-analysis-expansion-2.json",
     "/data/onsen-analysis-expansion-3.json",
+    "/data/onsen-analysis-expansion-4.json",
     "/data/regional-group-spots.json"
   ];
 
