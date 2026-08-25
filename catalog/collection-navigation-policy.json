@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "introducedIn": "v43",
+  "purpose": "達成状況をカテゴリで整理し、広域エリア選択後に長距離スクロールせず対象を確認できるようにする",
+  "collectionCategories": [
+    { "id": "all", "label": "すべて" },
+    { "id": "official", "label": "公式・選定", "sections": ["公式・選定コレクション"] },
+    { "id": "broad", "label": "広域・歴史", "sections": ["全国・歴史称号", "地域・歴史グループ"] },
+    { "id": "local", "label": "温泉郷・地域", "sections": ["地域・温泉郷グループ"] }
+  ],
+  "areaInteraction": {
+    "primaryPattern": "inline_expand",
+    "regionTap": "地方ボタン直下へ対象一覧を展開",
+    "prefectureTap": "都道府県ボタン直下へ対象一覧を展開",
+    "switchScope": "別の地方・都道府県を選ぶと既存の展開一覧を閉じて新しい選択位置へ移動",
+    "nationalReset": "対象一覧を閉じて広域一覧へ戻る",
+    "targetTap": "対象温泉または温泉むすめをタップした時だけ地図へ遷移"
+  },
+  "rationale": [
+    "地方・都道府県を比較するたびにカード下部までスクロールする往復をなくす",
+    "エリア選択だけでは地図画面へ遷移させず比較コンテキストを維持する",
+    "将来の城・国宝・景勝地などカテゴリ追加でも同じ整理軸を再利用できる"
+  ]
+}
