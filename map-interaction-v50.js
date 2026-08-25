@@ -1,16 +1,23 @@
 (() => {
-  const BUILD = "v51";
-  const MOVE_THRESHOLD_PX = 4;
-  const pointers = new Map();
-  const counters = { down: 0, move: 0, up: 0, cancel: 0, pan: 0, pinch: 0 };
-  let root = null;
+  const BUILD = "v52";
+  const MOVE_THRESHOLD_PX = 2;
+
   let targetMap = null;
+  let canvasContainer = null;
+  let canvas = null;
+  let touchFallbackEnabled = false;
+  let lastTouches = [];
   let gestureMoved = false;
-  let singleStart = null;
-  let lastCentroid = null;
-  let lastDistance = 0;
   let suppressClickUntil = 0;
-  let fallbackEnabled = false;
+
+  const counters = {
+    touchstart: 0,
+    touchmove: 0,
+    touchend: 0,
+    touchcancel: 0,
+    pan: 0,
+    pinch: 0
+  };
 
   async function waitForMap() {
     for (let i = 0; i < 300; i++) {
@@ -20,28 +27,6 @@
       await new Promise((resolve) => setTimeout(resolve, 50));
     }
     throw new Error("MapLibre map was not ready");
-  }
-
-  function pointFromEvent(event) {
-    return { x: Number(event.clientX), y: Number(event.clientY) };
-  }
-
-  function currentPoints() {
-    return [...pointers.values()];
-  }
-
-  function centroid(points) {
-    const total = points.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }), { x: 0, y: 0 });
-    return { x: total.x / points.length, y: total.y / points.length };
-  }
-
-  function distance(a, b) {
-    return Math.hypot(a.x - b.x, a.y - b.y);
-  }
-
-  function isUiTarget(event) {
-    const node = event.target instanceof Element ? event.target : null;
-    return !!node?.closest?.(".map-tools-toggle, .map-tools, .maplibregl-ctrl");
   }
 
   function relaxViewport() {
@@ -56,126 +41,161 @@
     try { targetMap.resize?.(); } catch {}
   }
 
-  function configureFallback() {
-    if (!targetMap || !root) return;
-    const coarse = window.matchMedia?.("(pointer: coarse)")?.matches || Number(navigator.maxTouchPoints || 0) > 0;
-    fallbackEnabled = !!coarse;
+  function touchPoints(event) {
+    if (!canvasContainer) return [];
+    const rect = canvasContainer.getBoundingClientRect();
+    return [...event.touches].map((touch) => ({
+      x: touch.clientX - rect.left,
+      y: touch.clientY - rect.top
+    }));
+  }
 
+  function centroid(points) {
+    if (!points.length) return { x: 0, y: 0 };
+    let x = 0;
+    let y = 0;
+    for (const point of points) {
+      x += point.x;
+      y += point.y;
+    }
+    return { x: x / points.length, y: y / points.length };
+  }
+
+  function distance(a, b) {
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  }
+
+  function panDirect(dx, dy) {
+    if (!targetMap || (!dx && !dy)) return;
+    try {
+      const currentCenter = targetMap.getCenter();
+      const centerPoint = targetMap.project(currentCenter);
+      const nextCenter = targetMap.unproject([
+        centerPoint.x - dx,
+        centerPoint.y - dy
+      ]);
+      targetMap.jumpTo({ center: nextCenter });
+      counters.pan += 1;
+    } catch (err) {
+      console.warn("direct touch pan skipped", err);
+    }
+  }
+
+  function zoomDirect(zoomDelta, anchorPoint) {
+    if (!targetMap || !Number.isFinite(zoomDelta) || Math.abs(zoomDelta) < 0.001) return;
+    try {
+      const minZoom = Number(targetMap.getMinZoom?.() ?? 2.5);
+      const maxZoom = Number(targetMap.getMaxZoom?.() ?? 18);
+      const currentZoom = Number(targetMap.getZoom?.() || 0);
+      const nextZoom = Math.min(maxZoom, Math.max(minZoom, currentZoom + zoomDelta));
+
+      // Preserve the geographic point under the fingers while zooming.
+      const anchor = targetMap.unproject([anchorPoint.x, anchorPoint.y]);
+      targetMap.jumpTo({ zoom: nextZoom });
+      const projectedAnchor = targetMap.project(anchor);
+      panDirect(anchorPoint.x - projectedAnchor.x, anchorPoint.y - projectedAnchor.y);
+      counters.pinch += 1;
+    } catch (err) {
+      console.warn("direct touch zoom skipped", err);
+    }
+  }
+
+  function configureTouchFallback() {
+    if (!targetMap) return;
+    canvasContainer = targetMap.getCanvasContainer?.() || document.querySelector("#map .maplibregl-canvas-container");
+    canvas = targetMap.getCanvas?.() || canvasContainer?.querySelector?.("canvas") || null;
+
+    const touchCapable = Number(navigator.maxTouchPoints || 0) > 0 || "ontouchstart" in window;
+    touchFallbackEnabled = !!touchCapable && !!canvasContainer;
     relaxViewport();
 
-    if (!fallbackEnabled) {
+    if (!touchFallbackEnabled) {
       try { targetMap.dragPan?.enable?.(); } catch {}
       try { targetMap.touchZoomRotate?.enable?.(); } catch {}
+      document.documentElement.removeAttribute("data-map-touch-fallback");
       return;
     }
 
-    // Android/PWA fallback: MapLibre click stays active, but continuous touch
-    // motion is owned here so pan and pinch do not depend on its native handler.
+    // Own continuous touch motion on the actual MapLibre canvas container.
+    // Native click handling remains intact for taps and marker selection.
     try { targetMap.dragPan?.disable?.(); } catch {}
     try { targetMap.touchZoomRotate?.disable?.(); } catch {}
     try { targetMap.touchPitch?.disable?.(); } catch {}
-    root.style.touchAction = "none";
-    root.style.overscrollBehavior = "none";
-    document.documentElement.dataset.mapTouchFallback = "1";
-  }
 
-  function resetGestureReference() {
-    const pts = currentPoints();
-    if (pts.length === 1) {
-      singleStart = { ...pts[0] };
-      lastCentroid = { ...pts[0] };
-      lastDistance = 0;
-    } else if (pts.length >= 2) {
-      lastCentroid = centroid(pts.slice(0, 2));
-      lastDistance = distance(pts[0], pts[1]);
-      singleStart = null;
-    } else {
-      singleStart = null;
-      lastCentroid = null;
-      lastDistance = 0;
+    for (const node of [canvasContainer, canvas].filter(Boolean)) {
+      node.style.touchAction = "none";
+      node.style.overscrollBehavior = "none";
+      node.style.userSelect = "none";
+      node.style.webkitUserSelect = "none";
     }
+
+    document.documentElement.dataset.mapTouchFallback = "v52";
   }
 
-  function onPointerDown(event) {
-    if (!fallbackEnabled || event.pointerType === "mouse" || isUiTarget(event)) return;
-    counters.down += 1;
-    pointers.set(event.pointerId, pointFromEvent(event));
-    if (pointers.size === 1) gestureMoved = false;
-    resetGestureReference();
-    try { root.setPointerCapture?.(event.pointerId); } catch {}
+  function onTouchStart(event) {
+    if (!touchFallbackEnabled) return;
+    counters.touchstart += 1;
+    const points = touchPoints(event);
+    if (!lastTouches.length) gestureMoved = false;
+    lastTouches = points;
   }
 
-  function onPointerMove(event) {
-    if (!fallbackEnabled || !pointers.has(event.pointerId)) return;
-    counters.move += 1;
-    pointers.set(event.pointerId, pointFromEvent(event));
-    const pts = currentPoints();
+  function onTouchMove(event) {
+    if (!touchFallbackEnabled) return;
+    counters.touchmove += 1;
 
-    if (pts.length === 1) {
-      const p = pts[0];
-      if (!singleStart) singleStart = { ...p };
-      if (!lastCentroid) lastCentroid = { ...p };
-      const dx = p.x - lastCentroid.x;
-      const dy = p.y - lastCentroid.y;
-      if (!gestureMoved && Math.hypot(p.x - singleStart.x, p.y - singleStart.y) >= MOVE_THRESHOLD_PX) gestureMoved = true;
-      lastCentroid = { ...p };
-      if (!gestureMoved || (!dx && !dy)) return;
+    const points = touchPoints(event);
+    if (!points.length) return;
 
-      event.preventDefault();
-      event.stopPropagation();
-      counters.pan += 1;
-      try { targetMap.panBy?.([-dx, -dy], { duration: 0 }); } catch {}
+    if (points.length === 1 && lastTouches.length === 1) {
+      const dx = points[0].x - lastTouches[0].x;
+      const dy = points[0].y - lastTouches[0].y;
+      if (gestureMoved || Math.hypot(dx, dy) >= MOVE_THRESHOLD_PX) {
+        gestureMoved = true;
+        event.preventDefault();
+        event.stopPropagation();
+        panDirect(dx, dy);
+      }
+      lastTouches = points;
       return;
     }
 
-    if (pts.length >= 2) {
-      const pair = pts.slice(0, 2);
-      const nextCentroid = centroid(pair);
-      const nextDistance = Math.max(1, distance(pair[0], pair[1]));
-      if (!lastCentroid) lastCentroid = nextCentroid;
-      if (!lastDistance) lastDistance = nextDistance;
+    if (points.length >= 2 && lastTouches.length >= 2) {
+      const previousPair = lastTouches.slice(0, 2);
+      const nextPair = points.slice(0, 2);
+      const previousCentroid = centroid(previousPair);
+      const nextCentroid = centroid(nextPair);
+      const dx = nextCentroid.x - previousCentroid.x;
+      const dy = nextCentroid.y - previousCentroid.y;
+      const previousDistance = Math.max(1, distance(previousPair[0], previousPair[1]));
+      const nextDistance = Math.max(1, distance(nextPair[0], nextPair[1]));
+      const zoomDelta = Math.log2(nextDistance / previousDistance);
 
-      const dx = nextCentroid.x - lastCentroid.x;
-      const dy = nextCentroid.y - lastCentroid.y;
-      const zoomDelta = Math.log2(nextDistance / lastDistance);
-      gestureMoved = gestureMoved || Math.abs(dx) + Math.abs(dy) > 1 || Math.abs(zoomDelta) > 0.01;
-
+      gestureMoved = true;
       event.preventDefault();
       event.stopPropagation();
 
-      if (dx || dy) {
-        counters.pan += 1;
-        try { targetMap.panBy?.([-dx, -dy], { duration: 0 }); } catch {}
-      }
-      if (Number.isFinite(zoomDelta) && Math.abs(zoomDelta) > 0.001) {
-        counters.pinch += 1;
-        const rect = root.getBoundingClientRect();
-        const point = [nextCentroid.x - rect.left, nextCentroid.y - rect.top];
-        let around = null;
-        try { around = targetMap.unproject?.(point); } catch {}
-        const minZoom = Number(targetMap.getMinZoom?.() ?? 2.5);
-        const maxZoom = Number(targetMap.getMaxZoom?.() ?? 18);
-        const nextZoom = Math.min(maxZoom, Math.max(minZoom, Number(targetMap.getZoom?.() || 0) + zoomDelta));
-        try { targetMap.zoomTo?.(nextZoom, { duration: 0, ...(around ? { around } : {}) }); } catch {}
-      }
-
-      lastCentroid = nextCentroid;
-      lastDistance = nextDistance;
+      if (dx || dy) panDirect(dx, dy);
+      zoomDirect(zoomDelta, nextCentroid);
+      lastTouches = points;
+      return;
     }
+
+    // Finger count changed (1 -> 2 or 2 -> 1); establish a fresh reference.
+    lastTouches = points;
   }
 
-  function finishPointer(event, canceled = false) {
-    if (!pointers.has(event.pointerId)) return;
-    if (canceled) counters.cancel += 1;
-    else counters.up += 1;
-    pointers.delete(event.pointerId);
-    try { root.releasePointerCapture?.(event.pointerId); } catch {}
+  function finishTouch(event, canceled) {
+    if (!touchFallbackEnabled) return;
+    if (canceled) counters.touchcancel += 1;
+    else counters.touchend += 1;
 
-    if (pointers.size === 0) {
+    const remaining = touchPoints(event);
+    if (!remaining.length) {
       if (gestureMoved) suppressClickUntil = Date.now() + 350;
       gestureMoved = false;
     }
-    resetGestureReference();
+    lastTouches = remaining;
   }
 
   function onClickCapture(event) {
@@ -184,19 +204,29 @@
     event.stopImmediatePropagation();
   }
 
+  function bindTouchRuntime() {
+    if (!canvasContainer || canvasContainer.dataset.onsenTouchRuntime === BUILD) return;
+    canvasContainer.dataset.onsenTouchRuntime = BUILD;
+
+    canvasContainer.addEventListener("touchstart", onTouchStart, { capture: true, passive: false });
+    canvasContainer.addEventListener("touchmove", onTouchMove, { capture: true, passive: false });
+    canvasContainer.addEventListener("touchend", (event) => finishTouch(event, false), { capture: true, passive: false });
+    canvasContainer.addEventListener("touchcancel", (event) => finishTouch(event, true), { capture: true, passive: false });
+    canvasContainer.addEventListener("click", onClickCapture, true);
+  }
+
   function snapshot() {
-    const rect = root?.getBoundingClientRect?.();
+    const rect = canvasContainer?.getBoundingClientRect?.();
     return {
       build: BUILD,
-      fallbackEnabled,
+      touchFallbackEnabled,
       maxTouchPoints: Number(navigator.maxTouchPoints || 0),
-      touchAction: root ? getComputedStyle(root).touchAction : null,
+      touchAction: canvasContainer ? getComputedStyle(canvasContainer).touchAction : null,
       zoom: targetMap?.getZoom?.(),
       minZoom: targetMap?.getMinZoom?.(),
       maxZoom: targetMap?.getMaxZoom?.(),
       nativeDragPanEnabled: targetMap?.dragPan?.isEnabled?.(),
       nativeTouchZoomEnabled: targetMap?.touchZoomRotate?.isEnabled?.(),
-      pointerCount: pointers.size,
       counters: { ...counters },
       mapRect: rect ? { width: Math.round(rect.width), height: Math.round(rect.height) } : null
     };
@@ -204,35 +234,34 @@
 
   async function install() {
     targetMap = await waitForMap();
-    root = document.getElementById("map");
-    if (!root) throw new Error("map container was not found");
-
-    configureFallback();
-    root.addEventListener("pointerdown", onPointerDown, { capture: true, passive: false });
-    root.addEventListener("pointermove", onPointerMove, { capture: true, passive: false });
-    root.addEventListener("pointerup", (event) => finishPointer(event, false), { capture: true, passive: false });
-    root.addEventListener("pointercancel", (event) => finishPointer(event, true), { capture: true, passive: false });
-    root.addEventListener("click", onClickCapture, true);
+    configureTouchFallback();
+    bindTouchRuntime();
 
     window.addEventListener("onsen-app-tab-changed", (event) => {
-      if (event.detail?.tab === "map") requestAnimationFrame(() => {
+      if (event.detail?.tab !== "map") return;
+      requestAnimationFrame(() => {
         relaxViewport();
         try { targetMap.resize?.(); } catch {}
       });
     });
+
     window.addEventListener("pageshow", () => requestAnimationFrame(() => {
-      configureFallback();
+      configureTouchFallback();
+      bindTouchRuntime();
       try { targetMap.resize?.(); } catch {}
     }));
 
     window.OnsenMapInteraction = {
       build: BUILD,
-      enable: configureFallback,
+      enable: () => {
+        configureTouchFallback();
+        bindTouchRuntime();
+      },
       diagnostics: snapshot
     };
 
-    console.info("onsen map touch fallback v51", snapshot());
+    console.info("onsen map direct touch runtime v52", snapshot());
   }
 
-  install().catch((err) => console.warn("map touch fallback v51 init failed", err));
+  install().catch((err) => console.warn("map direct touch runtime v52 init failed", err));
 })();
