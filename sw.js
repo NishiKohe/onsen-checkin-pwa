@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v49";
+const CACHE_NAME = "onsen-checkin-v50";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -24,6 +24,7 @@ const APP_ASSETS = [
   "./domain-model.js",
   "./domain-runtime-bridge.js",
   "./map-tools-toggle.js",
+  "./map-interaction-v50.js",
   "./collection-area-hierarchy.js",
   "./collection-area-hierarchy-onsen-musume.js",
   "./collection-area-hierarchy-selections.js",
@@ -134,6 +135,7 @@ self.addEventListener("fetch", (event) => {
     "/domain-model.js",
     "/domain-runtime-bridge.js",
     "/map-tools-toggle.js",
+    "/map-interaction-v50.js",
     "/collection-area-hierarchy.js",
     "/collection-area-hierarchy-onsen-musume.js",
     "/collection-area-hierarchy-selections.js",
