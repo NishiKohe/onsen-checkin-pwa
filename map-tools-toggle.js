@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v47";
+  const BUILD = "v48";
   const SESSION_KEY = "onsenMapToolsOpenV1";
   let button = null;
   let panel = null;
@@ -9,21 +9,33 @@
     return sessionStorage.getItem(SESSION_KEY) === "1";
   }
 
+  function ensureMapGestures() {
+    requestAnimationFrame(() => {
+      try {
+        if (typeof map === "undefined" || !map) return;
+        map.dragPan?.enable?.();
+        map.touchZoomRotate?.enable?.();
+        map.doubleClickZoom?.enable?.();
+        map.scrollZoom?.enable?.();
+        map.resize?.();
+      } catch (err) {
+        console.warn("map gesture restore skipped", err);
+      }
+    });
+  }
+
   function setOpen(open, { persist = true } = {}) {
     if (!panel || !button) return;
     const next = !!open;
     panel.hidden = !next;
     panel.setAttribute("aria-hidden", next ? "false" : "true");
+    panel.style.pointerEvents = next ? "auto" : "none";
     button.setAttribute("aria-expanded", next ? "true" : "false");
     button.classList.toggle("active", next);
     button.querySelector(".map-tools-toggle-label").textContent = next ? "検索を閉じる" : "検索・絞り込み";
     panel.closest(".map-shell")?.classList.toggle("map-tools-expanded", next);
     if (persist) sessionStorage.setItem(SESSION_KEY, next ? "1" : "0");
-    requestAnimationFrame(() => {
-      try {
-        if (typeof map !== "undefined" && map?.resize) map.resize();
-      } catch {}
-    });
+    ensureMapGestures();
   }
 
   function activeFilterCount() {
@@ -95,16 +107,23 @@
     installed = true;
     bindFilterState();
 
-    // First page load in a browser session is intentionally closed.
     setOpen(isOpen(), { persist: false });
     refreshBadge();
+    ensureMapGestures();
 
     window.addEventListener("pageshow", () => {
       setOpen(isOpen(), { persist: false });
       refreshBadge();
+      ensureMapGestures();
     });
     window.addEventListener("onsen-app-tab-changed", (event) => {
-      if (event.detail?.tab === "map") setTimeout(refreshBadge, 0);
+      if (event.detail?.tab === "map") {
+        setTimeout(refreshBadge, 0);
+        setTimeout(ensureMapGestures, 0);
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible" && document.documentElement.dataset.appTab === "map") ensureMapGestures();
     });
 
     window.OnsenMapTools = {
@@ -113,6 +132,7 @@
       close: () => setOpen(false),
       toggle: () => setOpen(panel?.hidden),
       isOpen: () => !panel?.hidden,
+      restoreMapGestures: ensureMapGestures,
       refresh: refreshBadge
     };
   }
