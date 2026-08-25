@@ -1,26 +1,50 @@
 {
-  "version": 4,
+  "version": 5,
   "introducedIn": "v41",
-  "updatedIn": "v44",
+  "updatedIn": "v45",
   "stateKey": "achievementStateV1",
   "scope": "per-user",
+  "runtimeModel": "window.AppDomain.achievements",
   "principles": [
     "実績は達成条件、称号は実績解除時に得る装備可能な肩書として分離する",
     "通常実績はGPS確認・自己申告を含む通常訪問記録から再計算する",
-    "現地GPS実績は端末GPSで現地確認された訪問だけを条件にし、写真・自己申告・付近検出は使わない",
+    "現地踏破実績はverification=onsiteまたはgps_onsiteを条件にできる",
     "現地GPS実績は高難度の上位レイヤーとして、訪問数・コレクション全制覇・地方制覇を中心に生成し、県単位までは大量生成しない",
-    "初回導入時は過去のチェックイン時刻から可能な限り本来の達成日を復元する",
+    "初回導入時は過去の訪問時刻から可能な限り本来の達成日を復元する",
     "定義変更後も一度解除した実績記録と称号文字列は保存して失わない",
-    "解除履歴には最後の条件になった温泉地と訪問日時を保存し、後から訪問履歴が変化しても解除時の証拠を維持する",
+    "解除履歴には最後の条件になったentityと訪問日時を保持する",
+    "進捗そのものは保存せずcategoryId/entityIdの訪問証拠から再計算する",
+    "新規実績は温泉専用requiredSpotIdsではなく汎用conditionを優先する",
     "国民保養温泉地・名湯百選の県実績は対象2件以上の都道府県だけ生成し、1件県は地方制覇の進捗として扱う",
     "温泉むすめは県単位コンプリート体験を優先し、1温泉地県でも通常県実績を維持する"
   ],
+  "conditionModel": {
+    "visit_count": {
+      "required": ["type", "categoryId", "count"],
+      "example": { "type": "visit_count", "categoryId": "onsen", "count": 100 }
+    },
+    "all_entities": {
+      "required": ["type", "categoryId", "entityIds"],
+      "optional": ["weights"],
+      "example": { "type": "all_entities", "categoryId": "castle", "entityIds": ["castle_a", "castle_b"] }
+    },
+    "collection_complete": {
+      "required": ["type", "categoryId", "collectionId"],
+      "example": { "type": "collection_complete", "categoryId": "onsen", "collectionId": "meito_hyakusen" }
+    }
+  },
+  "legacyConditionAdapters": {
+    "kind=visit_count + visitCount": "visit_count",
+    "requiredSpotIds + weights": "all_entities(categoryId=onsen)",
+    "requiredEntityIds + weights": "all_entities"
+  },
+  "evaluationResult": ["done", "total", "complete", "completedAt", "completionEntityId", "missingEntityIds"],
   "stateShape": {
     "version": 1,
     "initializedAt": "unix_ms",
     "updatedAt": "unix_ms",
     "equippedTitleId": "title:<achievementId> | null",
-    "unlocks": "achievementId -> { achievementId, achievementName, titleId, titleLabel, rarity, unlockedAt, recognizedAt, verification, completionSpotId?, completionVisitAt? }",
+    "unlocks": "achievementId -> { achievementId, achievementName, titleId, titleLabel, rarity, unlockedAt, recognizedAt, verification, completionSpotId?/completionEntityId?, completionVisitAt? }",
     "unreadIds": "achievementId[]"
   },
   "unlockFeedback": {
@@ -32,20 +56,12 @@
   },
   "rarities": ["N", "R", "SR", "SSR", "LEGEND"],
   "achievementKinds": [
-    {
-      "id": "standard",
-      "label": "通常実績",
-      "evidence": "通常訪問記録"
-    },
-    {
-      "id": "gps_onsite",
-      "label": "現地GPS",
-      "evidence": "gps_manual / gps_legacy / gps_recovered",
-      "policy": "catalog/onsite-achievement-policy.json"
-    }
+    { "id": "standard", "label": "通常実績", "evidence": "any" },
+    { "id": "onsite", "label": "現地確認", "evidence": "verificationLevel=onsite" },
+    { "id": "gps_onsite", "label": "現地GPS", "evidence": "gps_manual / gps_legacy / gps_recovered", "policy": "catalog/onsite-achievement-policy.json" }
   ],
   "sources": [
-    "訪問温泉地数マイルストーン",
+    "訪問数マイルストーン",
     "既存コレクション全制覇",
     "温泉むすめの地方・都道府県制覇",
     "国民保養温泉地の地方・複数対象県制覇",
