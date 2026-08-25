@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v50";
+const CACHE_NAME = "onsen-checkin-v52";
 const APP_ASSETS = [
   "./",
   "./index.html",
