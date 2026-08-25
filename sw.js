@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v44";
+const CACHE_NAME = "onsen-checkin-v45";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -19,6 +19,8 @@ const APP_ASSETS = [
   "./trip-power-mode.js",
   "./visit-log-ui.js",
   "./photo-recovery-fallback.js",
+  "./domain-model.js",
+  "./domain-runtime-bridge.js",
   "./collection-area-hierarchy.js",
   "./collection-area-hierarchy-onsen-musume.js",
   "./collection-area-hierarchy-selections.js",
@@ -36,6 +38,7 @@ const APP_ASSETS = [
   "./collection-progress-ui.js",
   "./onsen.json",
   "./onsen-data-manifest.json",
+  "./catalog/domain-model-schema.json",
   "./catalog/onsen-musume-area-master.json",
   "./catalog/onsen-regional-asset-master.json",
   "./catalog/group-definitions.json",
@@ -119,6 +122,8 @@ self.addEventListener("fetch", (event) => {
     "/trip-power-mode.js",
     "/visit-log-ui.js",
     "/photo-recovery-fallback.js",
+    "/domain-model.js",
+    "/domain-runtime-bridge.js",
     "/collection-area-hierarchy.js",
     "/collection-area-hierarchy-onsen-musume.js",
     "/collection-area-hierarchy-selections.js",
@@ -136,6 +141,7 @@ self.addEventListener("fetch", (event) => {
     "/fixed-selection-ui.js",
     "/collection-progress-ui.js",
     "/onsen-data-manifest.json",
+    "/catalog/domain-model-schema.json",
     "/catalog/onsen-musume-area-master.json",
     "/catalog/onsen-regional-asset-master.json",
     "/catalog/visit-record-schema.json",
