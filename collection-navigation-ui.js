@@ -73,6 +73,7 @@
     for (const button of root.querySelectorAll("[data-collection-category]")) {
       const id = button.dataset.collectionCategory || "all";
       button.classList.toggle("active", id === currentCategory);
+      button.setAttribute("aria-pressed", id === currentCategory ? "true" : "false");
       const def = CATEGORY_DEFS.find((item) => item.id === id);
       button.textContent = `${def?.label || id} ${counts[id] || 0}`;
     }
@@ -87,6 +88,12 @@
     const itemRows = [...card.querySelectorAll(".collection-area-item-panel .collection-area-item-row")];
     if (itemRows.length) return { kind: "item", rows: itemRows };
     return { kind: "target", rows: [...card.querySelectorAll(":scope > .collection-target-list .collection-target")] };
+  }
+
+  function scopeUnit(card, kind) {
+    if (card.dataset.collectionId === "onsen_musume" && kind === "item") return "人";
+    if (["national_recreation_spa", "meito_hyakusen"].includes(card.dataset.collectionId || "")) return "湯";
+    return "件";
   }
 
   function rowVisibleForIds(row, allowed) {
@@ -115,8 +122,15 @@
     original?.click();
   }
 
+  function setExpandedButton(card, activeButton = null) {
+    for (const button of card.querySelectorAll(".collection-area-chip")) {
+      button.setAttribute("aria-expanded", button === activeButton ? "true" : "false");
+    }
+  }
+
   function removeInline(card) {
     card.querySelector(".collection-inline-scope")?.remove();
+    setExpandedButton(card, null);
   }
 
   function renderInlineScope(card, button) {
@@ -128,6 +142,7 @@
     const name = button.dataset.scopeName || "エリア";
     const { kind, rows } = sourceRows(card);
     const visibleRows = rows.filter((row) => rowVisibleForIds(row, allowed));
+    const unit = scopeUnit(card, kind);
 
     const host = document.createElement("div");
     host.className = "collection-inline-scope";
@@ -135,7 +150,7 @@
     host.innerHTML = `
       <div class="collection-inline-head">
         <div><span>SELECTED AREA</span><strong>${escapeHtml(name)}の対象</strong></div>
-        <div class="collection-inline-actions"><b>${visibleRows.length}件</b><button type="button" aria-label="対象一覧を閉じる">×</button></div>
+        <div class="collection-inline-actions"><b>${visibleRows.length}${unit}</b><button type="button" aria-label="対象一覧を閉じる">×</button></div>
       </div>
       <div class="collection-inline-list"></div>`;
 
@@ -168,6 +183,7 @@
     }
 
     card.dataset.inlineScope = "1";
+    setExpandedButton(card, button);
     requestAnimationFrame(() => {
       host.scrollIntoView?.({ behavior: "smooth", block: "nearest" });
     });
@@ -181,6 +197,7 @@
     card.dataset.inlineScope = "1";
 
     for (const button of hierarchy.querySelectorAll(".collection-area-chip")) {
+      button.setAttribute("aria-expanded", "false");
       button.addEventListener("click", () => {
         setTimeout(() => renderInlineScope(card, button), 0);
       });
