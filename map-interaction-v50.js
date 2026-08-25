@@ -1,6 +1,12 @@
 (() => {
-  const BUILD = "v52";
+  const BUILD = "v53";
   const MOVE_THRESHOLD_PX = 2;
+  const MIN_ZOOM = 3.6;
+  const MAX_ZOOM = 18;
+  const JAPAN_BOUNDS = [
+    [122.0, 20.0],
+    [154.0, 46.5]
+  ];
 
   let targetMap = null;
   let canvasContainer = null;
@@ -29,11 +35,11 @@
     throw new Error("MapLibre map was not ready");
   }
 
-  function relaxViewport() {
+  function applyViewportConstraints() {
     if (!targetMap) return;
-    try { targetMap.setMinZoom?.(2.5); } catch {}
-    try { targetMap.setMaxZoom?.(18); } catch {}
-    try { targetMap.setMaxBounds?.(null); } catch {}
+    try { targetMap.setMinZoom?.(MIN_ZOOM); } catch {}
+    try { targetMap.setMaxZoom?.(MAX_ZOOM); } catch {}
+    try { targetMap.setMaxBounds?.(JAPAN_BOUNDS); } catch {}
     try { targetMap.scrollZoom?.enable?.(); } catch {}
     try { targetMap.doubleClickZoom?.enable?.(); } catch {}
     try { targetMap.boxZoom?.enable?.(); } catch {}
@@ -84,12 +90,9 @@
   function zoomDirect(zoomDelta, anchorPoint) {
     if (!targetMap || !Number.isFinite(zoomDelta) || Math.abs(zoomDelta) < 0.001) return;
     try {
-      const minZoom = Number(targetMap.getMinZoom?.() ?? 2.5);
-      const maxZoom = Number(targetMap.getMaxZoom?.() ?? 18);
       const currentZoom = Number(targetMap.getZoom?.() || 0);
-      const nextZoom = Math.min(maxZoom, Math.max(minZoom, currentZoom + zoomDelta));
+      const nextZoom = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, currentZoom + zoomDelta));
 
-      // Preserve the geographic point under the fingers while zooming.
       const anchor = targetMap.unproject([anchorPoint.x, anchorPoint.y]);
       targetMap.jumpTo({ zoom: nextZoom });
       const projectedAnchor = targetMap.project(anchor);
@@ -107,7 +110,7 @@
 
     const touchCapable = Number(navigator.maxTouchPoints || 0) > 0 || "ontouchstart" in window;
     touchFallbackEnabled = !!touchCapable && !!canvasContainer;
-    relaxViewport();
+    applyViewportConstraints();
 
     if (!touchFallbackEnabled) {
       try { targetMap.dragPan?.enable?.(); } catch {}
@@ -116,8 +119,6 @@
       return;
     }
 
-    // Own continuous touch motion on the actual MapLibre canvas container.
-    // Native click handling remains intact for taps and marker selection.
     try { targetMap.dragPan?.disable?.(); } catch {}
     try { targetMap.touchZoomRotate?.disable?.(); } catch {}
     try { targetMap.touchPitch?.disable?.(); } catch {}
@@ -129,7 +130,7 @@
       node.style.webkitUserSelect = "none";
     }
 
-    document.documentElement.dataset.mapTouchFallback = "v52";
+    document.documentElement.dataset.mapTouchFallback = BUILD;
   }
 
   function onTouchStart(event) {
@@ -181,7 +182,6 @@
       return;
     }
 
-    // Finger count changed (1 -> 2 or 2 -> 1); establish a fresh reference.
     lastTouches = points;
   }
 
@@ -217,6 +217,7 @@
 
   function snapshot() {
     const rect = canvasContainer?.getBoundingClientRect?.();
+    const bounds = targetMap?.getMaxBounds?.();
     return {
       build: BUILD,
       touchFallbackEnabled,
@@ -225,6 +226,7 @@
       zoom: targetMap?.getZoom?.(),
       minZoom: targetMap?.getMinZoom?.(),
       maxZoom: targetMap?.getMaxZoom?.(),
+      japanBoundsEnabled: !!bounds,
       nativeDragPanEnabled: targetMap?.dragPan?.isEnabled?.(),
       nativeTouchZoomEnabled: targetMap?.touchZoomRotate?.isEnabled?.(),
       counters: { ...counters },
@@ -240,7 +242,7 @@
     window.addEventListener("onsen-app-tab-changed", (event) => {
       if (event.detail?.tab !== "map") return;
       requestAnimationFrame(() => {
-        relaxViewport();
+        applyViewportConstraints();
         try { targetMap.resize?.(); } catch {}
       });
     });
@@ -260,8 +262,8 @@
       diagnostics: snapshot
     };
 
-    console.info("onsen map direct touch runtime v52", snapshot());
+    console.info("onsen map direct touch runtime v53", snapshot());
   }
 
-  install().catch((err) => console.warn("map direct touch runtime v52 init failed", err));
+  install().catch((err) => console.warn("map direct touch runtime v53 init failed", err));
 })();
