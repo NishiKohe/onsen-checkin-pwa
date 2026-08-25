@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "introducedIn": "v46",
+  "footerItems": [
+    {"id": "map", "label": "地図", "purpose": "地点探索・検索・チェックイン"},
+    {"id": "collection", "label": "コレクション", "purpose": "選定・地域群・温泉むすめ等の収集進捗"},
+    {"id": "achievements", "label": "実績", "purpose": "実績・称号・肩書・現地GPS実績"},
+    {"id": "trip", "label": "旅行", "purpose": "旅行モード・取り逃し復元・訪問ログ"}
+  ],
+  "migration": {
+    "previous": "達成状況内にコレクション/実績・称号の二次タブを配置",
+    "current": "実績を独立フッターへ昇格し、内部のコレクション/実績切替は非表示",
+    "compatibility": "既存achievementViewとsetCollectionModeは内部互換APIとして維持"
+  },
+  "designIntent": [
+    "多重タブを1段減らし、主要目的をフッターから1タップで開けるようにする",
+    "今回のv46では仕組み整理を優先し、最終的な視認性・可読性のUI再設計は後続フェーズで行う",
+    "将来のカテゴリ追加時もフッター項目を増やさず、カテゴリはコレクション画面内で整理する"
+  ]
+}
