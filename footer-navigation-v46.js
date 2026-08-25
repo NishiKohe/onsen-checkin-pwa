@@ -54,6 +54,18 @@
     if (tabs.getAttribute("aria-hidden") !== "true") tabs.setAttribute("aria-hidden", "true");
   }
 
+  function syncHeaderMode(achievementMode) {
+    const header = document.querySelector("#collectionView .collection-header");
+    if (!header) return;
+    const eyebrow = header.querySelector(".collection-eyebrow");
+    const title = header.querySelector("h2");
+    const summary = document.getElementById("collectionSummary");
+
+    if (eyebrow) eyebrow.textContent = achievementMode ? "ACHIEVEMENTS" : "COLLECTION";
+    if (title) title.textContent = achievementMode ? "実績・称号" : "コレクション";
+    if (summary) summary.hidden = achievementMode;
+  }
+
   function clickInternalMode(mode) {
     const button = document.querySelector(`[data-collection-mode="${mode}"]`);
     if (button) {
@@ -92,6 +104,7 @@
 
     const shellTab = document.documentElement.dataset.appTab || "map";
     const achievementMode = shellTab === "collection" && isAchievementMode();
+    syncHeaderMode(achievementMode);
 
     for (const button of nav.querySelectorAll(".app-tab")) {
       let active = false;
