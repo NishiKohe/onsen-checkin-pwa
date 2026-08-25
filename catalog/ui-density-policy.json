@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "introducedIn": "v54",
+  "purpose": "機能量を維持したまま、スマホの初見画面で読む文字量と操作候補を減らす。",
+  "principles": [
+    "一覧ではアイコン・名称・主要数値・進捗だけを優先する",
+    "条件説明・報酬・補足・履歴はタップ後の詳細へ逃がす",
+    "同じ情報を見出し・カード・注釈で重複表示しない",
+    "主要一覧はスマホ2列を基本とし、展開中のカードだけ全幅にする",
+    "色だけで状態を表現せず、アイコン・数値・テキストを併用する",
+    "既存のCollection/Achievement/VisitデータモデルにUI専用状態を混ぜない"
+  ],
+  "collection": {
+    "collapsedCard": ["icon", "name", "rarity", "progress", "count"],
+    "expandedCard": ["note", "reward", "areaHierarchy", "targets"],
+    "mobileColumns": 2
+  },
+  "achievement": {
+    "collapsedCard": ["icon", "rarity", "state", "name", "progress"],
+    "expandedCard": ["description", "titleReward", "unlockDate", "equipAction"],
+    "mobileColumns": 2,
+    "onsiteGpsUsesSamePattern": true
+  },
+  "footer": {
+    "columns": 4,
+    "items": ["map", "collection", "achievement", "trip"],
+    "presentation": "icon_plus_short_label"
+  },
+  "next": {
+    "target": "trip",
+    "goal": "旅行タブも状態サマリーを第一階層、GPS設定・復元・履歴を第二階層へ分離する"
+  }
+}
