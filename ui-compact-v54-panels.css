@@ -1,0 +1,85 @@
+/* v54 secondary achievement panels: convert long vertical lists into compact rails */
+.achievement-next-up,
+.achievement-history {
+  margin-bottom: 9px;
+  border-radius: 12px;
+}
+
+.achievement-next-up { padding: 8px; }
+.achievement-next-head {
+  align-items: center;
+  margin-bottom: 6px;
+}
+.achievement-next-head > div > span,
+.achievement-history-head span { font-size: 6px; }
+.achievement-next-head strong,
+.achievement-history-head strong { font-size: 11px; }
+.achievement-next-head p,
+.achievement-history-head p { display: none; }
+.achievement-next-head > b,
+.achievement-history-head > b { font-size: 7px; }
+
+.achievement-next-list,
+.achievement-history-list {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+.achievement-next-list::-webkit-scrollbar,
+.achievement-history-list::-webkit-scrollbar { display: none; }
+
+.achievement-next-card {
+  flex: 0 0 min(230px, 76vw);
+  min-height: 58px;
+  box-sizing: border-box;
+  padding: 7px 8px;
+  scroll-snap-align: start;
+}
+.achievement-next-main > span { margin-bottom: 2px; font-size: 6px; }
+.achievement-next-main strong { font-size: 9px; }
+.achievement-next-main p { margin-top: 2px; font-size: 7px; }
+.achievement-next-count { min-width: 42px; }
+.achievement-next-count b { font-size: 12px; }
+.achievement-next-count span { font-size: 6px; }
+
+.achievement-history { overflow: visible; }
+.achievement-history-head {
+  align-items: center;
+  padding: 8px 9px;
+  border: 1px solid #26384c;
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+}
+.achievement-history-list {
+  padding: 6px;
+  border: 1px solid #26384c;
+  border-radius: 0 0 12px 12px;
+  background: #0e161f;
+}
+.achievement-history-row {
+  flex: 0 0 min(220px, 74vw);
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 6px;
+  min-height: 54px;
+  box-sizing: border-box;
+  padding: 7px;
+  border: 1px solid #223245 !important;
+  border-radius: 9px;
+  scroll-snap-align: start;
+}
+.achievement-history-rarity {
+  min-height: 24px;
+  font-size: 6px;
+}
+.achievement-history-main strong { font-size: 9px; }
+.achievement-history-main span { font-size: 7px; }
+.achievement-history-main small { font-size: 6px; }
+
+@media (min-width: 900px) {
+  .achievement-next-card { flex-basis: 260px; }
+  .achievement-history-row { flex-basis: 240px; }
+}
