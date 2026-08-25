@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "introducedIn": "v45",
+  "purpose": "温泉専用のspot/collection/checkin/achievementを、城・国宝・世界遺産・景勝地でも再利用できる共通ドメインモデルへ移行する",
+  "runtime": {
+    "core": "domain-model.js",
+    "legacyBridge": "domain-runtime-bridge.js",
+    "globalApi": "window.AppDomain"
+  },
+  "category": {
+    "required": ["id", "entityType", "label"],
+    "optional": ["pluralLabel", "icon", "mapLayerId", "checkinPolicy", "metadata"],
+    "active": [
+      { "id": "onsen", "entityType": "onsen", "label": "温泉", "legacySource": "spots" }
+    ],
+    "planned": ["castle", "national_treasure", "world_heritage", "scenic_place"]
+  },
+  "entity": {
+    "canonicalFields": ["id", "entityId", "categoryId", "entityType", "name", "prefecture", "region", "location", "aliases", "tags", "checkin"],
+    "location": { "lat": "number", "lng": "number" },
+    "legacyCompatibility": {
+      "onsen spots[]": "categoryId=onsenのentityへ実行時変換",
+      "raw": "既存UIから段階移行する間は元spotオブジェクト参照を保持"
+    }
+  },
+  "visit": {
+    "canonicalIdentity": ["categoryId", "entityId"],
+    "legacyAliases": { "spotId": "onsen entityId" },
+    "verificationModes": ["any", "onsite", "gps_onsite", "recorded"],
+    "verification": {
+      "level": ["onsite", "recorded"],
+      "method": ["gps", "photo", "photo_trip_log", "manual", "unknown"],
+      "strictGps": "写真や自己申告を除外した現地GPS実績用boolean"
+    },
+    "migration": "既存checkinsには保存時またはv45起動時にcategoryId/entityIdを補完し、spotIdは互換のため残す"
+  },
+  "collection": {
+    "canonicalFields": ["id", "categoryId", "name", "rarity", "section", "targetIds", "metadata"],
+    "legacyAdapter": "getCollectionDefinitions()のspots[]をtargetIds[]へ変換",
+    "progress": "対象entityの訪問集合から算出し、保存しない"
+  },
+  "achievement": {
+    "canonicalFields": ["id", "categoryId", "name", "titleId", "titleLabel", "rarity", "verification", "condition"],
+    "conditionTypes": {
+      "visit_count": { "fields": ["categoryId", "count"] },
+      "all_entities": { "fields": ["categoryId", "entityIds", "weights?"] },
+      "collection_complete": { "fields": ["categoryId", "collectionId"] }
+    },
+    "evaluationResult": ["done", "total", "complete", "completedAt", "completionEntityId", "missingEntityIds"],
+    "legacyAdapter": {
+      "visit_count": "kind=visit_count + visitCount",
+      "all_entities": "requiredSpotIds/requiredEntityIds + weights"
+    }
+  },
+  "migrationPrinciples": [
+    "v45では既存UIやspots配列を一括削除せず互換アダプタを挟む",
+    "新規機能はAppDomainのcategoryId/entityIdを正規フィールドとして実装する",
+    "spotIdは温泉互換aliasとして当面維持する",
+    "訪問の現地判定・厳格GPS判定はAppDomain.visitsへ集約する",
+    "コレクション・実績の進捗は保存値ではなく訪問証拠から再計算する",
+    "UI再設計はドメイン移行完了後に行い、表示都合をデータモデルへ混ぜない"
+  ]
+}
