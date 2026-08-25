@@ -1,18 +1,19 @@
 {
-  "version": 3,
+  "version": 4,
   "introducedIn": "v41",
-  "updatedIn": "v43",
+  "updatedIn": "v44",
   "stateKey": "achievementStateV1",
   "scope": "per-user",
   "principles": [
     "実績は達成条件、称号は実績解除時に得る装備可能な肩書として分離する",
     "通常実績はGPS確認・自己申告を含む通常訪問記録から再計算する",
-    "将来の現地踏破実績はverification=onsiteでGPS現地確認のみを条件にできる",
+    "現地GPS実績は端末GPSで現地確認された訪問だけを条件にし、写真・自己申告・付近検出は使わない",
+    "現地GPS実績は高難度の上位レイヤーとして、訪問数・コレクション全制覇・地方制覇を中心に生成し、県単位までは大量生成しない",
     "初回導入時は過去のチェックイン時刻から可能な限り本来の達成日を復元する",
     "定義変更後も一度解除した実績記録と称号文字列は保存して失わない",
     "解除履歴には最後の条件になった温泉地と訪問日時を保存し、後から訪問履歴が変化しても解除時の証拠を維持する",
     "国民保養温泉地・名湯百選の県実績は対象2件以上の都道府県だけ生成し、1件県は地方制覇の進捗として扱う",
-    "温泉むすめは県単位コンプリート体験を優先し、1温泉地県でも県実績を維持する"
+    "温泉むすめは県単位コンプリート体験を優先し、1温泉地県でも通常県実績を維持する"
   ],
   "stateShape": {
     "version": 1,
@@ -30,12 +31,26 @@
     "toastAction": "open achievement history"
   },
   "rarities": ["N", "R", "SR", "SSR", "LEGEND"],
+  "achievementKinds": [
+    {
+      "id": "standard",
+      "label": "通常実績",
+      "evidence": "通常訪問記録"
+    },
+    {
+      "id": "gps_onsite",
+      "label": "現地GPS",
+      "evidence": "gps_manual / gps_legacy / gps_recovered",
+      "policy": "catalog/onsite-achievement-policy.json"
+    }
+  ],
   "sources": [
     "訪問温泉地数マイルストーン",
     "既存コレクション全制覇",
     "温泉むすめの地方・都道府県制覇",
     "国民保養温泉地の地方・複数対象県制覇",
-    "名湯百選の地方・複数対象県制覇"
+    "名湯百選の地方・複数対象県制覇",
+    "現地GPS訪問数・コレクション全制覇・地方制覇"
   ],
   "recommendationPolicy": "catalog/achievement-recommendation-policy.json"
 }
