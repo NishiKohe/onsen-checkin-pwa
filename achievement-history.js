@@ -40,6 +40,13 @@
   }
 
   function completionEvidence(definition, unlock) {
+    if (unlock?.completionSpotId || unlock?.completionVisitAt) {
+      return {
+        spotId: unlock.completionSpotId || null,
+        at: Number(unlock.completionVisitAt || unlock.unlockedAt || 0) || 0
+      };
+    }
+
     const bySpot = earliestBySpot();
     if (!definition) return { at: Number(unlock?.unlockedAt || 0) || 0, spotId: null };
 
@@ -59,6 +66,28 @@
       if (!latest || entry.at > latest.at) latest = { at: entry.at, spotId };
     }
     return latest || { at: Number(unlock?.unlockedAt || 0) || 0, spotId: null };
+  }
+
+  function persistCompletionEvidence(current, defs) {
+    let changed = false;
+    for (const unlock of Object.values(current.unlocks || {})) {
+      if (unlock.completionSpotId && unlock.completionVisitAt) continue;
+      const definition = defs.get(unlock.achievementId);
+      const evidence = completionEvidence(definition, unlock);
+      if (evidence.spotId && !unlock.completionSpotId) {
+        unlock.completionSpotId = evidence.spotId;
+        changed = true;
+      }
+      if (evidence.at && !unlock.completionVisitAt) {
+        unlock.completionVisitAt = evidence.at;
+        changed = true;
+      }
+    }
+    if (changed) {
+      current.updatedAt = Date.now();
+      localStorage.setItem(STATE_KEY, JSON.stringify(current));
+    }
+    return current;
   }
 
   function spotName(spotId) {
@@ -97,8 +126,8 @@
   function renderHistory() {
     const panel = ensureHistoryPanel();
     if (!panel) return;
-    const current = state();
     const defs = new Map(definitions().map((item) => [item.id, item]));
+    const current = persistCompletionEvidence(state(), defs);
     const records = Object.values(current.unlocks || {})
       .map((unlock) => {
         const definition = defs.get(unlock.achievementId);
@@ -161,7 +190,7 @@
     toast.innerHTML = `
       <span>ACHIEVEMENT UNLOCKED</span>
       <strong>${escapeHtml(unlock.achievementName || "実績解除")}</strong>
-      <small>称号「${escapeHtml(unlock.titleLabel || "称号獲得") }」</small>`;
+      <small>称号「${escapeHtml(unlock.titleLabel || "称号獲得")}」</small>`;
     toast.addEventListener("click", () => {
       window.OnsenAchievements?.show?.();
       setTimeout(() => document.getElementById("achievementHistory")?.scrollIntoView?.({ behavior: "smooth", block: "start" }), 80);
