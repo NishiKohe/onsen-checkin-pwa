@@ -1,0 +1,10 @@
+/* v46 four-way footer navigation */
+.app-tabs {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+#collectionModeTabs[hidden] {
+  display: none !important;
+}
+#footerAchievementsTab {
+  min-width: 0;
+}
