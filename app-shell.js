@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v46";
+  const BUILD = "v47";
   const VALID_TABS = new Set(["map", "collection", "trip"]);
   const CARD_MOVE_THRESHOLD_PX = 12;
   const CARD_CLICK_SUPPRESS_MS = 900;
@@ -271,6 +271,7 @@
       collectionTabPresent: buttons.some((button) => button.dataset.appTab === "collection"),
       tripTabConsistent: !views.trip || buttons.some((button) => button.dataset.appTab === "trip"),
       viewportMeasured: contentH >= 220,
+      mapToolsReady: !!window.OnsenMapTools && !!document.getElementById("btnMapToolsToggle"),
       collectionCardsStructured: cards.length === 0 || cards.every((card) =>
         !!card.querySelector(":scope > summary.collection-card-summary") && !!card.querySelector(":scope > .collection-target-list, :scope > .collection-area-hierarchy")
       ),
