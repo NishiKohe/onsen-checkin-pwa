@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v46";
+  const BUILD = "v47";
   const FOOTER_ID = "footerAchievementsTab";
   let navObserver = null;
   let modeObserver = null;
@@ -194,5 +194,5 @@
     };
   }
 
-  install().catch((err) => console.warn("footer navigation v46 init failed", err));
+  install().catch((err) => console.warn("footer navigation init failed", err));
 })();
