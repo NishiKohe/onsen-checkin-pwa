@@ -46,10 +46,9 @@
 
   function hideNestedModeTabs() {
     const tabs = document.getElementById("collectionModeTabs");
-    if (tabs) {
-      tabs.hidden = true;
-      tabs.setAttribute("aria-hidden", "true");
-    }
+    if (!tabs) return;
+    if (!tabs.hidden) tabs.hidden = true;
+    if (tabs.getAttribute("aria-hidden") !== "true") tabs.setAttribute("aria-hidden", "true");
   }
 
   function clickInternalMode(mode) {
