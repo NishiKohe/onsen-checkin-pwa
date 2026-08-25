@@ -73,6 +73,7 @@
     const prefecture = canonicalPrefecture(raw.prefecture || raw.region?.prefecture || "");
     const lat = Number(raw.lat ?? raw.location?.lat);
     const lng = Number(raw.lng ?? raw.location?.lng);
+    const explicitRegion = typeof raw.region === "string" ? raw.region : (raw.region?.name || "");
     return {
       id: String(raw.id),
       entityId: String(raw.id),
@@ -80,7 +81,7 @@
       entityType: String(raw.entityType || category.entityType || categoryId),
       name: String(raw.name || raw.id),
       prefecture,
-      region: String(raw.region?.name || REGION_BY_PREFECTURE.get(prefecture) || raw.region || ""),
+      region: String(explicitRegion || REGION_BY_PREFECTURE.get(prefecture) || ""),
       location: Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : null,
       aliases: Array.isArray(raw.aliases) ? [...raw.aliases] : [],
       tags: Array.isArray(raw.tags) ? [...raw.tags] : [],
