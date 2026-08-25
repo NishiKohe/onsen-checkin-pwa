@@ -1,6 +1,6 @@
 {
-  "version": 3,
-  "updatedAt": "2026-08-24",
+  "version": 4,
+  "updatedAt": "2026-08-25",
   "format": "onsen-checkin-user-save",
   "scope": "per-user",
   "profileMetadataKeys": {
@@ -18,18 +18,27 @@
     "visitLocationSamplesV1",
     "achievementStateV1"
   ],
+  "domainModel": {
+    "schema": "catalog/domain-model-schema.json",
+    "runtime": ["domain-model.js", "domain-runtime-bridge.js"],
+    "canonicalVisitIdentity": ["categoryId", "entityId"],
+    "legacyVisitAlias": "spotId is kept for onsen compatibility",
+    "savedProgressPolicy": "collection/achievement progress itself is not persisted; it is recalculated from visits. Only achievement unlock history/title equipment is persisted."
+  },
   "migrationPolicy": [
     "v32初回起動時に旧グローバルキーを現在の既定ローカルユーザーへコピーする",
     "旧グローバルキーは安全のため削除せずバックアップとして残す",
     "以後アプリ本体はユーザー名前空間内の値だけを参照する",
     "ユーザー切替時はページを再読込し、全UI・達成率・旅行ログ・実績・装備称号を切替先ユーザーから再構築する",
-    "v41でachievementStateV1をユーザー別保存へ追加。既存ユーザーは現在の訪問履歴から実績を初回再計算する"
+    "v41でachievementStateV1をユーザー別保存へ追加",
+    "v45で既存checkinsへcategoryId=onsenとentityId=spotIdを補完する。spotIdは削除しない",
+    "v45以降の新規カテゴリは同じcheckins配列にcategoryId/entityIdで共存できる"
   ],
   "futureSync": {
     "accountBinding": "ローカルprofile idを将来のaccount user idへマッピング可能",
     "exportEnvelope": {
       "format": "onsen-checkin-user-save",
-      "schemaVersion": 3,
+      "schemaVersion": 4,
       "exportedAt": "unix_ms",
       "user": "profile metadata",
       "data": "userDataKeys keyed object"
