@@ -1,5 +1,5 @@
 (() => {
-  const version = "v47";
+  const version = "v48";
   window.OnsenBuildInfo = { version, updatedAt: "2026-08-25" };
 
   function apply() {
