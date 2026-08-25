@@ -32,6 +32,7 @@
       button.id = FOOTER_ID;
       button.type = "button";
       button.className = "app-tab";
+      button.dataset.appTab = "collection";
       button.dataset.footerTab = "achievements";
       button.setAttribute("aria-selected", "false");
       button.textContent = "実績";
@@ -39,6 +40,8 @@
       const trip = nav.querySelector('[data-app-tab="trip"]');
       if (trip) nav.insertBefore(button, trip);
       else nav.appendChild(button);
+    } else if (!button.dataset.appTab) {
+      button.dataset.appTab = "collection";
     }
     forceFourColumns();
     return button;
