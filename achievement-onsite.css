@@ -27,6 +27,14 @@
   color: #a9f2df;
 }
 
+.achievement-view[data-achievement-kind-mode="onsite"] > .achievement-metrics,
+.achievement-view[data-achievement-kind-mode="onsite"] > .achievement-toolbar,
+.achievement-view[data-achievement-kind-mode="onsite"] > #achievementList,
+.achievement-view[data-achievement-kind-mode="onsite"] > #achievementNextUp,
+.achievement-view[data-achievement-kind-mode="onsite"] > #achievementHistory {
+  display: none !important;
+}
+
 .achievement-onsite-view[hidden] { display: none !important; }
 .achievement-onsite-note {
   display: grid;
