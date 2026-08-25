@@ -1,5 +1,5 @@
 (() => {
-  const version = "v43";
+  const version = "v44";
   window.OnsenBuildInfo = { version, updatedAt: "2026-08-25" };
 
   function apply() {
@@ -13,6 +13,29 @@
     if (window.OnsenAppShell) window.OnsenAppShell.build = version;
   }
 
+  function installRefreshGuard() {
+    if (!("serviceWorker" in navigator)) return;
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (refreshing) return;
+      const key = `onsenBuildControllerReload:${version}`;
+      if (sessionStorage.getItem(key) === "1") return;
+      refreshing = true;
+      sessionStorage.setItem(key, "1");
+      location.reload();
+    });
+
+    window.addEventListener("load", async () => {
+      try {
+        const registration = await navigator.serviceWorker.getRegistration();
+        await registration?.update?.();
+      } catch (err) {
+        console.warn("service worker update check skipped", err);
+      }
+    });
+  }
+
+  installRefreshGuard();
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", apply);
   else apply();
   window.addEventListener("load", apply);
