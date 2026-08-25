@@ -33,6 +33,14 @@
   display: none !important;
 }
 
+.collection-area-region-box {
+  display: flex;
+  flex-direction: column;
+}
+.collection-area-region-box > .collection-area-region-top { order: 0; }
+.collection-area-region-box > .collection-area-pref-grid { order: 1; }
+.collection-area-region-box > .collection-inline-scope { order: 2; }
+
 .collection-inline-scope {
   min-width: 0;
   margin: 0 7px 7px;
