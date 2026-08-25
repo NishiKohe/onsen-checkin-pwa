@@ -1,0 +1,113 @@
+[
+  {
+    "id": "manza",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "万座温泉（温泉地概況）",
+      "springType": "硫黄泉（源泉・施設により異なる）",
+      "verified": true,
+      "sources": [
+        {"name": "万座温泉公式「万座の温泉」", "url": "https://www.manzaonsen.gr.jp/introduction"}
+      ],
+      "referenceNote": "万座温泉公式は1日540万Lの湧出量、日本一ともいわれる高濃度の硫黄泉、姥湯・大苦湯など27種類の源泉を案内。施設ごとの差が大きいため単一のpH・泉温にはまとめない。"
+    }
+  },
+  {
+    "id": "minakami",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "みなかみ18湯（温泉郷概況）",
+      "springType": "単純温泉・アルカリ性単純硫黄温泉ほか（温泉地により異なる）",
+      "verified": true,
+      "sources": [
+        {"name": "みなかみ町観光協会「みなかみ18湯 泉質と特徴」", "url": "https://www.enjoy-minakami.jp/pdf/20211014_perfect_guide.pdf"}
+      ],
+      "referenceNote": "みなかみ18湯は温泉地ごとに泉質が異なるため、観光協会資料で確認できる主要泉質を温泉郷概況として表示。単一源泉の数値は設定しない。"
+    }
+  },
+  {
+    "id": "hitoyoshi",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "人吉温泉（温泉地概況）",
+      "springType": "弱アルカリ性の炭酸泉など（源泉により異なる）",
+      "verified": true,
+      "sources": [
+        {"name": "熊本県公式観光サイト「人吉温泉」", "url": "https://kumamoto.guide/spots/detail/1810"}
+      ],
+      "referenceNote": "熊本県公式観光サイトは人吉温泉に50数カ所の泉源があり、泉質を弱アルカリ炭酸泉などと案内。多数源泉のため温泉地概況として表示。"
+    }
+  },
+  {
+    "id": "tamana",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "玉名温泉（温泉地概況）",
+      "springType": "弱アルカリ性単純泉",
+      "verified": true,
+      "sources": [
+        {"name": "玉名温泉観光旅館協同組合「玉名温泉」", "url": "https://tamanaonsen.jp/"}
+      ],
+      "referenceNote": "玉名温泉観光旅館協同組合が温泉地の泉質を弱アルカリ性の単純泉、無色透明と案内。施設別には表記差もあるため数値は温泉地全体へ固定しない。"
+    }
+  },
+  {
+    "id": "yunohira",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "湯平温泉（温泉地概況）",
+      "springType": "ナトリウム-塩化物・硫酸塩泉",
+      "verified": true,
+      "sources": [
+        {"name": "湯平温泉公式「共同浴場の一覧」", "url": "https://www.yunohira-onsen.jp/hotspring.html"},
+        {"name": "日本温泉協会「湯平温泉」", "url": "https://www.spa.or.jp/search_p/detail_p/?F_ID=440300"}
+      ],
+      "referenceNote": "湯平温泉公式は共同浴場共通の泉質をナトリウム-塩化物・硫酸塩泉と案内。日本温泉協会では大分類を塩化物泉として掲載。"
+    }
+  },
+  {
+    "id": "kitago_onsenkyo",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "北郷温泉郷（温泉地概況）",
+      "springType": "ナトリウム-塩化物・炭酸水素塩温泉",
+      "sourceTempC": 51,
+      "verified": true,
+      "sources": [
+        {"name": "日南市「温泉・旅の宿」", "url": "https://www.city.nichinan.lg.jp/kanko_bunka_sports/kankojoho/1/2343.html"},
+        {"name": "日南市「北郷地区観光案内」", "url": "https://www.city.nichinan.lg.jp/soshikikarasagasu/kitagochochiikishinkocenter/1/1/1/800.html"}
+      ],
+      "referenceNote": "日南市が北郷温泉郷の泉質をナトリウム-塩化物・炭酸水素塩温泉、地下800mから湧出する天然温泉を51℃と案内。"
+    }
+  },
+  {
+    "id": "iya",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "ホテル祖谷温泉源泉（祖谷温泉代表）",
+      "springType": "アルカリ性単純硫黄温泉",
+      "sourceTempC": 38,
+      "ph": 9.1,
+      "verified": true,
+      "sources": [
+        {"name": "大歩危祖谷温泉郷公式「ホテル祖谷温泉」", "url": "https://www.oboke-iya.jp/hotel/"},
+        {"name": "日本秘湯を守る会「ホテル祖谷温泉」", "url": "https://www.hitou.or.jp/provider/detail?providerId=723"}
+      ],
+      "referenceNote": "祖谷温泉を代表するホテル祖谷温泉の自噴・源泉掛け流し源泉を代表値として表示。公式温泉郷サイトはアルカリ性単純硫黄温泉、日本秘湯を守る会はpH9.1と案内。"
+    }
+  },
+  {
+    "id": "ashizuri_onsenkyo",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "あしずり温泉郷・アシズリテルメ使用源泉（代表）",
+      "springType": "単純弱放射能冷鉱泉",
+      "verified": true,
+      "sources": [
+        {"name": "アシズリテルメ公式「天然温泉・サウナ」", "url": "https://www.ashizurithermae.jp/facility/hot_spring.php"},
+        {"name": "足摺サニーサイドホテル公式「露天温泉・本館大浴場」", "url": "https://ashizuri-sunny.jp/hot_spring"}
+      ],
+      "referenceNote": "あしずり温泉郷の複数施設で確認できる単純弱放射能系の冷鉱泉を代表泉質として表示。施設ごとの分析値差を考慮し単一pH・泉温は設定しない。"
+    }
+  }
+]
