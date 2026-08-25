@@ -14,6 +14,7 @@
   color: #dce9f5;
   box-shadow: 0 5px 15px rgba(0, 0, 0, .26);
   backdrop-filter: blur(10px);
+  touch-action: manipulation;
 }
 .map-tools-toggle:hover,
 .map-tools-toggle.active {
@@ -42,11 +43,30 @@
 }
 .map-tools-toggle-badge[hidden] { display: none !important; }
 
+/* v48: only the visible controls may intercept map gestures. */
 .map-tools {
   top: 56px !important;
   transition: opacity .15s ease, transform .15s ease;
 }
-.map-tools[hidden] { display: none !important; }
+.map-tools[hidden],
+.map-shell:not(.map-tools-expanded) .map-tools {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+.map-shell.map-tools-expanded .map-tools {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Keep MapLibre itself as the gesture owner across Android/PWA layout changes. */
+#map,
+#map .maplibregl-map,
+#map .maplibregl-canvas-container,
+#map .maplibregl-canvas {
+  pointer-events: auto;
+  touch-action: none !important;
+}
 
 @media (max-width: 900px) {
   #map .maplibregl-ctrl-top-right { top: 8px !important; }
