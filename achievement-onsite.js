@@ -39,7 +39,8 @@
   }
 
   function isGpsVerified(item) {
-    if (!item?.spotId) return false;
+    if (window.AppDomain?.visits?.isGpsVerified) return window.AppDomain.visits.isGpsVerified(item);
+    if (!item?.spotId && !item?.entityId) return false;
     if (GPS_TYPES.has(item.verificationType)) return true;
     return item.verificationLevel === "onsite" && item.recordSource === "checkin_button";
   }
@@ -50,9 +51,11 @@
     try { list = typeof loadCheckins === "function" ? loadCheckins() : []; } catch {}
     for (const item of list) {
       if (!isGpsVerified(item)) continue;
+      const entityId = String(item.entityId || item.spotId || "");
+      if (!entityId) continue;
       const at = Number(item.checkedAt || item.verifiedAt || item.recordedAt || 0) || 0;
-      const current = bySpot.get(item.spotId);
-      if (!current || (at && at < current.at)) bySpot.set(item.spotId, { item, at });
+      const current = bySpot.get(entityId);
+      if (!current || (at && at < current.at)) bySpot.set(entityId, { item, at });
     }
     return bySpot;
   }
@@ -249,6 +252,8 @@
   }
 
   function spotName(id) {
+    const entity = window.AppDomain?.entities?.get?.(id, "onsen");
+    if (entity?.name) return entity.name;
     try { return (spots || []).find((spot) => spot.id === id)?.name || id; } catch { return id; }
   }
 
