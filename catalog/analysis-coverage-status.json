@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "updatedIn": "v46",
+  "verifiedSpots": 75,
+  "previousVerifiedSpots": 65,
+  "target": 100,
+  "runtimePaths": [
+    "data/onsen-analysis-overrides-core.json",
+    "data/onsen-analysis-expansion.json",
+    "data/onsen-analysis-expansion-2.json",
+    "data/onsen-analysis-expansion-3.json",
+    "data/regional-group-spots.json"
+  ],
+  "newInV46": [
+    "ginzan",
+    "zao",
+    "sakunami",
+    "nasu",
+    "hakone",
+    "shuzenji",
+    "echigoyuzawa",
+    "nozawa",
+    "shibu",
+    "hirugami"
+  ],
+  "policy": [
+    "複数源泉の温泉地に単一のpH・泉温を推測しない",
+    "数値を表示する場合は温泉地概況か代表源泉かをprofileLabelとscopeで明示する",
+    "verified=trueは公式・自治体・温泉地公式・分析機関等の出典URLを保持する項目に限る"
+  ]
+}
