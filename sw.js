@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v43";
+const CACHE_NAME = "onsen-checkin-v44";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -7,6 +7,7 @@ const APP_ASSETS = [
   "./collection-area-hierarchy.css",
   "./collection-navigation-ui.css",
   "./achievement-system.css",
+  "./achievement-onsite.css",
   "./achievement-next-up.css",
   "./achievement-history.css",
   "./visit-log.css",
@@ -23,6 +24,7 @@ const APP_ASSETS = [
   "./collection-area-hierarchy-selections.js",
   "./collection-navigation-ui.js",
   "./achievement-system.js",
+  "./achievement-onsite.js",
   "./achievement-next-up.js",
   "./achievement-history.js",
   "./app-shell.js",
@@ -46,6 +48,7 @@ const APP_ASSETS = [
   "./catalog/collection-area-hierarchy-schema.json",
   "./catalog/achievement-schema.json",
   "./catalog/achievement-recommendation-policy.json",
+  "./catalog/onsite-achievement-policy.json",
   "./data/fixed-selection-meito100.json",
   "./data/onsen-analysis-overrides-core.json",
   "./data/onsen-analysis-expansion.json",
@@ -104,6 +107,7 @@ self.addEventListener("fetch", (event) => {
     "/collection-area-hierarchy.css",
     "/collection-navigation-ui.css",
     "/achievement-system.css",
+    "/achievement-onsite.css",
     "/achievement-next-up.css",
     "/achievement-history.css",
     "/visit-log.css",
@@ -120,6 +124,7 @@ self.addEventListener("fetch", (event) => {
     "/collection-area-hierarchy-selections.js",
     "/collection-navigation-ui.js",
     "/achievement-system.js",
+    "/achievement-onsite.js",
     "/achievement-next-up.js",
     "/achievement-history.js",
     "/app-shell.js",
@@ -140,6 +145,7 @@ self.addEventListener("fetch", (event) => {
     "/catalog/collection-area-hierarchy-schema.json",
     "/catalog/achievement-schema.json",
     "/catalog/achievement-recommendation-policy.json",
+    "/catalog/onsite-achievement-policy.json",
     "/data/fixed-selection-meito100.json",
     "/data/onsen-analysis-overrides-core.json",
     "/data/onsen-analysis-expansion.json",
