@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v44";
+  const BUILD = "v45";
   const VALID_TABS = new Set(["map", "collection", "trip"]);
   const CARD_MOVE_THRESHOLD_PX = 12;
   const CARD_CLICK_SUPPRESS_MS = 900;
@@ -263,6 +263,7 @@
     const active = buttons.filter((button) => button.getAttribute("aria-selected") === "true");
     const contentH = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--app-content-h")) || 0;
     const cards = [...document.querySelectorAll("details.collection-card")];
+    const domainSnapshot = window.AppDomainBridge?.snapshot?.() || window.AppDomain?.snapshot?.() || null;
 
     const checks = {
       singleActiveTab: active.length === 1,
@@ -275,6 +276,9 @@
       ),
       collectionHierarchyReady: !!window.CollectionAreaHierarchy,
       profileStorageReady: !!window.OnsenUserStorage,
+      domainModelReady: !!window.AppDomain,
+      domainBridgeReady: !!window.AppDomainBridge,
+      domainOnsenEntitiesReady: !domainSnapshot || Number(domainSnapshot.entityCounts?.onsen || 0) > 0,
       legacyUiShimsUnloaded: ![...document.scripts].some((script) => /(?:tab-display-fix|collection-details-fix|layout-viewport-fix|onsen-musume-collection-hierarchy)\.js/.test(script.src))
     };
     const ok = Object.values(checks).every(Boolean);
@@ -285,6 +289,7 @@
       tabCount: buttons.length,
       contentHeightPx: contentH,
       collectionCardCount: cards.length,
+      domain: domainSnapshot,
       checks
     };
 
