@@ -1,0 +1,153 @@
+[
+  {
+    "id": "ginzan",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "協組2号・3号・6号源泉（銀山温泉足湯・代表）",
+      "springType": "ナトリウム-塩化物・硫酸塩温泉（低張性中性高温泉）",
+      "sourceTempC": 63.8,
+      "ph": 6.6,
+      "analysisDate": "2009-04-16",
+      "verified": true,
+      "sources": [
+        {"name": "銀山温泉公式サイト「泉質・効能」", "url": "https://www.ginzanonsen.jp/ginzan/component.html"}
+      ],
+      "referenceNote": "銀山温泉公式が公開する協組2号・3号・6号源泉の足湯注湯口分析を代表値として表示。温泉地全施設の単一値ではない。"
+    }
+  },
+  {
+    "id": "zao",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "蔵王温泉（温泉地概況）",
+      "springType": "強酸性硫黄泉",
+      "sourceTempC": "45〜66",
+      "ph": "1.25〜1.6",
+      "totalFlowLMin": 5700,
+      "verified": true,
+      "sources": [
+        {"name": "蔵王温泉公式サイト「蔵王温泉とは」", "url": "https://zaomountainresort.com/about/"}
+      ],
+      "referenceNote": "複数源泉を持つため公式サイトが示す温泉地全体の泉温・pH・湯量レンジを概況として表示。"
+    }
+  },
+  {
+    "id": "sakunami",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "作並温泉（温泉地概況）",
+      "springType": "単純温泉、ナトリウム・カルシウム-硫酸塩・塩化物泉など（源泉により異なる）",
+      "verified": true,
+      "sources": [
+        {"name": "日本温泉協会「作並温泉」", "url": "https://www.spa.or.jp/search_p/detail_p/?F_ID=40010&pg=0"},
+        {"name": "Premium 仙台作並 公式「温泉」", "url": "https://www.ooedoonsen.jp/sakunami/onsen/"}
+      ],
+      "referenceNote": "作並温泉には複数源泉があり、施設・源泉で泉質表記が異なるため単一源泉の数値を温泉地全体へ適用せず概況として併記。"
+    }
+  },
+  {
+    "id": "nasu",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "鹿の湯・行人の湯系（那須湯本代表）",
+      "springType": "単純酸性硫黄温泉（硫化水素型）",
+      "sourceTempC": 68.4,
+      "ph": 2.5,
+      "verified": true,
+      "sources": [
+        {"name": "鹿の湯公式「温泉」", "url": "https://www.shikanoyu.jp/hotspa/"},
+        {"name": "那須町観光協会「那須の温泉」", "url": "https://www.nasukogen.org/nasuonsen/"}
+      ],
+      "referenceNote": "那須温泉は泉質の異なる複数温泉からなるため、那須湯本を象徴する鹿の湯系を代表表示。那須町観光協会は那須温泉の源泉温度を63〜80℃と案内。"
+    }
+  },
+  {
+    "id": "hakone",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "湯本123号・126号混合泉（箱根湯本代表）",
+      "springType": "ナトリウム・カルシウム-塩化物・硫酸塩泉（弱アルカリ性低張性高温泉）",
+      "sourceTempC": 61.6,
+      "ph": 8.07,
+      "analysisDate": "2004-07-16",
+      "analyzer": "神奈川県温泉地学研究所",
+      "verified": true,
+      "sources": [
+        {"name": "湯遊び処 箱根の湯「源泉について」", "url": "https://www.hakonenoyu.co.jp/hotspring/gensen.php"}
+      ],
+      "referenceNote": "箱根湯本は多数の源泉があるため、湯本123号・126号混合泉を代表分析として表示。"
+    }
+  },
+  {
+    "id": "shuzenji",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "修善寺温泉（温泉地概況）",
+      "springType": "単純温泉",
+      "verified": true,
+      "sources": [
+        {"name": "日本温泉協会「修善寺温泉」", "url": "https://www.spa.or.jp/search_p/detail_p/?F_ID=220650"}
+      ],
+      "referenceNote": "温泉地全体の基本泉質を概況として表示。施設・源泉ごとのpHや泉温は単一値にまとめず、代表分析が確認できた段階で追加する。"
+    }
+  },
+  {
+    "id": "echigoyuzawa",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "湯沢ニューオータニ使用源泉（越後湯沢代表）",
+      "springType": "単純温泉（弱アルカリ性）",
+      "sourceTempC": 57.9,
+      "ph": 8.1,
+      "verified": true,
+      "sources": [
+        {"name": "湯沢ニューオータニ公式「温泉」", "url": "https://www.yuzawa-newotani.jp/spa/"}
+      ],
+      "referenceNote": "越後湯沢温泉には複数の利用源泉があるため、公式に泉温・pHを公開する施設源泉を代表値として表示。"
+    }
+  },
+  {
+    "id": "nozawa",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "大湯源泉（野沢温泉代表）",
+      "springType": "単純硫黄泉",
+      "sourceTempC": 66,
+      "verified": true,
+      "sources": [
+        {"name": "野沢温泉観光協会「温泉ガイド」", "url": "https://nozawakanko.jp/hotspring/"},
+        {"name": "野沢温泉村「地域新エネルギービジョン」", "url": "https://www.vill.nozawaonsen.nagano.jp/www/contents/1050000000305/files/008_01.pdf"}
+      ],
+      "referenceNote": "30余の源泉があるため温泉地全体を単一値化せず、外湯を代表する大湯源泉を表示。村資料では大湯の平均温度65.7℃。"
+    }
+  },
+  {
+    "id": "shibu",
+    "analysis": {
+      "scope": "representative_source",
+      "profileLabel": "一番湯 初湯（渋温泉代表）",
+      "springType": "ナトリウム・カルシウム-硫酸塩・塩化物温泉（低張性弱酸性高温泉）",
+      "sourceTempC": 65,
+      "verified": true,
+      "sources": [
+        {"name": "渋温泉旅館組合公式「各外湯紹介」", "url": "https://shibuonsen.net/onsen/sotoyu/"}
+      ],
+      "referenceNote": "渋温泉は九つの外湯でも泉質・泉温が異なるため、一番湯・初湯を代表値として表示。"
+    }
+  },
+  {
+    "id": "hirugami",
+    "analysis": {
+      "scope": "area_summary",
+      "profileLabel": "昼神温泉（温泉地概況）",
+      "springType": "アルカリ性単純硫黄泉",
+      "sourceTempC": 47.4,
+      "ph": 9.7,
+      "verified": true,
+      "sources": [
+        {"name": "南信州 昼神温泉公式観光サイト「昼神温泉について」", "url": "https://hirugamionsen.jp/activity/about/"}
+      ],
+      "referenceNote": "昼神温泉公式観光サイトが温泉地の代表特性として公開する泉質・源泉温度・pHを概況表示。"
+    }
+  }
+]
