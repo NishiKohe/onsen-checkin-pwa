@@ -16,13 +16,13 @@
     "id": "minakami",
     "analysis": {
       "scope": "area_summary",
-      "profileLabel": "みなかみ18湯（温泉郷概況）",
-      "springType": "単純温泉・アルカリ性単純硫黄温泉ほか（温泉地により異なる）",
+      "profileLabel": "水上温泉（温泉地概況）",
+      "springType": "カルシウム・ナトリウム-硫酸塩・塩化物温泉",
       "verified": true,
       "sources": [
-        {"name": "みなかみ町観光協会「みなかみ18湯 泉質と特徴」", "url": "https://www.enjoy-minakami.jp/pdf/20211014_perfect_guide.pdf"}
+        {"name": "みなかみ町観光協会「水上温泉」", "url": "https://www.enjoy-minakami.jp/spot/spa/minakami/"}
       ],
-      "referenceNote": "みなかみ18湯は温泉地ごとに泉質が異なるため、観光協会資料で確認できる主要泉質を温泉郷概況として表示。単一源泉の数値は設定しない。"
+      "referenceNote": "ランタイムID minakami は『みなかみ18湯』全体ではなく温泉むすめ対象の水上温泉。みなかみ町観光協会の水上温泉ページの泉質を温泉地概況として表示。"
     }
   },
   {
