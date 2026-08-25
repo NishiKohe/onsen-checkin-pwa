@@ -76,12 +76,16 @@
     }
   }
 
+  function registerAchievements(list) {
+    for (const definition of list || []) window.AppDomain?.achievements?.register?.(definition);
+  }
+
   function syncAchievements() {
     try {
-      const definitions = window.OnsenAchievements?.getDefinitions?.() || [];
-      if (Array.isArray(definitions) && definitions.length) {
-        for (const definition of definitions) window.AppDomain?.achievements?.register?.(definition);
-      }
+      const standard = window.OnsenAchievements?.getDefinitions?.() || [];
+      const onsite = window.OnsenOnsiteAchievements?.getDefinitions?.() || [];
+      if (Array.isArray(standard)) registerAchievements(standard);
+      if (Array.isArray(onsite)) registerAchievements(onsite);
     } catch (err) {
       console.warn("domain achievement sync skipped", err);
     }
