@@ -69,7 +69,7 @@
       const getter = window.getCollectionDefinitions || (typeof getCollectionDefinitions === "function" ? getCollectionDefinitions : null);
       const definitions = getter?.() || [];
       if (Array.isArray(definitions) && definitions.length) {
-        window.AppDomain?.collections?.replace?.(definitions, { source: "legacy-collection-runtime" });
+        window.AppDomain?.collections?.replace?.(definitions, { source: "legacy-collection-runtime", clear: false });
       }
     } catch (err) {
       console.warn("domain collection sync skipped", err);
@@ -79,7 +79,9 @@
   function syncAchievements() {
     try {
       const definitions = window.OnsenAchievements?.getDefinitions?.() || [];
-      if (Array.isArray(definitions) && definitions.length) window.AppDomain?.achievements?.replace?.(definitions);
+      if (Array.isArray(definitions) && definitions.length) {
+        for (const definition of definitions) window.AppDomain?.achievements?.register?.(definition);
+      }
     } catch (err) {
       console.warn("domain achievement sync skipped", err);
     }
@@ -96,9 +98,10 @@
       for (const item of loadCheckins()) {
         const visit = window.AppDomain.visits.normalize(item);
         if (!visit) continue;
-        const current = byEntity.get(`${visit.categoryId}:${visit.entityId}`);
+        const key = `${visit.categoryId}:${visit.entityId}`;
+        const current = byEntity.get(key);
         const onsite = window.AppDomain.visits.isOnsite(item);
-        if (!current || (onsite && !current.onsite)) byEntity.set(`${visit.categoryId}:${visit.entityId}`, { onsite, visit });
+        if (!current || (onsite && !current.onsite)) byEntity.set(key, { onsite, visit });
       }
       const onsite = [...byEntity.values()].filter((entry) => entry.onsite).length;
       return { total: byEntity.size, onsite, recordedOnly: byEntity.size - onsite };
