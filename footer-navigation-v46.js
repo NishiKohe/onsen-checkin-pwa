@@ -60,10 +60,12 @@
     const eyebrow = header.querySelector(".collection-eyebrow");
     const title = header.querySelector("h2");
     const summary = document.getElementById("collectionSummary");
+    const eyebrowText = achievementMode ? "ACHIEVEMENTS" : "COLLECTION";
+    const titleText = achievementMode ? "実績・称号" : "コレクション";
 
-    if (eyebrow) eyebrow.textContent = achievementMode ? "ACHIEVEMENTS" : "COLLECTION";
-    if (title) title.textContent = achievementMode ? "実績・称号" : "コレクション";
-    if (summary) summary.hidden = achievementMode;
+    if (eyebrow && eyebrow.textContent !== eyebrowText) eyebrow.textContent = eyebrowText;
+    if (title && title.textContent !== titleText) title.textContent = titleText;
+    if (summary && summary.hidden !== achievementMode) summary.hidden = achievementMode;
   }
 
   function clickInternalMode(mode) {
