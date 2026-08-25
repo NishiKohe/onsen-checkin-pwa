@@ -1,6 +1,6 @@
 (() => {
-  const version = "v42";
-  window.OnsenBuildInfo = { version, updatedAt: "2026-08-24" };
+  const version = "v43";
+  window.OnsenBuildInfo = { version, updatedAt: "2026-08-25" };
 
   function apply() {
     document.documentElement.dataset.appBuild = version;
