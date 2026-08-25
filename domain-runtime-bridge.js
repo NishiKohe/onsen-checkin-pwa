@@ -142,8 +142,9 @@
 
     let attempts = 0;
     const warmup = setInterval(() => {
-      const snapshot = syncAll();
-      if ((snapshot?.collectionCount > 0 && snapshot?.achievementCount > 0) || ++attempts > 20) clearInterval(warmup);
+      syncAll();
+      attempts += 1;
+      if (attempts >= 20) clearInterval(warmup);
     }, 500);
 
     window.addEventListener("storage", scheduleSync);
