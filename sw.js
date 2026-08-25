@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v45";
+const CACHE_NAME = "onsen-checkin-v46";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -14,6 +14,7 @@ const APP_ASSETS = [
   "./profile-storage.css",
   "./trip-power-mode.css",
   "./app-shell.css",
+  "./footer-navigation-v46.css",
   "./profile-storage.js",
   "./visit-log-preload.js",
   "./trip-power-mode.js",
@@ -31,6 +32,7 @@ const APP_ASSETS = [
   "./achievement-history.js",
   "./app-shell.js",
   "./build-info.js",
+  "./footer-navigation-v46.js",
   "./app.js",
   "./ui-enhancements.js",
   "./heritage-ui.js",
@@ -56,6 +58,7 @@ const APP_ASSETS = [
   "./data/onsen-analysis-overrides-core.json",
   "./data/onsen-analysis-expansion.json",
   "./data/onsen-analysis-expansion-2.json",
+  "./data/onsen-analysis-expansion-3.json",
   "./data/regional-group-spots.json",
   "./data/onsen-musume-hokkaido-tohoku.json",
   "./data/onsen-musume-kanto-simple.json",
@@ -117,6 +120,7 @@ self.addEventListener("fetch", (event) => {
     "/profile-storage.css",
     "/trip-power-mode.css",
     "/app-shell.css",
+    "/footer-navigation-v46.css",
     "/profile-storage.js",
     "/visit-log-preload.js",
     "/trip-power-mode.js",
@@ -134,6 +138,7 @@ self.addEventListener("fetch", (event) => {
     "/achievement-history.js",
     "/app-shell.js",
     "/build-info.js",
+    "/footer-navigation-v46.js",
     "/onsen.json",
     "/app.js",
     "/ui-enhancements.js",
@@ -156,6 +161,7 @@ self.addEventListener("fetch", (event) => {
     "/data/onsen-analysis-overrides-core.json",
     "/data/onsen-analysis-expansion.json",
     "/data/onsen-analysis-expansion-2.json",
+    "/data/onsen-analysis-expansion-3.json",
     "/data/regional-group-spots.json"
   ];
 
