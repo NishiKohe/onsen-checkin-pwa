@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="./footer-navigation-v46.css?v=54" />
   <link rel="stylesheet" href="./ui-compact-v54.css?v=54" />
   <link rel="stylesheet" href="./ui-compact-v54-panels.css?v=54" />
+  <link rel="stylesheet" href="./ui-fixes-v55.css?v=55" />
 </head>
 <body>
   <header class="header">
@@ -171,14 +172,15 @@
   <script src="./visit-log-ui.js?v=54"></script>
   <script src="./photo-recovery-fallback.js?v=54"></script>
   <script src="./domain-runtime-bridge.js?v=54"></script>
-  <script src="./build-info.js?v=54"></script>
+  <script src="./build-info.js?v=55"></script>
   <script src="./app-shell.js?v=54"></script>
   <script src="./footer-navigation-v46.js?v=54"></script>
   <script src="./ui-compact-v54.js?v=54"></script>
+  <script src="./ui-fixes-v55.js?v=55"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js?v=54").catch(console.error);
+        navigator.serviceWorker.register("./sw.js?v=55").catch(console.error);
       });
     }
   </script>
