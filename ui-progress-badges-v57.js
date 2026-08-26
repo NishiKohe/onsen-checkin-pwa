@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v57";
+  const BUILD = "v58";
   const STATE_KEY = "uiProgressStateV1";
   let timer = null;
 
@@ -49,6 +49,15 @@
     }
   }
 
+  function gameUnreadCount() {
+    try {
+      const state = window.OnsenGameRuntime?.loadState?.() || readJson("gameStateV1", {});
+      return Math.max(0, Number(state?.notifications?.newFish || 0));
+    } catch {
+      return 0;
+    }
+  }
+
   function pendingCandidateIds() {
     const list = readJson("visitCandidatesV1", []);
     return Array.isArray(list)
@@ -61,6 +70,7 @@
       visited: uniqueVisitedCount(),
       completed: completedCollectionCount(),
       achievementUnread: achievementUnreadCount(),
+      gameUnread: gameUnreadCount(),
       pendingCandidateIds: pendingCandidateIds()
     };
   }
@@ -141,6 +151,7 @@
     setBadge(buttons.collection, "collection", collectionBadge);
     setBadge(buttons.achievements, "achievements", snapshot.achievementUnread);
     setBadge(buttons.trip, "trip", newCandidateCount);
+    setBadge(buttons.game, "game", snapshot.gameUnread);
 
     document.documentElement.dataset.progressBadges = BUILD;
     window.dispatchEvent(new CustomEvent("onsen-progress-badges-updated", {
@@ -148,7 +159,8 @@
         build: BUILD,
         collection: collectionBadge,
         achievements: snapshot.achievementUnread,
-        trip: newCandidateCount
+        trip: newCandidateCount,
+        game: snapshot.gameUnread
       }
     }));
   }
@@ -157,6 +169,7 @@
     const tab = event.detail?.tab;
     const snapshot = currentSnapshot();
     if (tab === "trip") markTripSeen(snapshot);
+    if (tab === "game") window.OnsenGameRuntime?.markGameSeen?.();
     if (tab === "collection") {
       requestAnimationFrame(() => {
         const achievementView = document.getElementById("achievementView");
@@ -176,6 +189,7 @@
       }
       if (target.dataset.appTab === "collection") markCollectionSeen(currentSnapshot());
       if (target.dataset.appTab === "trip") markTripSeen(currentSnapshot());
+      if (target.dataset.appTab === "game") window.OnsenGameRuntime?.markGameSeen?.();
       setTimeout(refresh, 80);
     }, true);
   }
@@ -184,6 +198,7 @@
     refresh();
     bindFooterSeenActions();
     window.addEventListener("onsen-app-tab-changed", handleTabChanged);
+    window.addEventListener("onsen-game-state-changed", refresh);
     window.addEventListener("storage", refresh);
     window.addEventListener("pageshow", refresh);
     window.addEventListener("app-domain-synced", refresh);
