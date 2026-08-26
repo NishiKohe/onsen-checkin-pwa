@@ -1,0 +1,26 @@
+/* v56 trip card grid placement fixes */
+.v56-trip-tools .trip-card-heading > .v56-trip-card-icon,
+.v56-trip-tools .v56-trip-synthetic-head > .v56-trip-card-icon {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.v56-trip-tools .trip-card-heading > div:first-of-type,
+.v56-trip-tools .v56-trip-synthetic-head > div:first-of-type {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.v56-trip-tools .trip-card-heading > .v56-trip-chevron,
+.v56-trip-tools .v56-trip-synthetic-head > .v56-trip-chevron {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.v56-trip-tools .trip-card.v56-trip-expanded .trip-card-heading > .trip-secondary,
+.v56-trip-tools .trip-card.v56-trip-expanded .trip-card-heading > .trip-file-button {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
