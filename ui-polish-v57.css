@@ -1,0 +1,170 @@
+/* v57 cross-screen polish + progress badges */
+
+:root {
+  --v57-touch: 44px;
+  --v57-radius: 13px;
+  --v57-gap: 8px;
+}
+
+/* Header */
+.header {
+  min-height: 48px;
+}
+.header h1 {
+  min-width: 0;
+  font-size: 16px;
+}
+.header .stats {
+  gap: 6px;
+}
+.header .stats button,
+.profile-button {
+  min-height: 34px;
+}
+
+/* Shared content rhythm */
+.collection-shell,
+.trip-shell {
+  padding-bottom: 8px;
+}
+.collection-section,
+.achievement-section,
+.trip-card {
+  scroll-margin-top: 8px;
+}
+
+.collection-toolbar input,
+.trip-manual-form input,
+.trip-manual-form button,
+.collection-filter,
+.achievement-toolbar button,
+.achievement-onsite-toolbar button {
+  min-height: 38px;
+}
+
+.collection-card-summary,
+.achievement-card,
+.achievement-onsite-card,
+.v56-trip-tools .trip-card-heading,
+.v56-trip-tools .v56-trip-synthetic-head {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Collection / achievements use the same visual density */
+.collection-card,
+.achievement-card,
+.achievement-onsite-card,
+.v56-trip-tools > .trip-card {
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.012);
+}
+
+.collection-card-summary,
+.achievement-card,
+.achievement-onsite-card {
+  min-height: 104px;
+}
+
+.collection-card-count,
+.achievement-progress-text,
+.achievement-onsite-card > small {
+  font-variant-numeric: tabular-nums;
+}
+
+.collection-card[open],
+.achievement-card.v54-expanded,
+.achievement-onsite-card.v54-expanded,
+.v56-trip-tools > .trip-card.v56-trip-expanded {
+  border-color: #40566b;
+  box-shadow: 0 10px 28px rgba(0,0,0,.18), inset 0 0 0 1px rgba(116,151,183,.05);
+}
+
+/* Footer: stable tap target and badge anchor. */
+.app-tabs {
+  min-height: 64px !important;
+  align-items: stretch;
+}
+.app-tab {
+  position: relative;
+  min-height: var(--v57-touch);
+  overflow: visible !important;
+}
+.app-tab .v54-nav-icon {
+  width: 21px;
+  height: 21px;
+}
+.app-tab .v54-nav-label {
+  font-size: 8px;
+  letter-spacing: .01em;
+}
+
+.v57-tab-badge {
+  position: absolute;
+  z-index: 6;
+  top: 3px;
+  left: calc(50% + 8px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  padding: 0 4px;
+  border: 1px solid #f6d789;
+  border-radius: 999px;
+  background: #9b321f;
+  color: #fff7e4;
+  box-shadow: 0 2px 8px rgba(0,0,0,.38);
+  font-size: 7px;
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+}
+.v57-tab-badge[hidden] {
+  display: none !important;
+}
+.app-tab.has-progress-badge:not(.active) .v54-nav-icon {
+  color: #e4c56f;
+}
+
+/* Prevent tiny controls inside expanded details. */
+.collection-card[open] button,
+.achievement-card.v54-expanded button,
+.achievement-onsite-card.v54-expanded button,
+.v56-trip-expanded button,
+.v56-trip-expanded label.trip-file-button {
+  min-height: 38px;
+}
+
+@media (max-width: 520px) {
+  .collection-view,
+  .trip-view {
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+  }
+
+  .collection-card-summary,
+  .achievement-card,
+  .achievement-onsite-card {
+    min-height: 100px;
+  }
+
+  .collection-card-title strong,
+  .achievement-name,
+  .achievement-onsite-card > strong {
+    line-height: 1.35;
+  }
+
+  .app-tabs {
+    padding-top: 4px;
+    padding-bottom: calc(4px + env(safe-area-inset-bottom));
+  }
+
+  .app-tab {
+    min-height: 52px;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+
+  .v57-tab-badge {
+    top: 2px;
+  }
+}
