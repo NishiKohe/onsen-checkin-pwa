@@ -48,10 +48,11 @@ body.has-app-tabs {
   grid-template-columns: repeat(var(--app-tab-count), minmax(0, 1fr)) !important;
 }
 
-/* 表示責務を data-app-tab へ一本化。hidden/旧body class/inline styleの競合を避ける。 */
+/* 表示責務を data-app-tab へ一本化。 */
 html[data-app-tab] body .main,
 html[data-app-tab] body #collectionView,
-html[data-app-tab] body #tripView {
+html[data-app-tab] body #tripView,
+html[data-app-tab] body #gameView {
   display: none !important;
 }
 
@@ -67,9 +68,14 @@ html[data-app-tab="trip"] body #tripView {
   display: block !important;
 }
 
+html[data-app-tab="game"] body #gameView {
+  display: block !important;
+}
+
 .has-app-tabs .main,
 .has-app-tabs .collection-view,
-.has-app-tabs .trip-view {
+.has-app-tabs .trip-view,
+.has-app-tabs .game-view {
   box-sizing: border-box;
   height: var(--app-content-h) !important;
   max-height: var(--app-content-h) !important;
@@ -94,7 +100,8 @@ html[data-app-tab="trip"] body #tripView {
 }
 
 .has-app-tabs .collection-view,
-.has-app-tabs .trip-view {
+.has-app-tabs .trip-view,
+.has-app-tabs .game-view {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
