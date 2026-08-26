@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v56";
+  const BUILD = "v58";
   const FOOTER_ID = "footerAchievementsTab";
   let navObserver = null;
   let modeObserver = null;
@@ -19,8 +19,10 @@
     return !!collectionView && !collectionView.hidden && !!achievementView && !achievementView.hidden;
   }
 
-  function forceFourColumns() {
-    document.documentElement.style.setProperty("--app-tab-count", "4");
+  function syncColumnCount() {
+    const nav = getNav();
+    const count = Math.max(1, nav?.querySelectorAll(".app-tab").length || 4);
+    document.documentElement.style.setProperty("--app-tab-count", String(count));
   }
 
   function ensureAchievementButton() {
@@ -43,7 +45,7 @@
     } else if (!button.dataset.appTab) {
       button.dataset.appTab = "collection";
     }
-    forceFourColumns();
+    syncColumnCount();
     return button;
   }
 
@@ -102,7 +104,7 @@
     const achievementButton = ensureAchievementButton();
     if (!nav || !achievementButton) return;
     hideNestedModeTabs();
-    forceFourColumns();
+    syncColumnCount();
 
     const shellTab = document.documentElement.dataset.appTab || "map";
     const achievementMode = shellTab === "collection" && isAchievementMode();
@@ -146,6 +148,7 @@
     if (nav && !navObserver) {
       navObserver = new MutationObserver(() => {
         ensureAchievementButton();
+        syncColumnCount();
         scheduleSync();
       });
       navObserver.observe(nav, { childList: true, subtree: true });
