@@ -1,0 +1,340 @@
+/* v58 standalone offline game tab */
+.game-view {
+  box-sizing: border-box;
+  height: var(--app-content-h, calc(100dvh - 112px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 10px calc(18px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(circle at 90% -5%, rgba(58,115,92,.14), transparent 30%),
+    radial-gradient(circle at 5% 15%, rgba(78,91,145,.12), transparent 30%),
+    #0b0f14;
+}
+.game-view[hidden] { display: none !important; }
+body.game-tab-active .main,
+body.game-tab-active #collectionView,
+body.game-tab-active #tripView { display: none !important; }
+body.game-tab-active #gameView { display: block !important; }
+body.game-tab-active #btnLocate { display: none; }
+
+.game-shell {
+  width: min(980px, 100%);
+  margin: 0 auto;
+  padding-top: 10px;
+}
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.game-header > div:first-child { min-width: 0; }
+.game-header > div:first-child > span {
+  display: block;
+  color: #79b99f;
+  font-size: 7px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+.game-header h2 { margin: 2px 0 0; font-size: 18px; }
+.game-header p { margin: 3px 0 0; color: #7f96aa; font-size: 8px; }
+.game-wallet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(60px, auto));
+  gap: 5px;
+}
+.game-wallet > div {
+  padding: 6px 8px;
+  border: 1px solid #273a4c;
+  border-radius: 10px;
+  background: #101923;
+  text-align: center;
+}
+.game-wallet span { display: block; color: #71889c; font-size: 6px; }
+.game-wallet b { display: block; margin-top: 2px; color: #edf5fb; font-size: 13px; }
+
+.game-location-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 8px 9px;
+  border: 1px solid #284237;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #10261f, #101822);
+}
+.game-location-card > div:first-child { min-width: 0; }
+.game-location-card span,
+.game-location-card small { display: block; color: #779589; font-size: 7px; }
+.game-location-card strong {
+  display: block;
+  margin: 2px 0;
+  overflow: hidden;
+  color: #d8efe6;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.game-location-bonus {
+  flex: 0 0 auto;
+  padding: 5px 7px;
+  border: 1px solid #34485a;
+  border-radius: 999px;
+  color: #859aab;
+  font-size: 7px;
+  font-weight: 900;
+}
+.game-location-bonus.active {
+  border-color: #52795e;
+  background: #1a382a;
+  color: #c9f0d6;
+}
+
+.game-selector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.game-selector button {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  min-height: 48px;
+  padding: 7px 8px;
+  border: 1px solid #26394b;
+  border-radius: 12px;
+  background: #111a24;
+  color: #8ba0b2;
+  text-align: left;
+}
+.game-selector button.active {
+  border-color: #53745f;
+  background: #14291f;
+  color: #d8efe3;
+}
+.game-selector button:disabled { opacity: .46; }
+.game-selector button > span { font-size: 18px; text-align: center; }
+.game-selector strong { font-size: 10px; }
+.game-selector small { font-size: 6px; }
+
+.game-stage {
+  margin-bottom: 8px;
+}
+.game-system-note {
+  padding: 8px 9px;
+  border: 1px solid #243546;
+  border-radius: 11px;
+  background: #0e161f;
+}
+.game-system-note strong { color: #bdcedc; font-size: 9px; }
+.game-system-note p { margin: 3px 0 0; color: #71879a; font-size: 7px; line-height: 1.45; }
+
+/* Fishing */
+.fishing-game {
+  overflow: hidden;
+  border: 1px solid #29465c;
+  border-radius: 15px;
+  background: linear-gradient(160deg, #102331 0%, #0e1821 55%, #0b1118 100%);
+}
+.fishing-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #213749;
+}
+.fishing-head > div:first-child > span {
+  display: block;
+  color: #6caed3;
+  font-size: 6px;
+  font-weight: 900;
+  letter-spacing: .16em;
+}
+.fishing-head h3 { margin: 2px 0 0; font-size: 14px; }
+.fishing-head p { margin: 3px 0 0; color: #7f99ac; font-size: 7px; }
+.fishing-collection {
+  flex: 0 0 auto;
+  min-width: 50px;
+  padding: 6px;
+  border: 1px solid #2b4658;
+  border-radius: 10px;
+  text-align: center;
+}
+.fishing-collection b { display: block; color: #d6edf8; font-size: 15px; }
+.fishing-collection span { display: block; color: #718da1; font-size: 6px; }
+
+.fishing-location {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+  padding: 7px 9px 0;
+}
+.fishing-location > div {
+  min-width: 0;
+  padding: 6px 7px;
+  border: 1px solid #203545;
+  border-radius: 9px;
+  background: #0d1720;
+}
+.fishing-location span { display: block; color: #6f889b; font-size: 6px; }
+.fishing-location b {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  color: #c8dae6;
+  font-size: 8px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fishing-stage {
+  position: relative;
+  padding: 12px 10px 10px;
+}
+.fishing-water {
+  position: relative;
+  height: 46px;
+  overflow: hidden;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #153b51, #0c2636);
+}
+.fishing-water span {
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 10px;
+  border-top: 1px solid rgba(173,221,240,.22);
+  border-radius: 50%;
+}
+.fishing-water span:nth-child(1) { top: 10px; }
+.fishing-water span:nth-child(2) { top: 23px; transform: translateX(8%); }
+.fishing-water span:nth-child(3) { top: 36px; transform: translateX(-5%); }
+
+.fishing-gauge {
+  position: relative;
+  height: 18px;
+  margin: 0 2px 8px;
+  overflow: hidden;
+  border: 1px solid #304759;
+  border-radius: 999px;
+  background: #09131b;
+}
+.fishing-target {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 40%;
+  width: 18%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2e7d5a, #63b17e, #2e7d5a);
+}
+.fishing-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4%;
+  width: 3px;
+  margin-left: -1px;
+  background: #fff0a6;
+  box-shadow: 0 0 7px rgba(255,235,144,.8);
+}
+.fishing-prompt {
+  min-height: 15px;
+  margin-bottom: 6px;
+  color: #9ab1c0;
+  font-size: 8px;
+  text-align: center;
+}
+.fishing-action {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #477760;
+  border-radius: 11px;
+  background: #1b4a37;
+  color: #e2f7ec;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.fishing-result {
+  margin: 0 10px 9px;
+  padding: 8px 9px;
+  border: 1px solid #2d4b5e;
+  border-radius: 10px;
+  background: #0d1922;
+  text-align: center;
+}
+.fishing-result > span,
+.fishing-result > strong,
+.fishing-result > b { display: block; }
+.fishing-result > span { color: #77a8c6; font-size: 6px; font-weight: 900; letter-spacing: .12em; }
+.fishing-result > strong { margin-top: 2px; color: #e9f4fa; font-size: 13px; }
+.fishing-result > strong em { margin-left: 4px; color: #9eb2c0; font-size: 7px; font-style: normal; }
+.fishing-result > b { margin-top: 3px; color: #f0d07a; font-size: 9px; }
+.fishing-result.miss { border-color: #583b3b; color: #d7a7a7; }
+.fishing-result.warning { border-color: #66552c; color: #e8d28d; }
+.fishing-result.warning strong,
+.fishing-result.warning span { display: block; color: inherit; }
+.fishing-result.rarity-ssr { border-color: #765a88; box-shadow: inset 0 0 16px rgba(153,105,181,.08); }
+.fishing-result.rarity-legend { border-color: #9a7333; box-shadow: inset 0 0 18px rgba(213,165,70,.12); }
+
+.fishing-book {
+  padding: 0 9px 10px;
+}
+.fishing-book-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.fishing-book-title strong { color: #b9cad6; font-size: 8px; }
+.fishing-book-title span { color: #657d8f; font-size: 6px; }
+.fishing-book-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+.fishing-fish {
+  min-width: 0;
+  padding: 6px 3px;
+  border: 1px solid #233746;
+  border-radius: 8px;
+  background: #0d1720;
+  text-align: center;
+}
+.fishing-fish span,
+.fishing-fish b {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fishing-fish span { color: #b8cbd8; font-size: 7px; }
+.fishing-fish b { margin-top: 2px; color: #6f899b; font-size: 6px; }
+.fishing-fish.unknown { opacity: .5; }
+.fishing-fish.caught[data-rarity="SSR"],
+.fishing-fish.caught[data-rarity="LEGEND"] { border-color: #685783; }
+
+#footerGameTab .v54-nav-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 520px) {
+  .game-header p { display: none; }
+  .game-wallet { grid-template-columns: repeat(2, minmax(50px, 1fr)); }
+  .game-selector { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fishing-book-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .fishing-head p { display: none; }
+}
