@@ -187,7 +187,8 @@
         badge.className = "v56-trip-card-badge";
         headMain.querySelector("h3")?.appendChild(badge);
       }
-      badge.textContent = String(count);
+      const nextText = String(count);
+      if (badge.textContent !== nextText) badge.textContent = nextText;
     } else {
       badge?.remove();
     }
@@ -197,7 +198,7 @@
     if (power.dataset.v56Enhanced === "1") return;
     power.dataset.v56Enhanced = "1";
     const title = power.querySelector(".trip-power-head h3");
-    if (title) title.textContent = "GPS記録";
+    if (title && title.textContent !== "GPS記録") title.textContent = "GPS記録";
   }
 
   function refresh() {
