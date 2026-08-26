@@ -1,0 +1,133 @@
+/* v55 UI regression fixes: readable collection titles, focused details, reliable achievement expansion */
+
+/* Collection tiles: rarity is redundant in the dense overview. */
+.collection-card .collection-rarity {
+  display: none !important;
+}
+
+.collection-card-summary {
+  min-height: 100px;
+}
+
+.collection-card-title {
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  overflow: visible;
+}
+
+.collection-card-title strong {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: normal !important;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  line-height: 1.35;
+}
+
+/* When one collection opens, it becomes the only interactive/detail card. */
+#collectionGrid.v55-collection-focus .collection-section:not(.v55-active-section) {
+  display: none !important;
+}
+
+#collectionGrid.v55-collection-focus .v55-active-section .collection-card-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+
+#collectionGrid.v55-collection-focus .v55-active-section .collection-card:not(.v55-active-card) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+#collectionGrid.v55-collection-focus .v55-active-card {
+  position: relative;
+  z-index: 4;
+  grid-column: 1 / -1 !important;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+#collectionGrid.v55-collection-focus .v55-active-card > .collection-card-summary {
+  min-height: 0;
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+#collectionGrid.v55-collection-focus .v55-active-card .collection-card-title strong {
+  display: block;
+  overflow: visible;
+  font-size: 14px;
+  white-space: normal !important;
+  text-overflow: clip;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
+
+#collectionGrid.v55-collection-focus .v55-active-card .collection-area-hierarchy,
+#collectionGrid.v55-collection-focus .v55-active-card .collection-target-list,
+#collectionGrid.v55-collection-focus .v55-active-card .collection-inline-scope,
+#collectionGrid.v55-collection-focus .v55-active-card .collection-area-item-panel {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#collectionGrid.v55-collection-focus .v55-active-card .collection-area-pref-grid {
+  min-width: 0;
+}
+
+/* Achievement cards: expanded state must visibly open even after rerender. */
+.achievement-card.v54-expanded,
+.achievement-onsite-card.v54-expanded {
+  position: relative;
+  z-index: 3;
+  grid-column: 1 / -1 !important;
+  width: 100%;
+  min-height: 0 !important;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.achievement-card.v54-expanded > p,
+.achievement-onsite-card.v54-expanded > p {
+  display: block !important;
+}
+
+.achievement-card.v54-expanded .achievement-reward,
+.achievement-onsite-card.v54-expanded .achievement-onsite-reward {
+  display: block !important;
+}
+
+.achievement-card.v54-expanded .achievement-card-footer,
+.achievement-onsite-card.v54-expanded .achievement-onsite-footer {
+  display: flex !important;
+}
+
+.achievement-card.v54-expanded .achievement-name,
+.achievement-onsite-card.v54-expanded > strong {
+  display: block;
+  overflow: visible;
+  white-space: normal;
+  -webkit-line-clamp: unset;
+  line-clamp: unset;
+}
+
+@media (max-width: 520px) {
+  .collection-card-title strong {
+    font-size: 10.5px;
+  }
+
+  #collectionGrid.v55-collection-focus .v55-active-card .collection-card-title strong {
+    font-size: 13px;
+  }
+
+  #collectionGrid.v55-collection-focus .v55-active-card .collection-area-pref-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
