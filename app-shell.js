@@ -1,6 +1,6 @@
 (() => {
-  const BUILD = "v56";
-  const VALID_TABS = new Set(["map", "collection", "trip"]);
+  const BUILD = "v58";
+  const VALID_TABS = new Set(["map", "collection", "trip", "game"]);
   const CARD_MOVE_THRESHOLD_PX = 12;
   const CARD_CLICK_SUPPRESS_MS = 900;
 
@@ -19,7 +19,8 @@
     return {
       map: document.querySelector(".main"),
       collection: document.getElementById("collectionView"),
-      trip: document.getElementById("tripView")
+      trip: document.getElementById("tripView"),
+      game: document.getElementById("gameView")
     };
   }
 
@@ -69,17 +70,19 @@
   function showTab(tab, options = {}) {
     const normalized = normalizeTab(tab);
     const views = getViews();
-    const available = normalized === "trip" ? !!views.trip : true;
+    const available = normalized === "trip" ? !!views.trip : normalized === "game" ? !!views.game : true;
     const target = available ? normalized : "map";
 
     document.documentElement.dataset.appTab = target;
     document.body?.classList.toggle("collection-tab-active", target === "collection");
     document.body?.classList.toggle("trip-tab-active", target === "trip");
+    document.body?.classList.toggle("game-tab-active", target === "game");
     document.body?.classList.add("has-app-tabs");
 
     setViewState(views.map, target === "map");
     setViewState(views.collection, target === "collection");
     setViewState(views.trip, target === "trip");
+    setViewState(views.game, target === "game");
 
     for (const button of document.querySelectorAll("[data-app-tab]")) {
       const active = button.dataset.appTab === target;
@@ -96,6 +99,12 @@
     if (target === "trip") {
       window.dispatchEvent(new Event("storage"));
       window.OnsenTripPower?.render?.();
+    }
+
+    if (target === "game") {
+      window.OnsenGameRuntime?.markGameSeen?.();
+      window.OnsenGameHub?.refresh?.();
+      window.OnsenFishingGame?.refresh?.();
     }
 
     if (target === "map") resizeMap();
@@ -270,6 +279,7 @@
       mapTabPresent: buttons.some((button) => button.dataset.appTab === "map"),
       collectionTabPresent: buttons.some((button) => button.dataset.appTab === "collection"),
       tripTabConsistent: !views.trip || buttons.some((button) => button.dataset.appTab === "trip"),
+      gameTabConsistent: !views.game || buttons.some((button) => button.dataset.appTab === "game"),
       viewportMeasured: contentH >= 220,
       mapToolsReady: !!window.OnsenMapTools && !!document.getElementById("btnMapToolsToggle"),
       collectionCardsStructured: cards.length === 0 || cards.every((card) =>
@@ -364,6 +374,7 @@
 
     window.setCollectionAppTab = (tab) => showTab(tab, { source: "legacy-api" });
     window.openTripView = () => showTab("trip", { source: "trip-api" });
+    window.openGameView = () => showTab("game", { source: "game-api" });
 
     window.OnsenAppShell = {
       build: BUILD,
