@@ -55,9 +55,24 @@
     };
   }
 
+  function rawRead(key) {
+    if (key === STATE_KEY && window.OnsenUserStorage?.readUserItem) {
+      return window.OnsenUserStorage.readUserItem(key);
+    }
+    return localStorage.getItem(key);
+  }
+
+  function rawWrite(key, value) {
+    if (key === STATE_KEY && window.OnsenUserStorage?.writeUserItem) {
+      window.OnsenUserStorage.writeUserItem(key, value);
+      return;
+    }
+    localStorage.setItem(key, value);
+  }
+
   function readJson(key, fallback) {
     try {
-      const parsed = JSON.parse(localStorage.getItem(key) || "null");
+      const parsed = JSON.parse(rawRead(key) || "null");
       return parsed ?? fallback;
     } catch {
       return fallback;
@@ -90,7 +105,7 @@
   function saveState(state, reason = "update") {
     const next = normalizeState(state);
     next.updatedAt = Date.now();
-    localStorage.setItem(STATE_KEY, JSON.stringify(next));
+    rawWrite(STATE_KEY, JSON.stringify(next));
     window.dispatchEvent(new CustomEvent("onsen-game-state-changed", {
       detail: { build: BUILD, reason, state: next }
     }));
