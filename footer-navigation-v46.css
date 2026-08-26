@@ -1,10 +1,11 @@
-/* v46 four-way footer navigation */
+/* Footer navigation: App Shell controls the actual tab count. */
 .app-tabs {
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(var(--app-tab-count, 4), minmax(0, 1fr)) !important;
 }
 #collectionModeTabs[hidden] {
   display: none !important;
 }
-#footerAchievementsTab {
+#footerAchievementsTab,
+#footerGameTab {
   min-width: 0;
 }
