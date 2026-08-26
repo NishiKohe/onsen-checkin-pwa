@@ -66,8 +66,10 @@
       button.setAttribute("aria-selected", "false");
       button.textContent = "ゲーム";
       nav.appendChild(button);
+    } else if (nav.lastElementChild !== button) {
+      nav.appendChild(button);
     }
-    document.documentElement.style.setProperty("--app-tab-count", "5");
+    document.documentElement.style.setProperty("--app-tab-count", String(nav.querySelectorAll(".app-tab").length));
     return button;
   }
 
@@ -169,7 +171,6 @@
     const nav = getNav();
     if (nav) new MutationObserver(() => {
       ensureGameTab();
-      document.documentElement.style.setProperty("--app-tab-count", "5");
     }).observe(nav, { childList: true, subtree: true });
 
     window.OnsenGameHub = {
