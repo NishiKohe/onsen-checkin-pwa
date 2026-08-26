@@ -192,7 +192,9 @@
     const state = loadState();
     const energy = state.energy;
     let creditedM = 0;
-    if (Number.isFinite(Number(energy.lastLat)) && Number.isFinite(Number(energy.lastLng))) {
+    const hasPrevious = energy.lastLat !== null && energy.lastLng !== null &&
+      Number.isFinite(Number(energy.lastLat)) && Number.isFinite(Number(energy.lastLng));
+    if (hasPrevious) {
       const rawDistance = haversineM(Number(energy.lastLat), Number(energy.lastLng), lat, lng);
       if (Number.isFinite(rawDistance)) creditedM = Math.min(MAX_CREDIT_PER_SAMPLE_M, Math.max(0, rawDistance));
     }
