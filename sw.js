@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v55";
+const CACHE_NAME = "onsen-checkin-v56";
 const APP_ASSETS = [
   "./",
   "./index.html",
@@ -19,6 +19,8 @@ const APP_ASSETS = [
   "./ui-compact-v54.css",
   "./ui-compact-v54-panels.css",
   "./ui-fixes-v55.css",
+  "./trip-ui-v56.css",
+  "./trip-ui-v56-fix.css",
   "./profile-storage.js",
   "./visit-log-preload.js",
   "./trip-power-mode.js",
@@ -41,6 +43,7 @@ const APP_ASSETS = [
   "./footer-navigation-v46.js",
   "./ui-compact-v54.js",
   "./ui-fixes-v55.js",
+  "./trip-ui-v56.js",
   "./app.js",
   "./ui-enhancements.js",
   "./heritage-ui.js",
@@ -135,6 +138,8 @@ self.addEventListener("fetch", (event) => {
     "/ui-compact-v54.css",
     "/ui-compact-v54-panels.css",
     "/ui-fixes-v55.css",
+    "/trip-ui-v56.css",
+    "/trip-ui-v56-fix.css",
     "/profile-storage.js",
     "/visit-log-preload.js",
     "/trip-power-mode.js",
@@ -157,6 +162,7 @@ self.addEventListener("fetch", (event) => {
     "/footer-navigation-v46.js",
     "/ui-compact-v54.js",
     "/ui-fixes-v55.js",
+    "/trip-ui-v56.js",
     "/onsen.json",
     "/app.js",
     "/ui-enhancements.js",
