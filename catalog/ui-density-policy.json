@@ -1,7 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "introducedIn": "v54",
-  "updatedAtBuild": "v56",
+  "updatedAtBuild": "v58",
   "purpose": "機能量を維持したまま、スマホの初見画面で読む文字量と操作候補を減らす。",
   "principles": [
     "一覧ではアイコン・名称・主要数値・進捗だけを優先する",
@@ -9,7 +9,7 @@
     "同じ情報を見出し・カード・注釈で重複表示しない",
     "主要一覧はスマホ2列を基本とし、展開中のカードだけ全幅にする",
     "色だけで状態を表現せず、アイコン・数値・テキストを併用する",
-    "既存のCollection/Achievement/VisitデータモデルにUI専用状態を混ぜない"
+    "既存のCollection/Achievement/Visit/GameデータモデルにUI専用状態を混ぜない"
   ],
   "collection": {
     "collapsedCard": ["icon", "name", "progress", "count"],
@@ -34,13 +34,28 @@
     "candidateAttentionBadge": true,
     "gpsModeAlwaysAccessible": true
   },
+  "game": {
+    "separateFooterTab": true,
+    "firstLayer": ["wallet", "travelEnergy", "locationField", "locationBonus", "gameSelector"],
+    "sharedRuntime": true,
+    "offlineFirst": true,
+    "firstPlayable": "fishing",
+    "planned": ["rogue"]
+  },
+  "progressBadges": {
+    "collection": "new_visit_or_new_completion_since_last_view",
+    "achievement": "unread_unlocks",
+    "trip": "new_pending_candidates_since_last_view",
+    "game": "new_game_discoveries",
+    "firstRunDoesNotBackfill": true
+  },
   "footer": {
-    "columns": 4,
-    "items": ["map", "collection", "achievement", "trip"],
+    "columns": 5,
+    "items": ["map", "collection", "achievement", "trip", "game"],
     "presentation": "icon_plus_short_label"
   },
   "next": {
-    "target": "cross_screen_polish",
-    "goal": "地図・コレクション・実績・旅行の余白、タップ領域、見出し階層を横断して最終調整する"
+    "target": "game_expansion",
+    "goal": "旅Rogueを共通財布・旅力・位置フィールドへ追加し、釣りと異なるプレイ感を作る"
   }
 }
