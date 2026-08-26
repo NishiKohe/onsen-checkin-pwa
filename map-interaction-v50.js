@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v54";
+  const BUILD = "v56";
   const MOVE_THRESHOLD_PX = 2;
   const MIN_ZOOM = 3.6;
   const MAX_ZOOM = 18;
@@ -262,8 +262,8 @@
       diagnostics: snapshot
     };
 
-    console.info("onsen map direct touch runtime v54", snapshot());
+    console.info("onsen map direct touch runtime v56", snapshot());
   }
 
-  install().catch((err) => console.warn("map direct touch runtime v54 init failed", err));
+  install().catch((err) => console.warn("map direct touch runtime v56 init failed", err));
 })();
