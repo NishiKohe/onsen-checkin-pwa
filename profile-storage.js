@@ -3,7 +3,7 @@
   const CURRENT_PROFILE_KEY = "onsenAppCurrentProfileV1";
   const MIGRATION_KEY = "onsenAppProfileMigrationV1";
   const PREFIX = "onsenApp:user:";
-  const SAVE_SCHEMA_VERSION = 3;
+  const SAVE_SCHEMA_VERSION = 4;
   const USER_KEYS = new Set([
     "checkins",
     "visitCandidatesV1",
@@ -11,7 +11,8 @@
     "visitSettingsV1",
     "visitLogMigrationV1",
     "visitLocationSamplesV1",
-    "achievementStateV1"
+    "achievementStateV1",
+    "uiProgressStateV1"
   ]);
 
   const storageProto = Storage.prototype;
