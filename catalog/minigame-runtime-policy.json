@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "introducedIn": "v58",
+  "purpose": "旅行モード中にアプリを前景で使い続ける価値を作りつつ、位置チェックインの信頼性をゲーム報酬で汚染しない。",
+  "principles": [
+    "ミニゲームは旅行タブ内ではなく独立したゲームタブに置く",
+    "ゲームはService Workerで事前キャッシュし、プレイ時にネットワーク通信を必須にしない",
+    "ゲーム報酬だけでは訪問済み・GPS現地確認を解除しない",
+    "位置記録はゲーム側のプレイ資源・フィールド・レア補正にのみ利用する",
+    "複数ミニゲームで財布・旅力・保存データを共有する",
+    "ゲーム固有のルールと表示は共通ランタイムから分離する"
+  ],
+  "sharedState": {
+    "storageKey": "gameStateV1",
+    "wallet": {
+      "currency": "yusen",
+      "label": "湯銭",
+      "use": "将来のゲーム内解放・装飾・複数ゲーム共通報酬"
+    },
+    "energy": {
+      "currency": "travel_energy",
+      "label": "旅力",
+      "max": 12,
+      "starter": 5,
+      "travelReward": "旅行モードON中のGPS移動750mにつき1回復",
+      "antiJump": "1サンプルあたりゲームに加算する移動距離は最大10km"
+    }
+  },
+  "locationLink": {
+    "freshLocationMinutes": 30,
+    "nearOnsenMeters": 5000,
+    "effects": [
+      "現在地に最も近い収録温泉の都道府県から地方フィールドを決定",
+      "旅行モードONかつ新鮮なGPSでレア補正",
+      "温泉地5km以内で追加レア補正"
+    ],
+    "doesNotGrant": ["checkin", "onsite_verification", "collection_completion"]
+  },
+  "games": [
+    {
+      "id": "fishing",
+      "label": "旅釣り",
+      "status": "playable_v58",
+      "input": "timing_gauge",
+      "cost": "旅力1/キャスト",
+      "reward": "魚図鑑 + 湯銭",
+      "locationVariation": "地方別魚プール + 温泉地付近レア魚"
+    },
+    {
+      "id": "rogue",
+      "label": "旅Rogue",
+      "status": "planned",
+      "sharedRuntime": true,
+      "plannedReward": "湯銭 + 固有図鑑/アンロック"
+    }
+  ],
+  "offline": {
+    "requiredAtPlayTime": ["cached_html", "cached_css", "cached_js", "localStorage_or_profile_scoped_storage"],
+    "networkFetchDuringGame": false
+  }
+}
