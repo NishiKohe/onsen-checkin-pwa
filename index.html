@@ -15,28 +15,29 @@
   <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet" />
   <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 
-  <link rel="stylesheet" href="./style.css?v=59" />
-  <link rel="stylesheet" href="./map-tools-toggle.css?v=59" />
-  <link rel="stylesheet" href="./collection-progress.css?v=59" />
-  <link rel="stylesheet" href="./collection-area-hierarchy.css?v=59" />
-  <link rel="stylesheet" href="./collection-navigation-ui.css?v=59" />
-  <link rel="stylesheet" href="./achievement-system.css?v=59" />
-  <link rel="stylesheet" href="./achievement-onsite.css?v=59" />
-  <link rel="stylesheet" href="./achievement-next-up.css?v=59" />
-  <link rel="stylesheet" href="./achievement-history.css?v=59" />
-  <link rel="stylesheet" href="./visit-log.css?v=59" />
-  <link rel="stylesheet" href="./profile-storage.css?v=59" />
-  <link rel="stylesheet" href="./trip-power-mode.css?v=59" />
-  <link rel="stylesheet" href="./app-shell.css?v=59" />
-  <link rel="stylesheet" href="./footer-navigation-v46.css?v=59" />
-  <link rel="stylesheet" href="./ui-compact-v54.css?v=59" />
-  <link rel="stylesheet" href="./ui-compact-v54-panels.css?v=59" />
-  <link rel="stylesheet" href="./ui-fixes-v55.css?v=59" />
-  <link rel="stylesheet" href="./trip-ui-v56.css?v=59" />
-  <link rel="stylesheet" href="./trip-ui-v56-fix.css?v=59" />
-  <link rel="stylesheet" href="./ui-polish-v57.css?v=59" />
-  <link rel="stylesheet" href="./game-ui-v58.css?v=59" />
-  <link rel="stylesheet" href="./game-ui-v59.css?v=59" />
+  <link rel="stylesheet" href="./style.css?v=60" />
+  <link rel="stylesheet" href="./map-tools-toggle.css?v=60" />
+  <link rel="stylesheet" href="./collection-progress.css?v=60" />
+  <link rel="stylesheet" href="./collection-area-hierarchy.css?v=60" />
+  <link rel="stylesheet" href="./collection-navigation-ui.css?v=60" />
+  <link rel="stylesheet" href="./achievement-system.css?v=60" />
+  <link rel="stylesheet" href="./achievement-onsite.css?v=60" />
+  <link rel="stylesheet" href="./achievement-next-up.css?v=60" />
+  <link rel="stylesheet" href="./achievement-history.css?v=60" />
+  <link rel="stylesheet" href="./visit-log.css?v=60" />
+  <link rel="stylesheet" href="./profile-storage.css?v=60" />
+  <link rel="stylesheet" href="./trip-power-mode.css?v=60" />
+  <link rel="stylesheet" href="./app-shell.css?v=60" />
+  <link rel="stylesheet" href="./footer-navigation-v46.css?v=60" />
+  <link rel="stylesheet" href="./ui-compact-v54.css?v=60" />
+  <link rel="stylesheet" href="./ui-compact-v54-panels.css?v=60" />
+  <link rel="stylesheet" href="./ui-fixes-v55.css?v=60" />
+  <link rel="stylesheet" href="./trip-ui-v56.css?v=60" />
+  <link rel="stylesheet" href="./trip-ui-v56-fix.css?v=60" />
+  <link rel="stylesheet" href="./ui-polish-v57.css?v=60" />
+  <link rel="stylesheet" href="./game-ui-v58.css?v=60" />
+  <link rel="stylesheet" href="./game-ui-v59.css?v=60" />
+  <link rel="stylesheet" href="./game-ui-v60.css?v=60" />
 </head>
 <body>
   <header class="header">
@@ -65,9 +66,7 @@
         </div>
 
         <div class="filter-row">
-          <select id="prefFilter" aria-label="都道府県で絞り込み">
-            <option value="">全国</option>
-          </select>
+          <select id="prefFilter" aria-label="都道府県で絞り込み"><option value="">全国</option></select>
           <button class="filter-chip active" type="button" data-visit="all">すべて</button>
           <button class="filter-chip" type="button" data-visit="unvisited">未訪問</button>
           <button class="filter-chip" type="button" data-visit="visited">訪問済</button>
@@ -86,57 +85,22 @@
       <h2 id="spotTitle">スポットを選択</h2>
       <p id="spotSub">地図のピンをタップしてください</p>
       <div id="spotTags" class="tag-list"></div>
-
-      <div class="kv">
-        <div><span>距離</span><b id="spotDist">-</b></div>
-        <div><span>精度</span><b id="spotAcc">-</b></div>
-      </div>
-
+      <div class="kv"><div><span>距離</span><b id="spotDist">-</b></div><div><span>精度</span><b id="spotAcc">-</b></div></div>
       <button id="btnCheckin" disabled>チェックイン</button>
-
-      <details id="subAreasDetails" class="details" hidden>
-        <summary>構成温泉・チェックイン地点</summary>
-        <ul id="subAreasList" class="subarea-list"></ul>
-      </details>
-
-      <details class="details">
-        <summary>温泉分析（基本）</summary>
-        <div class="grid" id="analysisGrid"></div>
-        <p class="note" id="analysisNote"></p>
-      </details>
-
-      <details class="details">
-        <summary>訪問履歴（このユーザー）</summary>
-        <ul id="historyList" class="history"></ul>
-      </details>
+      <details id="subAreasDetails" class="details" hidden><summary>構成温泉・チェックイン地点</summary><ul id="subAreasList" class="subarea-list"></ul></details>
+      <details class="details"><summary>温泉分析（基本）</summary><div class="grid" id="analysisGrid"></div><p class="note" id="analysisNote"></p></details>
+      <details class="details"><summary>訪問履歴（このユーザー）</summary><ul id="historyList" class="history"></ul></details>
     </section>
   </main>
 
   <section id="collectionView" class="collection-view" hidden aria-label="タグ達成状況">
     <div class="collection-shell">
-      <div class="collection-header">
-        <div>
-          <span class="collection-eyebrow">COLLECTION</span>
-          <h2>タグ達成状況</h2>
-          <p id="collectionSummary">集計中…</p>
-        </div>
-      </div>
-
+      <div class="collection-header"><div><span class="collection-eyebrow">COLLECTION</span><h2>タグ達成状況</h2><p id="collectionSummary">集計中…</p></div></div>
       <div class="collection-overview" aria-label="達成状況サマリー">
-        <div class="collection-metric">
-          <span>訪問温泉地</span>
-          <b id="collectionVisitedMetric">0</b>
-        </div>
-        <div class="collection-metric">
-          <span>コンプリート</span>
-          <b id="collectionCompletedMetric">0/0</b>
-        </div>
-        <div class="collection-metric">
-          <span>有効グループ称号</span>
-          <b id="collectionGroupsMetric">0</b>
-        </div>
+        <div class="collection-metric"><span>訪問温泉地</span><b id="collectionVisitedMetric">0</b></div>
+        <div class="collection-metric"><span>コンプリート</span><b id="collectionCompletedMetric">0/0</b></div>
+        <div class="collection-metric"><span>有効グループ称号</span><b id="collectionGroupsMetric">0</b></div>
       </div>
-
       <div class="collection-toolbar" aria-label="達成状況の絞り込み">
         <input id="collectionSearchInput" type="search" placeholder="称号・温泉名で絞り込み" autocomplete="off" />
         <div class="collection-filter-row">
@@ -145,7 +109,6 @@
           <button type="button" class="collection-filter" data-collection-filter="complete">達成済</button>
         </div>
       </div>
-
       <div id="collectionGrid" class="collection-grid"></div>
     </div>
   </section>
@@ -155,43 +118,41 @@
     <button type="button" class="app-tab" data-app-tab="collection" aria-selected="false">コレクション</button>
   </nav>
 
-  <script src="./profile-storage.js?v=59"></script>
-  <script src="./visit-log-preload.js?v=59"></script>
-  <script src="./trip-power-mode.js?v=59"></script>
-  <script src="./app.js?v=59"></script>
-  <script src="./domain-model.js?v=59"></script>
-  <script src="./ui-enhancements.js?v=59"></script>
-  <script src="./map-tools-toggle.js?v=59"></script>
-  <script src="./map-interaction-v50.js?v=59"></script>
-  <script src="./heritage-ui.js?v=59"></script>
-  <script src="./fixed-selection-ui.js?v=59"></script>
-  <script src="./collection-progress-ui.js?v=59"></script>
-  <script src="./collection-area-hierarchy.js?v=59"></script>
-  <script src="./collection-area-hierarchy-onsen-musume.js?v=59"></script>
-  <script src="./collection-area-hierarchy-selections.js?v=59"></script>
-  <script src="./collection-navigation-ui.js?v=59"></script>
-  <script src="./achievement-system.js?v=59"></script>
-  <script src="./achievement-onsite.js?v=59"></script>
-  <script src="./achievement-next-up.js?v=59"></script>
-  <script src="./achievement-history.js?v=59"></script>
-  <script src="./visit-log-ui.js?v=59"></script>
-  <script src="./photo-recovery-fallback.js?v=59"></script>
-  <script src="./domain-runtime-bridge.js?v=59"></script>
-  <script src="./build-info.js?v=59"></script>
-  <script src="./app-shell.js?v=59"></script>
-  <script src="./footer-navigation-v46.js?v=59"></script>
-  <script src="./ui-compact-v54.js?v=59"></script>
-  <script src="./ui-fixes-v55.js?v=59"></script>
-  <script src="./trip-ui-v56.js?v=59"></script>
-  <script src="./game-runtime-v59.js?v=59"></script>
-  <script src="./fishing-game-v59.js?v=59"></script>
-  <script src="./game-hub-v59.js?v=59"></script>
-  <script src="./ui-progress-badges-v57.js?v=59"></script>
+  <script src="./profile-storage.js?v=60"></script>
+  <script src="./visit-log-preload.js?v=60"></script>
+  <script src="./trip-power-mode.js?v=60"></script>
+  <script src="./app.js?v=60"></script>
+  <script src="./domain-model.js?v=60"></script>
+  <script src="./ui-enhancements.js?v=60"></script>
+  <script src="./map-tools-toggle.js?v=60"></script>
+  <script src="./map-interaction-v50.js?v=60"></script>
+  <script src="./heritage-ui.js?v=60"></script>
+  <script src="./fixed-selection-ui.js?v=60"></script>
+  <script src="./collection-progress-ui.js?v=60"></script>
+  <script src="./collection-area-hierarchy.js?v=60"></script>
+  <script src="./collection-area-hierarchy-onsen-musume.js?v=60"></script>
+  <script src="./collection-area-hierarchy-selections.js?v=60"></script>
+  <script src="./collection-navigation-ui.js?v=60"></script>
+  <script src="./achievement-system.js?v=60"></script>
+  <script src="./achievement-onsite.js?v=60"></script>
+  <script src="./achievement-next-up.js?v=60"></script>
+  <script src="./achievement-history.js?v=60"></script>
+  <script src="./visit-log-ui.js?v=60"></script>
+  <script src="./photo-recovery-fallback.js?v=60"></script>
+  <script src="./domain-runtime-bridge.js?v=60"></script>
+  <script src="./build-info.js?v=60"></script>
+  <script src="./app-shell.js?v=60"></script>
+  <script src="./footer-navigation-v46.js?v=60"></script>
+  <script src="./ui-compact-v54.js?v=60"></script>
+  <script src="./ui-fixes-v55.js?v=60"></script>
+  <script src="./trip-ui-v56.js?v=60"></script>
+  <script src="./game-runtime-v59.js?v=60"></script>
+  <script src="./fishing-game-v60.js?v=60"></script>
+  <script src="./game-hub-v60.js?v=60"></script>
+  <script src="./ui-progress-badges-v57.js?v=60"></script>
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./sw.js?v=59").catch(console.error);
-      });
+      window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js?v=60").catch(console.error));
     }
   </script>
 </body>
