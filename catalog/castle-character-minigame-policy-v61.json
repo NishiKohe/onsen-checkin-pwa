@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "introducedIn": "v61",
+  "purpose": "城チェックイン・人物収集・湯銭登用・複数ミニゲームを同じ循環へ接続するための設計方針",
+  "characterAcquisition": {
+    "castleFirstGpsVisit": {
+      "guaranteedRecruit": 1,
+      "requiresStrictGps": true,
+      "alsoUnlocksRecruitPool": true
+    },
+    "yusenRecruit": {
+      "currency": "yusen",
+      "nationalRandomOnly": false,
+      "poolExpansion": ["visited_castle", "visited_region", "discovered_character"],
+      "duplicateResult": "bond_points"
+    },
+    "repeatVisitPolicy": "同じ城への再訪強制は基本しない。人物の縁は関連する別史跡・別城・登用重複で伸ばす"
+  },
+  "characterModel": {
+    "internalType": "character",
+    "primaryTheme": "sengoku",
+    "futureTypes": ["samurai", "ninja", "swordsman", "cultural_figure", "traveler", "regional_historical_figure"],
+    "partySize": 3,
+    "growth": "bond_level",
+    "recommendedTags": ["水軍", "山城", "平城", "築城", "武勇", "統率", "知略", "忍", "鉄砲", "騎馬", "商才", "茶", "文化", "交易", "治水", "旅", "湯治"]
+  },
+  "minigameCandidates": [
+    {
+      "id": "fishing",
+      "status": "implemented",
+      "characterUse": ["水軍でレア率", "豪胆で大物ファイト猶予", "商才・文化で湯銭補正"]
+    },
+    {
+      "id": "castle_defense_micro",
+      "label": "一夜城防衛",
+      "pitch": "60〜120秒の超小型TD。3人の人物を配置して波状攻撃を凌ぐ。",
+      "travelLink": "訪問した城の地形タグがステージ傾向へ反映",
+      "goodForCharacters": ["築城", "統率", "鉄砲", "弓", "騎馬"],
+      "priority": "high"
+    },
+    {
+      "id": "march_route",
+      "label": "行軍ルート",
+      "pitch": "短い経路選択ゲーム。兵糧・天候・敵情を見ながら目的地へ進む。",
+      "travelLink": "現在地方・実際の移動距離でイベントテーブル変化",
+      "goodForCharacters": ["知略", "忍", "山城", "旅", "治水"],
+      "priority": "high"
+    },
+    {
+      "id": "castle_repair",
+      "label": "普請パズル",
+      "pitch": "石垣・堀・門を限られた手数で修復する軽量パズル。",
+      "travelLink": "訪問城の構造タグを問題テーマにする",
+      "goodForCharacters": ["築城", "治水", "商才", "知略"],
+      "priority": "high"
+    },
+    {
+      "id": "treasure_excavation",
+      "label": "発掘・採掘",
+      "pitch": "数十秒で地層を掘り、茶器・古銭・史料片を見つけるリスク選択ゲーム。",
+      "travelLink": "城・温泉・地域タグから出土テーブルを変える",
+      "goodForCharacters": ["商才", "文化", "築城", "知略"],
+      "priority": "medium_high"
+    },
+    {
+      "id": "tea_session",
+      "label": "茶会",
+      "pitch": "客の好みと手持ち茶器を合わせる短い記憶・選択ゲーム。戦闘外人物が活躍する。",
+      "travelLink": "地域人物・文化財カテゴリとの将来連動",
+      "goodForCharacters": ["茶", "文化", "商才", "交易"],
+      "priority": "medium"
+    },
+    {
+      "id": "spy_search",
+      "label": "忍び探索",
+      "pitch": "城下の見取り図から敵・抜け道・宝を短時間で見つける探索ゲーム。",
+      "travelLink": "山城・平城など城種でマップギミック変更",
+      "goodForCharacters": ["忍", "知略", "山城"],
+      "priority": "medium"
+    },
+    {
+      "id": "merchant_market",
+      "label": "城下町商い",
+      "pitch": "限られた資金で品を仕入れて相場変化を読む30〜90秒の売買ゲーム。",
+      "travelLink": "地方ごとに商品・相場イベントを変える",
+      "goodForCharacters": ["商才", "交易", "文化"],
+      "priority": "medium"
+    }
+  ],
+  "recommendedNext": {
+    "first": "castle_defense_micro",
+    "reason": "戦国武将を直接使う満足感が最も高く、3人編成・特性タグ・城チェックインを一度に検証できる",
+    "second": "castle_repair",
+    "reason2": "戦闘以外の人物タグも活かせ、短時間・オフライン・低負荷で差別化しやすい"
+  }
+}
