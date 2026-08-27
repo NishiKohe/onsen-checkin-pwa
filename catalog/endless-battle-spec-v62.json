@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "introducedIn": "design-v62",
+  "id": "endless_battle",
+  "label": "戦陣",
+  "purpose": "大量に集めた人物すべてに価値を持たせ、温泉・城・人物収集を恒久成長へ接続する常設放置戦闘",
+  "positioning": {
+    "collectionMeaning": "人物をたくさん集めるほど強い",
+    "contrastWithRogue": "Rogueは少数精鋭と組み合わせを重視し、戦陣は所持量と恒久成長を重視する",
+    "energyCost": "none",
+    "offlineFirst": true
+  },
+  "party": {
+    "activeSlots": 5,
+    "reserveContribution": "登用済みの全人物が軍勢力として全体補正へ参加",
+    "activeCharacterRole": ["通常攻撃", "固有技", "固有パッシブ"],
+    "reserveCharacterRole": ["軍勢力", "勢力・特性の所持ボーナス"]
+  },
+  "metaProgression": {
+    "toujiPower": {
+      "source": "取得済み温泉地数",
+      "label": "湯治力",
+      "effects": ["HP自然回復量", "Wave間回復量", "将来Rogueの温泉マス回復量"],
+      "initialFormula": "recovery_bonus = min(0.60, 0.04 * sqrt(unique_onsen_count))",
+      "examples": {"25": "+20%", "100": "+40%", "225": "+60% cap"}
+    },
+    "bui": {
+      "source": "取得済み城数",
+      "label": "武威",
+      "effects": ["全人物攻撃力", "放置戦闘DPS", "将来Rogueの基礎攻撃補正"],
+      "initialFormula": "attack_bonus = min(0.50, 0.05 * sqrt(unique_castle_count))",
+      "examples": {"1": "+5%", "25": "+25%", "100": "+50% cap"}
+    },
+    "armyPower": {
+      "source": "登用済み人物数",
+      "label": "軍勢力",
+      "effects": ["全体HPと攻撃への小補正", "編成外人物も無駄にしない"],
+      "initialFormula": "reserve_bonus = min(0.35, 0.025 * sqrt(recruited_character_count))",
+      "examples": {"25": "+12.5%", "100": "+25%", "196": "+35% cap"}
+    },
+    "countPolicy": "ゲーム内恒久補正にはアプリ上で取得済みとして確定したユニーク数を用いる。城の人物確定加入など厳格GPS専用報酬とは分離する"
+  },
+  "combat": {
+    "presentation": "敵兵が左右から大量に押し寄せ、5人の人物が自動攻撃と固有技で蹴散らす",
+    "waveLengthSecondsTarget": "10-25",
+    "bossEveryWaves": 10,
+    "majorBattleEveryWaves": 50,
+    "enemyScalingInitial": "enemy_power = base * 1.055^(wave-1)",
+    "bossMultiplier": 3.0,
+    "majorBattleMultiplier": 6.0,
+    "autoSkill": true,
+    "foregroundInteraction": {
+      "commandGauge": "戦闘で軍配ゲージが溜まる",
+      "manual": "タップで総攻撃・奥義連携を発動",
+      "idleFallback": "満タン後3秒操作がなければ自動発動"
+    }
+  },
+  "defeat": {
+    "hardGameOver": false,
+    "rule": "全滅時は直近の10Waveチェックポイントへ戻り、そのWave帯で自動周回",
+    "purpose": "放置状態で完全停止させず、編成変更や収集で突破する動機を作る"
+  },
+  "rewards": {
+    "primary": {
+      "id": "senko",
+      "label": "戦功",
+      "uses": ["縁の育成", "編成枠・戦陣機能の段階解放", "将来の人物専用強化"]
+    },
+    "yusen": {
+      "frequency": "boss_and_milestone_only",
+      "reason": "湯銭を人物登用の主要通貨として維持し、放置だけで大量供給しない"
+    },
+    "firstClear": ["節目Waveの湯銭", "称号", "人物縁ポイント", "装飾候補"]
+  },
+  "offlineProgress": {
+    "enabled": true,
+    "maxHours": 8,
+    "simulation": "最後に安定周回できたWave帯のDPSと撃破速度から戦功を算出",
+    "doesNotApply": ["GPS旅行ボーナス", "新規城・温泉取得", "位置依存イベント"],
+    "note": "ゲームのオフライン進行と現実移動の位置判定は別系統にする"
+  },
+  "characterBalance": {
+    "noMandatoryLevelGrinding": true,
+    "coreDifference": ["攻撃方式", "固有技", "固有パッシブ", "特性タグ", "縁ランク"],
+    "rarityPolicy": "希少度は主に入手性・演出に使い、同縁ランクでの基礎性能差は極端にしない",
+    "recommendedBasePowerGapMax": "20%程度",
+    "bondRank": {
+      "range": "0-5",
+      "statGrowth": "1ランクにつき基礎性能+3%程度を上限目安",
+      "unlockExamples": ["固有パッシブ強化", "演出", "人物逸話", "別ミニゲーム効果"]
+    }
+  },
+  "collectionBonuses": {
+    "purpose": "編成外人物にも収集価値を持たせる",
+    "examples": [
+      "同一勢力3人以上登用で小補正",
+      "水軍人物の所持数で水辺ステージ補正",
+      "築城人物の所持数で防衛・普請系補正"
+    ],
+    "rule": "所持ボーナスは累積上限を設け、特定勢力だけが必須にならないようにする"
+  },
+  "implementationOrder": [
+    "人物共通マスターと登用状態",
+    "湯治力・武威・軍勢力の算出",
+    "5人編成UI",
+    "敵無限出現と自動攻撃",
+    "Wave・ボス・敗北チェックポイント",
+    "戦功とオフライン報酬",
+    "固有技・勢力所持ボーナス"
+  ],
+  "debugNeeded": [
+    "任意Waveへ移動",
+    "敵HP倍率切替",
+    "戦功付与",
+    "湯治力・武威・軍勢力の計算値表示",
+    "全人物仮解放 / 元に戻す"
+  ]
+}
