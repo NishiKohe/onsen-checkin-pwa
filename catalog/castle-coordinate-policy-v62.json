@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "introducedIn": "v62",
+  "selection": "日本100名城",
+  "coordinateFile": "data/castle-coordinates-v62.csv",
+  "coordinateCount": 100,
+  "verificationStatus": "cross_checked_public_datasets",
+  "sources": [
+    {
+      "repository": "FRANKI3420/Castles-Visiting-Record-Website",
+      "path": "data/siro.csv",
+      "commit": "d44417b2c6d2efc9040af7346add5cdbb149c476"
+    },
+    {
+      "repository": "To-Fujita/Leaflet.JS_Tutorial",
+      "path": "100_sen/data/shiro02_UTF8.csv",
+      "commit": "eb13ec8daac4940aceccecb9b00339fc4341212f"
+    }
+  ],
+  "checkinPolicy": {
+    "defaultRadiusM": 350,
+    "requiredAccuracyM": 100,
+    "requiresExplicitCheckinButton": true,
+    "backgroundAutoClaim": false,
+    "strictGpsCharacterGuarantee": true,
+    "manualPastVisitCharacterGuarantee": false
+  },
+  "rules": [
+    "城チェックインは端末の新しい測位結果を都度取得して判定する",
+    "距離がチェックイン半径内かつaccuracyがrequiredAccuracyM以下のときだけ厳格GPS扱いにする",
+    "過去訪問登録は100名城進捗・武威・登用候補解放には使うが、代表人物確定加入には使わない",
+    "山城や広域史跡などで現地実測により半径調整が必要な場合は城ごとのoverrideを追加する"
+  ]
+}
