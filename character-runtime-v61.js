@@ -12,9 +12,7 @@
   function storage() { return window.OnsenUserStorage || null; }
   function readRaw() {
     const raw = storage()?.readUserItem?.(STATE_KEY);
-    if (raw != null) {
-      try { return JSON.parse(raw); } catch {}
-    }
+    if (raw != null) { try { return JSON.parse(raw); } catch {} }
     try { return JSON.parse(localStorage.getItem(STATE_KEY) || "null"); } catch { return null; }
   }
   function writeRaw(value) {
@@ -29,7 +27,7 @@
       discovered: {},
       guaranteedCastleClaimed: {},
       recruitHistory: [],
-      notifications: { newCharacters: 0 },
+      notifications: { newCharacters: 0, newCandidates: 0 },
       debug: { unlockAllCandidates: false },
       updatedAt: Date.now()
     };
@@ -66,9 +64,7 @@
     const manifest = await fetchJson(MANIFEST_URL);
     const shards = await Promise.all((manifest.shards || []).map((path) => fetchJson(`./${String(path).replace(/^\.\//, "")}`)));
     catalog = shards.flatMap((data) => Array.isArray(data?.characters) ? data.characters : (Array.isArray(data?.entries) ? data.entries : []));
-    if (catalog.length !== Number(manifest.characterCount || 50)) {
-      console.warn("character seed count mismatch", catalog.length, manifest.characterCount);
-    }
+    if (catalog.length !== Number(manifest.characterCount || 50)) console.warn("character seed count mismatch", catalog.length, manifest.characterCount);
     byId = new Map(catalog.map((character) => [character.id, character]));
     return catalog;
   }
@@ -86,18 +82,26 @@
     return new Set(castles.filter((castle) => ids.has(castle.id)).map((castle) => castle.region).filter(Boolean));
   }
 
+  function travelUnlockReason(character) {
+    if (!character) return null;
+    const castleIds = visitedCastleIds();
+    const regions = visitedRegions();
+    const recruitment = character.recruitment || {};
+    const guaranteed = (recruitment.guaranteedCastleIds || []).find((id) => castleIds.has(id));
+    if (guaranteed) return `castle:${guaranteed}`;
+    const castle = (recruitment.unlockCastleIds || []).find((id) => castleIds.has(id));
+    if (castle) return `castle:${castle}`;
+    const region = (recruitment.unlockRegions || []).find((name) => regions.has(name));
+    if (region) return `region:${region}`;
+    return null;
+  }
+
   function isCandidateUnlocked(character, state = loadState()) {
     if (!character) return false;
     if (state.debug.unlockAllCandidates) return true;
     if (state.recruited[character.id]) return true;
     if (state.discovered[character.id]) return true;
-    const castleIds = visitedCastleIds();
-    const regions = visitedRegions();
-    const recruitment = character.recruitment || {};
-    if ((recruitment.guaranteedCastleIds || []).some((id) => castleIds.has(id))) return true;
-    if ((recruitment.unlockCastleIds || []).some((id) => castleIds.has(id))) return true;
-    if ((recruitment.unlockRegions || []).some((region) => regions.has(region))) return true;
-    return false;
+    return !!travelUnlockReason(character);
   }
 
   function syncDiscoveries({ notify = false } = {}) {
@@ -105,8 +109,9 @@
     const state = loadState();
     let added = 0;
     for (const character of catalog) {
-      if (isCandidateUnlocked(character, state) && !state.discovered[character.id]) {
-        state.discovered[character.id] = { discoveredAt: Date.now(), source: "travel_unlock" };
+      const reason = travelUnlockReason(character);
+      if (reason && !state.discovered[character.id]) {
+        state.discovered[character.id] = { discoveredAt: Date.now(), source: "travel_unlock", reason };
         added += 1;
       }
     }
@@ -131,13 +136,7 @@
       const points = Number(existing.bondPoints || 0) + DUPLICATE_BOND_POINTS;
       state.recruited[character.id] = { ...existing, bondPoints: points, bondRank: bondRankFor(points), lastDuplicateAt: now };
     } else {
-      state.recruited[character.id] = {
-        recruitedAt: now,
-        source,
-        bondPoints: 0,
-        bondRank: 0,
-        ...metadata
-      };
+      state.recruited[character.id] = { recruitedAt: now, source, bondPoints: 0, bondRank: 0, ...metadata };
       state.notifications.newCharacters = Number(state.notifications.newCharacters || 0) + 1;
     }
     state.discovered[character.id] = state.discovered[character.id] || { discoveredAt: now, source };
@@ -159,10 +158,7 @@
     });
     const total = candidates.reduce((sum, item) => sum + item.weight, 0);
     let roll = Math.random() * total;
-    for (const item of candidates) {
-      roll -= item.weight;
-      if (roll <= 0) return item.character;
-    }
+    for (const item of candidates) { roll -= item.weight; if (roll <= 0) return item.character; }
     return candidates.at(-1)?.character || null;
   }
 
@@ -218,9 +214,7 @@
   function toggleDebugUnlockAll(force) {
     const state = loadState();
     state.debug.unlockAllCandidates = typeof force === "boolean" ? force : !state.debug.unlockAllCandidates;
-    const saved = saveState(state, "debug_character_candidates");
-    syncDiscoveries();
-    return saved;
+    return saveState(state, "debug_character_candidates");
   }
 
   function getStatus(characterId) {
@@ -228,13 +222,7 @@
     const character = byId.get(characterId) || null;
     if (!character) return null;
     const recruited = state.recruited[characterId] || null;
-    return {
-      character,
-      recruited,
-      recruitedNow: !!recruited,
-      discovered: !!state.discovered[characterId] || isCandidateUnlocked(character, state),
-      candidate: isCandidateUnlocked(character, state)
-    };
+    return { character, recruited, recruitedNow: !!recruited, discovered: !!state.discovered[characterId] || !!travelUnlockReason(character), candidate: isCandidateUnlocked(character, state) };
   }
 
   function candidatesForCastle(castleId) {
@@ -251,7 +239,7 @@
     return {
       total: catalog.length,
       recruited: Object.keys(state.recruited).length,
-      discovered: catalog.filter((character) => state.discovered[character.id] || isCandidateUnlocked(character, state)).length,
+      discovered: catalog.filter((character) => state.discovered[character.id] || !!travelUnlockReason(character)).length,
       recruitPool: pool.length,
       unread: Number(state.notifications.newCharacters || 0) + Number(state.notifications.newCandidates || 0),
       cost: RECRUIT_COST
@@ -271,7 +259,7 @@
       syncDiscoveries({ notify: true });
       if (event.detail?.strictGps) claimGuaranteedForCastle(event.detail.castleId);
     });
-    const api = {
+    window.OnsenCharacterRuntime = {
       build: BUILD,
       stateKey: STATE_KEY,
       catalog: () => catalog.slice(),
@@ -290,7 +278,6 @@
       toggleDebugUnlockAll,
       constants: { recruitCost: RECRUIT_COST, duplicateBondPoints: DUPLICATE_BOND_POINTS, bondThresholds: BOND_THRESHOLDS.slice() }
     };
-    window.OnsenCharacterRuntime = api;
     window.dispatchEvent(new CustomEvent("onsen-character-runtime-ready", { detail: { build: BUILD, count: catalog.length } }));
   }
 
