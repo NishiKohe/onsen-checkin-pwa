@@ -1,17 +1,19 @@
 {
-  "version": 3,
+  "version": 4,
   "introducedIn": "v58",
   "updatedAtBuild": "v60",
+  "updatedAtDesign": "v62",
   "purpose": "旅行モード中にアプリを前景で使い続ける価値を作りつつ、位置チェックインの信頼性をゲーム報酬で汚染しない。",
   "principles": [
     "ミニゲームは旅行タブ内ではなく独立したゲームタブに置く",
     "ゲームはService Workerで事前キャッシュし、プレイ時にネットワーク通信を必須にしない",
     "ゲーム報酬だけでは訪問済み・GPS現地確認を解除しない",
     "位置記録はゲーム側のプレイ資源・フィールド・レア補正にのみ利用する",
-    "複数ミニゲームで財布・旅力・保存データを共有する",
+    "複数ミニゲームで財布・旅力・人物データを共有する",
     "ゲーム固有のルールと表示は共通ランタイムから分離する",
     "ゲームセーブは現在のユーザープロフィールに紐づける",
-    "デバッグ操作は訪問記録・実績などゲーム外進捗を変更しない"
+    "デバッグ操作は訪問記録・実績などゲーム外進捗を変更しない",
+    "温泉・城・人物の現実コレクション数はゲーム内の恒久成長へ変換する"
   ],
   "sharedState": {
     "storageKey": "gameStateV1",
@@ -19,7 +21,7 @@
     "wallet": {
       "currency": "yusen",
       "label": "湯銭",
-      "use": "将来のゲーム内解放・装飾・複数ゲーム共通報酬"
+      "use": "人物登用・ゲーム内解放・装飾・複数ゲーム共通報酬"
     },
     "energy": {
       "currency": "travel_energy",
@@ -28,6 +30,11 @@
       "starter": 5,
       "travelReward": "旅行モードON中のGPS移動750mにつき1回復",
       "antiJump": "1サンプルあたりゲームに加算する移動距離は最大10km"
+    },
+    "characters": {
+      "schema": "catalog/character-model-schema-v62.json",
+      "recruitCurrency": "yusen",
+      "duplicate": "bond_points"
     }
   },
   "locationLink": {
@@ -49,30 +56,43 @@
       "cost": "旅力1/キャスト",
       "reward": "魚図鑑 + 湯銭",
       "locationVariation": "地方別魚プール + 温泉地付近レア魚",
-      "presentation": "character_water_fish_shadows_hit_cinematic_and_big_fish_fight",
-      "bigFishFight": {
-        "SR": "60%",
-        "SSR": "100%",
-        "LEGEND": "100%",
-        "successRule": "適正テンション中に巻く長押しで魚の体力を削る"
-      }
+      "characterPlan": "水軍・豪胆・商才・文化などのtraitsを補助効果へ利用"
+    },
+    {
+      "id": "endless_battle",
+      "label": "戦陣",
+      "status": "design_ready",
+      "cost": "none",
+      "reward": "戦功 + 節目湯銭",
+      "party": "主力5人 + 全所持人物の軍勢補正",
+      "metaProgression": "温泉=湯治力、城=武威、人物=軍勢力",
+      "offlineProgress": "最大8時間、位置依存ボーナスは非適用",
+      "spec": "catalog/endless-battle-spec-v62.json"
     },
     {
       "id": "rogue",
       "label": "旅Rogue",
-      "status": "planned",
+      "status": "deferred",
       "sharedRuntime": true,
-      "plannedReward": "湯銭 + 固有図鑑/アンロック"
+      "party": 3,
+      "designRole": "大量収集ではなく、特定人物3人の組み合わせ・特性・イベント適性を重視",
+      "startAfter": ["character_system", "endless_battle_core"]
     }
   ],
   "debug": {
     "location": "ゲーム画面最下部の折りたたみDEBUGパネル",
-    "actions": [
+    "currentActions": [
       "旅力を最大まで回復",
       "次のアワセ成功を大物ファイトに固定",
       "釣り進捗のみ初期化"
     ],
-    "fishingResetKeeps": ["yusen", "visit_records", "collections", "achievements", "trip_logs"]
+    "plannedEndlessBattleActions": [
+      "任意Waveへ移動",
+      "敵HP倍率切替",
+      "戦功付与",
+      "湯治力・武威・軍勢力の算出値表示",
+      "全人物仮解放"
+    ]
   },
   "offline": {
     "requiredAtPlayTime": ["cached_html", "cached_css", "cached_js", "profile_scoped_storage"],
