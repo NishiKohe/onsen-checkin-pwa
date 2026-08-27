@@ -150,6 +150,7 @@
       return;
     }
 
+    characters?.claimGuaranteedForCastle?.(castleId);
     castleMap.refresh?.();
     const afterState = characters?.loadState?.() || {};
     const gainedId = Object.keys(afterState.recruited || {}).find((id) => !beforeOwned.has(id));
@@ -215,9 +216,8 @@
     if (onsenSwitch) onsenSwitch.setAttribute("aria-label", "温泉地図を表示");
 
     const notice = document.querySelector("#castleCollectionPanel .castle-notice");
-    if (notice) {
-      notice.textContent = "日本100名城100城を地図・GPSチェックインに対応しました。過去訪問はコレクション・武威・登用候補解放に反映します。現地では各城の「地図」からGPSチェックインでき、代表人物設定済みの城は初回厳格GPSで人物が加入します。";
-    }
+    const noticeText = "日本100名城100城を地図・GPSチェックインに対応しました。過去訪問はコレクション・武威・登用候補解放に反映します。現地では各城の「地図」からGPSチェックインでき、代表人物設定済みの城は初回厳格GPSで人物が加入します。";
+    if (notice && notice.textContent !== noticeText) notice.textContent = noticeText;
   }
 
   function bindFreshCheckinCapture() {
