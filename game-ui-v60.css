@@ -1,280 +1,83 @@
 /* v60 big-fish fight layer. Loaded after game-ui-v59.css. */
 
-.fishing-v60 .fishing-stage-hud {
-  z-index: 24;
-}
+.fishing-v60 .fishing-stage-hud { z-index: 24; }
+.fishing-fight-hud { position:absolute; z-index:28; left:10px; right:10px; bottom:12px; padding:10px; border:1px solid rgba(181,220,234,.42); border-radius:14px; background:linear-gradient(180deg,rgba(7,24,35,.94),rgba(5,15,24,.96)); box-shadow:0 10px 28px rgba(0,0,0,.34),inset 0 0 0 1px rgba(255,255,255,.025); backdrop-filter:blur(8px); }
+.fishing-fight-hud[hidden] { display:none!important; }
+.fight-title { display:flex; align-items:center; gap:7px; margin-bottom:7px; }
+.fight-title span { color:#e6c66a; font-size:6px; font-weight:1000; letter-spacing:.15em; }
+.fight-title strong { min-width:0; overflow:hidden; color:#f5fbff; font-size:12px; text-overflow:ellipsis; white-space:nowrap; }
+.fight-title em { margin-left:auto; padding:2px 5px; border:1px solid rgba(255,255,255,.28); border-radius:999px; color:#f6dd8b; font-size:7px; font-style:normal; font-weight:900; }
+.fight-field-track { position:relative; height:18px; margin-bottom:7px; overflow:hidden; border:1px solid #2e4b5e; border-radius:999px; background:#091721; }
+.fight-track-safe { position:absolute; inset:2px 25%; border-radius:999px; background:rgba(92,164,118,.18); }
+.fight-field-track>i { position:absolute; top:3px; left:50%; width:18px; height:10px; margin-left:-9px; border-radius:60% 45% 48% 58%; background:linear-gradient(180deg,#b7d8d2,#497f78); filter:drop-shadow(0 2px 3px rgba(0,0,0,.4)); transition:left .05s linear; }
+.fight-field-track>i::after { content:""; position:absolute; left:-6px; top:1px; border-top:4px solid transparent; border-bottom:4px solid transparent; border-right:7px solid #588c84; }
+.fight-meter-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; margin-bottom:6px; }
+.fight-meter-row>div>span { display:block; margin-bottom:3px; color:#7892a4; font-size:6px; font-weight:800; }
+.fight-meter { position:relative; height:12px; overflow:hidden; border:1px solid #2b4050; border-radius:999px; background:#07131c; }
+.fight-meter>i { position:absolute; inset:0 auto 0 0; width:50%; border-radius:inherit; transition:width .05s linear,background .12s ease; }
+.fight-meter.tension>i { background:linear-gradient(90deg,#3b7e95,#65bb8c,#e2be5f,#d5654d); }
+.fight-meter.stamina>i { width:100%; background:linear-gradient(90deg,#7bc6dd,#4d8fad); }
+.fight-safe-zone { position:absolute; z-index:2; top:0; bottom:0; left:28%; width:50%; border-left:1px solid rgba(214,246,205,.55); border-right:1px solid rgba(214,246,205,.55); pointer-events:none; }
+.fight-hint { min-height:13px; margin-bottom:6px; color:#b6c8d2; font-size:7px; line-height:1.35; text-align:center; }
+.fishing-reel-button { width:100%; min-height:45px; touch-action:none; border:1px solid #5f7f91; border-radius:11px; background:linear-gradient(180deg,#28516a,#17384e); color:#effaff; font-size:12px; font-weight:1000; user-select:none; -webkit-user-select:none; -webkit-tap-highlight-color:transparent; }
+.fishing-reel-button.is-reeling { transform:translateY(1px) scale(.992); border-color:#9dc98b; background:linear-gradient(180deg,#3f7755,#24513b); box-shadow:0 0 18px rgba(92,176,115,.25); }
+.fight-fish-shadow { position:absolute; z-index:7; left:45%; bottom:28%; width:72px; height:25px; opacity:0; transform:translateX(-50%) rotate(-4deg); transition:left .05s linear; pointer-events:none; }
+.fight-fish-shadow i { position:absolute; inset:2px 14px 2px 0; border-radius:55% 44% 48% 55%; background:rgba(1,17,25,.72); filter:blur(.4px); }
+.fight-fish-shadow i::after { content:""; position:absolute; left:-13px; top:1px; border-top:10px solid transparent; border-bottom:10px solid transparent; border-right:17px solid rgba(1,17,25,.72); }
+.fishing-scene.is-fight .fishing-stage-hud { pointer-events:none; }
+.fishing-scene.is-fight .fishing-gauge,.fishing-scene.is-fight .fishing-action { opacity:0; pointer-events:none; }
+.fishing-scene.is-fight .fight-fish-shadow { opacity:.88; animation:bigFishBody 1s ease-in-out infinite alternate; }
+.fishing-scene.is-fight .angler-rod { transform:rotate(-30deg); animation:fightRod 1.1s ease-in-out infinite alternate; }
+.fishing-scene.is-fight .angler-line { opacity:1; transform:rotate(-9deg) scaleY(1.18); }
+.fishing-scene.is-fight .ripple-a,.fishing-scene.is-fight .ripple-b { opacity:.75; animation:biteRipple .9s ease-out infinite; }
+.fishing-scene.fight-danger-high { box-shadow:inset 0 0 48px rgba(177,49,37,.28),0 8px 26px rgba(0,0,0,.18); }
+.fishing-scene.fight-danger-high .fight-meter.tension>i { background:linear-gradient(90deg,#d58347,#d34738); box-shadow:0 0 9px rgba(226,71,48,.55); }
+.fishing-scene.fight-danger-high .fishing-reel-button { border-color:#a96352; }
+.fishing-scene.fight-danger-low { box-shadow:inset 0 0 44px rgba(44,95,143,.24),0 8px 26px rgba(0,0,0,.18); }
+.fishing-scene.fight-danger-low .fight-meter.tension>i { background:#377899; }
+.fishing-scene.is-fight.rarity-ssr .fishing-fight-hud { border-color:rgba(185,128,221,.58); box-shadow:0 10px 30px rgba(0,0,0,.36),inset 0 0 24px rgba(141,78,178,.10); }
+.fishing-scene.is-fight.rarity-legend .fishing-fight-hud { border-color:rgba(231,190,89,.72); box-shadow:0 10px 32px rgba(0,0,0,.4),inset 0 0 28px rgba(213,158,50,.13); }
+.fishing-scene.is-fight.rarity-legend .fight-title span,.fishing-scene.is-fight.rarity-legend .fight-title em { color:#ffe29a; }
+.game-debug-body #debugForceBigFish { border-color:#5a6f9c; background:#18233b; color:#d6e0ff; }
+.game-debug-body #debugForceBigFish.armed { border-color:#c59d4e; background:#403019; color:#ffe8ad; }
+@keyframes bigFishBody { from { transform:translateX(-50%) rotate(-7deg) scale(.96); } to { transform:translateX(-50%) rotate(6deg) scale(1.07); } }
+@keyframes fightRod { from { transform:rotate(-25deg); } to { transform:rotate(-38deg); } }
 
-.fishing-fight-hud {
-  position: absolute;
-  z-index: 28;
-  left: 10px;
-  right: 10px;
-  bottom: 12px;
-  padding: 10px;
-  border: 1px solid rgba(181, 220, 234, .42);
-  border-radius: 14px;
-  background: linear-gradient(180deg, rgba(7, 24, 35, .94), rgba(5, 15, 24, .96));
-  box-shadow: 0 10px 28px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.025);
-  backdrop-filter: blur(8px);
-}
-.fishing-fight-hud[hidden] { display: none !important; }
+/* v65 fishing progression: rods, size records and rarity-driven challenge */
+.fishing-v65 .fishing-location { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.fishing-rod-panel { margin:10px 0 12px; border:1px solid rgba(134,161,178,.22); border-radius:14px; background:rgba(7,20,29,.72); overflow:hidden; }
+.fishing-rod-panel>summary { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; cursor:pointer; color:#e8f3f8; font-size:11px; font-weight:900; }
+.fishing-rod-panel>summary b { color:#e6c66a; font-size:10px; }
+.fishing-rod-help { padding:0 12px 9px; color:#8196a3; font-size:8px; line-height:1.5; }
+.fishing-rod-shop { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; padding:0 9px 10px; }
+.fishing-rod-card { display:flex; flex-direction:column; min-width:0; padding:9px; border:1px solid rgba(109,142,160,.25); border-radius:11px; background:rgba(10,28,39,.82); }
+.fishing-rod-card.equipped { border-color:rgba(214,186,101,.62); box-shadow:inset 0 0 0 1px rgba(214,186,101,.12),0 0 16px rgba(203,165,61,.08); }
+.fishing-rod-card>div:first-child { display:flex; align-items:center; gap:6px; }
+.fishing-rod-card strong { min-width:0; overflow:hidden; color:#edf7fb; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+.fishing-rod-card em { margin-left:auto; padding:2px 5px; border-radius:999px; background:#132d3b; color:#8eb8c9; font-size:7px; font-style:normal; font-weight:900; }
+.fishing-rod-card.equipped em { background:#3b321b; color:#f1d58a; }
+.fishing-rod-card p { flex:1; margin:6px 0; color:#8da1ac; font-size:7px; line-height:1.45; }
+.fishing-rod-stats { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:3px!important; margin:0 0 7px; }
+.fishing-rod-stats span { display:block; padding:3px 4px; border-radius:5px; background:rgba(255,255,255,.035); color:#aabcc6; font-size:6px; white-space:nowrap; }
+.fishing-rod-card button { width:100%; min-height:30px; border:1px solid #48687a; border-radius:8px; background:#17384b; color:#e8f7ff; font-size:8px; font-weight:900; }
+.fishing-rod-card button:disabled { opacity:.42; }
+.fishing-rod-card.equipped button { border-color:#756335; background:#3b3118; color:#f3dda0; }
+.fishing-difficulty { min-height:11px; margin:4px 0 2px; color:#8daab8; font-size:7px; font-weight:800; text-align:center; letter-spacing:.03em; }
+.fight-fish-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:-3px 0 7px; color:#9db0ba; font-size:7px; }
+.fight-fish-meta b { color:#d5eef5; font-size:9px; }
+.fight-meter-row small { display:block; margin-top:2px; color:#90a8b5; font-size:6px; text-align:right; }
+.fishing-fish small { display:block; margin-top:2px; color:#7f99a6; font-size:6px; }
+.fishing-result small { display:block; margin-top:4px; color:#8ea4af; font-size:7px; }
+.fishing-v65 .rarity-sr .fishing-target { box-shadow:0 0 9px rgba(85,173,122,.28); }
+.fishing-v65 .rarity-ssr .fishing-target { box-shadow:0 0 12px rgba(155,106,206,.38); }
+.fishing-v65 .rarity-legend .fishing-target { box-shadow:0 0 14px rgba(229,187,76,.52); }
 
-.fight-title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 7px;
-}
-.fight-title span {
-  color: #e6c66a;
-  font-size: 6px;
-  font-weight: 1000;
-  letter-spacing: .15em;
-}
-.fight-title strong {
-  min-width: 0;
-  overflow: hidden;
-  color: #f5fbff;
-  font-size: 12px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.fight-title em {
-  margin-left: auto;
-  padding: 2px 5px;
-  border: 1px solid rgba(255,255,255,.28);
-  border-radius: 999px;
-  color: #f6dd8b;
-  font-size: 7px;
-  font-style: normal;
-  font-weight: 900;
-}
-
-.fight-field-track {
-  position: relative;
-  height: 18px;
-  margin-bottom: 7px;
-  overflow: hidden;
-  border: 1px solid #2e4b5e;
-  border-radius: 999px;
-  background: #091721;
-}
-.fight-track-safe {
-  position: absolute;
-  inset: 2px 25%;
-  border-radius: 999px;
-  background: rgba(92, 164, 118, .18);
-}
-.fight-field-track > i {
-  position: absolute;
-  top: 3px;
-  left: 50%;
-  width: 18px;
-  height: 10px;
-  margin-left: -9px;
-  border-radius: 60% 45% 48% 58%;
-  background: linear-gradient(180deg, #b7d8d2, #497f78);
-  filter: drop-shadow(0 2px 3px rgba(0,0,0,.4));
-  transition: left .05s linear;
-}
-.fight-field-track > i::after {
-  content: "";
-  position: absolute;
-  left: -6px;
-  top: 1px;
-  border-top: 4px solid transparent;
-  border-bottom: 4px solid transparent;
-  border-right: 7px solid #588c84;
-}
-
-.fight-meter-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-  margin-bottom: 6px;
-}
-.fight-meter-row > div > span {
-  display: block;
-  margin-bottom: 3px;
-  color: #7892a4;
-  font-size: 6px;
-  font-weight: 800;
-}
-.fight-meter {
-  position: relative;
-  height: 12px;
-  overflow: hidden;
-  border: 1px solid #2b4050;
-  border-radius: 999px;
-  background: #07131c;
-}
-.fight-meter > i {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 50%;
-  border-radius: inherit;
-  transition: width .05s linear, background .12s ease;
-}
-.fight-meter.tension > i {
-  background: linear-gradient(90deg, #3b7e95, #65bb8c, #e2be5f, #d5654d);
-}
-.fight-meter.stamina > i {
-  width: 100%;
-  background: linear-gradient(90deg, #7bc6dd, #4d8fad);
-}
-.fight-safe-zone {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  bottom: 0;
-  left: 28%;
-  width: 50%;
-  border-left: 1px solid rgba(214,246,205,.55);
-  border-right: 1px solid rgba(214,246,205,.55);
-  pointer-events: none;
-}
-
-.fight-hint {
-  min-height: 13px;
-  margin-bottom: 6px;
-  color: #b6c8d2;
-  font-size: 7px;
-  line-height: 1.35;
-  text-align: center;
-}
-.fishing-reel-button {
-  width: 100%;
-  min-height: 45px;
-  touch-action: none;
-  border: 1px solid #5f7f91;
-  border-radius: 11px;
-  background: linear-gradient(180deg, #28516a, #17384e);
-  color: #effaff;
-  font-size: 12px;
-  font-weight: 1000;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-.fishing-reel-button.is-reeling {
-  transform: translateY(1px) scale(.992);
-  border-color: #9dc98b;
-  background: linear-gradient(180deg, #3f7755, #24513b);
-  box-shadow: 0 0 18px rgba(92, 176, 115, .25);
-}
-
-.fight-fish-shadow {
-  position: absolute;
-  z-index: 7;
-  left: 45%;
-  bottom: 28%;
-  width: 72px;
-  height: 25px;
-  opacity: 0;
-  transform: translateX(-50%) rotate(-4deg);
-  transition: left .05s linear;
-  pointer-events: none;
-}
-.fight-fish-shadow i {
-  position: absolute;
-  inset: 2px 14px 2px 0;
-  border-radius: 55% 44% 48% 55%;
-  background: rgba(1, 17, 25, .72);
-  filter: blur(.4px);
-}
-.fight-fish-shadow i::after {
-  content: "";
-  position: absolute;
-  left: -13px;
-  top: 1px;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 17px solid rgba(1, 17, 25, .72);
-}
-
-.fishing-scene.is-fight .fishing-stage-hud {
-  pointer-events: none;
-}
-.fishing-scene.is-fight .fishing-gauge,
-.fishing-scene.is-fight .fishing-action {
-  opacity: 0;
-  pointer-events: none;
-}
-.fishing-scene.is-fight .fight-fish-shadow {
-  opacity: .88;
-  animation: bigFishBody 1s ease-in-out infinite alternate;
-}
-.fishing-scene.is-fight .angler-rod {
-  transform: rotate(-30deg);
-  animation: fightRod 1.1s ease-in-out infinite alternate;
-}
-.fishing-scene.is-fight .angler-line {
-  opacity: 1;
-  transform: rotate(-9deg) scaleY(1.18);
-}
-.fishing-scene.is-fight .ripple-a,
-.fishing-scene.is-fight .ripple-b {
-  opacity: .75;
-  animation: biteRipple .9s ease-out infinite;
-}
-
-.fishing-scene.fight-danger-high {
-  box-shadow: inset 0 0 48px rgba(177, 49, 37, .28), 0 8px 26px rgba(0,0,0,.18);
-}
-.fishing-scene.fight-danger-high .fight-meter.tension > i {
-  background: linear-gradient(90deg, #d58347, #d34738);
-  box-shadow: 0 0 9px rgba(226, 71, 48, .55);
-}
-.fishing-scene.fight-danger-high .fishing-reel-button {
-  border-color: #a96352;
-}
-.fishing-scene.fight-danger-low {
-  box-shadow: inset 0 0 44px rgba(44, 95, 143, .24), 0 8px 26px rgba(0,0,0,.18);
-}
-.fishing-scene.fight-danger-low .fight-meter.tension > i {
-  background: #377899;
-}
-
-.fishing-scene.is-fight.rarity-ssr .fishing-fight-hud {
-  border-color: rgba(185, 128, 221, .58);
-  box-shadow: 0 10px 30px rgba(0,0,0,.36), inset 0 0 24px rgba(141, 78, 178, .10);
-}
-.fishing-scene.is-fight.rarity-legend .fishing-fight-hud {
-  border-color: rgba(231, 190, 89, .72);
-  box-shadow: 0 10px 32px rgba(0,0,0,.4), inset 0 0 28px rgba(213, 158, 50, .13);
-}
-.fishing-scene.is-fight.rarity-legend .fight-title span,
-.fishing-scene.is-fight.rarity-legend .fight-title em {
-  color: #ffe29a;
-}
-
-.game-debug-body #debugForceBigFish {
-  border-color: #5a6f9c;
-  background: #18233b;
-  color: #d6e0ff;
-}
-.game-debug-body #debugForceBigFish.armed {
-  border-color: #c59d4e;
-  background: #403019;
-  color: #ffe8ad;
-}
-
-@keyframes bigFishBody {
-  from { transform: translateX(-50%) rotate(-7deg) scale(.96); }
-  to { transform: translateX(-50%) rotate(6deg) scale(1.07); }
-}
-@keyframes fightRod {
-  from { transform: rotate(-25deg); }
-  to { transform: rotate(-38deg); }
-}
-
-@media (max-width: 520px) {
-  .fishing-fight-hud {
-    left: 7px;
-    right: 7px;
-    bottom: 7px;
-    padding: 8px;
-  }
-  .fight-title strong { font-size: 11px; }
-  .fishing-reel-button { min-height: 48px; }
+@media (max-width:520px) {
+  .fishing-fight-hud { left:7px; right:7px; bottom:7px; padding:8px; }
+  .fight-title strong { font-size:11px; }
+  .fishing-reel-button { min-height:48px; }
+  .fishing-v65 .fishing-location { grid-template-columns:1fr 1fr; }
+  .fishing-v65 .fishing-location>div:last-child { grid-column:1/-1; }
+  .fishing-rod-shop { grid-template-columns:1fr; }
+  .fishing-rod-card { padding:8px 9px; }
 }
