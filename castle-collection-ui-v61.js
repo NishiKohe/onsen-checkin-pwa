@@ -9,12 +9,12 @@
 
   function normalize(value) { return String(value || "").normalize("NFKC").toLowerCase().replace(/\s+/g, ""); }
   function getShell() { return document.querySelector("#collectionView .collection-shell"); }
+  function achievementsVisible() {
+    const view = document.getElementById("achievementView");
+    return !!view && !view.hidden;
+  }
   function onsenNodes() {
-    return [
-      document.querySelector("#collectionView .collection-overview"),
-      document.querySelector("#collectionView .collection-toolbar"),
-      document.getElementById("collectionGrid")
-    ].filter(Boolean);
+    return [document.querySelector("#collectionView .collection-overview"), document.querySelector("#collectionView .collection-toolbar"), document.getElementById("collectionGrid")].filter(Boolean);
   }
 
   function ensureUi() {
@@ -59,7 +59,6 @@
         <div id="castleListRoot"></div>`;
       const anchor = shell.querySelector(".collection-toolbar") || switcher;
       anchor.insertAdjacentElement("afterend", panel);
-
       panel.querySelector("#castleSearch")?.addEventListener("input", (event) => { query = String(event.target.value || "").trim(); render(); });
       panel.addEventListener("click", handlePanelClick);
     }
@@ -68,17 +67,9 @@
 
   function handlePanelClick(event) {
     const filterButton = event.target instanceof Element ? event.target.closest("[data-castle-filter]") : null;
-    if (filterButton) {
-      filter = filterButton.dataset.castleFilter || "all";
-      render();
-      return;
-    }
+    if (filterButton) { filter = filterButton.dataset.castleFilter || "all"; render(); return; }
     const regionButton = event.target instanceof Element ? event.target.closest("[data-castle-region]") : null;
-    if (regionButton) {
-      region = regionButton.dataset.castleRegion || "all";
-      render();
-      return;
-    }
+    if (regionButton) { region = regionButton.dataset.castleRegion || "all"; render(); return; }
     const visitButton = event.target instanceof Element ? event.target.closest("[data-castle-visit-action]") : null;
     if (!visitButton) return;
     const castleId = visitButton.dataset.castleId;
@@ -98,18 +89,30 @@
 
   function applyMode() {
     const panel = ensureUi();
-    if (!panel) return;
+    const switcher = getShell()?.querySelector(".collection-domain-switch");
+    if (!panel || !switcher) return;
+    const achievementMode = achievementsVisible();
+    switcher.hidden = achievementMode;
+    if (achievementMode) {
+      panel.hidden = true;
+      return;
+    }
+
     const castle = mode === "castle";
     for (const node of onsenNodes()) node.hidden = castle;
     panel.hidden = !castle;
-    for (const button of document.querySelectorAll("[data-collection-domain]")) button.classList.toggle("active", button.dataset.collectionDomain === mode);
+    const categoryTabs = document.getElementById("collectionCategoryTabs");
+    if (categoryTabs) categoryTabs.hidden = castle;
+    for (const button of switcher.querySelectorAll("[data-collection-domain]")) button.classList.toggle("active", button.dataset.collectionDomain === mode);
     const summary = document.getElementById("collectionSummary");
     if (summary) {
+      summary.hidden = false;
       if (castle) {
         const progress = window.OnsenCastleVisits?.progress?.() || { visited: 0 };
         summary.textContent = `日本100名城 ${progress.visited}/100 ・ 過去訪問登録対応`;
       } else if (typeof window.renderCollectionProgress === "function") {
         setTimeout(() => window.renderCollectionProgress(), 0);
+        window.CollectionNavigationUi?.refresh?.();
       }
     }
   }
@@ -119,7 +122,6 @@
     const values = new Set(castles.map((castle) => castle.region).filter(Boolean));
     return order.filter((name) => values.has(name));
   }
-
   function renderRegionButtons(castles) {
     const root = document.getElementById("castleRegionRow");
     if (!root) return;
@@ -127,24 +129,18 @@
     root.innerHTML = `<button type="button" data-castle-region="all">全国</button>${values.map((name) => `<button type="button" data-castle-region="${name}">${name}</button>`).join("")}`;
     for (const button of root.querySelectorAll("[data-castle-region]")) button.classList.toggle("active", button.dataset.castleRegion === region);
   }
-
   function statusFor(castleId) {
     const visits = window.OnsenCastleVisits;
     if (!visits) return { visited: false, strict: false, manual: false };
     const records = visits.recordsFor(castleId);
-    return {
-      visited: records.length > 0,
-      strict: visits.isStrictGps(castleId),
-      manual: records.some((record) => record.recordSource === "castle_past_visit")
-    };
+    return { visited: records.length > 0, strict: visits.isStrictGps(castleId), manual: records.some((record) => record.recordSource === "castle_past_visit") };
   }
-
   function candidateCount(castleId) {
     try { return window.OnsenCharacterRuntime?.candidatesForCastle?.(castleId)?.length || 0; } catch { return 0; }
   }
 
   function render() {
-    if (mode !== "castle") return;
+    if (mode !== "castle" || achievementsVisible()) return;
     const panel = ensureUi();
     const data = window.OnsenCastleDomain?.data;
     const visits = window.OnsenCastleVisits;
@@ -176,10 +172,7 @@
     const root = document.getElementById("castleListRoot");
     if (!root) return;
     root.innerHTML = "";
-    if (!filtered.length) {
-      root.innerHTML = `<div class="castle-empty">条件に一致する城はありません。</div>`;
-      return;
-    }
+    if (!filtered.length) { root.innerHTML = `<div class="castle-empty">条件に一致する城はありません。</div>`; return; }
     const byRegion = new Map();
     for (const castle of filtered) {
       if (!byRegion.has(castle.region)) byRegion.set(castle.region, []);
@@ -201,10 +194,7 @@
         const button = status.strict ? "" : status.manual
           ? `<button class="castle-visit-button remove" type="button" data-castle-visit-action="remove" data-castle-id="${castle.id}">登録解除</button>`
           : `<button class="castle-visit-button" type="button" data-castle-visit-action="add" data-castle-id="${castle.id}">過去訪問</button>`;
-        row.innerHTML = `
-          <div class="castle-no">#${String(castle.japan100No).padStart(3, "0")}</div>
-          <div class="castle-main"><strong>${castle.name}</strong><span>${castle.prefecture} ・ ${castle.region}</span>${candidates ? `<small>人物候補 ${candidates}人</small>` : ""}</div>
-          <div class="castle-actions"><span class="castle-status">${statusLabel}</span>${button}</div>`;
+        row.innerHTML = `<div class="castle-no">#${String(castle.japan100No).padStart(3, "0")}</div><div class="castle-main"><strong>${castle.name}</strong><span>${castle.prefecture} ・ ${castle.region}</span>${candidates ? `<small>人物候補 ${candidates}人</small>` : ""}</div><div class="castle-actions"><span class="castle-status">${statusLabel}</span>${button}</div>`;
         list.appendChild(row);
       }
       root.appendChild(section);
@@ -224,7 +214,9 @@
     window.addEventListener("onsen-castle-visit-changed", render);
     window.addEventListener("onsen-character-state-changed", render);
     window.addEventListener("onsen-character-runtime-ready", render);
-    window.addEventListener("onsen-app-tab-changed", (event) => { if (event.detail?.tab === "collection") { applyMode(); if (mode === "castle") render(); } });
+    window.addEventListener("onsen-app-tab-changed", (event) => { if (event.detail?.tab === "collection") setTimeout(() => { applyMode(); if (mode === "castle") render(); }, 35); });
+    const achievementView = document.getElementById("achievementView");
+    if (achievementView) new MutationObserver(() => setTimeout(applyMode, 0)).observe(achievementView, { attributes: true, attributeFilter: ["hidden"] });
     window.OnsenCastleCollectionUI = { build: BUILD, show: () => { window.OnsenAppShell?.show?.("collection"); setMode("castle"); }, showOnsen: () => setMode("onsen"), render, mode: () => mode };
   }
 
