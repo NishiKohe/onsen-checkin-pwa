@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "introducedIn": "v59",
+  "gameId": "fishing",
+  "name": "旅釣り",
+  "offline": true,
+  "purpose": "旅行モード中にアプリを開いておく価値を作り、位置記録と短時間ゲームプレイを両立する。",
+  "screen": {
+    "layers": [
+      "travel_hud",
+      "field_background",
+      "angler_character",
+      "rod_line_bobber",
+      "animated_water",
+      "fish_shadows",
+      "timing_gauge",
+      "hit_callout",
+      "catch_cinematic",
+      "result",
+      "regional_fish_book"
+    ],
+    "interactionStates": [
+      "idle",
+      "casting",
+      "waiting",
+      "bite",
+      "hook_result",
+      "catch_cinematic",
+      "result"
+    ]
+  },
+  "coreLoop": [
+    "consume_1_travel_energy",
+    "cast",
+    "wait_for_bite",
+    "hit_feedback",
+    "timing_hook",
+    "resolve_fish",
+    "catch_cinematic",
+    "reward_yusen_and_collection"
+  ],
+  "travelIntegration": {
+    "energy": "旅行モードON中のGPS移動750mごとに旅力+1。最大12。",
+    "locationBonus": "直近30分の位置記録を利用。温泉地5km以内はレア補正を強化。",
+    "visitIntegrity": "ゲーム報酬や魚取得は温泉の訪問済み判定を変更しない。"
+  },
+  "rewards": {
+    "currency": "yusen",
+    "qualityMultipliers": {
+      "GOOD": 1.0,
+      "GREAT": 1.35,
+      "PERFECT": 1.7
+    },
+    "firstCatchBonusYusen": 5,
+    "collection": "魚種ごとの取得数と最高品質を保存"
+  },
+  "presentation": {
+    "hit": ["bobber_dive", "water_ripple", "screen_shake", "HIT_callout", "vibration"],
+    "catch": ["fish_jump", "splash", "rarity_rays", "fish_name", "rarity", "NEW_badge", "reward"],
+    "rare": {
+      "SSR": "purple_glow",
+      "LEGEND": "gold_glow_and_stronger_vibration"
+    }
+  },
+  "debug": {
+    "location": "game_tab_bottom_collapsed_panel",
+    "refillEnergy": "旅力のみ最大値へ。湯銭・訪問記録・実績は変更しない。",
+    "resetFishing": "casts/catches/fish collection/best quality/last catch/new-fish notificationのみ初期化。湯銭・訪問記録・実績は維持。",
+    "confirmationRequiredForReset": true
+  },
+  "next": {
+    "target": "fight_phase_and_rogue_foundation",
+    "ideas": [
+      "魚とのファイト/テンションゲージ",
+      "地方別・水域別の魚テーブル拡張",
+      "釣り図鑑の全国コレクション画面",
+      "Rogue系ミニゲームを同じ旅力・湯銭ランタイムへ接続"
+    ]
+  }
+}
