@@ -69,11 +69,14 @@
   function markTripSeen(snapshot = currentSnapshot()) {
     const state = loadState(snapshot); state.seenCandidateIds = [...snapshot.pendingCandidateIds]; state.tripSeenAt = Date.now(); writeJson(STATE_KEY, state);
   }
-  function markGameSeen() { window.OnsenGameRuntime?.markGameSeen?.(); window.OnsenCharacterRuntime?.markSeen?.(); }
+  function markVisibleGameSeen() {
+    window.OnsenGameRuntime?.markGameSeen?.();
+    if (window.OnsenGameHub?.activeGame?.() === "encyclopedia") window.OnsenCharacterRuntime?.markSeen?.();
+  }
   function acknowledgeVisibleProgress(snapshot) {
     const activeTab = document.documentElement.dataset.appTab || "map";
     if (activeTab === "trip") markTripSeen(snapshot);
-    if (activeTab === "game" && snapshot.gameUnread > 0) markGameSeen();
+    if (activeTab === "game" && snapshot.gameUnread > 0) markVisibleGameSeen();
     if (activeTab === "collection") {
       const achievementView = document.getElementById("achievementView");
       if (!achievementView || achievementView.hidden) markCollectionSeen(snapshot);
@@ -98,7 +101,7 @@
   function handleTabChanged(event) {
     const tab = event.detail?.tab; const snapshot = currentSnapshot();
     if (tab === "trip") markTripSeen(snapshot);
-    if (tab === "game") markGameSeen();
+    if (tab === "game") markVisibleGameSeen();
     if (tab === "collection") requestAnimationFrame(() => { const achievementView = document.getElementById("achievementView"); if (!achievementView || achievementView.hidden) markCollectionSeen(currentSnapshot()); });
     setTimeout(refresh, 30);
   }
@@ -108,7 +111,7 @@
       if (target.id === "footerAchievementsTab") { setTimeout(refresh, 80); return; }
       if (target.dataset.appTab === "collection") markCollectionSeen(currentSnapshot());
       if (target.dataset.appTab === "trip") markTripSeen(currentSnapshot());
-      if (target.dataset.appTab === "game") markGameSeen();
+      if (target.dataset.appTab === "game") window.OnsenGameRuntime?.markGameSeen?.();
       setTimeout(refresh, 80);
     }, true);
   }
