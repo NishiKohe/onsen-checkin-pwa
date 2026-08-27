@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "introducedIn": "design-v62",
+  "schema": "catalog/character-model-schema-v62.json",
+  "logicalMasterId": "sengoku_core_v62",
+  "characterCount": 50,
+  "dataStatus": {
+    "characterSelection": "seeded_50",
+    "historicalCastleMappings": "review_required_before_production",
+    "combatBalance": "prototype",
+    "portraitAssets": "pending"
+  },
+  "shards": [
+    "data/characters/sengoku-core-v62-01.json",
+    "data/characters/sengoku-core-v62-02.json",
+    "data/characters/sengoku-core-v62-03.json",
+    "data/characters/sengoku-core-v62-04.json",
+    "data/characters/sengoku-core-v62-05.json"
+  ],
+  "designNotes": [
+    "初期50人は知名度だけでなく戦陣・釣り・将来Rogueで役割が分散するよう選定する",
+    "guaranteedCastleIdsは城との直接性が比較的高い関係を優先し、正式リリース前に史実レビューする",
+    "関連が弱い水軍・忍・文化人は城へ無理に紐付けずunlockRegionsを主な登用途に使う",
+    "重複登用は別個体にせず縁ポイントへ変換する",
+    "戦陣は5人編成かつ全所持人物が軍勢力へ寄与し、将来Rogueは3人の組み合わせを重視する"
+  ]
+}
