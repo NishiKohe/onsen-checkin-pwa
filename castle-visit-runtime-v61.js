@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v61";
+  const BUILD = "v62";
   const STATE_KEY = "castleVisitsV1";
 
   function storage() { return window.OnsenUserStorage || null; }
@@ -16,13 +16,13 @@
     else localStorage.setItem(STATE_KEY, text);
   }
   function defaultState() {
-    return { schemaVersion: 1, records: [], updatedAt: Date.now() };
+    return { schemaVersion: 2, records: [], updatedAt: Date.now() };
   }
   function normalizeState(raw) {
     const base = defaultState();
     const state = raw && typeof raw === "object" ? raw : {};
     const records = Array.isArray(state.records) ? state.records.filter((record) => record?.entityId || record?.spotId) : [];
-    return { ...base, ...state, records };
+    return { ...base, ...state, schemaVersion: 2, records };
   }
   function loadState() { return normalizeState(readRaw()); }
   function saveState(state, reason = "update", detail = {}) {
@@ -80,6 +80,13 @@
     if (!id) return { ok: false, reason: "invalid_castle" };
     if (isStrictGps(id)) return { ok: true, already: true, state: loadState() };
     const state = loadState();
+    const lat = Number.isFinite(Number(payload.lat)) ? Number(payload.lat) : null;
+    const lng = Number.isFinite(Number(payload.lng)) ? Number(payload.lng) : null;
+    const accuracyM = Number.isFinite(Number(payload.accuracyM)) ? Number(payload.accuracyM) : null;
+    const distanceM = Number.isFinite(Number(payload.distanceM)) ? Math.max(0, Number(payload.distanceM)) : null;
+    const radiusM = Number.isFinite(Number(payload.radiusM)) ? Math.max(0, Number(payload.radiusM)) : null;
+    const coordinateSource = payload.coordinateSource ? String(payload.coordinateSource) : null;
+    const coordinateVerification = payload.coordinateVerification ? String(payload.coordinateVerification) : null;
     const record = {
       categoryId: "castle",
       entityType: "castle",
@@ -89,13 +96,37 @@
       verificationLevel: "onsite",
       verificationType: "gps_manual",
       recordSource: "castle_checkin_button",
-      lat: Number.isFinite(Number(payload.lat)) ? Number(payload.lat) : null,
-      lng: Number.isFinite(Number(payload.lng)) ? Number(payload.lng) : null,
-      accuracyM: Number.isFinite(Number(payload.accuracyM)) ? Number(payload.accuracyM) : null,
-      evidence: [{ type: "gps", recordedAt: Date.now(), accuracyM: payload.accuracyM ?? null }]
+      lat,
+      lng,
+      accuracyM,
+      distanceM,
+      radiusM,
+      coordinateSource,
+      coordinateVerification,
+      evidence: [{
+        type: "gps",
+        recordedAt: Date.now(),
+        accuracyM,
+        distanceM,
+        radiusM,
+        coordinateSource,
+        coordinateVerification,
+        freshFix: payload.freshFix === true
+      }]
     };
     state.records.push(record);
-    return { ok: true, record, state: saveState(state, "strict_gps_visit", { castleId: id, strictGps: true }) };
+    return {
+      ok: true,
+      record,
+      state: saveState(state, "strict_gps_visit", {
+        castleId: id,
+        strictGps: true,
+        accuracyM,
+        distanceM,
+        radiusM,
+        freshFix: payload.freshFix === true
+      })
+    };
   }
 
   function progress() {
@@ -129,5 +160,5 @@
     window.dispatchEvent(new CustomEvent("onsen-castle-visits-ready", { detail: { build: BUILD, progress: progress() } }));
   }
 
-  install().catch((error) => console.warn("castle visit runtime v61 init failed", error));
+  install().catch((error) => console.warn("castle visit runtime v62 init failed", error));
 })();
