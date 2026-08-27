@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "introducedIn": "v61",
   "updatedAtDesign": "v62",
   "purpose": "城チェックイン・人物収集・湯銭登用・複数ミニゲームを同じ循環へ接続するための設計方針",
@@ -22,13 +22,14 @@
     "primaryTheme": "sengoku",
     "futureTypes": ["samurai", "ninja", "swordsman", "cultural_figure", "traveler", "regional_historical_figure"],
     "partySizes": {
-      "endlessBattleActive": 5,
+      "endlessBattle": 5,
       "rogue": 3,
-      "supportMinigameDefault": 3
+      "fishing": 0
     },
     "growth": "bond_rank_0_to_5",
     "schema": "catalog/character-model-schema-v62.json",
-    "recommendedTags": ["水軍", "山城", "平城", "築城", "武勇", "豪胆", "統率", "知略", "忍", "鉄砲", "弓", "騎馬", "商才", "茶", "文化", "交易", "治水", "旅", "湯治"]
+    "master": "data/characters/manifest-v62.json",
+    "recommendedTags": ["水軍", "山城", "平城", "築城", "武勇", "豪胆", "統率", "知略", "謀略", "忍", "鉄砲", "弓", "槍", "騎馬", "商才", "茶", "文化", "交易", "治水", "旅", "湯治"]
   },
   "collectionToGame": {
     "onsen": "湯治力。取得済み温泉地数から回復系恒久補正を算出",
@@ -47,7 +48,7 @@
       "label": "戦陣",
       "pitch": "5人の主力が大量の敵兵を自動で蹴散らし続ける常設放置戦闘。編成外の全人物も軍勢力として寄与する。",
       "travelLink": "温泉数=湯治力、城数=武威、人物数=軍勢力として恒久強化",
-      "goodForCharacters": ["武勇", "統率", "鉄砲", "弓", "騎馬", "知略", "築城"],
+      "goodForCharacters": ["全人物", "武勇", "統率", "鉄砲", "弓", "槍", "騎馬", "知略", "築城"],
       "spec": "catalog/endless-battle-spec-v62.json",
       "priority": "highest"
     },
@@ -83,10 +84,11 @@
     }
   ],
   "recommendedNext": {
-    "first": "character_master_seed",
-    "reason": "城チェックイン・登用・放置戦闘の3系統が同じ人物データを必要とするため",
+    "completed": "character_master_seed_50",
+    "first": "character_state_and_recruitment_runtime",
+    "reason": "人物マスターは初期50人まで用意済み。次は所持状態・縁・登用候補・城訪問報酬を保存できるようにする",
     "second": "endless_battle_core",
-    "reason2": "大量収集した人物すべてに価値を持たせ、温泉・城の収集数も恒久成長へ接続できる",
+    "reason2": "人物所持状態が動いた後に5人編成と軍勢力を接続する",
     "rogue": "人物システムと戦陣が安定してから着手"
   }
 }
