@@ -1,4 +1,6 @@
 /* v62 Japan 100 castles map layer and strict GPS check-in */
+#castleCollectionPanel .castle-notice { display: none !important; }
+
 .map-domain-switch-v62 {
   position: absolute;
   z-index: 8;
