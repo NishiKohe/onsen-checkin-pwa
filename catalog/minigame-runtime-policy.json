@@ -1,6 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "introducedIn": "v58",
+  "updatedAtBuild": "v59",
   "purpose": "旅行モード中にアプリを前景で使い続ける価値を作りつつ、位置チェックインの信頼性をゲーム報酬で汚染しない。",
   "principles": [
     "ミニゲームは旅行タブ内ではなく独立したゲームタブに置く",
@@ -8,10 +9,13 @@
     "ゲーム報酬だけでは訪問済み・GPS現地確認を解除しない",
     "位置記録はゲーム側のプレイ資源・フィールド・レア補正にのみ利用する",
     "複数ミニゲームで財布・旅力・保存データを共有する",
-    "ゲーム固有のルールと表示は共通ランタイムから分離する"
+    "ゲーム固有のルールと表示は共通ランタイムから分離する",
+    "ゲームセーブは現在のユーザープロフィールに紐づける",
+    "デバッグ操作は訪問記録・実績などゲーム外進捗を変更しない"
   ],
   "sharedState": {
     "storageKey": "gameStateV1",
+    "profileScoped": true,
     "wallet": {
       "currency": "yusen",
       "label": "湯銭",
@@ -40,11 +44,12 @@
     {
       "id": "fishing",
       "label": "旅釣り",
-      "status": "playable_v58",
-      "input": "timing_gauge",
+      "status": "playable_v59",
+      "input": "cast_wait_hit_timing",
       "cost": "旅力1/キャスト",
       "reward": "魚図鑑 + 湯銭",
-      "locationVariation": "地方別魚プール + 温泉地付近レア魚"
+      "locationVariation": "地方別魚プール + 温泉地付近レア魚",
+      "presentation": "character_water_fish_shadows_hit_and_catch_cinematic"
     },
     {
       "id": "rogue",
@@ -54,8 +59,16 @@
       "plannedReward": "湯銭 + 固有図鑑/アンロック"
     }
   ],
+  "debug": {
+    "location": "ゲーム画面最下部の折りたたみDEBUGパネル",
+    "actions": [
+      "旅力を最大まで回復",
+      "釣り進捗のみ初期化"
+    ],
+    "fishingResetKeeps": ["yusen", "visit_records", "collections", "achievements", "trip_logs"]
+  },
   "offline": {
-    "requiredAtPlayTime": ["cached_html", "cached_css", "cached_js", "localStorage_or_profile_scoped_storage"],
+    "requiredAtPlayTime": ["cached_html", "cached_css", "cached_js", "profile_scoped_storage"],
     "networkFetchDuringGame": false
   }
 }
