@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v58";
+  const BUILD = "v59";
   const FOOTER_ID = "footerAchievementsTab";
   let navObserver = null;
   let modeObserver = null;
