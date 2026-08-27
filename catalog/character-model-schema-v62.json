@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "introducedIn": "design-v62",
+  "purpose": "城チェックイン・湯銭登用・放置戦闘・釣り・将来Rogueで共通利用する人物マスターの最小スキーマ",
+  "requiredFields": [
+    "id",
+    "name",
+    "characterType",
+    "era",
+    "traits",
+    "affiliations",
+    "relatedCastleIds",
+    "recruitment",
+    "combat"
+  ],
+  "character": {
+    "id": "string stable id",
+    "name": "string",
+    "aliases": "string[]",
+    "characterType": "sengoku_warlord | samurai | ninja | swordsman | cultural_figure | traveler | regional_historical_figure",
+    "era": "string[]",
+    "regions": "string[]",
+    "affiliations": "string[]",
+    "traits": "string[]",
+    "relatedCastleIds": "castle entity id[]",
+    "rarity": "N | R | SR | SSR | LEGEND",
+    "recruitment": {
+      "guaranteedCastleIds": "初回厳格GPS訪問で確定加入できる城id[]",
+      "unlockCastleIds": "訪問で登用候補へ解放される城id[]",
+      "unlockRegions": "訪問地方による登用候補解放[]",
+      "yusenPoolWeight": "number",
+      "duplicateReward": "bond_points"
+    },
+    "combat": {
+      "role": "front | melee | ranged | support | control",
+      "attackType": "slash | spear | bow | gun | cavalry | tactic | support",
+      "basePower": "number; 同縁ランクの人物間で極端な差を付けない",
+      "attackIntervalMs": "number",
+      "targetRule": "nearest | front | area | backline | lowest_hp",
+      "skillId": "string",
+      "passiveId": "string"
+    },
+    "bond": {
+      "maxRank": 5,
+      "pointsPerRank": "balance table",
+      "duplicatePoints": "balance table",
+      "relatedLocationBonus": "関連する別城・史跡で縁ポイントを得られる"
+    },
+    "presentation": {
+      "shortTitle": "string",
+      "description": "string",
+      "portraitAsset": "local asset path or null",
+      "emblem": "string or null"
+    }
+  },
+  "traitRegistryInitial": [
+    "水軍",
+    "山城",
+    "平城",
+    "築城",
+    "武勇",
+    "豪胆",
+    "統率",
+    "知略",
+    "忍",
+    "鉄砲",
+    "弓",
+    "騎馬",
+    "商才",
+    "茶",
+    "文化",
+    "交易",
+    "治水",
+    "旅",
+    "湯治"
+  ],
+  "perGamePolicy": {
+    "endlessBattle": "combat + traits + affiliationsを参照。5人が直接戦闘、全所持人物が軍勢力へ寄与",
+    "fishing": "combat数値は使わずtraitsだけを補助効果へ利用",
+    "rogue": "将来3人編成。combat・traits・イベント適性を参照",
+    "otherMinigames": "新規ゲーム固有能力を人物マスターへ直書きせず、traitsを優先して解釈する"
+  },
+  "designRules": [
+    "人物レベルの大量周回育成を前提にしない",
+    "歴史上の知名度と戦闘性能を完全一致させない",
+    "低レア人物にも固有技・特性・勢力ボーナスで採用理由を作る",
+    "同じ人物の重複入手は別個体化せず縁ポイントへ変換",
+    "人物取得だけで温泉・城の訪問判定を解除しない"
+  ]
+}
