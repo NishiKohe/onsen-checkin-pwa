@@ -43,7 +43,7 @@
       rarity: "LEGEND",
       section: "official_selection",
       targetIds: allIds,
-      note: "日本100名城の100城。城チェックイン実装後はGPS訪問証拠から進捗を再計算する。"
+      note: "日本100名城の100城。過去訪問登録と、将来の厳格GPSチェックインを同じcastle Entityで扱う。"
     }, { source: DATA_URL });
 
     for (const [region, id, name] of REGION_COLLECTIONS) {
@@ -77,7 +77,9 @@
       metadata: {
         activeSelection: "japan_100_castles",
         coordinatesReady: false,
-        characterSystemReady: false
+        pastVisitRegistrationReady: true,
+        characterSystemReady: true,
+        strictGpsUiReady: false
       }
     });
 
