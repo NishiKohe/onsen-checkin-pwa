@@ -1,19 +1,22 @@
 {
-  "version": 1,
+  "version": 2,
   "introducedIn": "v45",
+  "updatedAtBuild": "v61",
   "purpose": "温泉専用のspot/collection/checkin/achievementを、城・国宝・世界遺産・景勝地でも再利用できる共通ドメインモデルへ移行する",
   "runtime": {
     "core": "domain-model.js",
     "legacyBridge": "domain-runtime-bridge.js",
+    "castleSeed": "castle-domain-v61.js",
     "globalApi": "window.AppDomain"
   },
   "category": {
     "required": ["id", "entityType", "label"],
     "optional": ["pluralLabel", "icon", "mapLayerId", "checkinPolicy", "metadata"],
     "active": [
-      { "id": "onsen", "entityType": "onsen", "label": "温泉", "legacySource": "spots" }
+      { "id": "onsen", "entityType": "onsen", "label": "温泉", "legacySource": "spots" },
+      { "id": "castle", "entityType": "castle", "label": "城", "status": "seeded_no_map_ui", "source": "data/castles-japan100-v61.json" }
     ],
-    "planned": ["castle", "national_treasure", "world_heritage", "scenic_place"]
+    "planned": ["national_treasure", "world_heritage", "scenic_place"]
   },
   "entity": {
     "canonicalFields": ["id", "entityId", "categoryId", "entityType", "name", "prefecture", "region", "location", "aliases", "tags", "checkin"],
@@ -21,6 +24,11 @@
     "legacyCompatibility": {
       "onsen spots[]": "categoryId=onsenのentityへ実行時変換",
       "raw": "既存UIから段階移行する間は元spotオブジェクト参照を保持"
+    },
+    "castleExtension": {
+      "seedFields": ["japan100No", "characterUnlock"],
+      "coordinates": "チェックイン公開前に検証済み座標を追加",
+      "characterMapping": "人物マスターと別ファイルで接続"
     }
   },
   "visit": {
@@ -37,7 +45,8 @@
   "collection": {
     "canonicalFields": ["id", "categoryId", "name", "rarity", "section", "targetIds", "metadata"],
     "legacyAdapter": "getCollectionDefinitions()のspots[]をtargetIds[]へ変換",
-    "progress": "対象entityの訪問集合から算出し、保存しない"
+    "progress": "対象entityの訪問集合から算出し、保存しない",
+    "castleSeedCollections": ["castle_japan100", "日本100名城の地方別コレクション"]
   },
   "achievement": {
     "canonicalFields": ["id", "categoryId", "name", "titleId", "titleLabel", "rarity", "verification", "condition"],
@@ -58,6 +67,7 @@
     "spotIdは温泉互換aliasとして当面維持する",
     "訪問の現地判定・厳格GPS判定はAppDomain.visitsへ集約する",
     "コレクション・実績の進捗は保存値ではなく訪問証拠から再計算する",
+    "城は座標・UI・人物対応を段階的に追加し、100名城Entity IDは今後変更しない",
     "UI再設計はドメイン移行完了後に行い、表示都合をデータモデルへ混ぜない"
   ]
 }
