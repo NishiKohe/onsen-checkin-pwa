@@ -115,7 +115,12 @@
         name: collection.name,
         total: collection.targetIds.length
       })),
-      dataStatus: data.dataStatus || null,
+      dataStatus: {
+        ...(data.dataStatus || {}),
+        coordinates: "v62_reference_ready",
+        checkinZones: "v62_initial_ready",
+        characterMappings: "seed_50_runtime_ready"
+      },
       zoneSource: ZONE_URL
     };
     window.OnsenCastleDomain = {
