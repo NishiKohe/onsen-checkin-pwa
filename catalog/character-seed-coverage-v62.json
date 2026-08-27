@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "introducedIn": "design-v62",
+  "master": "data/characters/manifest-v62.json",
+  "seedCount": 50,
+  "typeCounts": {
+    "sengoku_warlord": 44,
+    "samurai": 2,
+    "ninja": 2,
+    "cultural_figure": 2
+  },
+  "roleCounts": {
+    "support": 15,
+    "ranged": 10,
+    "melee": 9,
+    "front": 8,
+    "control": 8
+  },
+  "rarityCounts": {
+    "LEGEND": 7,
+    "SSR": 22,
+    "SR": 21,
+    "R": 0,
+    "N": 0
+  },
+  "castleMapping": {
+    "charactersWithGuaranteedCastle": 35,
+    "guaranteedLinks": 35,
+    "unlockCastleLinks": 34,
+    "status": "seed_review_required_before_production"
+  },
+  "regionMentions": {
+    "北海道": 1,
+    "東北": 7,
+    "関東": 5,
+    "甲信越": 5,
+    "北陸": 4,
+    "東海": 10,
+    "近畿": 14,
+    "中国": 8,
+    "四国": 6,
+    "九州・沖縄": 8
+  },
+  "designAssessment": {
+    "combatRoleCoverage": "good_for_endless_battle_prototype",
+    "specialistCoverage": ["水軍", "忍", "茶", "文化", "交易", "築城"],
+    "knownGap": "著名人物中心のためN/R層が未投入。大量収集ゲームとしては次の拡張が必要"
+  },
+  "nextExpansion": {
+    "targetTotal": "150-250 characters",
+    "priority": [
+      "100名城それぞれに最低1人の強い直接関係人物を確保",
+      "R/Nの地域城主・家臣・武勇枠を増やして登用の厚みを作る",
+      "北海道・北陸・四国など初期50人の薄い地域を補強",
+      "水軍・忍・商人・文化人・剣豪など戦闘以外でも意味を持つ人物を追加",
+      "同一勢力の所持ボーナスを組める人数まで各主要勢力を拡張"
+    ]
+  }
+}
