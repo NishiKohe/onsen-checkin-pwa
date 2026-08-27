@@ -1,15 +1,16 @@
 {
-  "version": 3,
+  "version": 4,
   "introducedIn": "v54",
-  "updatedAtBuild": "v58",
-  "purpose": "機能量を維持したまま、スマホの初見画面で読む文字量と操作候補を減らす。",
+  "updatedAtBuild": "v59",
+  "purpose": "機能量を維持したまま、スマホの初見画面で読む文字量と操作候補を減らし、ゲーム画面は情報カードではなくプレイフィールドとして成立させる。",
   "principles": [
     "一覧ではアイコン・名称・主要数値・進捗だけを優先する",
     "条件説明・報酬・補足・履歴はタップ後の詳細へ逃がす",
     "同じ情報を見出し・カード・注釈で重複表示しない",
     "主要一覧はスマホ2列を基本とし、展開中のカードだけ全幅にする",
     "色だけで状態を表現せず、アイコン・数値・テキストを併用する",
-    "既存のCollection/Achievement/Visit/GameデータモデルにUI専用状態を混ぜない"
+    "既存のCollection/Achievement/Visit/GameデータモデルにUI専用状態を混ぜない",
+    "ミニゲームではプレイフィールドを画面の主役にしてHUDや説明文を従属させる"
   ],
   "collection": {
     "collapsedCard": ["icon", "name", "progress", "count"],
@@ -40,6 +41,8 @@
     "sharedRuntime": true,
     "offlineFirst": true,
     "firstPlayable": "fishing",
+    "fishingPresentation": ["angler", "rod", "bobber", "water", "fish_shadows", "HIT", "catch_cinematic"],
+    "debugPanel": "collapsed_bottom_panel",
     "planned": ["rogue"]
   },
   "progressBadges": {
@@ -55,7 +58,7 @@
     "presentation": "icon_plus_short_label"
   },
   "next": {
-    "target": "game_expansion",
-    "goal": "旅Rogueを共通財布・旅力・位置フィールドへ追加し、釣りと異なるプレイ感を作る"
+    "target": "fishing_fight_and_rogue",
+    "goal": "釣りに魚とのファイトを追加しつつ、旅Rogueを共通財布・旅力・位置フィールドへ追加する"
   }
 }
