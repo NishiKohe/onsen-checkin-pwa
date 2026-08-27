@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v58";
+  const BUILD = "v59";
   const STATE_KEY = "uiProgressStateV1";
   let timer = null;
 
@@ -51,7 +51,7 @@
 
   function gameUnreadCount() {
     try {
-      const state = window.OnsenGameRuntime?.loadState?.() || readJson("gameStateV1", {});
+      const state = window.OnsenGameRuntime?.loadState?.() || {};
       return Math.max(0, Number(state?.notifications?.newFish || 0));
     } catch {
       return 0;
