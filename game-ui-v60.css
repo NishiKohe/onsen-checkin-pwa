@@ -72,12 +72,107 @@
 .fishing-v65 .rarity-ssr .fishing-target { box-shadow:0 0 12px rgba(155,106,206,.38); }
 .fishing-v65 .rarity-legend .fishing-target { box-shadow:0 0 14px rgba(229,187,76,.52); }
 
+/* v66 compact first view: gameplay first, rod shop below the playfield */
+.fishing-v65 {
+  display:flex;
+  flex-direction:column;
+}
+.fishing-v65>.fishing-head { order:0; }
+.fishing-v65>.fishing-location { order:1; }
+.fishing-v65>.fishing-scene { order:2; }
+.fishing-v65>.fishing-result { order:3; }
+.fishing-v65>.fishing-rod-panel { order:4; }
+.fishing-v65>.fishing-book { order:5; }
+
+.fishing-v65 .fishing-head {
+  margin-bottom:5px;
+  padding-top:6px;
+  padding-bottom:6px;
+}
+.fishing-v65 .fishing-head h3 { margin-bottom:1px; }
+.fishing-v65 .fishing-head p {
+  max-width:34em;
+  margin-top:2px;
+  font-size:7px;
+  line-height:1.25;
+}
+.fishing-v65 .fishing-location {
+  gap:4px;
+  margin-bottom:6px;
+}
+.fishing-v65 .fishing-location>div {
+  min-height:34px;
+  padding:5px 7px;
+}
+.fishing-v65 .fishing-location span { font-size:6px; }
+.fishing-v65 .fishing-location b {
+  margin-top:1px;
+  font-size:8px;
+  line-height:1.15;
+}
+.fishing-v65 .fishing-scene {
+  margin-top:0;
+  margin-bottom:8px;
+}
+
+.fishing-v65>.fishing-rod-panel {
+  margin:8px 0 10px;
+  border-color:rgba(143,170,184,.28);
+  background:rgba(7,20,29,.82);
+}
+.fishing-v65>.fishing-rod-panel>summary {
+  min-height:38px;
+  padding:8px 10px;
+}
+.fishing-v65>.fishing-rod-panel>summary span {
+  font-size:0;
+}
+.fishing-v65>.fishing-rod-panel>summary span::after {
+  content:"釣り竿ショップ / 装備";
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.02em;
+}
+.fishing-v65 .fishing-rod-help {
+  padding:0 10px 6px;
+  font-size:7px;
+}
+.fishing-v65 .fishing-rod-shop {
+  display:flex;
+  grid-template-columns:none;
+  gap:7px;
+  overflow-x:auto;
+  overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;
+  padding:0 9px 10px;
+  -webkit-overflow-scrolling:touch;
+}
+.fishing-v65 .fishing-rod-card {
+  flex:0 0 min(72vw,240px);
+  scroll-snap-align:start;
+  min-height:138px;
+}
+.fishing-v65 .fishing-rod-card p {
+  min-height:30px;
+}
+
 @media (max-width:520px) {
   .fishing-fight-hud { left:7px; right:7px; bottom:7px; padding:8px; }
   .fight-title strong { font-size:11px; }
   .fishing-reel-button { min-height:48px; }
-  .fishing-v65 .fishing-location { grid-template-columns:1fr 1fr; }
-  .fishing-v65 .fishing-location>div:last-child { grid-column:1/-1; }
-  .fishing-rod-shop { grid-template-columns:1fr; }
-  .fishing-rod-card { padding:8px 9px; }
+  .fishing-v65 .fishing-location {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  .fishing-v65 .fishing-location>div:last-child { grid-column:auto; }
+  .fishing-v65 .fishing-location>div { padding:4px 5px; }
+  .fishing-v65 .fishing-location b { font-size:7px; }
+  .fishing-v65 .fishing-head p { display:none; }
+  .fishing-v65 .fishing-rod-shop {
+    display:flex;
+    grid-template-columns:none;
+  }
+  .fishing-v65 .fishing-rod-card {
+    flex:0 0 min(78vw,230px);
+    padding:8px 9px;
+  }
 }
