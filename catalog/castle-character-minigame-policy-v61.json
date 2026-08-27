@@ -1,6 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "introducedIn": "v61",
+  "updatedAtDesign": "v62",
   "purpose": "城チェックイン・人物収集・湯銭登用・複数ミニゲームを同じ循環へ接続するための設計方針",
   "characterAcquisition": {
     "castleFirstGpsVisit": {
@@ -20,9 +21,20 @@
     "internalType": "character",
     "primaryTheme": "sengoku",
     "futureTypes": ["samurai", "ninja", "swordsman", "cultural_figure", "traveler", "regional_historical_figure"],
-    "partySize": 3,
-    "growth": "bond_level",
-    "recommendedTags": ["水軍", "山城", "平城", "築城", "武勇", "統率", "知略", "忍", "鉄砲", "騎馬", "商才", "茶", "文化", "交易", "治水", "旅", "湯治"]
+    "partySizes": {
+      "endlessBattleActive": 5,
+      "rogue": 3,
+      "supportMinigameDefault": 3
+    },
+    "growth": "bond_rank_0_to_5",
+    "schema": "catalog/character-model-schema-v62.json",
+    "recommendedTags": ["水軍", "山城", "平城", "築城", "武勇", "豪胆", "統率", "知略", "忍", "鉄砲", "弓", "騎馬", "商才", "茶", "文化", "交易", "治水", "旅", "湯治"]
+  },
+  "collectionToGame": {
+    "onsen": "湯治力。取得済み温泉地数から回復系恒久補正を算出",
+    "castle": "武威。取得済み城数から攻撃系恒久補正を算出",
+    "characters": "軍勢力。登用済み人物数から全体へ小さな恒久補正",
+    "strictGpsSeparation": "恒久補正の取得数と、城初回GPSによる人物確定加入は別判定"
   },
   "minigameCandidates": [
     {
@@ -31,66 +43,50 @@
       "characterUse": ["水軍でレア率", "豪胆で大物ファイト猶予", "商才・文化で湯銭補正"]
     },
     {
-      "id": "castle_defense_micro",
-      "label": "一夜城防衛",
-      "pitch": "60〜120秒の超小型TD。3人の人物を配置して波状攻撃を凌ぐ。",
-      "travelLink": "訪問した城の地形タグがステージ傾向へ反映",
-      "goodForCharacters": ["築城", "統率", "鉄砲", "弓", "騎馬"],
-      "priority": "high"
+      "id": "endless_battle",
+      "label": "戦陣",
+      "pitch": "5人の主力が大量の敵兵を自動で蹴散らし続ける常設放置戦闘。編成外の全人物も軍勢力として寄与する。",
+      "travelLink": "温泉数=湯治力、城数=武威、人物数=軍勢力として恒久強化",
+      "goodForCharacters": ["武勇", "統率", "鉄砲", "弓", "騎馬", "知略", "築城"],
+      "spec": "catalog/endless-battle-spec-v62.json",
+      "priority": "highest"
     },
     {
-      "id": "march_route",
-      "label": "行軍ルート",
-      "pitch": "短い経路選択ゲーム。兵糧・天候・敵情を見ながら目的地へ進む。",
-      "travelLink": "現在地方・実際の移動距離でイベントテーブル変化",
-      "goodForCharacters": ["知略", "忍", "山城", "旅", "治水"],
-      "priority": "high"
+      "id": "rogue",
+      "label": "旅Rogue",
+      "pitch": "将来の3人少数精鋭ゲーム。集めた人数ではなく、人物の組み合わせと特性で攻略する。",
+      "priority": "deferred_until_character_system_and_endless_battle"
+    },
+    {
+      "id": "castle_defense_micro",
+      "label": "一夜城防衛",
+      "pitch": "60〜120秒の超小型TD。訪問した城の地形タグを使う。",
+      "priority": "later"
     },
     {
       "id": "castle_repair",
       "label": "普請パズル",
       "pitch": "石垣・堀・門を限られた手数で修復する軽量パズル。",
-      "travelLink": "訪問城の構造タグを問題テーマにする",
-      "goodForCharacters": ["築城", "治水", "商才", "知略"],
-      "priority": "high"
+      "priority": "later"
     },
     {
       "id": "treasure_excavation",
       "label": "発掘・採掘",
-      "pitch": "数十秒で地層を掘り、茶器・古銭・史料片を見つけるリスク選択ゲーム。",
-      "travelLink": "城・温泉・地域タグから出土テーブルを変える",
-      "goodForCharacters": ["商才", "文化", "築城", "知略"],
-      "priority": "medium_high"
+      "pitch": "短時間で茶器・古銭・史料片を探すリスク選択ゲーム。",
+      "priority": "later"
     },
     {
       "id": "tea_session",
       "label": "茶会",
-      "pitch": "客の好みと手持ち茶器を合わせる短い記憶・選択ゲーム。戦闘外人物が活躍する。",
-      "travelLink": "地域人物・文化財カテゴリとの将来連動",
-      "goodForCharacters": ["茶", "文化", "商才", "交易"],
-      "priority": "medium"
-    },
-    {
-      "id": "spy_search",
-      "label": "忍び探索",
-      "pitch": "城下の見取り図から敵・抜け道・宝を短時間で見つける探索ゲーム。",
-      "travelLink": "山城・平城など城種でマップギミック変更",
-      "goodForCharacters": ["忍", "知略", "山城"],
-      "priority": "medium"
-    },
-    {
-      "id": "merchant_market",
-      "label": "城下町商い",
-      "pitch": "限られた資金で品を仕入れて相場変化を読む30〜90秒の売買ゲーム。",
-      "travelLink": "地方ごとに商品・相場イベントを変える",
-      "goodForCharacters": ["商才", "交易", "文化"],
-      "priority": "medium"
+      "pitch": "文化人・商人など非戦闘人物を活かす短い選択ゲーム。",
+      "priority": "later"
     }
   ],
   "recommendedNext": {
-    "first": "castle_defense_micro",
-    "reason": "戦国武将を直接使う満足感が最も高く、3人編成・特性タグ・城チェックインを一度に検証できる",
-    "second": "castle_repair",
-    "reason2": "戦闘以外の人物タグも活かせ、短時間・オフライン・低負荷で差別化しやすい"
+    "first": "character_master_seed",
+    "reason": "城チェックイン・登用・放置戦闘の3系統が同じ人物データを必要とするため",
+    "second": "endless_battle_core",
+    "reason2": "大量収集した人物すべてに価値を持たせ、温泉・城の収集数も恒久成長へ接続できる",
+    "rogue": "人物システムと戦陣が安定してから着手"
   }
 }
