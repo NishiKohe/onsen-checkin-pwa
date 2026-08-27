@@ -1,8 +1,188 @@
 (() => {
-  const BUILD = "v62";
+  const BUILD = "v63";
   const ZONE_SOURCE = "data/castle-checkin-zones-v62.json";
+  const MIN_CHECKIN_RADIUS_M = 500;
+  const ONSEN_DEFAULT_RADIUS_M = 750;
+  const GPS_ACCURACY_LIMIT_M = 500;
   let checking = false;
   let characterPatched = false;
+
+  const CASTLE_RADIUS_OVERRIDES = Object.freeze({
+    castle_001_nemuro_chashi: 2000,
+    castle_022_hachioji: 1500,
+    castle_032_kasugayama: 1500,
+    castle_034_nanao: 2000,
+    castle_037_ichijodani: 2000,
+    castle_038_iwamura: 1500,
+    castle_039_gifu: 1500,
+    castle_049_odani: 2000,
+    castle_052_kannonji: 2000,
+    castle_055_chihaya: 2000,
+    castle_056_takeda: 1500,
+    castle_061_takatori: 2000,
+    castle_063_tottori: 1500,
+    castle_065_gassan_toda: 1500,
+    castle_066_tsuwano: 1500,
+    castle_068_bitchu_matsuyama: 1500,
+    castle_069_ki_no_jo: 2000,
+    castle_085_fukuoka: 1000,
+    castle_086_onojo: 2000,
+    castle_088_yoshinogari: 2000,
+    castle_095_oka: 1500
+  });
+
+  function normalizeRadiusM(value, fallback = ONSEN_DEFAULT_RADIUS_M) {
+    const parsed = Number(value);
+    const base = Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+    return Math.max(MIN_CHECKIN_RADIUS_M, Math.round(base));
+  }
+
+  function castleRadiusFromLegacy(entry) {
+    const override = CASTLE_RADIUS_OVERRIDES[String(entry?.castleId || "")];
+    if (Number.isFinite(Number(override))) return Number(override);
+    const raw = normalizeRadiusM(entry?.radiusM, MIN_CHECKIN_RADIUS_M);
+    if (raw <= 500) return 500;
+    if (raw <= 550) return 750;
+    if (raw <= 650) return 1000;
+    if (raw <= 750) return 1500;
+    return 2000;
+  }
+
+  function installCastleZonePolicy() {
+    const originalFetch = window.fetch?.bind(window);
+    if (!originalFetch || window.__onsenCheckinFetchPolicyV63) return;
+    window.__onsenCheckinFetchPolicyV63 = true;
+
+    window.fetch = async function checkinPolicyFetch(input, init) {
+      const response = await originalFetch(input, init);
+      let url = "";
+      try {
+        url = typeof input === "string" ? input : input?.url || "";
+      } catch {}
+      if (!/castle-checkin-zones-v62\.json(?:$|[?#])/.test(url) || !response.ok) return response;
+
+      try {
+        const data = await response.clone().json();
+        if (!Array.isArray(data?.entries)) return response;
+        data.version = Math.max(2, Number(data.version || 0));
+        data.adjustedIn = BUILD;
+        data.policy = {
+          ...(data.policy || {}),
+          minimumRadiusM: MIN_CHECKIN_RADIUS_M,
+          defaultAccuracyRequiredM: GPS_ACCURACY_LIMIT_M,
+          radiusPolicy: "500mを最低保証値とし、市街地の城は500-1000m、山城・広域史跡・到達困難地点は1500-2000m。現地到達時にGPS判定で取りこぼさないことを優先する。",
+          gpsPolicy: `GPS精度は${GPS_ACCURACY_LIMIT_M}m以内を許容し、現地での取りこぼしを抑える。`
+        };
+        data.entries = data.entries.map((entry) => ({
+          ...entry,
+          radiusM: castleRadiusFromLegacy(entry),
+          accuracyRequiredM: GPS_ACCURACY_LIMIT_M,
+          checkinZoneStatus: "v63_min500_accessibility_adjusted"
+        }));
+        return new Response(JSON.stringify(data), {
+          status: response.status,
+          statusText: response.statusText,
+          headers: { "Content-Type": "application/json; charset=utf-8" }
+        });
+      } catch (error) {
+        console.warn("v63 castle zone policy transform failed", error);
+        return response;
+      }
+    };
+  }
+
+  function installOnsenRadiusPolicy() {
+    try {
+      if (typeof getCheckinRadiusM === "function") {
+        getCheckinRadiusM = function getCheckinRadiusMWithMinimum(spot) {
+          return normalizeRadiusM(spot?.checkinRadiusM, ONSEN_DEFAULT_RADIUS_M);
+        };
+      }
+
+      if (typeof getCheckinZones === "function") {
+        getCheckinZones = function getCheckinZonesWithMinimum(spot) {
+          if (Array.isArray(spot?.checkinZones)) {
+            const zones = spot.checkinZones
+              .map((zone, index) => ({
+                label: zone?.label || `チェックイン地点${index + 1}`,
+                lat: Number(zone?.lat),
+                lng: Number(zone?.lng),
+                radiusM: normalizeRadiusM(zone?.radiusM, ONSEN_DEFAULT_RADIUS_M)
+              }))
+              .filter((zone) => Number.isFinite(zone.lat) && Number.isFinite(zone.lng));
+            if (zones.length > 0) return zones;
+          }
+          return [{
+            label: spot?.name || "温泉地",
+            lat: Number(spot?.lat),
+            lng: Number(spot?.lng),
+            radiusM: normalizeRadiusM(spot?.checkinRadiusM, ONSEN_DEFAULT_RADIUS_M)
+          }].filter((zone) => Number.isFinite(zone.lat) && Number.isFinite(zone.lng));
+        };
+      }
+
+      if (typeof updateDistanceAndButton === "function") {
+        updateDistanceAndButton = function updateDistanceAndButtonV63() {
+          if (!selectedSpot) {
+            el("spotDist").textContent = "-";
+            el("btnCheckin").disabled = true;
+            el("btnCheckin").textContent = "チェックイン";
+            return;
+          }
+
+          if (!userPos) {
+            el("spotDist").textContent = "現在地未取得";
+            el("btnCheckin").disabled = true;
+            el("btnCheckin").textContent = "現在地を取得してください";
+            return;
+          }
+
+          const nearest = getNearestZoneStatus(selectedSpot, userPos);
+          if (!nearest) {
+            el("spotDist").textContent = "判定地点なし";
+            el("btnCheckin").disabled = true;
+            el("btnCheckin").textContent = "チェックイン地点未設定";
+            return;
+          }
+
+          el("spotDist").textContent = formatDistanceKm(nearest.distanceToCenterM);
+          const accurateEnough = userAccuracyM !== null && Number.isFinite(Number(userAccuracyM)) && Number(userAccuracyM) <= GPS_ACCURACY_LIMIT_M;
+          const cooldownOk = !isCooldownActive(selectedSpot.id);
+          el("btnCheckin").disabled = !(accurateEnough && nearest.inRange && cooldownOk);
+
+          if (!accurateEnough) {
+            el("btnCheckin").textContent = `位置精度が低いです（${GPS_ACCURACY_LIMIT_M}m超）`;
+          } else if (!nearest.inRange) {
+            el("btnCheckin").textContent = nearest.remainingM < 1000
+              ? `範囲外（あと${Math.round(nearest.remainingM)}m）`
+              : `範囲外（あと${formatDistanceKm(nearest.remainingM)}）`;
+          } else if (!cooldownOk) {
+            el("btnCheckin").textContent = "チェックイン済（24時間以内）";
+          } else {
+            el("btnCheckin").textContent = nearest.zone.label
+              ? `チェックイン（${nearest.zone.label}）`
+              : "チェックイン";
+          }
+        };
+      }
+    } catch (error) {
+      console.warn("v63 onsen radius policy install failed", error);
+    }
+  }
+
+  installCastleZonePolicy();
+  installOnsenRadiusPolicy();
+
+  window.OnsenCheckinPolicy = {
+    build: BUILD,
+    minimumRadiusM: MIN_CHECKIN_RADIUS_M,
+    onsenDefaultRadiusM: ONSEN_DEFAULT_RADIUS_M,
+    gpsAccuracyLimitM: GPS_ACCURACY_LIMIT_M,
+    normalizeRadiusM,
+    castleRadiusFromLegacy,
+    castleOverrides: CASTLE_RADIUS_OVERRIDES
+  };
+  window.dispatchEvent(new CustomEvent("onsen-checkin-policy-ready", { detail: window.OnsenCheckinPolicy }));
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>\"']/g, (char) => ({
@@ -93,7 +273,7 @@
     checking = true;
     button.disabled = true;
     button.textContent = "GPS再確認中…";
-    setMessage("チェックイン確定のため、現在地をもう一度高精度で取得しています…");
+    setMessage("チェックイン確定のため、現在地をもう一度取得しています…");
 
     const measured = await freshPosition();
     if (!measured.ok) {
@@ -106,8 +286,8 @@
 
     const position = measured.position;
     const distanceM = haversineM(position.lat, position.lng, Number(zone.lat), Number(zone.lng));
-    const radiusM = Number(zone.radiusM || 0);
-    const accuracyRequiredM = Number(zone.accuracyRequiredM || 80);
+    const radiusM = normalizeRadiusM(zone.radiusM, MIN_CHECKIN_RADIUS_M);
+    const accuracyRequiredM = Math.max(GPS_ACCURACY_LIMIT_M, Number(zone.accuracyRequiredM || 0));
     const accurate = Number.isFinite(position.accuracyM) && position.accuracyM <= accuracyRequiredM;
     const inRange = Number.isFinite(distanceM) && distanceM <= radiusM;
     setFreshMetrics(position, distanceM);
@@ -116,7 +296,7 @@
       checking = false;
       button.disabled = true;
       button.textContent = `位置精度不足（${Math.round(position.accuracyM)}m）`;
-      setMessage(`チェックイン時のGPS精度が不足しています。${accuracyRequiredM}m以内が必要です。もう一度「現在地を確認」してください。`);
+      setMessage(`GPS精度が${accuracyRequiredM}mを超えています。現在地をもう一度取得してください。`);
       return;
     }
     if (!inRange) {
@@ -124,7 +304,7 @@
       const remain = Math.max(0, distanceM - radiusM);
       button.disabled = true;
       button.textContent = `範囲外（あと${formatDistance(remain)}）`;
-      setMessage(`チェックイン直前の再測位では範囲外でした。城の判定範囲まであと${formatDistance(remain)}です。`);
+      setMessage(`城の判定範囲まであと${formatDistance(remain)}です。判定半径は最低500m、山城・広域史跡は最大2kmに調整しています。`);
       return;
     }
 
@@ -139,7 +319,8 @@
       coordinateSource: ZONE_SOURCE,
       coordinateVerification: zone.coordinateStatus || "secondary_reference_crosschecked",
       checkedAt: Date.now(),
-      freshFix: true
+      freshFix: true,
+      checkinPolicyBuild: BUILD
     });
 
     checking = false;
@@ -216,7 +397,7 @@
     if (onsenSwitch) onsenSwitch.setAttribute("aria-label", "温泉地図を表示");
 
     const notice = document.querySelector("#castleCollectionPanel .castle-notice");
-    const noticeText = "日本100名城100城を地図・GPSチェックインに対応しました。過去訪問はコレクション・武威・登用候補解放に反映します。現地では各城の「地図」からGPSチェックインでき、代表人物設定済みの城は初回厳格GPSで人物が加入します。";
+    const noticeText = "日本100名城100城を地図・GPSチェックインに対応。判定半径は500m以上を最低保証とし、山城・広域史跡は1〜2kmまで拡張して現地での取りこぼしを抑えています。過去訪問はコレクション・武威・登用候補解放に反映します。";
     if (notice && notice.textContent !== noticeText) notice.textContent = noticeText;
   }
 
