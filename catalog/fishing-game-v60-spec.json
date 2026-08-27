@@ -1,44 +1,39 @@
 {
-  "version": 1,
+  "version": 2,
   "introducedIn": "v60",
+  "updatedIn": "v65",
   "gameId": "fishing",
-  "feature": "big_fish_fight",
-  "goal": "通常魚の短いテンポを維持しつつ、大物だけアワセ後に追加の操作と緊張感を持たせる。",
-  "flow": [
-    "cast",
-    "wait",
-    "bite",
-    "hook_timing",
-    "optional_big_fish_fight",
-    "catch_cinematic_or_escape"
-  ],
-  "fightEntry": {
-    "SR": "60%",
-    "SSR": "100%",
-    "LEGEND": "100%",
-    "debugForced": "100%"
+  "feature": "rarity_difficulty_size_distance_and_rod_progression",
+  "goal": "魚のレアリティとサイズを操作難度へ直接反映し、湯銭で購入する釣り竿によって安定型・高リスク高性能型のビルドを選べるようにする。",
+  "flow": ["cast","hidden_fish_roll","wait","rarity_based_bite","hook_timing","distance_fight","catch_cinematic_or_escape"],
+  "rarityDifficulty": {
+    "N": {"hookWidth":0.27,"hookSpeed":0.52,"baseDistance":18,"maxFightSeconds":12},
+    "R": {"hookWidth":0.21,"hookSpeed":0.68,"baseDistance":29,"maxFightSeconds":16},
+    "SR": {"hookWidth":0.155,"hookSpeed":0.86,"baseDistance":47,"maxFightSeconds":21},
+    "SSR": {"hookWidth":0.108,"hookSpeed":1.04,"baseDistance":72,"maxFightSeconds":27},
+    "LEGEND": {"hookWidth":0.076,"hookSpeed":1.23,"baseDistance":108,"maxFightSeconds":34}
   },
+  "sizeRule": "各魚に最小・最大サイズを持たせ、抽選サイズが大きいほど釣り上げまでの残り距離と引きが増える。図鑑には魚種ごとの最大サイズを保存する。",
   "fightRules": {
-    "input": "巻くボタン長押し",
-    "tensionSafeRange": [0.28, 0.78],
-    "lineBreakAt": 1.0,
-    "slackEscapeBelow": 0.07,
-    "slackEscapeSeconds": 0.9,
-    "maxFightSeconds": 24,
-    "damageRule": "巻いていて、かつテンションが適正範囲の時だけ魚の体力を削る",
-    "fishBehavior": "左右移動と不定期の急な引きでテンションを変化させる"
+    "input":"巻くボタン長押し",
+    "distanceModel":"魚の体力の代わりに残り距離を表示し、適正テンション中の巻き取りで0mまで減らす",
+    "lineBreakAt":1.0,
+    "slackEscapeBelow":0.07,
+    "slackEscapeSeconds":0.95,
+    "fishBehavior":"左右移動・サイズ補正・レアリティ補正・不定期サージでテンションを変化させる"
   },
-  "reward": {
-    "SRFightMultiplier": 1.15,
-    "SSRFightMultiplier": 1.25,
-    "LegendFightMultiplier": 1.4,
-    "firstDiscoveryBonusYusen": 5
-  },
-  "debug": {
-    "forceNextBigFish": "次のアワセ成功時にSR以上を選び、必ずファイトへ移行する",
-    "refillTravelEnergy": true,
-    "resetFishingProgress": true
-  },
-  "offline": true,
-  "visitIntegrity": "ゲーム結果は訪問済み・GPS現地確認には影響しない"
+  "rods": [
+    {"id":"bamboo","name":"竹の延べ竿","costYusen":0,"role":"starter_stable"},
+    {"id":"traveler","name":"旅人の万能竿","costYusen":70,"role":"balanced"},
+    {"id":"steady","name":"ゆったり浮子竿","costYusen":160,"role":"wide_bar_slow_cursor"},
+    {"id":"power","name":"剛力竿","costYusen":320,"role":"narrow_bar_high_pull_rare_bonus"},
+    {"id":"hunter","name":"名人の細針竿","costYusen":620,"role":"hard_high_rare_high_pull"},
+    {"id":"master","name":"湯けむり名竿","costYusen":1100,"role":"extreme_high_risk_high_reward"}
+  ],
+  "rodEconomy":"購入時に既存wallet.yusenから価格を減算し、fishing.rodsOwnedとfishing.equippedRodへ保存する。",
+  "fishCatalogCount":25,
+  "reward": {"firstDiscoveryBonusYusen":5,"rodRewardMultiplier":true,"rarityFightMultiplier":true},
+  "debug": {"forceNextBigFish":"次の成功アワセまで予約を保持する","refillTravelEnergy":true,"resetFishingProgress":true},
+  "offline":true,
+  "visitIntegrity":"ゲーム結果は訪問済み・GPS現地確認には影響しない"
 }
