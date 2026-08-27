@@ -1,7 +1,7 @@
 {
-  "version": 2,
+  "version": 3,
   "introducedIn": "v58",
-  "updatedAtBuild": "v59",
+  "updatedAtBuild": "v60",
   "purpose": "旅行モード中にアプリを前景で使い続ける価値を作りつつ、位置チェックインの信頼性をゲーム報酬で汚染しない。",
   "principles": [
     "ミニゲームは旅行タブ内ではなく独立したゲームタブに置く",
@@ -44,12 +44,18 @@
     {
       "id": "fishing",
       "label": "旅釣り",
-      "status": "playable_v59",
-      "input": "cast_wait_hit_timing",
+      "status": "playable_v60",
+      "input": "cast_wait_hit_timing_then_optional_hold_reel_fight",
       "cost": "旅力1/キャスト",
       "reward": "魚図鑑 + 湯銭",
       "locationVariation": "地方別魚プール + 温泉地付近レア魚",
-      "presentation": "character_water_fish_shadows_hit_and_catch_cinematic"
+      "presentation": "character_water_fish_shadows_hit_cinematic_and_big_fish_fight",
+      "bigFishFight": {
+        "SR": "60%",
+        "SSR": "100%",
+        "LEGEND": "100%",
+        "successRule": "適正テンション中に巻く長押しで魚の体力を削る"
+      }
     },
     {
       "id": "rogue",
@@ -63,6 +69,7 @@
     "location": "ゲーム画面最下部の折りたたみDEBUGパネル",
     "actions": [
       "旅力を最大まで回復",
+      "次のアワセ成功を大物ファイトに固定",
       "釣り進捗のみ初期化"
     ],
     "fishingResetKeeps": ["yusen", "visit_records", "collections", "achievements", "trip_logs"]
