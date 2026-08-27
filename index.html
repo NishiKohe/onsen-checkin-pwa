@@ -125,6 +125,152 @@
   <script src="./trip-power-mode.js?v=62"></script>
   <script src="./app.js?v=62"></script>
   <script src="./castle-v62-hardening.js?v=63"></script>
+  <script>
+    (() => {
+      const BUILD = "v64-onsen-radius";
+      const MIN_RADIUS_M = 500;
+      const DEFAULT_RADIUS_M = 750;
+      const BROAD_AREA_MIN_M = 1200;
+      const ONSENKYO_MIN_M = 1500;
+
+      const ONSEN_RADIUS_OVERRIDES = Object.freeze({
+        noboribetsu: 1500,
+        ginzan: 750,
+        zao: 1500,
+        kusatsu: 1200,
+        ikaho: 1000,
+        hakone: 1200,
+        shuzenji: 1000,
+        echigoyuzawa: 1500,
+        nozawa: 1200,
+        shibu: 1000,
+        hirugami: 1200,
+        gero: 1500,
+        wakura: 1200,
+        yamashiro: 1000,
+        awara: 1500,
+        kinosaki: 1200,
+        arima: 1000,
+        misasa: 1000,
+        tamatsukuri: 1200,
+        dogo: 1000,
+        kurokawa: 1200,
+        unzen: 1500,
+        takeo: 1200,
+        naruko: 1200,
+        yuhara: 1200,
+        okutsu: 1000,
+        yunogo: 1200,
+        matsunoyama: 1000,
+        ryujin: 1200,
+        kawanaka: 750,
+        hinokami: 1000,
+        hamawaki: 1000,
+        horita: 1200,
+        myoban: 1200,
+        kannawa: 1500,
+        shibaseki: 1000,
+        kamegawa: 1200,
+        hirayu: 1200,
+        fukuji: 1000,
+        tochio: 1200,
+        awazu: 1200
+      });
+
+      function tierRadiusM(value, fallback = DEFAULT_RADIUS_M) {
+        const parsed = Number(value);
+        const raw = Number.isFinite(parsed) && parsed > 0 ? Math.round(parsed) : fallback;
+        if (raw < MIN_RADIUS_M) return MIN_RADIUS_M;
+        if (raw > MIN_RADIUS_M && raw < 750) return 750;
+        if (raw >= 750 && raw < 1000) return 1000;
+        return raw;
+      }
+
+      function isOnsenkyo(spot) {
+        return spot?.spotKind === "onsenkyo" || /温泉郷/.test(String(spot?.name || ""));
+      }
+
+      function isBroadArea(spot) {
+        return isOnsenkyo(spot) ||
+          spot?.spotKind === "onsen_area" ||
+          spot?.displayModel === "parent_multi_zone" ||
+          (Array.isArray(spot?.subAreas) && spot.subAreas.length >= 3);
+      }
+
+      function adjustedSingleRadiusM(spot) {
+        const override = ONSEN_RADIUS_OVERRIDES[String(spot?.id || "")];
+        if (Number.isFinite(Number(override))) return Number(override);
+        let radius = tierRadiusM(spot?.checkinRadiusM, DEFAULT_RADIUS_M);
+        if (isOnsenkyo(spot)) radius = Math.max(radius, ONSENKYO_MIN_M);
+        else if (isBroadArea(spot)) radius = Math.max(radius, BROAD_AREA_MIN_M);
+        return radius;
+      }
+
+      function adjustedZoneRadiusM(spot, zone) {
+        let radius = tierRadiusM(zone?.radiusM, DEFAULT_RADIUS_M);
+        if (isBroadArea(spot)) radius = Math.max(radius, BROAD_AREA_MIN_M);
+        return radius;
+      }
+
+      try {
+        if (typeof getCheckinRadiusM === "function") {
+          getCheckinRadiusM = function getCheckinRadiusMV64(spot) {
+            return adjustedSingleRadiusM(spot);
+          };
+        }
+
+        if (typeof getCheckinZones === "function") {
+          getCheckinZones = function getCheckinZonesV64(spot) {
+            if (Array.isArray(spot?.checkinZones)) {
+              const zones = spot.checkinZones
+                .map((zone, index) => ({
+                  label: zone?.label || `チェックイン地点${index + 1}`,
+                  lat: Number(zone?.lat),
+                  lng: Number(zone?.lng),
+                  radiusM: adjustedZoneRadiusM(spot, zone)
+                }))
+                .filter((zone) => Number.isFinite(zone.lat) && Number.isFinite(zone.lng));
+              if (zones.length > 0) return zones;
+            }
+
+            return [{
+              label: spot?.name || "温泉地",
+              lat: Number(spot?.lat),
+              lng: Number(spot?.lng),
+              radiusM: adjustedSingleRadiusM(spot)
+            }].filter((zone) => Number.isFinite(zone.lat) && Number.isFinite(zone.lng));
+          };
+        }
+
+        window.OnsenCheckinPolicy = {
+          ...(window.OnsenCheckinPolicy || {}),
+          onsenRadiusBuild: BUILD,
+          minimumOnsenRadiusM: MIN_RADIUS_M,
+          onsenDefaultRadiusM: DEFAULT_RADIUS_M,
+          onsenBroadAreaMinimumM: BROAD_AREA_MIN_M,
+          onsenkyoMinimumM: ONSENKYO_MIN_M,
+          onsenRadiusOverrides: ONSEN_RADIUS_OVERRIDES,
+          adjustedOnsenRadiusM: adjustedSingleRadiusM,
+          adjustedOnsenZoneRadiusM: adjustedZoneRadiusM
+        };
+
+        requestAnimationFrame(() => {
+          try {
+            if (typeof selectedSpot !== "undefined" && selectedSpot) {
+              if (typeof renderCheckinZones === "function") renderCheckinZones(selectedSpot);
+              if (typeof updateDistanceAndButton === "function") updateDistanceAndButton();
+            }
+          } catch {}
+        });
+
+        window.dispatchEvent(new CustomEvent("onsen-checkin-policy-ready", {
+          detail: window.OnsenCheckinPolicy
+        }));
+      } catch (error) {
+        console.warn("v64 onsen radius policy install failed", error);
+      }
+    })();
+  </script>
   <script src="./domain-model.js?v=62"></script>
   <script src="./castle-domain-v61.js?v=62"></script>
   <script src="./ui-enhancements.js?v=62"></script>
