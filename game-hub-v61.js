@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v61";
+  const BUILD = "v67";
   const GAME_TAB_ID = "footerGameTab";
   const DEBUG_FORCE_KEY = "onsenDebugForceBigFishV60";
   let installed = false;
@@ -34,11 +34,13 @@
         </section>
         <div class="game-selector" aria-label="ミニゲーム選択">
           <button type="button" class="active" data-game-id="fishing"><span>🎣</span><strong>旅釣り</strong><small>PLAY</small></button>
+          <button type="button" data-game-id="shop"><span>店</span><strong>SHOP</strong><small>竿・装備</small></button>
           <button type="button" data-game-id="encyclopedia"><span>冊</span><strong>図鑑</strong><small>人物・魚</small></button>
           <button type="button" data-game-id="endless" disabled><span>⚔</span><strong>戦陣</strong><small>NEXT</small></button>
         </div>
         <div id="gameStage" class="game-stage">
           <div id="fishingGameMount" data-game-panel="fishing"></div>
+          <div id="fishingShopMount" data-game-panel="shop" hidden></div>
           <div id="encyclopediaMount" data-game-panel="encyclopedia" hidden></div>
         </div>
         <section class="game-system-note">
@@ -94,6 +96,53 @@
     button.append(icon, label);
   }
 
+  function renderFishingShop() {
+    const target = document.getElementById("fishingShopMount");
+    if (!target) return;
+    const source = document.querySelector("#fishingGameMount .fishing-rod-panel");
+    const state = window.OnsenGameRuntime?.loadState?.();
+    const wallet = Number(state?.wallet?.yusen || 0);
+    const equipped = document.getElementById("fishingEquippedRod")?.textContent || "竹の延べ竿";
+    const shop = source?.querySelector("#fishingRodShop");
+
+    if (!source || !shop) {
+      target.innerHTML = `<section class="fishing-shop-screen"><header class="fishing-shop-header"><div><span>FISHING GEAR</span><h3>釣り竿ショップ</h3><p>釣りゲームを一度開くと装備情報を読み込みます。</p></div><div class="fishing-shop-wallet"><span>湯銭</span><b>${wallet}</b></div></header></section>`;
+      return;
+    }
+
+    target.innerHTML = `
+      <section class="fishing-shop-screen">
+        <header class="fishing-shop-header">
+          <div><span>FISHING GEAR</span><h3>釣り竿ショップ</h3><p>湯銭で購入して装備。難しい竿ほどレア魚補正と巻き取り力が高くなります。</p></div>
+          <div class="fishing-shop-wallet"><span>湯銭</span><b>${wallet}</b></div>
+        </header>
+        <div class="fishing-shop-equipped"><span>現在の装備</span><strong>${escapeHtml(equipped)}</strong></div>
+        <div id="fishingRodShopMirror" class="fishing-rod-shop fishing-shop-grid">${shop.innerHTML}</div>
+        <p class="fishing-shop-note">購入した竿はその場で装備されます。所持済みの竿は「装備」で切り替えできます。</p>
+      </section>`;
+  }
+
+  function bindFishingShop() {
+    const target = document.getElementById("fishingShopMount");
+    if (!target || target.dataset.bound === "1") return;
+    target.dataset.bound = "1";
+    target.addEventListener("click", (event) => {
+      const button = event.target instanceof Element ? event.target.closest("[data-rod-action]") : null;
+      if (!button || button.disabled) return;
+      const card = button.closest("[data-rod-id]");
+      const rodId = card?.dataset.rodId;
+      if (!rodId) return;
+      const sourceButton = document.querySelector(`#fishingGameMount .fishing-rod-card[data-rod-id="${rodId}"] [data-rod-action]`);
+      if (!(sourceButton instanceof HTMLButtonElement) || sourceButton.disabled) return;
+      sourceButton.click();
+      requestAnimationFrame(() => requestAnimationFrame(renderFishingShop));
+    });
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>'\"]/g, (char) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", "'":"&#39;", '"':"&quot;" }[char]));
+  }
+
   function renderStatus() {
     if (!window.OnsenGameRuntime) return;
     const state = window.OnsenGameRuntime.loadState();
@@ -119,6 +168,7 @@
       bonus.className = `game-location-bonus${context.tripMode && context.fresh ? " active" : ""}`;
       bonus.textContent = context.tripMode && context.fresh ? (context.nearOnsen ? "温泉地BONUS" : "旅行GPS BONUS") : "通常";
     }
+    if (activeGame === "shop") renderFishingShop();
     syncDebugButtons();
   }
 
@@ -137,6 +187,8 @@
     if (activeGame === "encyclopedia") {
       window.OnsenCharacterRuntime?.markSeen?.();
       window.OnsenEncyclopediaUI?.render?.();
+    } else if (activeGame === "shop") {
+      renderFishingShop();
     } else {
       window.OnsenFishingGame?.refresh?.();
     }
@@ -233,6 +285,7 @@
     markGameSeen();
     renderStatus();
     if (activeGame === "encyclopedia") window.OnsenEncyclopediaUI?.render?.();
+    else if (activeGame === "shop") renderFishingShop();
     else window.OnsenFishingGame?.refresh?.();
   }
 
@@ -249,6 +302,8 @@
     bindSelector();
     bindDebug();
     await installFishing();
+    bindFishingShop();
+    renderFishingShop();
     await installEncyclopedia();
     switchGame(activeGame);
     renderStatus();
@@ -275,5 +330,5 @@
     };
   }
 
-  install().catch((error) => console.warn("game hub v61 init failed", error));
+  install().catch((error) => console.warn("game hub v67 init failed", error));
 })();
