@@ -136,8 +136,20 @@
     writeJson(STATE_KEY, state);
   }
 
+  function acknowledgeVisibleProgress(snapshot) {
+    const activeTab = document.documentElement.dataset.appTab || "map";
+    if (activeTab === "trip") markTripSeen(snapshot);
+    if (activeTab === "game" && snapshot.gameUnread > 0) window.OnsenGameRuntime?.markGameSeen?.();
+    if (activeTab === "collection") {
+      const achievementView = document.getElementById("achievementView");
+      if (!achievementView || achievementView.hidden) markCollectionSeen(snapshot);
+    }
+  }
+
   function refresh() {
-    const snapshot = currentSnapshot();
+    let snapshot = currentSnapshot();
+    acknowledgeVisibleProgress(snapshot);
+    snapshot = currentSnapshot();
     const state = loadState(snapshot);
     const buttons = footerButtons();
 
