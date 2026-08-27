@@ -1,10 +1,12 @@
 {
-  "version": 1,
+  "version": 2,
   "introducedIn": "v62",
   "selection": "日本100名城",
-  "coordinateFile": "data/castle-coordinates-v62.csv",
+  "coordinateAuditFile": "data/castle-coordinates-v62.csv",
+  "runtimeZoneFile": "data/castle-checkin-zones-v62.json",
   "coordinateCount": 100,
   "verificationStatus": "cross_checked_public_datasets",
+  "runtimeAuthority": "castle-checkin-zones-v62.json",
   "sources": [
     {
       "repository": "FRANKI3420/Castles-Visiting-Record-Website",
@@ -18,17 +20,19 @@
     }
   ],
   "checkinPolicy": {
-    "defaultRadiusM": 350,
-    "requiredAccuracyM": 100,
+    "runtimeRadius": "城ごとのzone設定。都市城郭は概ね350-550m、山城・広域史跡は600-900m",
+    "runtimeDefaultAccuracyRequiredM": 80,
     "requiresExplicitCheckinButton": true,
+    "checkinButtonRequiresFreshGps": true,
     "backgroundAutoClaim": false,
     "strictGpsCharacterGuarantee": true,
     "manualPastVisitCharacterGuarantee": false
   },
   "rules": [
-    "城チェックインは端末の新しい測位結果を都度取得して判定する",
-    "距離がチェックイン半径内かつaccuracyがrequiredAccuracyM以下のときだけ厳格GPS扱いにする",
+    "castle-coordinates-v62.csvは100件座標の照合・監査用であり、実行時の半径や精度条件を定義しない",
+    "実行時のGPS判定点・半径・必要精度はcastle-checkin-zones-v62.jsonを正とする",
+    "城チェックイン確定ボタン押下時に新しい高精度測位を取得して最終判定する",
     "過去訪問登録は100名城進捗・武威・登用候補解放には使うが、代表人物確定加入には使わない",
-    "山城や広域史跡などで現地実測により半径調整が必要な場合は城ごとのoverrideを追加する"
+    "山城や広域史跡は実機確認に応じて城ごとのradiusMを調整する"
   ]
 }
