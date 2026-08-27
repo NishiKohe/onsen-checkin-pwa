@@ -1,6 +1,7 @@
 (() => {
-  const BUILD = "v61";
+  const BUILD = "v62";
   const DATA_URL = "./data/castles-japan100-v61.json";
+  const ZONE_URL = "./data/castle-checkin-zones-v62.json";
   const CATEGORY_ID = "castle";
 
   const REGION_COLLECTIONS = [
@@ -43,7 +44,7 @@
       rarity: "LEGEND",
       section: "official_selection",
       targetIds: allIds,
-      note: "日本100名城の100城。過去訪問登録と、将来の厳格GPSチェックインを同じcastle Entityで扱う。"
+      note: "日本100名城の100城。過去訪問登録と厳格GPSチェックインを同じcastle Entityで扱う。"
     }, { source: DATA_URL });
 
     for (const [region, id, name] of REGION_COLLECTIONS) {
@@ -67,19 +68,24 @@
       label: "城",
       pluralLabel: "城郭",
       icon: "castle",
-      mapLayerId: "castles",
+      mapLayerId: "castles-v62",
       source: DATA_URL,
       checkinPolicy: {
         mode: "distance_zone",
-        defaultRadiusM: 300,
+        defaultRadiusM: 450,
+        defaultAccuracyRequiredM: 80,
+        zoneSource: ZONE_URL,
         strictGpsForCharacterUnlock: true
       },
       metadata: {
         activeSelection: "japan_100_castles",
-        coordinatesReady: false,
+        coordinatesReady: true,
+        coordinateStatus: "secondary_reference_crosschecked",
+        coordinateSource: ZONE_URL,
         pastVisitRegistrationReady: true,
         characterSystemReady: true,
-        strictGpsUiReady: false
+        strictGpsUiReady: true,
+        mapLayerReady: true
       }
     });
 
@@ -109,7 +115,8 @@
         name: collection.name,
         total: collection.targetIds.length
       })),
-      dataStatus: data.dataStatus || null
+      dataStatus: data.dataStatus || null,
+      zoneSource: ZONE_URL
     };
     window.OnsenCastleDomain = {
       build: BUILD,
@@ -120,5 +127,5 @@
     console.info("castle domain ready", snapshot);
   }
 
-  install().catch((error) => console.warn("castle domain v61 init failed", error));
+  install().catch((error) => console.warn("castle domain v62 init failed", error));
 })();
