@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "introducedIn": "design-v62",
   "purpose": "城チェックイン・湯銭登用・放置戦闘・釣り・将来Rogueで共通利用する人物マスターの最小スキーマ",
   "requiredFields": [
@@ -62,9 +62,11 @@
     "豪胆",
     "統率",
     "知略",
+    "謀略",
     "忍",
     "鉄砲",
     "弓",
+    "槍",
     "騎馬",
     "商才",
     "茶",
@@ -74,11 +76,21 @@
     "旅",
     "湯治"
   ],
+  "partySizes": {
+    "endlessBattle": 5,
+    "rogue": 3,
+    "fishing": 0
+  },
   "perGamePolicy": {
     "endlessBattle": "combat + traits + affiliationsを参照。5人が直接戦闘、全所持人物が軍勢力へ寄与",
     "fishing": "combat数値は使わずtraitsだけを補助効果へ利用",
     "rogue": "将来3人編成。combat・traits・イベント適性を参照",
     "otherMinigames": "新規ゲーム固有能力を人物マスターへ直書きせず、traitsを優先して解釈する"
+  },
+  "mappingPolicy": {
+    "guaranteedCastleIds": "城との直接性が比較的高い人物のみ。正式リリース前に史実レビュー必須",
+    "unlockCastleIds": "城主・築城・家臣団・強い歴史的関係など、確定加入より広い関係を許容",
+    "unlockRegions": "城へ無理に紐付けにくい水軍・忍・文化人などの主要解放経路"
   },
   "designRules": [
     "人物レベルの大量周回育成を前提にしない",
