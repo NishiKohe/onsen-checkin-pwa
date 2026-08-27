@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "introducedIn": "v62",
+  "categoryId": "castle",
+  "selection": "日本100名城",
+  "selectionSource": "公益財団法人日本城郭協会 日本100名城一覧",
+  "coordinateSource": "data/castle-checkin-zones-v62.json",
+  "rules": {
+    "gpsSampleMaxAgeSeconds": 120,
+    "defaultRequiredAccuracyM": 80,
+    "radiusRangeM": [350, 900],
+    "strictVisitVerificationLevel": "onsite",
+    "strictVisitVerificationType": "gps_manual",
+    "strictVisitRecordSource": "castle_checkin_button"
+  },
+  "separation": {
+    "pastVisit": {
+      "verification": "self_report",
+      "countsForCollection": true,
+      "countsForBui": true,
+      "unlocksRecruitCandidates": true,
+      "grantsGuaranteedCharacter": false
+    },
+    "strictGpsVisit": {
+      "countsForCollection": true,
+      "countsForBui": true,
+      "unlocksRecruitCandidates": true,
+      "grantsGuaranteedCharacter": true,
+      "guaranteedCharacterLimit": "one claim per castle where a guaranteed seed mapping exists"
+    }
+  },
+  "radiusPolicy": {
+    "urbanCastle": "roughly 350-550m",
+    "mountainCastle": "roughly 600-750m",
+    "distributedOrLargeSite": "up to 900m",
+    "review": "初期値。実機で到達不能・駅や道路からの誤判定が見つかった城は個別に調整する"
+  },
+  "sourcePolicy": [
+    "日本100名城の番号・名称・所在地は日本城郭協会で照合する",
+    "GPS座標は公開参照座標であり日本城郭協会公式座標とは表現しない",
+    "座標と判定半径はチェックイン用データとして別マスターに保持する",
+    "ゲーム報酬だけでは城のGPS訪問を解除しない"
+  ]
+}
