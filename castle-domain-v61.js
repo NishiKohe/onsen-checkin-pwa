@@ -25,13 +25,35 @@
     throw new Error("AppDomain was not ready");
   }
 
+  async function fetchJson(url) {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`${url} load failed: ${response.status}`);
+    return response.json();
+  }
+
   async function loadData() {
-    const response = await fetch(DATA_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error(`castle data fetch failed: ${response.status}`);
-    const data = await response.json();
+    const [data, zoneData] = await Promise.all([fetchJson(DATA_URL), fetchJson(ZONE_URL)]);
     if (!Array.isArray(data?.entities) || data.entities.length !== 100) {
       throw new Error(`Japan 100 castle dataset must contain 100 entities; got ${data?.entities?.length ?? 0}`);
     }
+    if (!Array.isArray(zoneData?.entries) || zoneData.entries.length !== 100) {
+      throw new Error(`Japan 100 castle zone dataset must contain 100 entries; got ${zoneData?.entries?.length ?? 0}`);
+    }
+    const zonesById = new Map(zoneData.entries.map((entry) => [entry.castleId, entry]));
+    data.entities = data.entities.map((raw) => {
+      const zone = zonesById.get(raw.id);
+      if (!zone) return raw;
+      return {
+        ...raw,
+        lat: Number(zone.lat),
+        lng: Number(zone.lng),
+        checkinRadiusM: Number(zone.radiusM),
+        accuracyRequiredM: Number(zone.accuracyRequiredM || zoneData.policy?.defaultAccuracyRequiredM || 80),
+        coordinateStatus: zone.coordinateStatus || "secondary_reference_crosschecked",
+        checkinZoneStatus: zone.checkinZoneStatus || "v62_initial"
+      };
+    });
+    data.zoneData = zoneData;
     return data;
   }
 
@@ -96,7 +118,7 @@
         entityType: "castle",
         aliases: raw.aliases || [],
         tags: [...new Set([...(raw.tags || []), "castle"])]
-      }, { categoryId: CATEGORY_ID, source: DATA_URL });
+      }, { categoryId: CATEGORY_ID, source: ZONE_URL });
     }
 
     registerCollections(domain, data);
@@ -110,6 +132,7 @@
       build: BUILD,
       category: domain.categories.get(CATEGORY_ID),
       entityCount: domain.entities.list({ categoryId: CATEGORY_ID }).length,
+      locatedEntityCount: domain.entities.list({ categoryId: CATEGORY_ID }).filter((entity) => !!entity.location).length,
       collections: domain.collections.list({ categoryId: CATEGORY_ID }).map((collection) => ({
         id: collection.id,
         name: collection.name,
