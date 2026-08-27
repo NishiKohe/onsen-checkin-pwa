@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "introducedIn": "v60",
+  "gameId": "fishing",
+  "feature": "big_fish_fight",
+  "goal": "通常魚の短いテンポを維持しつつ、大物だけアワセ後に追加の操作と緊張感を持たせる。",
+  "flow": [
+    "cast",
+    "wait",
+    "bite",
+    "hook_timing",
+    "optional_big_fish_fight",
+    "catch_cinematic_or_escape"
+  ],
+  "fightEntry": {
+    "SR": "60%",
+    "SSR": "100%",
+    "LEGEND": "100%",
+    "debugForced": "100%"
+  },
+  "fightRules": {
+    "input": "巻くボタン長押し",
+    "tensionSafeRange": [0.28, 0.78],
+    "lineBreakAt": 1.0,
+    "slackEscapeBelow": 0.07,
+    "slackEscapeSeconds": 0.9,
+    "maxFightSeconds": 24,
+    "damageRule": "巻いていて、かつテンションが適正範囲の時だけ魚の体力を削る",
+    "fishBehavior": "左右移動と不定期の急な引きでテンションを変化させる"
+  },
+  "reward": {
+    "SRFightMultiplier": 1.15,
+    "SSRFightMultiplier": 1.25,
+    "LegendFightMultiplier": 1.4,
+    "firstDiscoveryBonusYusen": 5
+  },
+  "debug": {
+    "forceNextBigFish": "次のアワセ成功時にSR以上を選び、必ずファイトへ移行する",
+    "refillTravelEnergy": true,
+    "resetFishingProgress": true
+  },
+  "offline": true,
+  "visitIntegrity": "ゲーム結果は訪問済み・GPS現地確認には影響しない"
+}
