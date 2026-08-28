@@ -1,15 +1,15 @@
 (() => {
-  const version = "v68.1";
-  const preferredWorker = "./sw.js?v=68.1";
-  window.OnsenBuildInfo = { version, updatedAt: "2026-08-28" };
+  const version = "v68.2";
+  const preferredWorker = "./sw.js?v=68.2";
+  window.OnsenBuildInfo = { version, updatedAt: "2026-08-29" };
 
   function ensureGameBridge() {
     if (window.OnsenGameV68Bridge || document.getElementById("gameV68BridgeScript")) return;
     const script = document.createElement("script");
     script.id = "gameV68BridgeScript";
-    script.src = "./game-v68-bridge.js?v=68.1";
+    script.src = "./game-v68-bridge.js?v=68.2";
     script.async = true;
-    script.addEventListener("error", () => console.warn("v68.1 game bridge load failed"), { once: true });
+    script.addEventListener("error", () => console.warn("v68.2 game bridge load failed"), { once: true });
     document.head.appendChild(script);
   }
 
@@ -32,7 +32,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v68.1 service worker update check skipped", err);
+      console.warn("v68.2 service worker update check skipped", err);
       return null;
     }
   }
@@ -40,7 +40,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV681RegisterPatched) return;
+    if (sw.__onsenV682RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -48,9 +48,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV681RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV682RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v68.1 service worker register patch skipped", error);
+      console.warn("v68.2 service worker register patch skipped", error);
     }
   }
 
@@ -68,8 +68,8 @@
 
     window.addEventListener("load", () => {
       registerPreferredWorker();
-      setTimeout(registerPreferredWorker, 1200);
-      setTimeout(registerPreferredWorker, 3600);
+      setTimeout(registerPreferredWorker, 800);
+      setTimeout(registerPreferredWorker, 2200);
     });
   }
 
@@ -79,6 +79,6 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", apply);
   else apply();
   window.addEventListener("load", apply);
-  setTimeout(apply, 900);
-  setTimeout(apply, 2400);
+  setTimeout(apply, 600);
+  setTimeout(apply, 1600);
 })();
