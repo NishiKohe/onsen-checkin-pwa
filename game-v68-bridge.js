@@ -1,28 +1,33 @@
 (() => {
-  const BUILD = "v68";
+  const BUILD = "v68.1";
+  const SYSTEM_NOTE = "旅行GPSで旅力、温泉収集で湯治力、日本100名城・続日本100名城（計200城）で武威、城訪問で人物候補が増えます。ゲームだけで訪問済みにはなりません。";
   let endlessInstalled = false;
   let hubPatched = false;
+  let bootTimer = null;
 
   function loadStyle() {
     if (document.getElementById("endlessBattleStyleV68")) return;
     const link = document.createElement("link");
     link.id = "endlessBattleStyleV68";
     link.rel = "stylesheet";
-    link.href = "./endless-battle-v68.css?v=68";
+    link.href = "./endless-battle-v68.css?v=68.1";
     document.head.appendChild(link);
   }
 
   function loadScript() {
     if (window.OnsenEndlessBattle) return Promise.resolve(true);
     const existing = document.getElementById("endlessBattleScriptV68");
-    if (existing) return new Promise((resolve) => {
-      if (window.OnsenEndlessBattle) resolve(true);
-      else existing.addEventListener("load", () => resolve(true), { once: true });
-    });
+    if (existing) {
+      return new Promise((resolve, reject) => {
+        if (window.OnsenEndlessBattle) return resolve(true);
+        existing.addEventListener("load", () => resolve(true), { once: true });
+        existing.addEventListener("error", () => reject(new Error("endless battle asset load failed")), { once: true });
+      });
+    }
     return new Promise((resolve, reject) => {
       const script = document.createElement("script");
       script.id = "endlessBattleScriptV68";
-      script.src = "./endless-battle-v68.js?v=68";
+      script.src = "./endless-battle-v68.js?v=68.1";
       script.async = true;
       script.addEventListener("load", () => resolve(true), { once: true });
       script.addEventListener("error", () => reject(new Error("endless battle asset load failed")), { once: true });
@@ -33,7 +38,7 @@
   const assetsReady = (() => {
     loadStyle();
     return loadScript().catch((error) => {
-      console.warn("v68 endless asset load failed", error);
+      console.warn("v68.1 endless asset load failed", error);
       return false;
     });
   })();
@@ -53,18 +58,23 @@
   }
 
   function replaceText(node, from, to) {
-    if (!node || !node.textContent?.includes(from)) return;
-    node.textContent = node.textContent.replace(from, to);
+    if (!node) return false;
+    const current = String(node.textContent || "");
+    if (!current.includes(from)) return false;
+    const next = current.replace(from, to);
+    if (next === current) return false;
+    node.textContent = next;
+    return true;
   }
 
   function patchCopy() {
     const endlessButton = document.querySelector('#gameView [data-game-id="endless"]');
     if (endlessButton) {
-      endlessButton.disabled = false;
-      endlessButton.removeAttribute("disabled");
+      if (endlessButton.disabled) endlessButton.disabled = false;
+      if (endlessButton.hasAttribute("disabled")) endlessButton.removeAttribute("disabled");
       const small = endlessButton.querySelector("small");
-      if (small) small.textContent = "PLAY";
-      endlessButton.title = "戦陣を開く";
+      if (small && small.textContent !== "PLAY") small.textContent = "PLAY";
+      if (endlessButton.title !== "戦陣を開く") endlessButton.title = "戦陣を開く";
     }
 
     const characters = document.getElementById("gameCharacters");
@@ -73,15 +83,13 @@
     }
 
     const systemNote = document.querySelector("#gameView .game-system-note p");
-    if (systemNote) {
-      systemNote.textContent = "旅行GPSで旅力、温泉収集で湯治力、日本100名城・続日本100名城（計200城）で武威、城訪問で人物候補が増えます。ゲームだけで訪問済みにはなりません。";
-    }
+    if (systemNote && systemNote.textContent !== SYSTEM_NOTE) systemNote.textContent = SYSTEM_NOTE;
 
     const recruitNote = document.querySelector("#encyclopediaRecruit .recruit-panel span");
-    if (recruitNote) replaceText(recruitNote, "100名城の訪問登録", "日本100名城・続日本100名城の訪問登録");
+    replaceText(recruitNote, "100名城の訪問登録", "日本100名城・続日本100名城の訪問登録");
 
     const debugStatus = document.getElementById("gameDebugStatus");
-    if (debugStatus) replaceText(debugStatus, "全50人", "全100人");
+    replaceText(debugStatus, "全50人", "全100人");
   }
 
   async function installEndless() {
@@ -89,11 +97,8 @@
     if (!loaded || !window.OnsenEndlessBattle) return false;
     const mount = ensureMount();
     if (!mount) return false;
-    if (!endlessInstalled) {
-      endlessInstalled = !!(await window.OnsenEndlessBattle.install(mount));
-    } else {
-      window.OnsenEndlessBattle.refresh?.();
-    }
+    if (!endlessInstalled) endlessInstalled = !!(await window.OnsenEndlessBattle.install(mount));
+    else window.OnsenEndlessBattle.refresh?.();
     return endlessInstalled;
   }
 
@@ -132,64 +137,54 @@
   }
 
   function bindCapture() {
-    if (document.documentElement.dataset.gameV68Bound === "1") return;
-    document.documentElement.dataset.gameV68Bound = "1";
+    if (document.documentElement.dataset.gameV681Bound === "1") return;
+    document.documentElement.dataset.gameV681Bound = "1";
     document.addEventListener("click", (event) => {
       const endlessButton = event.target instanceof Element ? event.target.closest('#gameView [data-game-id="endless"]') : null;
       if (endlessButton) {
         event.preventDefault();
         event.stopPropagation();
-        event.stopImmediatePropagation();
         showEndless().catch((error) => console.warn("show endless failed", error));
         return;
       }
-      const debugButton = event.target instanceof Element ? event.target.closest("#debugUnlockCharacters") : null;
-      if (debugButton) setTimeout(patchCopy, 0);
+      if (event.target instanceof Element && event.target.closest("#debugUnlockCharacters")) setTimeout(patchCopy, 0);
     }, true);
+  }
+
+  function bootPass() {
+    ensureMount();
+    patchCopy();
+    patchHubApi();
   }
 
   function install() {
     bindCapture();
-    ensureMount();
-    patchCopy();
-    patchHubApi();
+    bootPass();
 
-    window.addEventListener("onsen-character-runtime-ready", patchCopy);
+    window.addEventListener("onsen-character-runtime-ready", bootPass);
     window.addEventListener("onsen-character-state-changed", patchCopy);
     window.addEventListener("onsen-game-ui-refresh", patchCopy);
     window.addEventListener("onsen-app-tab-changed", (event) => {
-      if (event.detail?.tab === "game") setTimeout(() => {
-        ensureMount();
-        patchCopy();
-        patchHubApi();
+      if (event.detail?.tab !== "game") return;
+      setTimeout(() => {
+        bootPass();
         const endlessActive = document.querySelector('#gameView [data-game-id="endless"]')?.classList.contains("active");
         if (endlessActive) window.OnsenEndlessBattle?.refresh?.();
       }, 30);
     });
-
-    const observer = new MutationObserver(() => {
-      ensureMount();
-      patchCopy();
-      patchHubApi();
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    window.addEventListener("pageshow", () => setTimeout(bootPass, 0));
 
     let attempts = 0;
-    const timer = setInterval(() => {
-      ensureMount();
-      patchCopy();
-      patchHubApi();
+    bootTimer = setInterval(() => {
+      bootPass();
       attempts += 1;
-      if (attempts >= 80 && hubPatched && document.querySelector('#gameView [data-game-id="endless"]')) clearInterval(timer);
-    }, 150);
+      if ((hubPatched && document.querySelector('#gameView [data-game-id="endless"]')) || attempts >= 60) {
+        clearInterval(bootTimer);
+        bootTimer = null;
+      }
+    }, 200);
 
-    window.OnsenGameV68Bridge = {
-      build: BUILD,
-      showEndless,
-      installEndless,
-      patchCopy,
-      ensureMount
-    };
+    window.OnsenGameV68Bridge = { build: BUILD, showEndless, installEndless, patchCopy, ensureMount, bootPass };
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", install, { once: true });
