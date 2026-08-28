@@ -1,6 +1,6 @@
 (() => {
   const version = "v68";
-  const preferredWorker = "./sw-v68.js?v=68";
+  const preferredWorker = "./sw.js?v=68";
   window.OnsenBuildInfo = { version, updatedAt: "2026-08-28" };
 
   function ensureGameBridge() {
