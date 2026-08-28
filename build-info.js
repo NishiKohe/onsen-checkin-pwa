@@ -25,6 +25,18 @@
     ensureGameBridge();
   }
 
+  async function registerPreferredWorker() {
+    if (!("serviceWorker" in navigator)) return null;
+    try {
+      const registration = await navigator.serviceWorker.register(preferredWorker);
+      await registration?.update?.();
+      return registration;
+    } catch (err) {
+      console.warn("v68 service worker update check skipped", err);
+      return null;
+    }
+  }
+
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
@@ -54,13 +66,10 @@
       location.reload();
     });
 
-    window.addEventListener("load", async () => {
-      try {
-        const registration = await navigator.serviceWorker.register(preferredWorker);
-        await registration?.update?.();
-      } catch (err) {
-        console.warn("v68 service worker update check skipped", err);
-      }
+    window.addEventListener("load", () => {
+      registerPreferredWorker();
+      setTimeout(registerPreferredWorker, 1800);
+      setTimeout(registerPreferredWorker, 5200);
     });
   }
 
