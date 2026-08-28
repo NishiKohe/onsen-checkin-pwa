@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v68.1";
+const CACHE_NAME = "onsen-checkin-v68.2";
 const CORE_ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css",
   "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css",
