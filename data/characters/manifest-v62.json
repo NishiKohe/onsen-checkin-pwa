@@ -1,13 +1,13 @@
 {
-  "version": 1,
-  "introducedIn": "design-v62",
+  "version": 2,
+  "introducedIn": "v68",
   "schema": "catalog/character-model-schema-v62.json",
-  "logicalMasterId": "sengoku_core_v62",
-  "characterCount": 50,
+  "logicalMasterId": "sengoku_core_v68",
+  "characterCount": 100,
   "dataStatus": {
-    "characterSelection": "seeded_50",
-    "historicalCastleMappings": "review_required_before_production",
-    "combatBalance": "prototype",
+    "characterSelection": "seeded_100",
+    "historicalCastleMappings": "continued_100_seeded_review_required_before_production",
+    "combatBalance": "prototype_v68",
     "portraitAssets": "pending"
   },
   "shards": [
@@ -15,13 +15,18 @@
     "data/characters/sengoku-core-v62-02.json",
     "data/characters/sengoku-core-v62-03.json",
     "data/characters/sengoku-core-v62-04.json",
-    "data/characters/sengoku-core-v62-05.json"
+    "data/characters/sengoku-core-v62-05.json",
+    "data/characters/sengoku-core-v68-06.json",
+    "data/characters/sengoku-core-v68-07.json",
+    "data/characters/sengoku-core-v68-08.json",
+    "data/characters/sengoku-core-v68-09.json",
+    "data/characters/sengoku-core-v68-10.json"
   ],
   "designNotes": [
-    "初期50人は知名度だけでなく戦陣・釣り・将来Rogueで役割が分散するよう選定する",
-    "guaranteedCastleIdsは城との直接性が比較的高い関係を優先し、正式リリース前に史実レビューする",
-    "関連が弱い水軍・忍・文化人は城へ無理に紐付けずunlockRegionsを主な登用途に使う",
-    "重複登用は別個体にせず縁ポイントへ変換する",
-    "戦陣は5人編成かつ全所持人物が軍勢力へ寄与し、将来Rogueは3人の組み合わせを重視する"
+    "100人編成。後半50人は続日本100名城との直接性・地域分散を優先して追加する",
+    "guaranteedCastleIdsは城主・築城者・守将など直接性が高い関係を優先し、正式リリース前に史実レビューする",
+    "関連性に議論がある人物はguaranteedではなくunlockCastleIdsへ寄せる",
+    "同じ人物の重複入手は別個体にせず縁ポイントへ変換する",
+    "戦陣は5人編成かつ全所持人物が軍勢力へ寄与し、100人収集そのものが長期成長になる"
   ]
 }
