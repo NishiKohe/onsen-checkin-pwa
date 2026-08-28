@@ -1,21 +1,10 @@
 (() => {
-  const BUILD = "v62";
+  const BUILD = "v68";
   const DATA_URL = "./data/castles-japan100-v61.json";
   const ZONE_URL = "./data/castle-checkin-zones-v62.json";
+  const ZOKU_URL = "./data/castles-zoku100-v68.csv";
   const CATEGORY_ID = "castle";
-
-  const REGION_COLLECTIONS = [
-    ["北海道", "castle_japan100_hokkaido", "日本100名城・北海道"],
-    ["東北", "castle_japan100_tohoku", "日本100名城・東北"],
-    ["関東", "castle_japan100_kanto", "日本100名城・関東"],
-    ["甲信越", "castle_japan100_koshinetsu", "日本100名城・甲信越"],
-    ["北陸", "castle_japan100_hokuriku", "日本100名城・北陸"],
-    ["東海", "castle_japan100_tokai", "日本100名城・東海"],
-    ["近畿", "castle_japan100_kinki", "日本100名城・近畿"],
-    ["中国", "castle_japan100_chugoku", "日本100名城・中国"],
-    ["四国", "castle_japan100_shikoku", "日本100名城・四国"],
-    ["九州・沖縄", "castle_japan100_kyushu_okinawa", "日本100名城・九州沖縄"]
-  ];
+  const REGIONS = ["北海道","東北","関東","甲信越","北陸","東海","近畿","中国","四国","九州・沖縄"];
 
   async function waitForDomain() {
     for (let i = 0; i < 300; i += 1) {
@@ -31,55 +20,129 @@
     return response.json();
   }
 
+  async function fetchText(url) {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`${url} load failed: ${response.status}`);
+    return response.text();
+  }
+
+  function parseZokuCsv(text) {
+    const lines = String(text || "").trim().split(/\r?\n/).slice(1).filter(Boolean);
+    return lines.map((line) => {
+      const [no, slug, name, prefecture, region, lat, lng, castleType, radiusM] = line.split(",");
+      const japan100No = Number(no);
+      const id = `castle_${String(japan100No).padStart(3, "0")}_${slug}`;
+      const zone = {
+        castleId: id,
+        japan100No,
+        name,
+        lat: Number(lat),
+        lng: Number(lng),
+        radiusM: Math.max(500, Number(radiusM) || 750),
+        accuracyRequiredM: 500,
+        coordinateStatus: "v68_public_reference_seed",
+        checkinZoneStatus: "v68_accessibility_first"
+      };
+      const entity = {
+        id,
+        japan100No,
+        selectionId: "castle_zoku100",
+        selectionName: "続日本100名城",
+        name,
+        prefecture,
+        region,
+        castleType,
+        tags: ["続日本100名城"],
+        characterUnlock: {
+          guaranteedRecruitOnFirstGpsVisit: 1,
+          discoverCandidatesOnVisit: true,
+          mappingStatus: "v68_seed"
+        }
+      };
+      return { entity, zone };
+    });
+  }
+
   async function loadData() {
-    const [data, zoneData] = await Promise.all([fetchJson(DATA_URL), fetchJson(ZONE_URL)]);
-    if (!Array.isArray(data?.entities) || data.entities.length !== 100) {
-      throw new Error(`Japan 100 castle dataset must contain 100 entities; got ${data?.entities?.length ?? 0}`);
+    const [baseData, baseZoneData, zokuText] = await Promise.all([
+      fetchJson(DATA_URL),
+      fetchJson(ZONE_URL),
+      fetchText(ZOKU_URL)
+    ]);
+    if (!Array.isArray(baseData?.entities) || baseData.entities.length !== 100) {
+      throw new Error(`Japan 100 dataset must contain 100 entities; got ${baseData?.entities?.length ?? 0}`);
     }
-    if (!Array.isArray(zoneData?.entries) || zoneData.entries.length !== 100) {
-      throw new Error(`Japan 100 castle zone dataset must contain 100 entries; got ${zoneData?.entries?.length ?? 0}`);
+    if (!Array.isArray(baseZoneData?.entries) || baseZoneData.entries.length !== 100) {
+      throw new Error(`Japan 100 zone dataset must contain 100 entries; got ${baseZoneData?.entries?.length ?? 0}`);
     }
-    const zonesById = new Map(zoneData.entries.map((entry) => [entry.castleId, entry]));
-    data.entities = data.entities.map((raw) => {
+    const zoku = parseZokuCsv(zokuText);
+    if (zoku.length !== 100) throw new Error(`Continued Japan 100 dataset must contain 100 entries; got ${zoku.length}`);
+
+    const originalEntities = baseData.entities.map((entity) => ({
+      ...entity,
+      selectionId: entity.selectionId || "castle_japan100",
+      selectionName: entity.selectionName || "日本100名城",
+      tags: [...new Set([...(entity.tags || []), "日本100名城"])]
+    }));
+    const entities = [...originalEntities, ...zoku.map((item) => item.entity)].sort((a, b) => Number(a.japan100No) - Number(b.japan100No));
+    const entries = [...baseZoneData.entries, ...zoku.map((item) => item.zone)];
+    if (entities.length !== 200 || entries.length !== 200) throw new Error("combined castle dataset must contain 200 castles and 200 zones");
+
+    const zoneData = {
+      ...baseZoneData,
+      version: 2,
+      introducedIn: "v68",
+      policy: {
+        ...(baseZoneData.policy || {}),
+        defaultAccuracyRequiredM: 500,
+        minimumRadiusM: 500,
+        radiusPolicy: "日本100名城はv63ランタイム補正、続日本100名城は都市750m・平山1000m・山城1500m・広域2000-2500mを基本とする。偽陰性回避を優先。"
+      },
+      entries
+    };
+    const zonesById = new Map(entries.map((entry) => [entry.castleId, entry]));
+    const mergedEntities = entities.map((raw) => {
       const zone = zonesById.get(raw.id);
-      if (!zone) return raw;
-      return {
+      return zone ? {
         ...raw,
         lat: Number(zone.lat),
         lng: Number(zone.lng),
-        checkinRadiusM: Number(zone.radiusM),
-        accuracyRequiredM: Number(zone.accuracyRequiredM || zoneData.policy?.defaultAccuracyRequiredM || 80),
-        coordinateStatus: zone.coordinateStatus || "secondary_reference_crosschecked",
-        checkinZoneStatus: zone.checkinZoneStatus || "v62_initial"
-      };
+        checkinRadiusM: Math.max(500, Number(zone.radiusM) || 750),
+        accuracyRequiredM: Number(zone.accuracyRequiredM || 500),
+        coordinateStatus: zone.coordinateStatus || "reference_seed",
+        checkinZoneStatus: zone.checkinZoneStatus || "v68"
+      } : raw;
     });
-    data.zoneData = zoneData;
-    return data;
+    return {
+      ...baseData,
+      version: 2,
+      introducedIn: "v68",
+      collectionId: "castle_all200",
+      name: "日本100名城・続日本100名城",
+      entities: mergedEntities,
+      zoneData,
+      dataStatus: {
+        ...(baseData.dataStatus || {}),
+        selection: "official_200",
+        coordinates: "v68_200_ready",
+        checkinZones: "v68_accessibility_first",
+        characterMappings: "v68_expanding"
+      }
+    };
+  }
+
+  function registerCollection(domain, id, name, targetIds, section = "official_selection", rarity = "LEGEND") {
+    domain.collections.register({ id, categoryId: CATEGORY_ID, name, rarity, section, targetIds, note: `${name} ${targetIds.length}城` }, { source: id === "castle_zoku100" ? ZOKU_URL : DATA_URL });
   }
 
   function registerCollections(domain, data) {
-    const allIds = data.entities.map((entity) => entity.id);
-    domain.collections.register({
-      id: data.collectionId || "castle_japan100",
-      categoryId: CATEGORY_ID,
-      name: data.name || "日本100名城",
-      rarity: "LEGEND",
-      section: "official_selection",
-      targetIds: allIds,
-      note: "日本100名城の100城。過去訪問登録と厳格GPSチェックインを同じcastle Entityで扱う。"
-    }, { source: DATA_URL });
-
-    for (const [region, id, name] of REGION_COLLECTIONS) {
-      const targetIds = data.entities.filter((entity) => entity.region === region).map((entity) => entity.id);
-      domain.collections.register({
-        id,
-        categoryId: CATEGORY_ID,
-        name,
-        rarity: targetIds.length >= 10 ? "SSR" : "SR",
-        section: "region",
-        targetIds,
-        note: `${region}の日本100名城 ${targetIds.length}城`
-      }, { source: DATA_URL });
+    const all = data.entities;
+    registerCollection(domain, "castle_all200", "日本100名城・続日本100名城", all.map((entity) => entity.id));
+    registerCollection(domain, "castle_japan100", "日本100名城", all.filter((entity) => Number(entity.japan100No) <= 100).map((entity) => entity.id));
+    registerCollection(domain, "castle_zoku100", "続日本100名城", all.filter((entity) => Number(entity.japan100No) >= 101).map((entity) => entity.id));
+    for (const region of REGIONS) {
+      const targetIds = all.filter((entity) => entity.region === region).map((entity) => entity.id);
+      registerCollection(domain, `castle_all200_${region}`, `名城200・${region}`, targetIds, "region", targetIds.length >= 20 ? "SSR" : "SR");
     }
   }
 
@@ -94,16 +157,16 @@
       source: DATA_URL,
       checkinPolicy: {
         mode: "distance_zone",
-        defaultRadiusM: 450,
-        defaultAccuracyRequiredM: 80,
-        zoneSource: ZONE_URL,
+        defaultRadiusM: 750,
+        defaultAccuracyRequiredM: 500,
+        zoneSource: `${ZONE_URL} + ${ZOKU_URL}`,
         strictGpsForCharacterUnlock: true
       },
       metadata: {
-        activeSelection: "japan_100_castles",
+        activeSelection: "japan_100_and_continued_100",
+        totalCastles: 200,
         coordinatesReady: true,
-        coordinateStatus: "secondary_reference_crosschecked",
-        coordinateSource: ZONE_URL,
+        coordinateStatus: "v68_200_seed",
         pastVisitRegistrationReady: true,
         characterSystemReady: true,
         strictGpsUiReady: true,
@@ -118,9 +181,8 @@
         entityType: "castle",
         aliases: raw.aliases || [],
         tags: [...new Set([...(raw.tags || []), "castle"])]
-      }, { categoryId: CATEGORY_ID, source: ZONE_URL });
+      }, { categoryId: CATEGORY_ID, source: Number(raw.japan100No) >= 101 ? ZOKU_URL : ZONE_URL });
     }
-
     registerCollections(domain, data);
   }
 
@@ -131,29 +193,16 @@
     const snapshot = {
       build: BUILD,
       category: domain.categories.get(CATEGORY_ID),
-      entityCount: domain.entities.list({ categoryId: CATEGORY_ID }).length,
-      locatedEntityCount: domain.entities.list({ categoryId: CATEGORY_ID }).filter((entity) => !!entity.location).length,
-      collections: domain.collections.list({ categoryId: CATEGORY_ID }).map((collection) => ({
-        id: collection.id,
-        name: collection.name,
-        total: collection.targetIds.length
-      })),
-      dataStatus: {
-        ...(data.dataStatus || {}),
-        coordinates: "v62_reference_ready",
-        checkinZones: "v62_initial_ready",
-        characterMappings: "seed_50_runtime_ready"
-      },
-      zoneSource: ZONE_URL
+      entityCount: data.entities.length,
+      locatedEntityCount: data.entities.filter((entity) => Number.isFinite(entity.lat) && Number.isFinite(entity.lng)).length,
+      collections: domain.collections.list({ categoryId: CATEGORY_ID }).map((collection) => ({ id: collection.id, name: collection.name, total: collection.targetIds.length })),
+      dataStatus: data.dataStatus,
+      zoneSource: `${ZONE_URL} + ${ZOKU_URL}`
     };
-    window.OnsenCastleDomain = {
-      build: BUILD,
-      data,
-      snapshot: () => snapshot
-    };
+    window.OnsenCastleDomain = { build: BUILD, data, snapshot: () => snapshot };
     window.dispatchEvent(new CustomEvent("onsen-castle-domain-ready", { detail: snapshot }));
-    console.info("castle domain ready", snapshot);
+    console.info("castle domain v68 ready", snapshot);
   }
 
-  install().catch((error) => console.warn("castle domain v62 init failed", error));
+  install().catch((error) => console.warn("castle domain v68 init failed", error));
 })();
