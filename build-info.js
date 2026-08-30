@@ -16,6 +16,7 @@
   function ensureGameBridges() {
     addBridge({ globalName: "OnsenGameV68Bridge", id: "gameV68BridgeScript", src: "./game-v68-bridge.js?v=68.2", label: "v68.2 game bridge" });
     addBridge({ globalName: "OnsenGameV69Bridge", id: "gameV69BridgeScript", src: "./game-v69-bridge.js?v=69", label: "v69 mining bridge" });
+    addBridge({ globalName: "__onsenEquipmentBattleSyncV69", id: "equipmentBattleSyncV69", src: "./equipment-battle-sync-v69.js?v=69", label: "v69 equipment battle sync" });
   }
 
   function apply() {
