@@ -19,7 +19,6 @@
     addBridge({ globalName: "__onsenEquipmentBattleSyncV69", id: "equipmentBattleSyncV69", src: "./equipment-battle-sync-v69.js?v=69", label: "v69 equipment battle sync" });
     addBridge({ globalName: "OnsenUiRecoveryV701", id: "uiRecoveryV701Script", src: "./ui-recovery-v701.js?v=70.1", label: "v70.1 UI recovery" });
     addBridge({ globalName: "OnsenScenicV70Bridge", id: "scenicV70BridgeScript", src: "./scenic-v70-bridge.js?v=70.2", label: "v70.2 scenic bridge" });
-    addBridge({ globalName: "OnsenDomainAchievements", id: "achievementDomainV702Script", src: "./achievement-domain-v702.js?v=70.2", label: "v70.2 domain achievements" });
   }
 
   function apply() {
