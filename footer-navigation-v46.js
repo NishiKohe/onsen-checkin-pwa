@@ -7,7 +7,7 @@
   function syncColumnCount(){const nav=getNav(),count=Math.max(1,nav?.querySelectorAll(".app-tab").length||1);document.documentElement.style.setProperty("--app-tab-count",String(count));}
   function ensureAchievementButton(){
     const nav=getNav();if(!nav)return null;let button=document.getElementById(FOOTER_ID);
-    if(!button){button=document.createElement("button");button.id=FOOTER_ID;button.type="button";button.className="app-tab";button.dataset.footerTab="achievements";button.setAttribute("aria-selected","false");button.textContent="実績";const trip=nav.querySelector('[data-app-tab="trip"]');if(trip)nav.insertBefore(button,trip);else nav.appendChild(button);}else{delete button.dataset.appTab;button.dataset.footerTab="achievements";}
+    if(!button){button=document.createElement("button");button.id=FOOTER_ID;button.type="button";button.className="app-tab";button.dataset.appTab="achievement_proxy";button.dataset.footerTab="achievements";button.setAttribute("aria-selected","false");button.textContent="実績";const trip=nav.querySelector('[data-app-tab="trip"]');if(trip)nav.insertBefore(button,trip);else nav.appendChild(button);}else{button.dataset.appTab="achievement_proxy";button.dataset.footerTab="achievements";}
     syncColumnCount();return button;
   }
   function hideNestedModeTabs(){const tabs=document.getElementById("collectionModeTabs");if(!tabs)return;tabs.hidden=true;tabs.setAttribute("aria-hidden","true");}
@@ -31,7 +31,7 @@
     syncScheduled=false;const nav=getNav(),achievementButton=ensureAchievementButton();if(!nav||!achievementButton)return;hideNestedModeTabs();syncColumnCount();
     const shellTab=document.documentElement.dataset.appTab||"map",achievementMode=shellTab==="collection"&&isAchievementMode();syncHeaderMode(achievementMode);
     for(const button of nav.querySelectorAll(".app-tab")){
-      let active=false;if(button===achievementButton)active=achievementMode;else if(button.dataset.appTab==="collection")active=shellTab==="collection"&&!achievementMode;else if(button.dataset.appTab)active=button.dataset.appTab===shellTab;
+      let active=false;if(button===achievementButton)active=achievementMode;else if(button.dataset.appTab==="collection")active=shellTab==="collection"&&!achievementMode;else if(button.dataset.appTab&&button.dataset.appTab!=="achievement_proxy")active=button.dataset.appTab===shellTab;
       button.classList.toggle("active",active);button.setAttribute("aria-selected",active?"true":"false");
     }
   }
@@ -49,7 +49,7 @@
   }
   async function install(){
     if(installed)return;for(let i=0;i<300;i+=1){if(getNav()&&window.OnsenAppShell&&window.OnsenAchievements)break;await new Promise((resolve)=>setTimeout(resolve,40));}
-    if(!getNav()||!window.OnsenAppShell)throw new Error("footer navigation prerequisites not ready");installed=true;ensureAchievementButton();bindNavigationCapture();hideNestedModeTabs();wrapAchievementShow();syncActiveState();
+    if(!getNav()||!window.OnsenAppShell)throw new Error("footer navigation prerequisites not ready");installed=true;ensureAchievementButton();bindNavigationCapture();hideNestedModeTabs();wrapAchievementShow();syncActiveState();requestAnimationFrame(syncActiveState);
     window.addEventListener("onsen-app-tab-changed",scheduleSync);window.addEventListener("onsen-collection-mode-changed",()=>{scheduleSync();requestAnimationFrame(refreshDomainViews);});window.addEventListener("onsen-collection-domain-changed",scheduleSync);window.addEventListener("pageshow",scheduleSync);window.addEventListener("onsen-scenic-v703-ready",scheduleSync);
     window.OnsenFooterNavigation={build:BUILD,openAchievements,openCollections,refresh:()=>{syncActiveState();refreshDomainViews();}};
     window.dispatchEvent(new CustomEvent("onsen-footer-navigation-ready",{detail:{build:BUILD}}));
