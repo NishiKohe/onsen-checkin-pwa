@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v70.1";
+  const BUILD = "v70.2";
   let installed = false;
 
   function addStyle(href, id) {
@@ -46,51 +46,48 @@
   }
 
   async function boot() {
-    addStyle("./scenic-collection-ui-v70.css?v=70.1", "scenicCollectionStyleV70");
+    addStyle("./scenic-collection-ui-v70.css?v=70.2", "scenicCollectionStyleV70");
 
     const shellReady = await waitFor(() => document.querySelector("#collectionView .collection-shell"), 8000);
     if (!shellReady) {
-      console.warn("v70.1 scenic bridge: collection shell not ready");
+      console.warn("v70.2 scenic bridge: collection shell not ready");
       return false;
     }
 
     if (!window.OnsenScenicRuntime) {
-      const loaded = await loadScriptOnce("./scenic-runtime-v70.js?v=70.1", "scenicRuntimeV70");
+      const loaded = await loadScriptOnce("./scenic-runtime-v70.js?v=70.2", "scenicRuntimeV70");
       if (!loaded) return false;
     }
     const runtime = await waitFor(() => window.OnsenScenicRuntime, 12000);
     if (!runtime) {
-      console.warn("v70.1 scenic bridge: runtime not ready");
+      console.warn("v70.2 scenic bridge: runtime not ready");
       return false;
     }
 
-    const collectionSwitcher = await waitFor(
-      () => document.querySelector("#collectionView .collection-domain-switch"),
-      10000
-    );
+    const collectionSwitcher = await waitFor(() => document.querySelector("#collectionView .collection-domain-switch"), 10000);
     if (!collectionSwitcher) {
-      console.warn("v70.1 scenic bridge: collection domain switch not ready");
+      console.warn("v70.2 scenic bridge: collection domain switch not ready");
       return false;
     }
 
     if (!window.OnsenScenicCollectionUI) {
-      const loaded = await loadScriptOnce("./scenic-collection-ui-v70.js?v=70.1", "scenicCollectionUiV70");
+      const loaded = await loadScriptOnce("./scenic-collection-ui-v70.js?v=70.2", "scenicCollectionUiV70");
       if (!loaded) return false;
     }
     const ui = await waitFor(() => window.OnsenScenicCollectionUI, 10000);
     if (!ui) {
-      console.warn("v70.1 scenic bridge: collection UI not ready");
+      console.warn("v70.2 scenic bridge: collection UI not ready");
       return false;
     }
 
-    window.dispatchEvent(new CustomEvent("onsen-scenic-v701-ready", { detail: { build: BUILD } }));
+    window.dispatchEvent(new CustomEvent("onsen-scenic-v702-ready", { detail: { build: BUILD } }));
     return true;
   }
 
   function install() {
     if (installed) return;
     installed = true;
-    boot().catch((error) => console.warn("v70.1 scenic bridge boot failed", error));
+    boot().catch((error) => console.warn("v70.2 scenic bridge boot failed", error));
     window.OnsenScenicV70Bridge = { build: BUILD, boot };
   }
 
