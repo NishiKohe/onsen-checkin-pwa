@@ -12,7 +12,19 @@
     return visited;
   }
 
+  function allDefinitions() {
+    const base = window.OnsenAchievements?.getDefinitions?.() || [];
+    const domain = window.OnsenDomainAchievements?.definitions?.() || [];
+    const byId = new Map();
+    for (const item of [...base, ...domain]) if (item?.id) byId.set(item.id, item);
+    return [...byId.values()];
+  }
+
   function progressFor(definition, visited) {
+    if (String(definition?.id || "").startsWith("domain:") && window.OnsenDomainAchievements?.evaluate) {
+      const progress = window.OnsenDomainAchievements.evaluate(definition);
+      return { ...progress, remaining: Math.max(0, Number(progress.total || 0) - Number(progress.done || 0)), missingSpotIds: [] };
+    }
     if (definition.kind === "visit_count") {
       const done = Math.min(visited.size, Number(definition.visitCount || definition.total || 0));
       const total = Number(definition.visitCount || definition.total || 0);
@@ -58,7 +70,7 @@
     const panel = ensurePanel();
     if (!panel) return;
 
-    const definitions = window.OnsenAchievements.getDefinitions();
+    const definitions = allDefinitions();
     const state = window.OnsenAchievements.getState();
     const visited = uniqueVisited();
     const candidates = [];
@@ -95,8 +107,9 @@
       const card = document.createElement("article");
       card.className = "achievement-next-card";
       card.dataset.rarity = definition.rarity || "R";
-      const unit = definition.id.startsWith("area:onsen_musume") || definition.id === "collection:onsen_musume" ? "人" : "湯";
-      const missing = progress.missingSpotIds.slice(0, 3).map(spotName);
+      const domain = String(definition.id || "").startsWith("domain:");
+      const unit = domain ? "件" : definition.id.startsWith("area:onsen_musume") || definition.id === "collection:onsen_musume" ? "人" : "湯";
+      const missing = (progress.missingSpotIds || []).slice(0, 3).map(spotName);
       card.innerHTML = `
         <div class="achievement-next-main">
           <span>${escapeHtml(definition.rarity || "R")}</span>
@@ -122,6 +135,9 @@
         });
         window.addEventListener("storage", schedule);
         window.addEventListener("pageshow", schedule);
+        for (const eventName of ["onsen-castle-visit-changed", "onsen-scenic-visit-changed", "onsen-domain-achievements-changed", "onsen-scenic-v702-ready"]) {
+          window.addEventListener(eventName, schedule);
+        }
         document.addEventListener("click", (event) => {
           if (event.target.closest?.("[data-collection-mode='achievements'], .achievement-card-footer button")) schedule();
         }, true);
