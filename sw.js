@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v70";
+const CACHE_NAME = "onsen-checkin-v70.1";
 const CORE_ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css",
   "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css", "./mining-pickaxe-v691.css",
@@ -9,7 +9,7 @@ const CORE_ASSETS = [
   "./castle-visit-runtime-v61.js", "./character-runtime-v61.js", "./fishing-game-v60.js",
   "./encyclopedia-ui-v61.js", "./game-hub-v61.js", "./game-v68-bridge.js", "./game-v69-bridge.js",
   "./progression-runtime-v69.js", "./equipment-battle-sync-v69.js", "./mining-game-v69.js", "./endless-battle-v68.js",
-  "./castle-collection-ui-v61.js", "./castle-map-v62.js", "./scenic-v70-bridge.js", "./scenic-runtime-v70.js", "./scenic-collection-ui-v70.js",
+  "./castle-collection-ui-v61.js", "./castle-map-v62.js", "./ui-recovery-v701.js", "./scenic-v70-bridge.js", "./scenic-runtime-v70.js", "./scenic-collection-ui-v70.js",
   "./data/castles-japan100-v61.json", "./data/castle-checkin-zones-v62.json",
   "./data/castles-zoku100-v68.csv", "./data/scenic-national-v70.json", "./data/fish-catalog-v61.json",
   "./data/characters/manifest-v62.json", "./data/characters/sengoku-core-v62-01.json",
