@@ -80,6 +80,11 @@
       return false;
     }
 
+    const achievements = await waitFor(() => window.OnsenAchievements && document.getElementById("achievementView"), 12000);
+    if (achievements && !window.OnsenDomainAchievements) {
+      await loadScriptOnce("./achievement-domain-v702.js?v=70.2", "achievementDomainV702Script");
+    }
+
     window.dispatchEvent(new CustomEvent("onsen-scenic-v702-ready", { detail: { build: BUILD } }));
     return true;
   }
