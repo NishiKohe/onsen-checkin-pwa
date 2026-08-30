@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "dataset": "national_places_of_scenic_beauty",
+  "status": "catalog_import_pending",
+  "officialCount": 433,
+  "ordinaryCount": 397,
+  "specialCount": 36,
+  "asOf": "2026-08-01",
+  "sources": [
+    {
+      "name": "文化庁 文化財指定等の件数",
+      "url": "https://www.bunka.go.jp/seisaku/bunkazai/shokai/shitei.html",
+      "role": "official_count"
+    },
+    {
+      "name": "国指定文化財等データベース",
+      "url": "https://kunishitei.bunka.go.jp/bsys/index",
+      "role": "official_catalog"
+    }
+  ],
+  "checkinPolicy": {
+    "minimumRadiusM": 500,
+    "defaultRadiusM": 750,
+    "broadSiteRadiusM": 1500,
+    "maximumSeedRadiusM": 2500,
+    "accuracyRequiredM": 500,
+    "multiZoneSupported": true,
+    "rule": "GPSチェックインはzonesが監査済みの項目だけ有効化する。庭園等のコンパクト地点は500-750m、渓谷・海岸・山岳・島嶼等の広域名勝は複数zoneを優先し、必要時のみ1-2.5km級の半径を用いる。"
+  },
+  "entrySchema": {
+    "required": ["id", "name", "designation", "prefectures", "specialScenic"],
+    "optional": ["reading", "municipalities", "designationDate", "officialDatabaseId", "criteria", "zones", "coordinateStatus", "notes"]
+  },
+  "seedEntries": [
+    {"id":"scenic_matsushima","name":"松島","designation":"特別名勝","prefectures":["宮城県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_motsuji_garden","name":"毛越寺庭園","designation":"特別名勝","prefectures":["岩手県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_ritsurin_park","name":"栗林公園","designation":"特別名勝","prefectures":["香川県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_sandankyo","name":"三段峡","designation":"特別名勝","prefectures":["広島県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_itsukushima","name":"厳島","designation":"特別名勝","prefectures":["広島県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_kamikochi","name":"上高地","designation":"特別名勝","prefectures":["長野県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_kintaikyo","name":"錦帯橋","designation":"名勝","prefectures":["山口県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_fukuroda_namase","name":"袋田の滝及び生瀬滝","designation":"名勝","prefectures":["茨城県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_noike","name":"納池","designation":"名勝","prefectures":["大分県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_senganzan_takabuto","name":"千巌山および高舞登山","designation":"名勝","prefectures":["熊本県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"}
+  ],
+  "entries": []
+}
