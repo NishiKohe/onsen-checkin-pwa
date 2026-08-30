@@ -7,7 +7,7 @@
   function syncColumnCount(){const nav=getNav(),count=Math.max(1,nav?.querySelectorAll(".app-tab").length||1);document.documentElement.style.setProperty("--app-tab-count",String(count));}
   function ensureAchievementButton(){
     const nav=getNav();if(!nav)return null;let button=document.getElementById(FOOTER_ID);
-    if(!button){button=document.createElement("button");button.id=FOOTER_ID;button.type="button";button.className="app-tab";button.dataset.appTab="collection";button.dataset.footerTab="achievements";button.setAttribute("aria-selected","false");button.textContent="実績";const trip=nav.querySelector('[data-app-tab="trip"]');if(trip)nav.insertBefore(button,trip);else nav.appendChild(button);}else{button.dataset.appTab="collection";button.dataset.footerTab="achievements";}
+    if(!button){button=document.createElement("button");button.id=FOOTER_ID;button.type="button";button.className="app-tab";button.dataset.footerTab="achievements";button.setAttribute("aria-selected","false");button.textContent="実績";const trip=nav.querySelector('[data-app-tab="trip"]');if(trip)nav.insertBefore(button,trip);else nav.appendChild(button);}else{delete button.dataset.appTab;button.dataset.footerTab="achievements";}
     syncColumnCount();return button;
   }
   function hideNestedModeTabs(){const tabs=document.getElementById("collectionModeTabs");if(!tabs)return;tabs.hidden=true;tabs.setAttribute("aria-hidden","true");}
