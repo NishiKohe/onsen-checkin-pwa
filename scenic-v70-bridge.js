@@ -1,7 +1,7 @@
 (() => {
-  const BUILD = "v70";
+  const BUILD = "v70.1";
   let installed = false;
-  let bootTimer = null;
+
   function addStyle(href, id) {
     if (document.getElementById(id)) return;
     const link = document.createElement("link");
@@ -10,43 +10,90 @@
     link.href = href;
     document.head.appendChild(link);
   }
-  function addScript(src, id) {
-    if (document.getElementById(id)) return Promise.resolve(true);
+
+  function waitFor(test, timeoutMs = 10000, intervalMs = 50) {
     return new Promise((resolve) => {
+      const startedAt = Date.now();
+      const tick = () => {
+        let value = null;
+        try { value = test(); } catch {}
+        if (value) { resolve(value); return; }
+        if (Date.now() - startedAt >= timeoutMs) { resolve(null); return; }
+        setTimeout(tick, intervalMs);
+      };
+      tick();
+    });
+  }
+
+  function loadScriptOnce(src, id) {
+    return new Promise((resolve) => {
+      const existing = document.getElementById(id);
+      if (existing) {
+        if (existing.dataset.loaded === "1") { resolve(true); return; }
+        existing.addEventListener("load", () => resolve(true), { once: true });
+        existing.addEventListener("error", () => resolve(false), { once: true });
+        setTimeout(() => resolve(existing.dataset.loaded === "1"), 10000);
+        return;
+      }
       const script = document.createElement("script");
       script.id = id;
       script.src = src;
       script.async = true;
-      script.addEventListener("load", () => resolve(true), { once: true });
+      script.addEventListener("load", () => { script.dataset.loaded = "1"; resolve(true); }, { once: true });
       script.addEventListener("error", () => { console.warn(`${src} load failed`); resolve(false); }, { once: true });
       document.head.appendChild(script);
     });
   }
-  async function bootPass() {
-    addStyle("./scenic-collection-ui-v70.css?v=70", "scenicCollectionStyleV70");
-    if (!window.OnsenScenicRuntime) {
-      const ok = await addScript("./scenic-runtime-v70.js?v=70", "scenicRuntimeV70");
-      if (!ok) return false;
+
+  async function boot() {
+    addStyle("./scenic-collection-ui-v70.css?v=70.1", "scenicCollectionStyleV70");
+
+    const shellReady = await waitFor(() => document.querySelector("#collectionView .collection-shell"), 8000);
+    if (!shellReady) {
+      console.warn("v70.1 scenic bridge: collection shell not ready");
+      return false;
     }
-    if (!window.OnsenScenicRuntime) return false;
-    if (!window.OnsenScenicCollectionUI) await addScript("./scenic-collection-ui-v70.js?v=70", "scenicCollectionUiV70");
-    return !!window.OnsenScenicCollectionUI;
+
+    if (!window.OnsenScenicRuntime) {
+      const loaded = await loadScriptOnce("./scenic-runtime-v70.js?v=70.1", "scenicRuntimeV70");
+      if (!loaded) return false;
+    }
+    const runtime = await waitFor(() => window.OnsenScenicRuntime, 12000);
+    if (!runtime) {
+      console.warn("v70.1 scenic bridge: runtime not ready");
+      return false;
+    }
+
+    const collectionSwitcher = await waitFor(
+      () => document.querySelector("#collectionView .collection-domain-switch"),
+      10000
+    );
+    if (!collectionSwitcher) {
+      console.warn("v70.1 scenic bridge: collection domain switch not ready");
+      return false;
+    }
+
+    if (!window.OnsenScenicCollectionUI) {
+      const loaded = await loadScriptOnce("./scenic-collection-ui-v70.js?v=70.1", "scenicCollectionUiV70");
+      if (!loaded) return false;
+    }
+    const ui = await waitFor(() => window.OnsenScenicCollectionUI, 10000);
+    if (!ui) {
+      console.warn("v70.1 scenic bridge: collection UI not ready");
+      return false;
+    }
+
+    window.dispatchEvent(new CustomEvent("onsen-scenic-v701-ready", { detail: { build: BUILD } }));
+    return true;
   }
+
   function install() {
     if (installed) return;
     installed = true;
-    let attempts = 0;
-    bootTimer = setInterval(async () => {
-      const done = await bootPass();
-      attempts += 1;
-      if (done || attempts >= 40) {
-        clearInterval(bootTimer);
-        bootTimer = null;
-      }
-    }, 250);
-    bootPass();
-    window.OnsenScenicV70Bridge = { build: BUILD, bootPass };
+    boot().catch((error) => console.warn("v70.1 scenic bridge boot failed", error));
+    window.OnsenScenicV70Bridge = { build: BUILD, boot };
   }
+
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", install, { once: true });
   else install();
 })();
