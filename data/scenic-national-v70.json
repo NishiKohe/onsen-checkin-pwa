@@ -1,11 +1,11 @@
 {
-  "version": 1,
+  "version": 2,
   "dataset": "national_places_of_scenic_beauty",
-  "status": "catalog_import_pending",
+  "status": "special_36_complete_ordinary_397_pending",
   "officialCount": 433,
   "ordinaryCount": 397,
   "specialCount": 36,
-  "asOf": "2026-08-01",
+  "asOf": "2026-02-17",
   "sources": [
     {
       "name": "文化庁 文化財指定等の件数",
@@ -14,8 +14,13 @@
     },
     {
       "name": "国指定文化財等データベース",
-      "url": "https://kunishitei.bunka.go.jp/bsys/index",
+      "url": "https://kunishitei.bunka.go.jp/bsys/categorylist?register_id=401",
       "role": "official_catalog"
+    },
+    {
+      "name": "日本の特別名勝一覧",
+      "url": "https://ja.wikipedia.org/wiki/日本の特別名勝一覧",
+      "role": "crosscheck_special_names"
     }
   ],
   "checkinPolicy": {
@@ -32,16 +37,47 @@
     "optional": ["reading", "municipalities", "designationDate", "officialDatabaseId", "criteria", "zones", "coordinateStatus", "notes"]
   },
   "seedEntries": [
-    {"id":"scenic_matsushima","name":"松島","designation":"特別名勝","prefectures":["宮城県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
-    {"id":"scenic_motsuji_garden","name":"毛越寺庭園","designation":"特別名勝","prefectures":["岩手県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
-    {"id":"scenic_ritsurin_park","name":"栗林公園","designation":"特別名勝","prefectures":["香川県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
-    {"id":"scenic_sandankyo","name":"三段峡","designation":"特別名勝","prefectures":["広島県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
-    {"id":"scenic_itsukushima","name":"厳島","designation":"特別名勝","prefectures":["広島県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
-    {"id":"scenic_kamikochi","name":"上高地","designation":"特別名勝","prefectures":["長野県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
     {"id":"scenic_kintaikyo","name":"錦帯橋","designation":"名勝","prefectures":["山口県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"},
     {"id":"scenic_fukuroda_namase","name":"袋田の滝及び生瀬滝","designation":"名勝","prefectures":["茨城県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"},
     {"id":"scenic_noike","name":"納池","designation":"名勝","prefectures":["大分県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"},
     {"id":"scenic_senganzan_takabuto","name":"千巌山および高舞登山","designation":"名勝","prefectures":["熊本県"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit"}
   ],
-  "entries": []
+  "entries": [
+    {"id":"scenic_towada_oirase","name":"十和田湖および奥入瀬渓流","designation":"特別名勝","prefectures":["青森県","秋田県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"天然記念物との重複指定。広域のため複数zone前提。"},
+    {"id":"scenic_motsuji_garden","name":"毛越寺庭園","designation":"特別名勝","prefectures":["岩手県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_matsushima","name":"松島","designation":"特別名勝","prefectures":["宮城県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"日本三景。広域のため複数zone前提。"},
+    {"id":"scenic_rikugien","name":"六義園","designation":"特別名勝","prefectures":["東京都"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_koishikawa_korakuen","name":"小石川後楽園","designation":"特別名勝","prefectures":["東京都"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_hamarikyu","name":"旧浜離宮庭園","designation":"特別名勝","prefectures":["東京都"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_mitake_shosenkyo","name":"御岳昇仙峡","designation":"特別名勝","prefectures":["山梨県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"峡谷のため複数zone前提。"},
+    {"id":"scenic_kamikochi","name":"上高地","designation":"特別名勝","prefectures":["長野県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"特別天然記念物との重複指定。広域のため複数zone前提。"},
+    {"id":"scenic_fuji","name":"富士山","designation":"特別名勝","prefectures":["山梨県","静岡県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"山岳広域。登山口・主要展望地点など複数zone前提。"},
+    {"id":"scenic_kurobe_sarutobi_okukane","name":"黒部峡谷 附 猿飛ならびに奥鐘山","designation":"特別名勝","prefectures":["富山県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"特別天然記念物との重複指定。広域のため複数zone前提。"},
+    {"id":"scenic_kenrokuen","name":"兼六園","designation":"特別名勝","prefectures":["石川県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_ichijodani_gardens","name":"一乗谷朝倉氏庭園","designation":"特別名勝","prefectures":["福井県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_amanohashidate","name":"天橋立","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"日本三景。広域のため複数zone前提。"},
+    {"id":"scenic_daisenin_shoin","name":"大仙院書院庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_daitokuji_hojo","name":"大徳寺方丈庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_kinkakuji_garden","name":"鹿苑寺（金閣寺）庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_ryoanji_hojo","name":"龍安寺方丈庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_ginkakuji_garden","name":"慈照寺（銀閣寺）庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_hokongo_seijo_goi","name":"法金剛院青女滝 附 五位山","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_tenryuji_garden","name":"天龍寺庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_nijo_ninomaru","name":"二条城二之丸庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_konchiin_garden","name":"金地院庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_honganji_daishoin","name":"本願寺大書院庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_saihoji_garden","name":"西芳寺庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_daigo_sanboin","name":"醍醐寺三宝院庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_joruriji_garden","name":"浄瑠璃寺庭園","designation":"特別名勝","prefectures":["京都府"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_heijokyo_miyaato_garden","name":"平城京左京三条二坊宮跡庭園","designation":"特別名勝","prefectures":["奈良県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_heijo_toin_garden","name":"平城宮東院庭園","designation":"特別名勝","prefectures":["奈良県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_dorohatcho","name":"瀞八丁","designation":"特別名勝","prefectures":["和歌山県","奈良県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"天然記念物との重複指定。峡谷広域のため複数zone前提。"},
+    {"id":"scenic_okayama_korakuen","name":"岡山後楽園","designation":"特別名勝","prefectures":["岡山県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_sandankyo","name":"三段峡","designation":"特別名勝","prefectures":["広島県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"峡谷広域のため複数zone前提。"},
+    {"id":"scenic_itsukushima","name":"厳島","designation":"特別名勝","prefectures":["広島県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"日本三景・特別史跡との重複指定。島内複数zone前提。"},
+    {"id":"scenic_ritsurin_park","name":"栗林公園","designation":"特別名勝","prefectures":["香川県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"},
+    {"id":"scenic_nijinomatsubara","name":"虹の松原","designation":"特別名勝","prefectures":["佐賀県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"海岸林広域のため複数zone前提。"},
+    {"id":"scenic_unzendake","name":"温泉岳","designation":"特別名勝","prefectures":["長崎県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit","notes":"通称雲仙岳。山岳広域のため複数zone前提。"},
+    {"id":"scenic_shikinaen","name":"識名園","designation":"特別名勝","prefectures":["沖縄県"],"specialScenic":true,"zones":[],"coordinateStatus":"pending_audit"}
+  ]
 }
