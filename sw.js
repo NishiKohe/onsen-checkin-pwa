@@ -8,7 +8,7 @@ const CORE_ASSETS = [
   "./castle-domain-v61.js", "./app-shell.js", "./build-info.js", "./game-runtime-v59.js",
   "./castle-visit-runtime-v61.js", "./character-runtime-v61.js", "./fishing-game-v60.js",
   "./encyclopedia-ui-v61.js", "./game-hub-v61.js", "./game-v68-bridge.js", "./game-v69-bridge.js",
-  "./progression-runtime-v69.js", "./mining-game-v69.js", "./endless-battle-v68.js",
+  "./progression-runtime-v69.js", "./equipment-battle-sync-v69.js", "./mining-game-v69.js", "./endless-battle-v68.js",
   "./castle-collection-ui-v61.js", "./castle-map-v62.js",
   "./data/castles-japan100-v61.json", "./data/castle-checkin-zones-v62.json",
   "./data/castles-zoku100-v68.csv", "./data/fish-catalog-v61.json",
