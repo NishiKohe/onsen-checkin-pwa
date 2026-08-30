@@ -1,7 +1,7 @@
-const CACHE_NAME = "onsen-checkin-v69";
+const CACHE_NAME = "onsen-checkin-v69.1";
 const CORE_ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css",
-  "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css",
+  "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css", "./mining-pickaxe-v691.css",
   "./castle-collection-ui-v61.css", "./castle-map-v62.css", "./endless-battle-v68.css",
   "./profile-storage.js", "./profile-game-extension-v61.js", "./visit-log-preload.js",
   "./trip-power-mode.js", "./app.js", "./castle-v62-hardening.js", "./domain-model.js",
