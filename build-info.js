@@ -1,16 +1,21 @@
 (() => {
-  const version = "v68.2";
-  const preferredWorker = "./sw.js?v=68.2";
-  window.OnsenBuildInfo = { version, updatedAt: "2026-08-29" };
+  const version = "v69";
+  const preferredWorker = "./sw.js?v=69";
+  window.OnsenBuildInfo = { version, updatedAt: "2026-08-30" };
 
-  function ensureGameBridge() {
-    if (window.OnsenGameV68Bridge || document.getElementById("gameV68BridgeScript")) return;
+  function addBridge({ globalName, id, src, label }) {
+    if (window[globalName] || document.getElementById(id)) return;
     const script = document.createElement("script");
-    script.id = "gameV68BridgeScript";
-    script.src = "./game-v68-bridge.js?v=68.2";
+    script.id = id;
+    script.src = src;
     script.async = true;
-    script.addEventListener("error", () => console.warn("v68.2 game bridge load failed"), { once: true });
+    script.addEventListener("error", () => console.warn(`${label} load failed`), { once: true });
     document.head.appendChild(script);
+  }
+
+  function ensureGameBridges() {
+    addBridge({ globalName: "OnsenGameV68Bridge", id: "gameV68BridgeScript", src: "./game-v68-bridge.js?v=68.2", label: "v68.2 game bridge" });
+    addBridge({ globalName: "OnsenGameV69Bridge", id: "gameV69BridgeScript", src: "./game-v69-bridge.js?v=69", label: "v69 mining bridge" });
   }
 
   function apply() {
@@ -22,7 +27,7 @@
       badge.title = `温泉チェックイン build ${version}${diagnostic}`;
     }
     if (window.OnsenAppShell) window.OnsenAppShell.build = version;
-    ensureGameBridge();
+    ensureGameBridges();
   }
 
   async function registerPreferredWorker() {
@@ -32,7 +37,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v68.2 service worker update check skipped", err);
+      console.warn("v69 service worker update check skipped", err);
       return null;
     }
   }
@@ -40,7 +45,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV682RegisterPatched) return;
+    if (sw.__onsenV69RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -48,9 +53,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV682RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV69RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v68.2 service worker register patch skipped", error);
+      console.warn("v69 service worker register patch skipped", error);
     }
   }
 
@@ -65,7 +70,6 @@
       sessionStorage.setItem(key, "1");
       location.reload();
     });
-
     window.addEventListener("load", () => {
       registerPreferredWorker();
       setTimeout(registerPreferredWorker, 800);
@@ -75,7 +79,7 @@
 
   patchServiceWorkerRegister();
   installRefreshGuard();
-  ensureGameBridge();
+  ensureGameBridges();
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", apply);
   else apply();
   window.addEventListener("load", apply);
