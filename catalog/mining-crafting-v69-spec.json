@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "introducedIn": "v69",
+  "system": "travel_mining_crafting",
+  "stateKey": "progressionStateV1",
+  "designGoal": "採掘素材を共通装備へ変換し、戦陣と将来のRogueRPGを同じ成長基盤で強化する",
+  "mining": {
+    "energyCostPerRun": 1,
+    "swingsPerRun": 6,
+    "mechanic": "往復カーソルを鉱脈ターゲット内で止めるタイミングゲーム",
+    "quality": ["MISS", "GOOD", "PERFECT"],
+    "perfectEffect": "採掘抽選2回かつレア補正増加",
+    "travelIntegration": "旅行GPSのrareBonusを加算。温泉付近は湯晶石抽選を強化",
+    "materials": ["砕石", "銅鉱石", "石炭", "鉄鉱石", "銀鉱石", "金鉱石", "湯晶石"]
+  },
+  "equipment": {
+    "slots": ["weapon", "helmet", "armor", "charm"],
+    "bonusKeys": ["attackPct", "hpPct", "senkoPct", "miningRarePct"],
+    "crafting": "素材を消費して装備を生成。空きスロットなら初回鍛造時に自動装備",
+    "sharedRuntime": "window.OnsenProgressionRuntime"
+  },
+  "battleIntegration": {
+    "attackPct": "戦陣の実効DPSへ反映",
+    "hpPct": "戦陣の部隊最大HPへ反映",
+    "senkoPct": "Waveクリア時の戦功へ追加報酬",
+    "equipmentChange": "鍛造・装備変更時のみ現在Waveの戦闘値を再計算"
+  },
+  "rogueRpgIntegration": {
+    "status": "planned",
+    "rule": "RogueRPGは独自装備セーブを持たずOnsenProgressionRuntime.combatBonuses()を読む",
+    "recommendedStats": {
+      "attackPct": "通常攻撃・スキル威力",
+      "hpPct": "最大HP",
+      "miningRarePct": "RPGには原則非適用",
+      "senkoPct": "RPGには原則非適用"
+    }
+  }
+}
