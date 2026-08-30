@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "build": "v69.1",
+  "game": "travel_mining",
+  "economy": {
+    "runCostResource": "yusen",
+    "travelEnergyCost": 0,
+    "pickaxeDurability": "one_run",
+    "swingsPerRun": 6
+  },
+  "pickaxes": [
+    { "id": "wooden", "name": "木柄つるはし", "grade": 1, "costYusen": 5, "rarePct": 0.0 },
+    { "id": "iron", "name": "鉄つるはし", "grade": 2, "costYusen": 15, "rarePct": 0.05 },
+    { "id": "steel", "name": "鋼つるはし", "grade": 3, "costYusen": 35, "rarePct": 0.11 },
+    { "id": "master", "name": "名工つるはし", "grade": 4, "costYusen": 70, "rarePct": 0.18 }
+  ],
+  "combo": {
+    "continuesOn": ["good", "perfect"],
+    "resetsOn": "miss",
+    "additionalRollStartsAt": 3,
+    "strongAdditionalDropStartsAt": 5,
+    "design": "longer success streaks progressively increase rare-material weighting and extra drop rolls"
+  },
+  "explorationGrowth": {
+    "futureSources": ["national_treasure_checkin", "scenic_site_checkin"],
+    "currentProviderApi": "OnsenProgressionRuntime.registerExplorationProvider(fn)",
+    "fallbackGlobalApi": "OnsenExplorationProgress.stats()",
+    "scoreFormulaDraft": "nationalTreasures * 2 + scenicSites",
+    "thresholds": [0, 3, 8, 15, 25, 40, 60],
+    "effects": ["timing_success_window", "cursor_speed_assist", "rare_material_rate", "deep_material_rate", "future_material_tier"],
+    "sourceStatus": "future_checkin_modules_not_implemented_yet"
+  },
+  "materials": ["stone", "copper", "coal", "iron", "silver", "gold", "crystal"],
+  "equipment": {
+    "slots": ["weapon", "helmet", "armor", "charm"],
+    "sharedRuntime": "OnsenProgressionRuntime",
+    "consumers": ["endless_battle", "future_rogue_rpg"],
+    "bonuses": ["attackPct", "hpPct", "senkoPct", "miningRarePct"]
+  }
+}
