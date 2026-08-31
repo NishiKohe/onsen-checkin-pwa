@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "dataset": "national_places_of_scenic_beauty_ordinary",
+  "shardId": "ordinary_koshinetsu_hokuriku_01",
+  "region": "甲信越・北陸",
+  "asOf": "2026-08-31",
+  "status": "official_verified_coordinate_pending",
+  "entryCount": 43,
+  "sources": [
+    {"name":"国指定文化財等データベース","url":"https://kunishitei.bunka.go.jp/bsys/categorylist?register_id=401"},
+    {"name":"山梨県 山梨の文化財リスト（名勝）","url":"https://www.pref.yamanashi.jp/bunka/bunkazaihogo/meishou.html"},
+    {"name":"長野県 文化財情報","url":"https://www.pref.nagano.lg.jp/bunkashinko/bunkazai/bunkazai_jouhou_main.html"},
+    {"name":"新潟県 文化財資料・国指定文化財","url":"https://www.pref.niigata.lg.jp/"},
+    {"name":"富山県 文化財資料一覧","url":"https://www.pref.toyama.jp/3009/miryokukankou/bunka/bunkazai/dokuhon/siryou.html"},
+    {"name":"石川県 史跡・名勝・天然記念物（国指定）","url":"https://www.pref.ishikawa.lg.jp/kyoiku/bunkazai/siseki/siseki.html"},
+    {"name":"福井県文化財ページ","url":"https://bunkazai.pref.fukui.lg.jp/search_category"}
+  ],
+  "entries": [
+    {"id":"scenic_saruhashi","name":"猿橋","reading":"さるはし","designation":"名勝","prefectures":["山梨県"],"municipalities":["大月市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_erinji_garden","name":"恵林寺庭園","reading":"えりんじていえん","designation":"名勝","prefectures":["山梨県"],"municipalities":["甲州市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_kogakuji_garden","name":"向嶽寺庭園","reading":"こうがくじていえん","designation":"名勝","prefectures":["山梨県"],"municipalities":["甲州市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_fuji_goko","name":"富士五湖","reading":"ふじごこ","designation":"名勝","prefectures":["山梨県"],"municipalities":["山中湖村","富士河口湖町","身延町"],"componentSites":["山中湖","河口湖","西湖","精進湖","本栖湖"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"5湖を1件の名勝として管理。GPSは各湖の複数zone前提。"},
+
+    {"id":"scenic_nezame_no_toko","name":"寝覚の床","reading":"ねざめのとこ","designation":"名勝","prefectures":["長野県"],"municipalities":["上松町"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_tenryukyo","name":"天龍峡","reading":"てんりゅうきょう","designation":"名勝","prefectures":["長野県"],"municipalities":["飯田市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"峡谷広域のため複数zone前提。"},
+    {"id":"scenic_kozenji_garden","name":"光前寺庭園","reading":"こうぜんじていえん","designation":"名勝","prefectures":["長野県"],"municipalities":["駒ヶ根市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_obasute_tagoto","name":"姨捨（田毎の月）","reading":"おばすて（たごとのつき）","designation":"名勝","prefectures":["長野県"],"municipalities":["千曲市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"棚田・展望景観を含むためGPS zoneは指定範囲確認後に設定。"},
+    {"id":"scenic_yonako_bakufugun","name":"米子瀑布群","reading":"よなこばくふぐん","designation":"名勝","prefectures":["長野県"],"municipalities":["須坂市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"複数瀑布を含む広域名勝。"},
+
+    {"id":"scenic_sasagawanagare","name":"笹川流","reading":"ささがわながれ","designation":"名勝・天然記念物","prefectures":["新潟県"],"municipalities":["村上市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"海岸線約11kmの広域指定。複数zone前提。"},
+    {"id":"scenic_tashiro_nanatsugama","name":"田代の七ツ釜","reading":"たしろのななつがま","designation":"名勝・天然記念物","prefectures":["新潟県"],"municipalities":["津南町","十日町市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_kiyotsukyo","name":"清津峡","reading":"きよつきょう","designation":"名勝・天然記念物","prefectures":["新潟県"],"municipalities":["湯沢町","十日町市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"峡谷広域のため複数zone前提。"},
+    {"id":"scenic_sado_ogi_coast","name":"佐渡小木海岸","reading":"さどおぎかいがん","designation":"天然記念物・名勝","prefectures":["新潟県"],"municipalities":["佐渡市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"小木半島の広域海岸景観。複数zone前提。"},
+    {"id":"scenic_sado_kaifu_coast","name":"佐渡海府海岸","reading":"さどかいふかいがん","designation":"名勝","prefectures":["新潟県"],"municipalities":["佐渡市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"約50kmに及ぶ広域海岸。複数zone前提。"},
+    {"id":"scenic_teikanen","name":"貞観園","reading":"ていかんえん","designation":"名勝","prefectures":["新潟県"],"municipalities":["柏崎市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_watanabe_garden","name":"渡辺氏庭園","reading":"わたなべしていえん","designation":"名勝","prefectures":["新潟県"],"municipalities":["関川村"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_shibata_shimoyashiki_ijimi","name":"旧新発田藩下屋敷（清水谷御殿）庭園および五十公野御茶屋庭園","reading":"きゅうしばたはんしもやしき（しみずだにごてん）ていえんおよびいじみのおちゃやていえん","designation":"名勝","prefectures":["新潟県"],"municipalities":["新発田市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"離れた2庭園を含む1件。GPSは2zone以上を前提。"},
+    {"id":"scenic_sekiyama_hozoin_garden","name":"旧関山宝蔵院庭園","reading":"きゅうせきやまほうぞういんていえん","designation":"名勝","prefectures":["新潟県"],"municipalities":["妙高市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_saito_villa_garden","name":"旧齋藤氏別邸庭園","reading":"きゅうさいとうしべっていていえん","designation":"名勝","prefectures":["新潟県"],"municipalities":["新潟市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_hakusan_park_niigata","name":"白山公園","reading":"はくさんこうえん","designation":"名勝","prefectures":["新潟県"],"municipalities":["新潟市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+
+    {"id":"scenic_shomyo_falls","name":"称名滝","reading":"しょうみょうだき","designation":"名勝・天然記念物","prefectures":["富山県"],"municipalities":["立山町"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+
+    {"id":"scenic_seisonkaku_garden","name":"成巽閣庭園","reading":"せいそんかくていえん","designation":"名勝","prefectures":["石川県"],"municipalities":["金沢市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_natadera_kuri_garden","name":"那谷寺庫裡庭園","reading":"なたでらくりていえん","designation":"名勝","prefectures":["石川県"],"municipalities":["小松市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_shiroyone_senmaida","name":"白米の千枚田","reading":"しろよねのせんまいだ","designation":"名勝","prefectures":["石川県"],"municipalities":["輪島市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_kami_tokikuni_garden","name":"上時国氏庭園","reading":"かみときくにしていえん","designation":"名勝","prefectures":["石川県"],"municipalities":["輪島市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_tokikuni_garden","name":"時国氏庭園","reading":"ときくにしていえん","designation":"名勝","prefectures":["石川県"],"municipalities":["輪島市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_sue_waterworks_garden","name":"末浄水場園地","reading":"すえじょうすいじょうえんち","designation":"名勝","prefectures":["石川県"],"municipalities":["金沢市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_matsunami_castle_garden","name":"旧松波城庭園","reading":"きゅうまつなみじょうていえん","designation":"名勝","prefectures":["石川県"],"municipalities":["能登町"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_nishi_garden","name":"西氏庭園","reading":"にししていえん","designation":"名勝","prefectures":["石川県"],"municipalities":["金沢市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_sosogi_coast","name":"曽々木海岸","reading":"そそぎかいがん","designation":"名勝・天然記念物","prefectures":["石川県"],"municipalities":["輪島市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"海岸広域のため複数zone前提。"},
+
+    {"id":"scenic_kehi_matsubara","name":"気比の松原","reading":"けひのまつばら","designation":"名勝","prefectures":["福井県"],"municipalities":["敦賀市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_genjoin_garden","name":"旧玄成院庭園","reading":"きゅうげんじょういんていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["勝山市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_takidanji_garden","name":"滝谷寺庭園","reading":"たきだんじていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["坂井市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_ito_garden_fukui","name":"伊藤氏庭園","reading":"いとうしていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["南越前町"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_saifukuji_garden","name":"西福寺書院庭園","reading":"さいふくじしょいんていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["敦賀市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_mantokuji_garden","name":"萬徳寺庭園","reading":"まんとくじていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["小浜市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_shibata_garden_fukui","name":"柴田氏庭園","reading":"しばたしていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["敦賀市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_wakasa_sotomo","name":"若狭蘇洞門","reading":"わかさそとも","designation":"名勝","prefectures":["福井県"],"municipalities":["小浜市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"海食海岸の広域名勝。複数zone前提。"},
+    {"id":"scenic_mikata_goko","name":"三方五湖","reading":"みかたごこ","designation":"名勝","prefectures":["福井県"],"municipalities":["若狭町","美浜町"],"componentSites":["三方湖","水月湖","菅湖","久々子湖","日向湖"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"5湖を1件として管理。複数zone前提。"},
+    {"id":"scenic_tojinbo","name":"東尋坊","reading":"とうじんぼう","designation":"名勝・天然記念物","prefectures":["福井県"],"municipalities":["坂井市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified","notes":"海岸・岩礁を含むため複数zone前提。"},
+    {"id":"scenic_jofukuji_garden","name":"城福寺庭園","reading":"じょうふくじていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["越前市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_umeda_garden","name":"梅田氏庭園","reading":"うめだしていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["池田町"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"},
+    {"id":"scenic_yokokan_garden","name":"養浩館（旧御泉水屋敷）庭園","reading":"ようこうかん（きゅうおせんすいやしき）ていえん","designation":"名勝","prefectures":["福井県"],"municipalities":["福井市"],"specialScenic":false,"zones":[],"coordinateStatus":"pending_audit","verificationStatus":"official_verified"}
+  ]
+}
