@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "dataset": "national_places_of_scenic_beauty_ordinary_shards",
+  "expectedOrdinaryCount": 397,
+  "asOf": "2026-08-31",
+  "shards": [
+    {
+      "id": "ordinary_bootstrap_01",
+      "url": "./data/scenic-ordinary-bootstrap-v70.json",
+      "region": "cross-regional",
+      "entryCount": 5,
+      "status": "official_verified"
+    }
+  ]
+}
