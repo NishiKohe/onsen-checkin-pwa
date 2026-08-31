@@ -10,7 +10,7 @@
   min-width: 0;
 }
 
-/* v70.5: achievement view reuses the collection content container, but the footer must stay visually independent. */
+/* Achievement view reuses the collection content container, but the footer must stay visually independent. */
 html[data-app-nav-tab="achievement_proxy"] .app-tabs [data-app-tab="collection"] {
   background: transparent !important;
   color: #71889d !important;
@@ -18,4 +18,10 @@ html[data-app-nav-tab="achievement_proxy"] .app-tabs [data-app-tab="collection"]
 html[data-app-nav-tab="achievement_proxy"] .app-tabs #footerAchievementsTab {
   background: #182430 !important;
   color: #f0cf78 !important;
+}
+
+/* v70.7: collection-only category tabs (公式・選定 / 広域・歴史 / 温泉郷・地域) never belong in achievements. */
+html[data-app-nav-tab="achievement_proxy"] #collectionCategoryTabs,
+html[data-app-nav-tab="achievement_proxy"] #collectionView .collection-category-tabs {
+  display: none !important;
 }
