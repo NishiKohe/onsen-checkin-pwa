@@ -163,6 +163,16 @@
     }
   }
 
+  function getExternalDefinitionsSafe() {
+    try {
+      const list = window.OnsenDomainAchievements?.definitions?.() || [];
+      return Array.isArray(list) ? list : [];
+    } catch (err) {
+      console.warn("domain achievement definition load failed", err);
+      return [];
+    }
+  }
+
   function buildDefinitions() {
     const definitions = [];
 
@@ -233,12 +243,25 @@
       }
     }
 
+    for (const definition of getExternalDefinitionsSafe()) {
+      if (definition?.id) definitions.push(definition);
+    }
+
     const byId = new Map();
     for (const item of definitions) if (item?.id) byId.set(item.id, item);
     return [...byId.values()];
   }
 
   function evaluateDefinition(definition, checkins) {
+    if (String(definition?.id || "").startsWith("domain:") && typeof window.OnsenDomainAchievements?.evaluate === "function") {
+      try {
+        return window.OnsenDomainAchievements.evaluate(definition);
+      } catch (error) {
+        console.warn("domain achievement evaluation failed", definition?.id, error);
+        return { done: 0, total: Number(definition?.total || definition?.required || 0), complete: false, completedAt: null };
+      }
+    }
+
     const onsiteOnly = definition.verification === "onsite";
     const earliest = uniqueCheckins(checkins, onsiteOnly);
 
@@ -362,8 +385,12 @@
       block.dataset.rarity = title?.rarity || "none";
       block.querySelector("#profileOpenAchievements")?.addEventListener("click", () => {
         document.getElementById("profileDialog")?.close?.();
-        window.OnsenAppShell?.show?.("collection");
-        setCollectionMode("achievements");
+        if (window.OnsenFooterNavigation?.openAchievements) {
+          window.OnsenFooterNavigation.openAchievements();
+        } else {
+          window.OnsenAppShell?.show?.("collection");
+          setCollectionMode("achievements");
+        }
       });
     }
   }
@@ -519,8 +546,8 @@
       heading.innerHTML = `<h3>${escapeHtml(category)}</h3><span>${items.length}件</span>`;
       section.appendChild(heading);
 
-      const grid = document.createElement("div");
-      grid.className = "achievement-card-grid";
+      const cardGrid = document.createElement("div");
+      cardGrid.className = "achievement-card-grid";
       for (const definition of items) {
         const unlock = state.unlocks[definition.id];
         const progress = progressById.get(definition.id);
@@ -555,9 +582,9 @@
           footer.appendChild(button);
         }
         card.appendChild(footer);
-        grid.appendChild(card);
+        cardGrid.appendChild(card);
       }
-      section.appendChild(grid);
+      section.appendChild(cardGrid);
       list.appendChild(section);
     }
 
@@ -634,6 +661,8 @@
         if (currentMode === "achievements") setTimeout(renderAchievementView, 0);
       }
     });
+    window.addEventListener("onsen-domain-achievements-changed", scheduleEvaluation);
+    window.addEventListener("onsen-domain-achievements-ready", scheduleEvaluation);
     window.addEventListener("pageshow", scheduleEvaluation);
 
     window.OnsenAchievements = {
