@@ -1,5 +1,5 @@
 (() => {
-  const BUILD="v70.3",MODE_KEY="collectionDomainModeV61";
+  const BUILD="v70.8",MODE_KEY="collectionDomainModeV61";
   const VALID_MODES=new Set(["onsen","castle","scenic"]);
   let stored=sessionStorage.getItem(MODE_KEY);
   let mode=VALID_MODES.has(stored)?stored:"onsen",query="",filter="all",region="all",series="all",installed=false;
@@ -19,15 +19,15 @@
     }else if(!switcher.querySelector('[data-collection-domain="scenic"]')){
       const button=document.createElement("button");button.type="button";button.dataset.collectionDomain="scenic";button.textContent="名勝";switcher.appendChild(button);
     }
-    if(switcher.dataset.domainV703Bound!=="1"){
-      switcher.dataset.domainV703Bound="1";
+    if(switcher.dataset.domainV708Bound!=="1"){
+      switcher.dataset.domainV708Bound="1";
       switcher.addEventListener("click",(event)=>{
         const button=event.target instanceof Element?event.target.closest("[data-collection-domain]"):null;
         if(!button||!switcher.contains(button))return;
         const next=button.dataset.collectionDomain||"onsen";
         if(!VALID_MODES.has(next))return;
         event.preventDefault();
-        setMode(next,{source:"domain_tab"});
+        setMode(next,{source:achievementsVisible()?"achievement_domain_tab":"domain_tab"});
       });
     }
     let panel=document.getElementById("castleCollectionPanel");
@@ -50,19 +50,24 @@
   }
   function setMode(next,{source="api",silent=false}={}){
     const normalized=VALID_MODES.has(next)?next:"onsen";
-    const changed=mode!==normalized;mode=normalized;sessionStorage.setItem(MODE_KEY,mode);applyMode();if(mode==="castle")render();
+    const changed=mode!==normalized;mode=normalized;sessionStorage.setItem(MODE_KEY,mode);applyMode();if(mode==="castle"&&!achievementsVisible())render();
     if((changed||!silent))window.dispatchEvent(new CustomEvent("onsen-collection-domain-changed",{detail:{build:BUILD,mode,source}}));
     return mode;
   }
   function applyMode(){
     const panel=ensureUi(),switcher=getShell()?.querySelector(".collection-domain-switch");if(!panel||!switcher)return;
-    const achievementMode=achievementsVisible();switcher.hidden=achievementMode;
-    if(achievementMode){panel.hidden=true;return;}
+    const achievementMode=achievementsVisible();
+    switcher.hidden=false;
+    for(const button of switcher.querySelectorAll("[data-collection-domain]"))button.classList.toggle("active",button.dataset.collectionDomain===mode);
+    if(achievementMode){
+      panel.hidden=true;
+      const categoryTabs=document.getElementById("collectionCategoryTabs");if(categoryTabs)categoryTabs.hidden=true;
+      return;
+    }
     const castle=mode==="castle",scenic=mode==="scenic";
     for(const node of onsenNodes())node.hidden=castle||scenic;
     panel.hidden=!castle;
     const categoryTabs=document.getElementById("collectionCategoryTabs");if(categoryTabs)categoryTabs.hidden=castle||scenic;
-    for(const button of switcher.querySelectorAll("[data-collection-domain]"))button.classList.toggle("active",button.dataset.collectionDomain===mode);
     const summary=document.getElementById("collectionSummary");
     if(summary){summary.hidden=false;if(castle){const p=window.OnsenCastleVisits?.progress?.()||{visited:0,total:200};summary.textContent=`名城200 ${p.visited}/${p.total} ・ 日本100 ${p.originalVisited||0}/100 ・ 続100 ${p.continuedVisited||0}/100`;}else if(mode==="onsen"&&typeof window.renderCollectionProgress==="function"){setTimeout(()=>window.renderCollectionProgress(),0);window.CollectionNavigationUi?.refresh?.();}}
   }
@@ -81,15 +86,15 @@
     const byRegion=new Map();for(const castle of filtered){if(!byRegion.has(castle.region))byRegion.set(castle.region,[]);byRegion.get(castle.region).push(castle);}
     for(const regionName of regionsFor(filtered)){const items=byRegion.get(regionName)||[];if(!items.length)continue;const section=document.createElement("section");section.className="castle-region-section";section.innerHTML=`<div class="castle-region-heading"><h3>${regionName}</h3><span>${items.length}城</span></div><div class="castle-list"></div>`;const list=section.querySelector(".castle-list");for(const castle of items){const status=statusFor(castle.id),candidates=candidateCount(castle.id),row=document.createElement("article"),continued=Number(castle.japan100No)>100;row.className=`castle-row${status.visited?" visited":""}${status.strict?" strict":""}${continued?" continued":""}`;const statusLabel=status.strict?"GPS確認済":status.visited?"訪問登録済":"未訪問",button=status.strict?"":status.manual?`<button class="castle-visit-button remove" type="button" data-castle-visit-action="remove" data-castle-id="${castle.id}">登録解除</button>`:`<button class="castle-visit-button" type="button" data-castle-visit-action="add" data-castle-id="${castle.id}">過去訪問</button>`;row.innerHTML=`<div class="castle-no">#${String(castle.japan100No).padStart(3,"0")}</div><div class="castle-main"><strong>${castle.name}</strong><span>${continued?"続100 ・ ":"100名城 ・ "}${castle.prefecture} ・ ${castle.region}</span>${candidates?`<small>人物候補 ${candidates}人</small>`:""}</div><div class="castle-actions"><span class="castle-status">${statusLabel}</span>${button}</div>`;list.appendChild(row);}root.appendChild(section);}
   }
-  function refresh(){applyMode();if(mode==="castle")render();}
+  function refresh(){applyMode();if(mode==="castle"&&!achievementsVisible())render();}
   async function install(){
     if(installed)return;installed=true;for(let i=0;i<360;i+=1){if(getShell()&&window.OnsenCastleDomain&&window.OnsenCastleVisits)break;await new Promise((resolve)=>setTimeout(resolve,30));}
-    ensureUi();applyMode();if(mode==="castle")render();
-    window.addEventListener("onsen-castle-visit-changed",()=>{if(mode==="castle")render();});window.addEventListener("onsen-character-state-changed",()=>{if(mode==="castle")render();});window.addEventListener("onsen-character-runtime-ready",()=>{if(mode==="castle")render();});
+    ensureUi();applyMode();if(mode==="castle"&&!achievementsVisible())render();
+    window.addEventListener("onsen-castle-visit-changed",()=>{if(mode==="castle"&&!achievementsVisible())render();});window.addEventListener("onsen-character-state-changed",()=>{if(mode==="castle"&&!achievementsVisible())render();});window.addEventListener("onsen-character-runtime-ready",()=>{if(mode==="castle"&&!achievementsVisible())render();});
     window.addEventListener("onsen-app-tab-changed",(event)=>{if(event.detail?.tab==="collection")requestAnimationFrame(refresh);});
     window.addEventListener("onsen-collection-mode-changed",()=>requestAnimationFrame(refresh));
     window.OnsenCastleCollectionUI={build:BUILD,show:()=>{window.OnsenFooterNavigation?.openCollections?.();window.OnsenAppShell?.show?.("collection");setMode("castle",{source:"api"});},showOnsen:()=>setMode("onsen",{source:"api"}),showScenic:()=>setMode("scenic",{source:"api"}),setMode,render,refresh,mode:()=>mode};
     window.dispatchEvent(new CustomEvent("onsen-collection-domain-ready",{detail:{build:BUILD,mode}}));
   }
-  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>install().catch(console.warn),{once:true});else install().catch((error)=>console.warn("castle collection ui v70.3 init failed",error));
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>install().catch(console.warn),{once:true});else install().catch((error)=>console.warn("castle collection ui v70.8 init failed",error));
 })();
