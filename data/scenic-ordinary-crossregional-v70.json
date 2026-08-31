@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "dataset": "national_places_of_scenic_beauty_ordinary",
+  "shardId": "ordinary_crossregional_01",
+  "region": "複数県",
+  "asOf": "2026-08-31",
+  "status": "official_verified_coordinate_pending",
+  "entryCount": 1,
+  "sources": [
+    {"name":"国指定文化財等データベース","url":"https://kunishitei.bunka.go.jp/heritage/detail/401/00003842"}
+  ],
+  "entries": [
+    {
+      "id": "scenic_okuno_hosomichi",
+      "name": "おくのほそ道の風景地",
+      "designation": "名勝",
+      "prefectures": ["埼玉県","栃木県","福島県","宮城県","岩手県","山形県","秋田県","新潟県","富山県","石川県","岐阜県","福井県"],
+      "municipalities": ["草加市","日光市","大田原市","那須町","二本松市","岩沼市","仙台市","多賀城市","塩竈市","平泉町","新庄市","遊佐町","にかほ市","糸魚川市","高岡市","小松市","加賀市","大垣市","南越前町"],
+      "componentSites": ["草加松原","ガンマンガ淵（慈雲寺境内）","八幡宮（那須神社境内）","殺生石","遊行柳（清水流るゝの柳）","黒塚の岩屋","武隈の松","つゝじが岡及び天神の御社","木の下及び薬師堂","壺碑（つぼの石ぶみ）","興井","末の松山","籬が島","金鶏山","高館","さくら山","本合海","三崎（大師崎）","象潟及び汐越","親しらず","有磯海","那谷寺境内（奇石）","道明が淵（山中の温泉）","湯尾峠","氣比神宮境内","大垣船町川湊"],
+      "specialScenic": false,
+      "zones": [],
+      "coordinateStatus": "pending_audit",
+      "verificationStatus": "official_verified",
+      "notes": "文化庁DB上は複数都道府県・複数構成地点を一体として指定した1件の名勝。GPSは構成地点ごとの複数zone前提。"
+    }
+  ]
+}
