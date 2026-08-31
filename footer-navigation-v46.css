@@ -9,3 +9,13 @@
 #footerGameTab {
   min-width: 0;
 }
+
+/* v70.5: achievement view reuses the collection content container, but the footer must stay visually independent. */
+html[data-app-nav-tab="achievement_proxy"] .app-tabs [data-app-tab="collection"] {
+  background: transparent !important;
+  color: #71889d !important;
+}
+html[data-app-nav-tab="achievement_proxy"] .app-tabs #footerAchievementsTab {
+  background: #182430 !important;
+  color: #f0cf78 !important;
+}
