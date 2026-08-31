@@ -1,0 +1,80 @@
+{
+  "version": 1,
+  "dataset": "national_places_of_scenic_beauty_ordinary_bootstrap",
+  "status": "official_verified_names_metadata_coordinates_pending_audit",
+  "entries": [
+    {
+      "id": "scenic_kintaikyo",
+      "name": "錦帯橋",
+      "reading": "きんたいきょう",
+      "designation": "名勝",
+      "prefectures": ["山口県"],
+      "municipalities": ["岩国市錦見・横山"],
+      "specialScenic": false,
+      "designationDate": "1922-03-08",
+      "officialDatabaseId": "2363",
+      "criteria": ["二．橋梁、築堤"],
+      "zones": [],
+      "coordinateStatus": "pending_audit"
+    },
+    {
+      "id": "scenic_fukuroda_namase",
+      "name": "袋田の滝及び生瀬滝",
+      "reading": "ふくろだのたきおよびなませだき",
+      "designation": "名勝",
+      "prefectures": ["茨城県"],
+      "municipalities": ["久慈郡大子町"],
+      "specialScenic": false,
+      "designationDate": "2015-03-10",
+      "officialDatabaseId": "00003901",
+      "criteria": ["六．峡谷、瀑布、渓流、深淵"],
+      "zones": [],
+      "coordinateStatus": "pending_audit",
+      "notes": "袋田の滝と生瀬滝を含むため複数zone候補。"
+    },
+    {
+      "id": "scenic_noike",
+      "name": "納池",
+      "reading": "のいけ",
+      "designation": "名勝",
+      "prefectures": ["大分県"],
+      "municipalities": ["竹田市"],
+      "specialScenic": false,
+      "designationDate": "2025-03-10",
+      "officialDatabaseId": "00004224",
+      "criteria": ["一．公園、庭園"],
+      "zones": [],
+      "coordinateStatus": "pending_audit"
+    },
+    {
+      "id": "scenic_senganzan_takabuto",
+      "name": "千巌山および高舞登山",
+      "reading": "せんがんさんおよびたかぶとやま",
+      "designation": "名勝",
+      "prefectures": ["熊本県"],
+      "municipalities": ["上天草市松島町"],
+      "specialScenic": false,
+      "designationDate": "1935-06-07",
+      "officialDatabaseId": "2814",
+      "criteria": ["五．岩石、洞穴", "十一．展望地点"],
+      "zones": [],
+      "coordinateStatus": "pending_audit",
+      "notes": "千巌山・高舞登山の2地点を含むため複数zone前提。"
+    },
+    {
+      "id": "scenic_mannoike",
+      "name": "満濃池",
+      "reading": "まんのういけ",
+      "designation": "名勝",
+      "prefectures": ["香川県"],
+      "municipalities": ["仲多度郡まんのう町"],
+      "specialScenic": false,
+      "designationDate": "2019-10-16",
+      "officialDatabaseId": "00004088",
+      "criteria": ["二．橋梁、築堤", "十一．展望地点"],
+      "zones": [],
+      "coordinateStatus": "pending_audit",
+      "notes": "広大なため池のため主要観賞地点を複数zoneで監査予定。"
+    }
+  ]
+}
