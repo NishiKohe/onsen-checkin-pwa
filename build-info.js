@@ -1,6 +1,6 @@
 (() => {
-  const version = "v70.6";
-  const preferredWorker = "./sw.js?v=70.6";
+  const version = "v70.7";
+  const preferredWorker = "./sw.js?v=70.7";
   window.OnsenBuildInfo = { version, updatedAt: "2026-08-31" };
 
   function addBridge({ globalName, id, src, label }) {
@@ -41,7 +41,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v70.6 service worker update check skipped", err);
+      console.warn("v70.7 service worker update check skipped", err);
       return null;
     }
   }
@@ -49,7 +49,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV706RegisterPatched) return;
+    if (sw.__onsenV707RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -57,9 +57,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV706RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV707RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v70.6 service worker register patch skipped", error);
+      console.warn("v70.7 service worker register patch skipped", error);
     }
   }
 
