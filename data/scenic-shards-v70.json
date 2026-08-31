@@ -1,9 +1,9 @@
 {
-  "version": 3,
+  "version": 4,
   "dataset": "national_places_of_scenic_beauty_ordinary_shards",
   "expectedOrdinaryCount": 397,
   "asOf": "2026-08-31",
-  "verifiedOrdinaryCount": 83,
+  "verifiedOrdinaryCount": 126,
   "shards": [
     {
       "id": "ordinary_bootstrap_01",
@@ -31,6 +31,13 @@
       "url": "./data/scenic-ordinary-kanto-v70.json",
       "region": "関東",
       "entryCount": 35,
+      "status": "official_verified_coordinate_pending"
+    },
+    {
+      "id": "ordinary_koshinetsu_hokuriku_01",
+      "url": "./data/scenic-ordinary-koshinetsu-hokuriku-v70.json",
+      "region": "甲信越・北陸",
+      "entryCount": 43,
       "status": "official_verified_coordinate_pending"
     }
   ]
