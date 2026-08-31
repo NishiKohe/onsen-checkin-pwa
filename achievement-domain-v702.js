@@ -1,5 +1,7 @@
 (() => {
-  const BUILD = "v70.6";
+  const BUILD = "v70.8";
+  const DOMAIN_KEY = "collectionDomainModeV61";
+  const VALID_DOMAINS = new Set(["onsen", "castle", "scenic"]);
 
   const DEFINITIONS = Object.freeze([
     { id: "domain:castle:050", category: "名城200", kind: "castle_total", required: 50, name: "五十城踏破", description: "日本100名城・続日本100名城から合計50城を訪問する", titleLabel: "五十城巡歴者", rarity: "R" },
@@ -23,6 +25,24 @@
     total: definition.required,
     verification: "domain_visit"
   })));
+
+  function currentDomain() {
+    const runtime = window.OnsenCastleCollectionUI?.mode?.();
+    const stored = sessionStorage.getItem(DOMAIN_KEY);
+    const value = VALID_DOMAINS.has(runtime) ? runtime : VALID_DOMAINS.has(stored) ? stored : "onsen";
+    return value;
+  }
+
+  function domainForDefinition(definition) {
+    const id = String(definition?.id || definition?.achievementId || "");
+    if (id.startsWith("domain:castle:")) return "castle";
+    if (id.startsWith("domain:scenic:")) return "scenic";
+    return "onsen";
+  }
+
+  function matchesDefinition(definition, domain = currentDomain()) {
+    return domainForDefinition(definition) === domain;
+  }
 
   function castleEntityMap() {
     return new Map((window.OnsenCastleDomain?.data?.entities || []).map((entry) => [String(entry.id), entry]));
@@ -65,12 +85,49 @@
     const required = Math.max(0, Number(definition?.required || definition?.total || 0));
     const done = Math.min(evidence.length, required);
     const complete = required > 0 && evidence.length >= required;
-    return {
-      done,
-      total: required,
-      complete,
-      completedAt: complete ? evidence[required - 1] || Date.now() : null
-    };
+    return { done, total: required, complete, completedAt: complete ? evidence[required - 1] || Date.now() : null };
+  }
+
+  function standardVisible() {
+    const view = document.getElementById("achievementView");
+    return !!view && !view.hidden && view.dataset.achievementKindMode !== "onsite";
+  }
+
+  function applyUiFilter() {
+    if (!standardVisible()) return;
+    const definitions = window.OnsenAchievements?.getDefinitions?.() || [];
+    const state = window.OnsenAchievements?.getState?.() || { unlocks: {}, unreadIds: [] };
+    const domain = currentDomain();
+    const domainDefinitions = definitions.filter((definition) => matchesDefinition(definition, domain));
+    const allowedCategories = new Set(domainDefinitions.map((definition) => definition.category));
+    const allowedIds = new Set(domainDefinitions.map((definition) => definition.id));
+
+    let visibleSectionCount = 0;
+    for (const section of document.querySelectorAll("#achievementList .achievement-section")) {
+      const category = section.querySelector(".achievement-section-heading h3")?.textContent?.trim() || "";
+      const visible = allowedCategories.has(category);
+      section.hidden = !visible;
+      if (visible) visibleSectionCount += 1;
+    }
+
+    let empty = document.getElementById("achievementDomainEmptyV708");
+    if (!empty) {
+      empty = document.createElement("div");
+      empty.id = "achievementDomainEmptyV708";
+      empty.className = "achievement-empty";
+      empty.textContent = "このカテゴリに該当する実績はありません。";
+      document.getElementById("achievementList")?.appendChild(empty);
+    }
+    if (empty) empty.hidden = visibleSectionCount > 0;
+
+    const unlocked = domainDefinitions.filter((definition) => !!state.unlocks?.[definition.id]).length;
+    const unread = (state.unreadIds || []).filter((id) => allowedIds.has(id)).length;
+    const metric = document.getElementById("achievementUnlockedMetric");
+    const titles = document.getElementById("achievementTitlesMetric");
+    const unreadMetric = document.getElementById("achievementUnreadMetric");
+    if (metric) metric.textContent = `${unlocked}/${domainDefinitions.length}`;
+    if (titles) titles.textContent = String(unlocked);
+    if (unreadMetric) unreadMetric.textContent = String(unread);
   }
 
   function refreshBase() {
@@ -78,15 +135,16 @@
       window.OnsenAchievements?.refresh?.();
       const view = document.getElementById("achievementView");
       if (view && !view.hidden) window.OnsenAchievements?.render?.();
+      applyUiFilter();
+      window.OnsenAchievementNextUp?.render?.();
+      window.OnsenAchievementHistory?.render?.();
     } catch (error) {
       console.warn("domain achievement base refresh failed", error);
     }
   }
 
   function notify(reason) {
-    window.dispatchEvent(new CustomEvent("onsen-domain-achievements-changed", {
-      detail: { build: BUILD, reason }
-    }));
+    window.dispatchEvent(new CustomEvent("onsen-domain-achievements-changed", { detail: { build: BUILD, reason } }));
     refreshBase();
   }
 
@@ -94,24 +152,26 @@
     build: BUILD,
     definitions: () => DEFINITIONS.map((item) => ({ ...item })),
     evaluate,
+    currentDomain,
+    domainForDefinition,
+    matchesDefinition,
+    applyUiFilter,
     reconcile: () => window.OnsenAchievements?.refresh?.() || null,
-    render: () => window.OnsenAchievements?.render?.(),
+    render: () => { window.OnsenAchievements?.render?.(); applyUiFilter(); },
     refresh: refreshBase
   };
 
   document.getElementById("achievementDomainV702")?.remove();
 
-  for (const eventName of [
-    "onsen-castle-visit-changed",
-    "onsen-scenic-visit-changed",
-    "onsen-castle-visits-ready",
-    "onsen-scenic-runtime-ready"
-  ]) {
+  for (const eventName of ["onsen-castle-visit-changed", "onsen-scenic-visit-changed", "onsen-castle-visits-ready", "onsen-scenic-runtime-ready"]) {
     window.addEventListener(eventName, () => notify(eventName));
   }
-
+  window.addEventListener("onsen-collection-domain-changed", () => refreshBase());
+  window.addEventListener("onsen-collection-mode-changed", () => queueMicrotask(applyUiFilter));
   window.addEventListener("pageshow", refreshBase);
-  window.dispatchEvent(new CustomEvent("onsen-domain-achievements-ready", {
-    detail: { build: BUILD, count: DEFINITIONS.length }
-  }));
+  document.addEventListener("click", (event) => {
+    if (event.target.closest?.("[data-achievement-filter]")) queueMicrotask(applyUiFilter);
+  });
+
+  window.dispatchEvent(new CustomEvent("onsen-domain-achievements-ready", { detail: { build: BUILD, count: DEFINITIONS.length } }));
 })();
