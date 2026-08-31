@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v70.10";
+  const BUILD = "v70.13";
   const DATA_URL = "./data/scenic-national-v70.json";
   const SHARD_MANIFEST_URL = "./data/scenic-shards-v70.json";
   const STATE_KEY = "scenicVisitStateV1";
@@ -41,6 +41,32 @@
     if (!response.ok) throw new Error(`${url} load failed: ${response.status}`);
     return response.json();
   }
+  function expandShardEntries(data) {
+    const expanded = [];
+    for (const entry of Array.isArray(data?.entries) ? data.entries : []) {
+      if (entry?.id) expanded.push(entry);
+    }
+    const prefix = String(data?.idPrefix || `scenic_${data?.shardId || "compact"}`);
+    for (const row of Array.isArray(data?.compactEntries) ? data.compactEntries : []) {
+      if (!Array.isArray(row) || row.length < 3) continue;
+      const key = String(row[0] || "").trim();
+      const name = String(row[1] || "").trim();
+      const rawPrefectures = row[2];
+      const prefectures = Array.isArray(rawPrefectures) ? rawPrefectures.map(String) : [String(rawPrefectures || "")].filter(Boolean);
+      if (!key || !name || !prefectures.length) continue;
+      expanded.push({
+        id: `${prefix}_${key}`,
+        name,
+        designation: "名勝",
+        prefectures,
+        specialScenic: false,
+        zones: [],
+        coordinateStatus: "pending_audit",
+        verificationStatus: data?.status?.startsWith("official_verified") ? "official_verified" : "catalog_crosschecked"
+      });
+    }
+    return expanded;
+  }
   async function loadCatalog() {
     catalog = await fetchJson(DATA_URL);
     shardEntries = [];
@@ -53,7 +79,7 @@
       const loaded = [];
       results.forEach((result, index) => {
         if (result.status === "fulfilled") {
-          for (const entry of result.value?.entries || []) if (entry?.id) loaded.push(entry);
+          loaded.push(...expandShardEntries(result.value));
         } else {
           console.warn(`scenic shard load failed: ${shardUrls[index]}`, result.reason);
         }
@@ -184,5 +210,5 @@
     window.dispatchEvent(new CustomEvent("onsen-scenic-runtime-ready", { detail: { build: BUILD, progress: progress() } }));
   }
 
-  install().catch((error) => console.warn("scenic runtime v70.10 init failed", error));
+  install().catch((error) => console.warn("scenic runtime v70.13 init failed", error));
 })();
