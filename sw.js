@@ -1,4 +1,4 @@
-const CACHE_NAME = "onsen-checkin-v70.12";
+const CACHE_NAME = "onsen-checkin-v70.13";
 const CORE_ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css", "./footer-navigation-v46.css",
   "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css", "./mining-pickaxe-v691.css",
@@ -12,7 +12,10 @@ const CORE_ASSETS = [
   "./castle-collection-ui-v61.js", "./castle-map-v62.js", "./ui-recovery-v701.js", "./scenic-v70-bridge.js", "./scenic-runtime-v70.js", "./scenic-collection-ui-v70.js",
   "./achievement-system.js", "./achievement-onsite.js", "./achievement-next-up.js", "./achievement-history.js", "./achievement-domain-v702.js",
   "./data/castles-japan100-v61.json", "./data/castle-checkin-zones-v62.json",
-  "./data/castles-zoku100-v68.csv", "./data/scenic-national-v70.json", "./data/scenic-shards-v70.json", "./data/scenic-ordinary-bootstrap-v70.json", "./data/scenic-ordinary-hokkaido-tohoku-v70.json", "./data/scenic-ordinary-crossregional-v70.json", "./data/scenic-ordinary-kanto-v70.json", "./data/scenic-ordinary-koshinetsu-hokuriku-v70.json", "./data/fish-catalog-v61.json",
+  "./data/castles-zoku100-v68.csv", "./data/scenic-national-v70.json", "./data/scenic-shards-v70.json",
+  "./data/scenic-ordinary-bootstrap-v70.json", "./data/scenic-ordinary-hokkaido-tohoku-v70.json", "./data/scenic-ordinary-crossregional-v70.json", "./data/scenic-ordinary-kanto-v70.json", "./data/scenic-ordinary-koshinetsu-hokuriku-v70.json",
+  "./data/scenic-ordinary-previous-region-completion-v70.json", "./data/scenic-ordinary-tokai-v70.json", "./data/scenic-ordinary-kinki-v70.json", "./data/scenic-ordinary-chugoku-shikoku-v70.json", "./data/scenic-ordinary-kyushu-okinawa-v70.json",
+  "./data/fish-catalog-v61.json",
   "./data/characters/manifest-v62.json", "./data/characters/sengoku-core-v62-01.json",
   "./data/characters/sengoku-core-v62-02.json", "./data/characters/sengoku-core-v62-03.json",
   "./data/characters/sengoku-core-v62-04.json", "./data/characters/sengoku-core-v62-05.json",
