@@ -1,9 +1,12 @@
 (() => {
-  const BUILD = "v70";
+  const BUILD = "v70.9";
   const DATA_URL = "./data/scenic-national-v70.json";
+  const SHARD_MANIFEST_URL = "./data/scenic-shards-v70.json";
   const STATE_KEY = "scenicVisitStateV1";
   const DEFAULT_ACCURACY_M = 500;
   let catalog = null;
+  let shardManifest = null;
+  let shardEntries = [];
   let ready = false;
 
   function storage() { return window.OnsenUserStorage || null; }
@@ -33,15 +36,50 @@
     return next;
   }
 
+  async function fetchJson(url) {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) throw new Error(`${url} load failed: ${response.status}`);
+    return response.json();
+  }
   async function loadCatalog() {
-    const response = await fetch(DATA_URL, { cache: "no-store" });
-    if (!response.ok) throw new Error(`${DATA_URL} load failed: ${response.status}`);
-    catalog = await response.json();
+    catalog = await fetchJson(DATA_URL);
+    shardEntries = [];
+    try {
+      shardManifest = await fetchJson(SHARD_MANIFEST_URL);
+      const shardUrls = (Array.isArray(shardManifest?.shards) ? shardManifest.shards : [])
+        .map((item) => item?.url)
+        .filter(Boolean);
+      const results = await Promise.allSettled(shardUrls.map((url) => fetchJson(url)));
+      const loaded = [];
+      results.forEach((result, index) => {
+        if (result.status === "fulfilled") {
+          for (const entry of result.value?.entries || []) if (entry?.id) loaded.push(entry);
+        } else {
+          console.warn(`scenic shard load failed: ${shardUrls[index]}`, result.reason);
+        }
+      });
+      shardEntries = loaded;
+    } catch (error) {
+      shardManifest = null;
+      shardEntries = [];
+      console.warn("scenic shard manifest load skipped", error);
+    }
     return catalog;
   }
-  function entries() { return Array.isArray(catalog?.entries) ? catalog.entries : []; }
-  function seedEntries() { return Array.isArray(catalog?.seedEntries) ? catalog.seedEntries : []; }
-  function get(id) { return entries().find((entry) => entry.id === String(id || "")) || seedEntries().find((entry) => entry.id === String(id || "")) || null; }
+  function entries() {
+    const byId = new Map();
+    for (const entry of Array.isArray(catalog?.entries) ? catalog.entries : []) if (entry?.id) byId.set(entry.id, entry);
+    for (const entry of shardEntries) if (entry?.id) byId.set(entry.id, entry);
+    return [...byId.values()];
+  }
+  function seedEntries() {
+    const imported = new Set(entries().map((entry) => entry.id));
+    return (Array.isArray(catalog?.seedEntries) ? catalog.seedEntries : []).filter((entry) => entry?.id && !imported.has(entry.id));
+  }
+  function get(id) {
+    const key = String(id || "");
+    return entries().find((entry) => entry.id === key) || seedEntries().find((entry) => entry.id === key) || null;
+  }
   function auditedZones(entry) {
     if (!entry || entry.coordinateStatus !== "audited") return [];
     return (Array.isArray(entry.zones) ? entry.zones : []).map((zone, index) => ({
@@ -57,13 +95,17 @@
   function visitCount() { return Object.keys(loadState().visited).length; }
   function specialVisitCount() { return listVisits().filter((visit) => get(visit.id)?.specialScenic === true).length; }
   function progress() {
+    const imported = entries();
     return {
       visited: visitCount(),
       total: Number(catalog?.officialCount || 433),
       specialVisited: specialVisitCount(),
       specialTotal: Number(catalog?.specialCount || 36),
-      catalogImported: entries().length,
-      coordinateReady: entries().filter((entry) => auditedZones(entry).length > 0).length,
+      catalogImported: imported.length,
+      ordinaryImported: imported.filter((entry) => entry.specialScenic !== true).length,
+      specialImported: imported.filter((entry) => entry.specialScenic === true).length,
+      coordinateReady: imported.filter((entry) => auditedZones(entry).length > 0).length,
+      shardCount: Array.isArray(shardManifest?.shards) ? shardManifest.shards.length : 0,
       ready
     };
   }
@@ -122,7 +164,9 @@
     window.OnsenScenicRuntime = {
       build: BUILD,
       dataUrl: DATA_URL,
+      shardManifestUrl: SHARD_MANIFEST_URL,
       catalog: () => catalog,
+      shardManifest: () => shardManifest,
       entries,
       seedEntries,
       get,
@@ -140,5 +184,5 @@
     window.dispatchEvent(new CustomEvent("onsen-scenic-runtime-ready", { detail: { build: BUILD, progress: progress() } }));
   }
 
-  install().catch((error) => console.warn("scenic runtime v70 init failed", error));
+  install().catch((error) => console.warn("scenic runtime v70.9 init failed", error));
 })();
