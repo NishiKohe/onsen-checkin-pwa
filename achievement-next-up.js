@@ -1,4 +1,5 @@
 (() => {
+  const BUILD = "v70.8";
   const MAX_REMAINING = 3;
   const MAX_ITEMS = 6;
   const RARITY_SCORE = { N: 0, R: 1, SR: 2, SSR: 3, LEGEND: 4 };
@@ -6,9 +7,7 @@
 
   function uniqueVisited() {
     const visited = new Set();
-    try {
-      for (const item of loadCheckins?.() || []) if (item?.spotId) visited.add(item.spotId);
-    } catch {}
+    try { for (const item of loadCheckins?.() || []) if (item?.spotId) visited.add(item.spotId); } catch {}
     return visited;
   }
 
@@ -17,7 +16,9 @@
     const domain = window.OnsenDomainAchievements?.definitions?.() || [];
     const byId = new Map();
     for (const item of [...base, ...domain]) if (item?.id) byId.set(item.id, item);
-    return [...byId.values()];
+    const list = [...byId.values()];
+    const matches = window.OnsenDomainAchievements?.matchesDefinition;
+    return typeof matches === "function" ? list.filter((item) => matches(item)) : list;
   }
 
   function progressFor(definition, visited) {
@@ -30,7 +31,6 @@
       const total = Number(definition.visitCount || definition.total || 0);
       return { done, total, remaining: Math.max(0, total - done), missingSpotIds: [] };
     }
-
     let done = 0;
     let total = 0;
     const missingSpotIds = [];
@@ -44,11 +44,7 @@
   }
 
   function spotName(id) {
-    try {
-      return (spots || []).find((spot) => spot.id === id)?.name || id;
-    } catch {
-      return id;
-    }
+    try { return (spots || []).find((spot) => spot.id === id)?.name || id; } catch { return id; }
   }
 
   function ensurePanel() {
@@ -69,7 +65,6 @@
     if (!window.OnsenAchievements?.getDefinitions || !window.OnsenAchievements?.getState) return;
     const panel = ensurePanel();
     if (!panel) return;
-
     const definitions = allDefinitions();
     const state = window.OnsenAchievements.getState();
     const visited = uniqueVisited();
@@ -92,14 +87,14 @@
     const visible = candidates.slice(0, MAX_ITEMS);
     panel.innerHTML = `
       <div class="achievement-next-head">
-        <div><span>NEXT TARGETS</span><strong>あと少しで解除</strong><p>次の旅先候補になりやすい実績を優先表示します。</p></div>
+        <div><span>NEXT TARGETS</span><strong>あと少しで解除</strong><p>選択中カテゴリの次の旅先候補を表示します。</p></div>
         <b>${candidates.length}件</b>
       </div>
       <div class="achievement-next-list"></div>`;
 
     const list = panel.querySelector(".achievement-next-list");
     if (!visible.length) {
-      list.innerHTML = `<div class="achievement-next-empty">あと1〜3で解除できる実績はありません。</div>`;
+      list.innerHTML = `<div class="achievement-next-empty">このカテゴリに、あと1〜3で解除できる実績はありません。</div>`;
       return;
     }
 
@@ -121,26 +116,24 @@
     }
   }
 
-  function schedule() {
+  function schedule(delay = 60) {
     clearTimeout(timer);
-    timer = setTimeout(render, 80);
+    timer = setTimeout(render, delay);
   }
 
   async function install() {
     for (let i = 0; i < 300; i++) {
       if (window.OnsenAchievements?.getDefinitions && document.getElementById("collectionView")) {
-        schedule();
-        window.addEventListener("onsen-app-tab-changed", (event) => {
-          if (event.detail?.tab === "collection") schedule();
-        });
+        schedule(0);
+        window.addEventListener("onsen-app-tab-changed", (event) => { if (event.detail?.tab === "collection") schedule(); });
+        window.addEventListener("onsen-collection-domain-changed", () => schedule(0));
         window.addEventListener("storage", schedule);
         window.addEventListener("pageshow", schedule);
-        for (const eventName of ["onsen-castle-visit-changed", "onsen-scenic-visit-changed", "onsen-domain-achievements-changed", "onsen-scenic-v702-ready"]) {
-          window.addEventListener(eventName, schedule);
-        }
+        for (const eventName of ["onsen-castle-visit-changed", "onsen-scenic-visit-changed", "onsen-domain-achievements-changed", "onsen-scenic-v702-ready"]) window.addEventListener(eventName, schedule);
         document.addEventListener("click", (event) => {
           if (event.target.closest?.("[data-collection-mode='achievements'], .achievement-card-footer button")) schedule();
         }, true);
+        window.OnsenAchievementNextUp = { build: BUILD, render, refresh: schedule };
         return;
       }
       await new Promise((resolve) => setTimeout(resolve, 50));
@@ -148,10 +141,8 @@
   }
 
   function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>'\"]/g, (char) => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
-    }[char]));
+    return String(value ?? "").replace(/[&<>'\"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));
   }
 
-  install().catch((err) => console.warn("achievement next-up init failed", err));
+  install().catch((err) => console.warn("achievement next-up v70.8 init failed", err));
 })();
