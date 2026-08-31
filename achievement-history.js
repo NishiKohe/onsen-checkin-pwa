@@ -1,4 +1,5 @@
 (() => {
+  const BUILD = "v70.8";
   const STATE_KEY = "achievementStateV1";
   const MAX_HISTORY = 12;
   const POLL_MS = 900;
@@ -16,17 +17,9 @@
     return safeParse(localStorage.getItem(STATE_KEY), { unlocks: {} });
   }
 
-  function definitions() {
-    return window.OnsenAchievements?.getDefinitions?.() || [];
-  }
-
-  function checkins() {
-    try { return typeof loadCheckins === "function" ? loadCheckins() : []; } catch { return []; }
-  }
-
-  function checkinTime(item) {
-    return Number(item?.checkedAt || item?.verifiedAt || item?.recordedAt || 0) || 0;
-  }
+  function definitions() { return window.OnsenAchievements?.getDefinitions?.() || []; }
+  function checkins() { try { return typeof loadCheckins === "function" ? loadCheckins() : []; } catch { return []; } }
+  function checkinTime(item) { return Number(item?.checkedAt || item?.verifiedAt || item?.recordedAt || 0) || 0; }
 
   function earliestBySpot() {
     const map = new Map();
@@ -41,24 +34,16 @@
 
   function completionEvidence(definition, unlock) {
     if (unlock?.completionSpotId || unlock?.completionVisitAt) {
-      return {
-        spotId: unlock.completionSpotId || null,
-        at: Number(unlock.completionVisitAt || unlock.unlockedAt || 0) || 0
-      };
+      return { spotId: unlock.completionSpotId || null, at: Number(unlock.completionVisitAt || unlock.unlockedAt || 0) || 0 };
     }
-
     const bySpot = earliestBySpot();
     if (!definition) return { at: Number(unlock?.unlockedAt || 0) || 0, spotId: null };
-
     if (definition.kind === "visit_count") {
-      const ordered = [...bySpot.entries()]
-        .map(([spotId, entry]) => ({ spotId, ...entry }))
-        .sort((a, b) => a.at - b.at);
+      const ordered = [...bySpot.entries()].map(([spotId, entry]) => ({ spotId, ...entry })).sort((a, b) => a.at - b.at);
       const index = Math.max(0, Number(definition.visitCount || 1) - 1);
       const entry = ordered[index];
       return entry ? { at: entry.at, spotId: entry.spotId } : { at: Number(unlock?.unlockedAt || 0) || 0, spotId: null };
     }
-
     let latest = null;
     for (const spotId of definition.requiredSpotIds || []) {
       const entry = bySpot.get(spotId);
@@ -74,20 +59,22 @@
       if (unlock.completionSpotId && unlock.completionVisitAt) continue;
       const definition = defs.get(unlock.achievementId);
       const evidence = completionEvidence(definition, unlock);
-      if (evidence.spotId && !unlock.completionSpotId) {
-        unlock.completionSpotId = evidence.spotId;
-        changed = true;
-      }
-      if (evidence.at && !unlock.completionVisitAt) {
-        unlock.completionVisitAt = evidence.at;
-        changed = true;
-      }
+      if (evidence.spotId && !unlock.completionSpotId) { unlock.completionSpotId = evidence.spotId; changed = true; }
+      if (evidence.at && !unlock.completionVisitAt) { unlock.completionVisitAt = evidence.at; changed = true; }
     }
     if (changed) {
       current.updatedAt = Date.now();
       localStorage.setItem(STATE_KEY, JSON.stringify(current));
     }
     return current;
+  }
+
+  function recordMatchesDomain(definition, unlock) {
+    const matcher = window.OnsenDomainAchievements?.matchesDefinition;
+    if (definition && typeof matcher === "function") return matcher(definition);
+    const raw = String(unlock?.achievementId || "").replace(/^onsite:/, "");
+    const pseudo = { id: raw };
+    return typeof matcher === "function" ? matcher(pseudo) : true;
   }
 
   function spotName(spotId) {
@@ -106,17 +93,15 @@
     if (!view) return null;
     let panel = document.getElementById("achievementHistory");
     if (panel) return panel;
-
     panel = document.createElement("section");
     panel.id = "achievementHistory";
     panel.className = "achievement-history";
     panel.innerHTML = `
       <div class="achievement-history-head">
-        <div><span>HISTORY</span><strong>最近の実績解除</strong><p>最後の条件になった温泉と達成日を記録します。</p></div>
+        <div><span>HISTORY</span><strong>最近の実績解除</strong><p>選択中カテゴリの達成日と解除履歴を表示します。</p></div>
         <b id="achievementHistoryCount">0件</b>
       </div>
       <div id="achievementHistoryList" class="achievement-history-list"></div>`;
-
     const toolbar = view.querySelector(".achievement-toolbar");
     if (toolbar) toolbar.insertAdjacentElement("beforebegin", panel);
     else view.appendChild(panel);
@@ -134,6 +119,7 @@
         const evidence = completionEvidence(definition, unlock);
         return { unlock, definition, evidence };
       })
+      .filter((entry) => recordMatchesDomain(entry.definition, entry.unlock))
       .sort((a, b) => Number(b.unlock.unlockedAt || b.evidence.at || 0) - Number(a.unlock.unlockedAt || a.evidence.at || 0));
 
     const count = document.getElementById("achievementHistoryCount");
@@ -149,17 +135,17 @@
       const title = entry.unlock.titleLabel || entry.definition?.titleLabel || "称号";
       const name = entry.unlock.achievementName || entry.definition?.name || entry.unlock.achievementId;
       const place = spotName(entry.evidence.spotId);
+      const placeText = place === "—" ? "達成記録" : place;
       row.innerHTML = `
         <span class="achievement-history-rarity">${escapeHtml(entry.unlock.rarity || entry.definition?.rarity || "R")}</span>
         <div class="achievement-history-main">
           <strong>${escapeHtml(name)}</strong>
           <span>称号「${escapeHtml(title)}」</span>
-          <small>${escapeHtml(place)} ・ ${escapeHtml(formatDate(entry.unlock.unlockedAt || entry.evidence.at))}</small>
+          <small>${escapeHtml(placeText)} ・ ${escapeHtml(formatDate(entry.unlock.unlockedAt || entry.evidence.at))}</small>
         </div>`;
       list.appendChild(row);
     }
-
-    if (!records.length) list.innerHTML = `<div class="achievement-history-empty">まだ解除実績はありません。</div>`;
+    if (!records.length) list.innerHTML = `<div class="achievement-history-empty">このカテゴリの解除実績はまだありません。</div>`;
   }
 
   function ensureToastRoot() {
@@ -173,10 +159,7 @@
     return root;
   }
 
-  function enqueueToast(unlock) {
-    toastQueue.push(unlock);
-    runToastQueue();
-  }
+  function enqueueToast(unlock) { toastQueue.push(unlock); runToastQueue(); }
 
   function runToastQueue() {
     if (toastBusy || !toastQueue.length) return;
@@ -187,25 +170,16 @@
     toast.type = "button";
     toast.className = "achievement-unlock-toast";
     toast.dataset.rarity = unlock.rarity || "R";
-    toast.innerHTML = `
-      <span>ACHIEVEMENT UNLOCKED</span>
-      <strong>${escapeHtml(unlock.achievementName || "実績解除")}</strong>
-      <small>称号「${escapeHtml(unlock.titleLabel || "称号獲得")}」</small>`;
+    toast.innerHTML = `<span>ACHIEVEMENT UNLOCKED</span><strong>${escapeHtml(unlock.achievementName || "実績解除")}</strong><small>称号「${escapeHtml(unlock.titleLabel || "称号獲得")}」</small>`;
     toast.addEventListener("click", () => {
       window.OnsenAchievements?.show?.();
       setTimeout(() => document.getElementById("achievementHistory")?.scrollIntoView?.({ behavior: "smooth", block: "start" }), 80);
-      toast.remove();
-      toastBusy = false;
-      runToastQueue();
+      toast.remove(); toastBusy = false; runToastQueue();
     });
     root.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add("show"));
     setTimeout(() => toast.classList.remove("show"), 3600);
-    setTimeout(() => {
-      toast.remove();
-      toastBusy = false;
-      runToastQueue();
-    }, 4050);
+    setTimeout(() => { toast.remove(); toastBusy = false; runToastQueue(); }, 4050);
   }
 
   function scanUnlocks({ allowToast = true } = {}) {
@@ -217,7 +191,6 @@
       renderHistory();
       return;
     }
-
     for (const id of ids) {
       if (knownUnlockIds.has(id)) continue;
       knownUnlockIds.add(id);
@@ -234,26 +207,19 @@
     }
     await new Promise((resolve) => setTimeout(resolve, 450));
     scanUnlocks({ allowToast: false });
-
-    window.setInterval(() => {
-      if (document.visibilityState === "visible") scanUnlocks({ allowToast: true });
-    }, POLL_MS);
-    window.addEventListener("onsen-app-tab-changed", (event) => {
-      if (event.detail?.tab === "collection") setTimeout(renderHistory, 60);
-    });
+    window.setInterval(() => { if (document.visibilityState === "visible") scanUnlocks({ allowToast: true }); }, POLL_MS);
+    window.addEventListener("onsen-app-tab-changed", (event) => { if (event.detail?.tab === "collection") setTimeout(renderHistory, 60); });
+    window.addEventListener("onsen-collection-domain-changed", () => renderHistory());
     window.addEventListener("pageshow", () => scanUnlocks({ allowToast: false }));
     document.addEventListener("click", (event) => {
       if (event.target.closest?.("[data-collection-mode='achievements']")) setTimeout(renderHistory, 80);
     }, true);
-
-    window.OnsenAchievementHistory = { render: renderHistory, refresh: scanUnlocks };
+    window.OnsenAchievementHistory = { build: BUILD, render: renderHistory, refresh: scanUnlocks };
   }
 
   function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>'\"]/g, (char) => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
-    }[char]));
+    return String(value ?? "").replace(/[&<>'\"]/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[char]));
   }
 
-  install().catch((err) => console.warn("achievement history init failed", err));
+  install().catch((err) => console.warn("achievement history v70.8 init failed", err));
 })();
