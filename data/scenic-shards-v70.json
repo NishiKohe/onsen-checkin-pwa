@@ -1,8 +1,9 @@
 {
-  "version": 1,
+  "version": 2,
   "dataset": "national_places_of_scenic_beauty_ordinary_shards",
   "expectedOrdinaryCount": 397,
   "asOf": "2026-08-31",
+  "verifiedOrdinaryCount": 48,
   "shards": [
     {
       "id": "ordinary_bootstrap_01",
@@ -10,6 +11,20 @@
       "region": "cross-regional",
       "entryCount": 5,
       "status": "official_verified"
+    },
+    {
+      "id": "ordinary_hokkaido_tohoku_01",
+      "url": "./data/scenic-ordinary-hokkaido-tohoku-v70.json",
+      "region": "北海道・東北",
+      "entryCount": 42,
+      "status": "official_verified_coordinate_pending"
+    },
+    {
+      "id": "ordinary_crossregional_01",
+      "url": "./data/scenic-ordinary-crossregional-v70.json",
+      "region": "複数県",
+      "entryCount": 1,
+      "status": "official_verified_coordinate_pending"
     }
   ]
 }
