@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v70.4";
+  const BUILD = "v70.5";
   const FOOTER_ID = "footerAchievementsTab";
   let installed = false;
   let achievementsWrapped = false;
@@ -60,6 +60,23 @@
     if (summary) summary.hidden = achievementMode;
   }
 
+  function forceNavTarget(target) {
+    const nav = getNav();
+    const achievementButton = ensureAchievementButton();
+    if (!nav || !achievementButton) return;
+    const achievementMode = target === "achievement_proxy";
+    document.documentElement.dataset.appNavTab = target;
+    document.body?.classList.toggle("achievement-tab-active", achievementMode);
+    document.body?.classList.toggle("collection-tab-active", target === "collection");
+    for (const button of nav.querySelectorAll(".app-tab")) {
+      const active = achievementMode
+        ? button === achievementButton
+        : button.dataset.appTab === target;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", active ? "true" : "false");
+    }
+  }
+
   function syncActiveState() {
     const nav = getNav();
     const achievementButton = ensureAchievementButton();
@@ -85,6 +102,12 @@
     }
   }
 
+  function stabilizeAchievementNav() {
+    syncActiveState();
+    queueMicrotask(syncActiveState);
+    requestAnimationFrame(syncActiveState);
+  }
+
   function emitCollectionMode(mode, source) {
     window.dispatchEvent(new CustomEvent("onsen-collection-mode-changed", { detail: { build: BUILD, mode, source } }));
   }
@@ -99,11 +122,16 @@
   function refreshDomainViews() {
     window.OnsenCastleCollectionUI?.refresh?.();
     window.OnsenScenicCollectionUI?.refresh?.();
-    window.OnsenDomainAchievements?.refresh?.();
+    if (typeof window.OnsenDomainAchievements?.render === "function") {
+      window.OnsenDomainAchievements.render();
+    } else {
+      window.OnsenDomainAchievements?.refresh?.();
+    }
   }
 
   function openAchievements() {
     hideNestedModeTabs();
+    forceNavTarget("achievement_proxy");
     if (window.OnsenAchievements?.show) {
       window.OnsenAchievements.show();
     } else {
@@ -111,22 +139,23 @@
       clickInternalMode("achievements");
     }
     emitCollectionMode("achievements", "footer");
-    syncActiveState();
     refreshDomainViews();
+    stabilizeAchievementNav();
   }
 
   function openCollections() {
+    forceNavTarget("collection");
     window.OnsenAppShell?.show?.("collection");
     hideNestedModeTabs();
     clickInternalMode("collection");
     emitCollectionMode("collection", "footer");
-    syncActiveState();
     refreshDomainViews();
+    syncActiveState();
   }
 
   function bindNavigationCapture() {
-    if (document.documentElement.dataset.footerNavV704Bound === "1") return;
-    document.documentElement.dataset.footerNavV704Bound = "1";
+    if (document.documentElement.dataset.footerNavV705Bound === "1") return;
+    document.documentElement.dataset.footerNavV705Bound = "1";
     document.addEventListener("click", (event) => {
       const nav = getNav();
       if (!nav) return;
@@ -151,10 +180,11 @@
     if (achievementsWrapped || !window.OnsenAchievements?.show) return false;
     const original = window.OnsenAchievements.show.bind(window.OnsenAchievements);
     window.OnsenAchievements.show = (...args) => {
+      forceNavTarget("achievement_proxy");
       const result = original(...args);
       emitCollectionMode("achievements", "api");
-      syncActiveState();
       refreshDomainViews();
+      stabilizeAchievementNav();
       return result;
     };
     achievementsWrapped = true;
@@ -180,6 +210,7 @@
     window.addEventListener("onsen-collection-domain-changed", syncActiveState);
     window.addEventListener("pageshow", syncActiveState);
     window.addEventListener("onsen-scenic-v703-ready", syncActiveState);
+    window.addEventListener("onsen-scenic-v705-ready", syncActiveState);
 
     window.OnsenFooterNavigation = {
       build: BUILD,
@@ -191,8 +222,8 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => install().catch((err) => console.warn("footer navigation v70.4 init failed", err)), { once: true });
+    document.addEventListener("DOMContentLoaded", () => install().catch((err) => console.warn("footer navigation v70.5 init failed", err)), { once: true });
   } else {
-    install().catch((err) => console.warn("footer navigation v70.4 init failed", err));
+    install().catch((err) => console.warn("footer navigation v70.5 init failed", err));
   }
 })();
