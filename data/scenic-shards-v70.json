@@ -1,9 +1,9 @@
 {
-  "version": 2,
+  "version": 3,
   "dataset": "national_places_of_scenic_beauty_ordinary_shards",
   "expectedOrdinaryCount": 397,
   "asOf": "2026-08-31",
-  "verifiedOrdinaryCount": 48,
+  "verifiedOrdinaryCount": 83,
   "shards": [
     {
       "id": "ordinary_bootstrap_01",
@@ -24,6 +24,13 @@
       "url": "./data/scenic-ordinary-crossregional-v70.json",
       "region": "複数県",
       "entryCount": 1,
+      "status": "official_verified_coordinate_pending"
+    },
+    {
+      "id": "ordinary_kanto_01",
+      "url": "./data/scenic-ordinary-kanto-v70.json",
+      "region": "関東",
+      "entryCount": 35,
       "status": "official_verified_coordinate_pending"
     }
   ]
