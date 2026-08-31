@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v70.5";
+  const BUILD = "v70.6";
   const FOOTER_ID = "footerAchievementsTab";
   let installed = false;
   let achievementsWrapped = false;
@@ -119,14 +119,9 @@
     return true;
   }
 
-  function refreshDomainViews() {
+  function refreshCollectionDomains() {
     window.OnsenCastleCollectionUI?.refresh?.();
     window.OnsenScenicCollectionUI?.refresh?.();
-    if (typeof window.OnsenDomainAchievements?.render === "function") {
-      window.OnsenDomainAchievements.render();
-    } else {
-      window.OnsenDomainAchievements?.refresh?.();
-    }
   }
 
   function openAchievements() {
@@ -139,7 +134,6 @@
       clickInternalMode("achievements");
     }
     emitCollectionMode("achievements", "footer");
-    refreshDomainViews();
     stabilizeAchievementNav();
   }
 
@@ -149,13 +143,13 @@
     hideNestedModeTabs();
     clickInternalMode("collection");
     emitCollectionMode("collection", "footer");
-    refreshDomainViews();
+    refreshCollectionDomains();
     syncActiveState();
   }
 
   function bindNavigationCapture() {
-    if (document.documentElement.dataset.footerNavV705Bound === "1") return;
-    document.documentElement.dataset.footerNavV705Bound = "1";
+    if (document.documentElement.dataset.footerNavV706Bound === "1") return;
+    document.documentElement.dataset.footerNavV706Bound = "1";
     document.addEventListener("click", (event) => {
       const nav = getNav();
       if (!nav) return;
@@ -183,7 +177,6 @@
       forceNavTarget("achievement_proxy");
       const result = original(...args);
       emitCollectionMode("achievements", "api");
-      refreshDomainViews();
       stabilizeAchievementNav();
       return result;
     };
@@ -194,36 +187,42 @@
   async function install() {
     if (installed) return;
     for (let i = 0; i < 300; i += 1) {
-      if (getNav() && window.OnsenAppShell && window.OnsenAchievements) break;
+      if (getNav() && window.OnsenAppShell && window.OnsenAchievements && window.OnsenDomainAchievements) break;
       await new Promise((resolve) => setTimeout(resolve, 40));
     }
-    if (!getNav() || !window.OnsenAppShell) throw new Error("footer navigation prerequisites not ready");
+    if (!getNav() || !window.OnsenAppShell || !window.OnsenAchievements || !window.OnsenDomainAchievements) {
+      throw new Error("footer navigation prerequisites not ready");
+    }
     installed = true;
     ensureAchievementButton();
     bindNavigationCapture();
     hideNestedModeTabs();
     wrapAchievementShow();
+    window.OnsenAchievements.refresh?.();
     syncActiveState();
 
     window.addEventListener("onsen-app-tab-changed", syncActiveState);
-    window.addEventListener("onsen-collection-mode-changed", () => { syncActiveState(); refreshDomainViews(); });
+    window.addEventListener("onsen-collection-mode-changed", syncActiveState);
     window.addEventListener("onsen-collection-domain-changed", syncActiveState);
     window.addEventListener("pageshow", syncActiveState);
-    window.addEventListener("onsen-scenic-v703-ready", syncActiveState);
-    window.addEventListener("onsen-scenic-v705-ready", syncActiveState);
+    window.addEventListener("onsen-domain-achievements-ready", () => {
+      window.OnsenAchievements.refresh?.();
+      syncActiveState();
+    });
+    window.addEventListener("onsen-scenic-v706-ready", syncActiveState);
 
     window.OnsenFooterNavigation = {
       build: BUILD,
       openAchievements,
       openCollections,
-      refresh: () => { syncActiveState(); refreshDomainViews(); }
+      refresh: () => { syncActiveState(); refreshCollectionDomains(); }
     };
     window.dispatchEvent(new CustomEvent("onsen-footer-navigation-ready", { detail: { build: BUILD } }));
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => install().catch((err) => console.warn("footer navigation v70.5 init failed", err)), { once: true });
+    document.addEventListener("DOMContentLoaded", () => install().catch((err) => console.warn("footer navigation v70.6 init failed", err)), { once: true });
   } else {
-    install().catch((err) => console.warn("footer navigation v70.5 init failed", err));
+    install().catch((err) => console.warn("footer navigation v70.6 init failed", err));
   }
 })();
