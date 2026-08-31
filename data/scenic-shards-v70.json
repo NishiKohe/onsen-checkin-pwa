@@ -1,44 +1,20 @@
 {
-  "version": 4,
+  "version": 5,
   "dataset": "national_places_of_scenic_beauty_ordinary_shards",
   "expectedOrdinaryCount": 397,
-  "asOf": "2026-08-31",
-  "verifiedOrdinaryCount": 126,
+  "asOf": "2026-09-01",
+  "verifiedOrdinaryCount": 397,
+  "status": "national_catalog_complete_coordinates_pending_audit",
   "shards": [
-    {
-      "id": "ordinary_bootstrap_01",
-      "url": "./data/scenic-ordinary-bootstrap-v70.json",
-      "region": "cross-regional",
-      "entryCount": 5,
-      "status": "official_verified"
-    },
-    {
-      "id": "ordinary_hokkaido_tohoku_01",
-      "url": "./data/scenic-ordinary-hokkaido-tohoku-v70.json",
-      "region": "北海道・東北",
-      "entryCount": 42,
-      "status": "official_verified_coordinate_pending"
-    },
-    {
-      "id": "ordinary_crossregional_01",
-      "url": "./data/scenic-ordinary-crossregional-v70.json",
-      "region": "複数県",
-      "entryCount": 1,
-      "status": "official_verified_coordinate_pending"
-    },
-    {
-      "id": "ordinary_kanto_01",
-      "url": "./data/scenic-ordinary-kanto-v70.json",
-      "region": "関東",
-      "entryCount": 35,
-      "status": "official_verified_coordinate_pending"
-    },
-    {
-      "id": "ordinary_koshinetsu_hokuriku_01",
-      "url": "./data/scenic-ordinary-koshinetsu-hokuriku-v70.json",
-      "region": "甲信越・北陸",
-      "entryCount": 43,
-      "status": "official_verified_coordinate_pending"
-    }
+    {"id":"ordinary_bootstrap_01","url":"./data/scenic-ordinary-bootstrap-v70.json","region":"cross-regional","entryCount":5,"status":"official_verified"},
+    {"id":"ordinary_hokkaido_tohoku_01","url":"./data/scenic-ordinary-hokkaido-tohoku-v70.json","region":"北海道・東北","entryCount":42,"status":"official_verified_coordinate_pending"},
+    {"id":"ordinary_crossregional_01","url":"./data/scenic-ordinary-crossregional-v70.json","region":"複数県","entryCount":1,"status":"official_verified_coordinate_pending"},
+    {"id":"ordinary_kanto_01","url":"./data/scenic-ordinary-kanto-v70.json","region":"関東","entryCount":35,"status":"official_verified_coordinate_pending"},
+    {"id":"ordinary_koshinetsu_hokuriku_01","url":"./data/scenic-ordinary-koshinetsu-hokuriku-v70.json","region":"甲信越・北陸","entryCount":43,"status":"official_verified_coordinate_pending"},
+    {"id":"ordinary_previous_region_completion_01","url":"./data/scenic-ordinary-previous-region-completion-v70.json","region":"既存地域補完","entryCount":2,"status":"official_verified_coordinate_pending"},
+    {"id":"ordinary_tokai_01","url":"./data/scenic-ordinary-tokai-v70.json","region":"東海","entryCount":31,"status":"catalog_crosschecked_coordinate_pending"},
+    {"id":"ordinary_kinki_01","url":"./data/scenic-ordinary-kinki-v70.json","region":"近畿","entryCount":107,"status":"catalog_crosschecked_coordinate_pending"},
+    {"id":"ordinary_chugoku_shikoku_01","url":"./data/scenic-ordinary-chugoku-shikoku-v70.json","region":"中国・四国","entryCount":77,"status":"catalog_crosschecked_coordinate_pending"},
+    {"id":"ordinary_kyushu_okinawa_01","url":"./data/scenic-ordinary-kyushu-okinawa-v70.json","region":"九州・沖縄","entryCount":54,"status":"catalog_crosschecked_coordinate_pending"}
   ]
 }
