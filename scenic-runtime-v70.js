@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v70.9";
+  const BUILD = "v70.10";
   const DATA_URL = "./data/scenic-national-v70.json";
   const SHARD_MANIFEST_URL = "./data/scenic-shards-v70.json";
   const STATE_KEY = "scenicVisitStateV1";
@@ -184,5 +184,5 @@
     window.dispatchEvent(new CustomEvent("onsen-scenic-runtime-ready", { detail: { build: BUILD, progress: progress() } }));
   }
 
-  install().catch((error) => console.warn("scenic runtime v70.9 init failed", error));
+  install().catch((error) => console.warn("scenic runtime v70.10 init failed", error));
 })();
