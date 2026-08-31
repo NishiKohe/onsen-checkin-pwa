@@ -2,6 +2,7 @@
   const BUILD = "v70.8";
   const DOMAIN_KEY = "collectionDomainModeV61";
   const VALID_DOMAINS = new Set(["onsen", "castle", "scenic"]);
+  let reapplyTimer = null;
 
   const DEFINITIONS = Object.freeze([
     { id: "domain:castle:050", category: "名城200", kind: "castle_total", required: 50, name: "五十城踏破", description: "日本100名城・続日本100名城から合計50城を訪問する", titleLabel: "五十城巡歴者", rarity: "R" },
@@ -9,7 +10,6 @@
     { id: "domain:castle:original100", category: "名城200", kind: "castle_original", required: 100, name: "日本100名城 制覇", description: "日本100名城を100城すべて訪問する", titleLabel: "日本100名城制覇者", rarity: "SSR" },
     { id: "domain:castle:continued100", category: "名城200", kind: "castle_continued", required: 100, name: "続日本100名城 制覇", description: "続日本100名城を100城すべて訪問する", titleLabel: "続日本100名城制覇者", rarity: "SSR" },
     { id: "domain:castle:200", category: "名城200", kind: "castle_total", required: 200, name: "名城二百踏破", description: "日本100名城・続日本100名城の計200城をすべて訪問する", titleLabel: "名城二百城制覇者", rarity: "LEGEND" },
-
     { id: "domain:scenic:010", category: "国指定名勝", kind: "scenic_total", required: 10, name: "十景巡歴", description: "国指定名勝を10件訪問する", titleLabel: "十景巡歴者", rarity: "R" },
     { id: "domain:scenic:050", category: "国指定名勝", kind: "scenic_total", required: 50, name: "五十景踏破", description: "国指定名勝を50件訪問する", titleLabel: "五十景踏破者", rarity: "SR" },
     { id: "domain:scenic:100", category: "国指定名勝", kind: "scenic_total", required: 100, name: "百景巡礼", description: "国指定名勝を100件訪問する", titleLabel: "百景巡礼者", rarity: "SSR" },
@@ -19,18 +19,12 @@
     { id: "domain:scenic:special10", category: "特別名勝", kind: "scenic_special", required: 10, name: "特別名勝 十景", description: "特別名勝を10件訪問する", titleLabel: "特別名勝巡歴者", rarity: "SR" },
     { id: "domain:scenic:special20", category: "特別名勝", kind: "scenic_special", required: 20, name: "特別名勝 二十景", description: "特別名勝を20件訪問する", titleLabel: "特別名勝行脚人", rarity: "SSR" },
     { id: "domain:scenic:special36", category: "特別名勝", kind: "scenic_special", required: 36, name: "特別名勝 全制覇", description: "特別名勝36件をすべて訪問する", titleLabel: "特別名勝制覇者", rarity: "LEGEND" }
-  ].map((definition) => Object.freeze({
-    ...definition,
-    titleId: `title:${definition.id}`,
-    total: definition.required,
-    verification: "domain_visit"
-  })));
+  ].map((definition) => Object.freeze({ ...definition, titleId: `title:${definition.id}`, total: definition.required, verification: "domain_visit" })));
 
   function currentDomain() {
     const runtime = window.OnsenCastleCollectionUI?.mode?.();
     const stored = sessionStorage.getItem(DOMAIN_KEY);
-    const value = VALID_DOMAINS.has(runtime) ? runtime : VALID_DOMAINS.has(stored) ? stored : "onsen";
-    return value;
+    return VALID_DOMAINS.has(runtime) ? runtime : VALID_DOMAINS.has(stored) ? stored : "onsen";
   }
 
   function domainForDefinition(definition) {
@@ -40,13 +34,9 @@
     return "onsen";
   }
 
-  function matchesDefinition(definition, domain = currentDomain()) {
-    return domainForDefinition(definition) === domain;
-  }
+  function matchesDefinition(definition, domain = currentDomain()) { return domainForDefinition(definition) === domain; }
 
-  function castleEntityMap() {
-    return new Map((window.OnsenCastleDomain?.data?.entities || []).map((entry) => [String(entry.id), entry]));
-  }
+  function castleEntityMap() { return new Map((window.OnsenCastleDomain?.data?.entities || []).map((entry) => [String(entry.id), entry])); }
 
   function castleEvidence(kind) {
     const records = window.OnsenCastleVisits?.list?.() || [];
@@ -101,8 +91,8 @@
     const domainDefinitions = definitions.filter((definition) => matchesDefinition(definition, domain));
     const allowedCategories = new Set(domainDefinitions.map((definition) => definition.category));
     const allowedIds = new Set(domainDefinitions.map((definition) => definition.id));
-
     let visibleSectionCount = 0;
+
     for (const section of document.querySelectorAll("#achievementList .achievement-section")) {
       const category = section.querySelector(".achievement-section-heading h3")?.textContent?.trim() || "";
       const visible = allowedCategories.has(category);
@@ -130,14 +120,24 @@
     if (unreadMetric) unreadMetric.textContent = String(unread);
   }
 
+  function applyAllDomainViews() {
+    applyUiFilter();
+    window.OnsenAchievementNextUp?.render?.();
+    window.OnsenAchievementHistory?.render?.();
+  }
+
+  function reapplyAfterBase(delay = 50) {
+    clearTimeout(reapplyTimer);
+    reapplyTimer = setTimeout(applyAllDomainViews, delay);
+  }
+
   function refreshBase() {
     try {
       window.OnsenAchievements?.refresh?.();
       const view = document.getElementById("achievementView");
       if (view && !view.hidden) window.OnsenAchievements?.render?.();
-      applyUiFilter();
-      window.OnsenAchievementNextUp?.render?.();
-      window.OnsenAchievementHistory?.render?.();
+      applyAllDomainViews();
+      reapplyAfterBase(50);
     } catch (error) {
       console.warn("domain achievement base refresh failed", error);
     }
@@ -157,7 +157,7 @@
     matchesDefinition,
     applyUiFilter,
     reconcile: () => window.OnsenAchievements?.refresh?.() || null,
-    render: () => { window.OnsenAchievements?.render?.(); applyUiFilter(); },
+    render: () => { window.OnsenAchievements?.render?.(); applyAllDomainViews(); },
     refresh: refreshBase
   };
 
@@ -167,10 +167,16 @@
     window.addEventListener(eventName, () => notify(eventName));
   }
   window.addEventListener("onsen-collection-domain-changed", () => refreshBase());
-  window.addEventListener("onsen-collection-mode-changed", () => queueMicrotask(applyUiFilter));
-  window.addEventListener("pageshow", refreshBase);
+  window.addEventListener("onsen-collection-mode-changed", () => { queueMicrotask(applyAllDomainViews); reapplyAfterBase(10); });
+  window.addEventListener("onsen-domain-achievements-changed", () => reapplyAfterBase(50));
+  window.addEventListener("onsen-app-tab-changed", (event) => { if (event.detail?.tab === "collection") reapplyAfterBase(10); });
+  window.addEventListener("storage", () => reapplyAfterBase(50));
+  window.addEventListener("pageshow", () => { refreshBase(); reapplyAfterBase(50); });
   document.addEventListener("click", (event) => {
-    if (event.target.closest?.("[data-achievement-filter]")) queueMicrotask(applyUiFilter);
+    if (event.target.closest?.("[data-achievement-filter], .achievement-card-footer button")) {
+      queueMicrotask(applyAllDomainViews);
+      reapplyAfterBase(10);
+    }
   });
 
   window.dispatchEvent(new CustomEvent("onsen-domain-achievements-ready", { detail: { build: BUILD, count: DEFINITIONS.length } }));
