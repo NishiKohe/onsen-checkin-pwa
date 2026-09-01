@@ -11,9 +11,9 @@
     if(window.OnsenScenicRuntime?.build!==BUILD){if(!await loadScriptOnce("./scenic-runtime-v70.js?v=71","scenicRuntimeV71"))return false;}
     if(!await waitFor(()=>window.OnsenScenicRuntime?.build===BUILD,12000)){console.warn("v71 scenic bridge: runtime not ready");return false;}
     if(!await waitFor(()=>window.OnsenCastleCollectionUI&&document.querySelector("#collectionView .collection-domain-switch"),10000)){console.warn("v71 scenic bridge: canonical collection domain not ready");return false;}
-    if(!window.OnsenScenicCollectionUI){if(!await loadScriptOnce("./scenic-collection-ui-v70.js?v=71","scenicCollectionUiV71"))return false;}
-    if(!await waitFor(()=>window.OnsenScenicCollectionUI,10000)){console.warn("v71 scenic bridge: collection UI not ready");return false;}
-    if(!window.OnsenScenicMapV71){await loadScriptOnce("./scenic-map-v71.js?v=71","scenicMapV71Script");}
+    if(window.OnsenScenicCollectionUI?.build!==BUILD){if(!await loadScriptOnce("./scenic-collection-ui-v70.js?v=71","scenicCollectionUiV71"))return false;}
+    if(!await waitFor(()=>window.OnsenScenicCollectionUI?.build===BUILD,10000)){console.warn("v71 scenic bridge: collection UI not ready");return false;}
+    if(window.OnsenScenicMapV71?.build!==BUILD){await loadScriptOnce("./scenic-map-v71.js?v=71","scenicMapV71Script");}
     const achievements=await waitFor(()=>window.OnsenAchievements&&document.getElementById("achievementView"),12000);
     if(achievements&&!window.OnsenDomainAchievements)await loadScriptOnce("./achievement-domain-v702.js?v=70.8","achievementDomainV702Script");
     window.OnsenCastleCollectionUI?.refresh?.();window.OnsenScenicCollectionUI?.refresh?.();window.OnsenFooterNavigation?.refresh?.();
