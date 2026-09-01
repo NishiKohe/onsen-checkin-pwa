@@ -6,6 +6,7 @@ on:
     paths:
       - ".github/workflows/build-scenic-coordinates.yml"
       - "scripts/import_scenic_official.py"
+      - "scripts/promote_scenic_single_reference_v71.py"
       - "data/scenic-national-v70.json"
       - "data/scenic-shards-v70.json"
       - "data/scenic-ordinary-*.json"
@@ -38,6 +39,9 @@ jobs:
       - name: Import official scenic CSV
         run: python scripts/import_scenic_official.py
 
+      - name: Promote reviewed single-reference sites
+        run: python scripts/promote_scenic_single_reference_v71.py
+
       - name: Validate generated data
         run: |
           python - <<'PY'
@@ -46,16 +50,22 @@ jobs:
           master=json.loads(Path('data/scenic-official-v71.json').read_text(encoding='utf-8'))
           zones=json.loads(Path('data/scenic-checkin-zones-v71.json').read_text(encoding='utf-8'))
           ids=[e['id'] for e in master['entries']]
+          enabled=[e for e in zones['entries'] if e.get('checkinEnabled')]
           assert master['counts']['ordinary']==397
           assert master['counts']['special']==36
           assert master['counts']['total']==433
           assert len(ids)==433 and len(set(ids))==433
           assert len(zones['entries'])==433
+          assert len(enabled)==zones['counts']['gpsEnabled']
+          assert len(enabled)>=202
+          assert zones['counts']['pendingMultiZoneOrAudit']==433-len(enabled)
+          assert all(e.get('zones') for e in enabled)
           assert all(all(float(z['radiusM'])>=500 for z in e.get('zones',[])) for e in zones['entries'])
           assert all(all(float(z['accuracyRequiredM'])>=500 for z in e.get('zones',[])) for e in zones['entries'])
           print('MASTER COUNTS',master['counts'])
           print('LEGACY MATCH',master['legacyMatchCounts'])
           print('ZONE COUNTS',zones['counts'])
+          print('SINGLE REFERENCE PROMOTION',zones.get('singleReferencePromotion',{}).get('promotedCount',0))
           PY
 
       - name: Commit generated official data
