@@ -16,8 +16,8 @@
   "counts": {
     "entries": 433,
     "officialCoordinates": 418,
-    "gpsEnabled": 229,
-    "pendingMultiZoneOrAudit": 204
+    "gpsEnabled": 256,
+    "pendingMultiZoneOrAudit": 177
   },
   "entries": [
     {
@@ -96,21 +96,24 @@
       "prefectures": [
         "青森県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_garden_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 40.64344988,
           "lng": 140.59249865,
-          "radiusM": 750,
+          "radiusM": 1000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003479"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_garden_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_zuirakuen",
@@ -134,9 +137,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/104"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_sutoshi_teien",
@@ -229,9 +232,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/100"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_tanesashi_kaigan",
@@ -620,21 +623,24 @@
       "prefectures": [
         "宮城県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_cliff_site",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 38.27392282,
           "lng": 140.51461207,
-          "radiusM": 750,
+          "radiusM": 2000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/200"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_cliff_site",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_joshitei",
@@ -1092,21 +1098,24 @@
       "prefectures": [
         "群馬県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_flower_landscape",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 36.24282775,
           "lng": 139.55531316,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/542"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_flower_landscape",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_fukiware",
@@ -1207,7 +1216,7 @@
       "prefectures": [
         "埼玉県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -1221,7 +1230,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/594"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_sakuragawa_sakura",
@@ -1268,9 +1280,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/426"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "public_park",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_seizan_goten",
@@ -1570,9 +1582,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004108"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "public_park",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_denboin_garden",
@@ -1723,9 +1735,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003520"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_shinsenkyo",
@@ -1734,21 +1746,24 @@
       "prefectures": [
         "神奈川県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_garden_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 35.24836111,
           "lng": 139.04357222,
-          "radiusM": 750,
+          "radiusM": 1000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004122"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_garden_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_zuisenji_garden",
@@ -1964,21 +1979,24 @@
       "prefectures": [
         "新潟県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_gorge_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 36.96984582,
           "lng": 138.70877574,
-          "radiusM": 750,
+          "radiusM": 2500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/853"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_gorge_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_teikanen",
@@ -2002,9 +2020,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/852"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_hakusan_park_niigata",
@@ -2117,21 +2135,24 @@
       "prefectures": [
         "石川県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_terrace_landscape",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 37.42535922,
           "lng": 137.00083069,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3286"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_terrace_landscape",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_sue_waterworks_garden",
@@ -2451,21 +2472,24 @@
       "prefectures": [
         "福井県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_coastal_cliff",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 36.25147269,
           "lng": 136.12033106,
-          "radiusM": 750,
+          "radiusM": 2000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1050"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_coastal_cliff",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_mantokuji_garden",
@@ -2681,21 +2705,24 @@
       "prefectures": [
         "長野県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_terrace_landscape",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 36.50672066,
           "lng": 138.09818565,
-          "radiusM": 750,
+          "radiusM": 2500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3201"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_terrace_landscape",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_kozenji_garden",
@@ -2750,21 +2777,24 @@
       "prefectures": [
         "長野県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_gorge_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 35.76945834,
           "lng": 137.69907344,
-          "radiusM": 750,
+          "radiusM": 2000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1162"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_gorge_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_yonako_bakufugun",
@@ -2946,21 +2976,24 @@
       "prefectures": [
         "静岡県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_park_enclosure",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 35.07119444,
           "lng": 138.87333333,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003958"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_park_enclosure",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_tokai_008",
@@ -3038,21 +3071,24 @@
       "prefectures": [
         "静岡県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_plateau_viewpoint",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 34.97276071,
           "lng": 138.46549757,
-          "radiusM": 750,
+          "radiusM": 2500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1363"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_plateau_viewpoint",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_tokai_012",
@@ -3099,9 +3135,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1357"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_tokai_014",
@@ -3363,7 +3399,7 @@
       "prefectures": [
         "三重県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -3377,7 +3413,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1511"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_tokai_028",
@@ -3401,9 +3440,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1540"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "archaeological_site",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_tokai_029",
@@ -3669,9 +3708,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1592"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_012",
@@ -4313,21 +4352,24 @@
       "prefectures": [
         "奈良県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_archaeological_pond",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 34.474987,
           "lng": 135.818604,
-          "radiusM": 750,
+          "radiusM": 1000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003443"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_archaeological_pond",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_087",
@@ -4351,9 +4393,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2026"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_088",
@@ -4492,9 +4534,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1940"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "public_park",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_094",
@@ -4771,9 +4813,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2098"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_105",
@@ -5246,9 +5288,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1690"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_042",
@@ -5479,9 +5521,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1719"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_051",
@@ -5536,21 +5578,24 @@
       "prefectures": [
         "京都府"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_hill_site",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 35.02106329,
           "lng": 135.71364778,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1698"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_hill_site",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_053",
@@ -5712,9 +5757,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1735"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kinki_059",
@@ -5861,7 +5906,7 @@
       "prefectures": [
         "京都府"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -5875,7 +5920,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1682"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_kinki_065",
@@ -6160,21 +6208,24 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_cliff_viewpoint",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 36.01731873,
           "lng": 133.00843016,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2187"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_cliff_viewpoint",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_012",
@@ -6183,21 +6234,24 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_headland",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 36.32689341,
           "lng": 133.3209874,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2200"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_headland",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_011",
@@ -6229,21 +6283,24 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_gorge_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 35.17377807,
           "lng": 133.02145136,
-          "radiusM": 750,
+          "radiusM": 2500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2160"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_gorge_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_014",
@@ -6252,9 +6309,9 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_tea_garden",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
@@ -6266,7 +6323,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2162"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_tea_garden",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_015",
@@ -6298,21 +6358,24 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_sea_cave_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 35.57699069,
           "lng": 133.05081281,
-          "radiusM": 750,
+          "radiusM": 2000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2161"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_sea_cave_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_022",
@@ -6344,7 +6407,7 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -6358,7 +6421,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2170"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_chushi_018",
@@ -6367,21 +6433,24 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_gorge_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 35.29514803,
           "lng": 132.73496064,
-          "radiusM": 750,
+          "radiusM": 2500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2159"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_gorge_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_bunka_401_2186",
@@ -6390,7 +6459,7 @@
       "prefectures": [
         "島根県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -6404,7 +6473,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2186"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_chushi_020",
@@ -6459,7 +6531,7 @@
       "prefectures": [
         "岡山県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -6473,7 +6545,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2267"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_chushi_027",
@@ -6528,7 +6603,7 @@
       "prefectures": [
         "岡山県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -6542,7 +6617,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2265"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_chushi_028",
@@ -6773,9 +6851,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2330"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_038",
@@ -6845,9 +6923,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2317"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "public_park",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_041",
@@ -6871,9 +6949,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003522"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "public_park",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_042",
@@ -7158,21 +7236,24 @@
       "prefectures": [
         "山口県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_coastal_point",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 34.42120283,
           "lng": 131.06357825,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2403"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_coastal_point",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_054",
@@ -7204,7 +7285,7 @@
       "prefectures": [
         "徳島県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -7218,7 +7299,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003844"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_chushi_055",
@@ -7250,21 +7334,24 @@
       "prefectures": [
         "徳島県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_strait_viewpoint",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 34.23168878,
           "lng": 134.64548873,
-          "radiusM": 750,
+          "radiusM": 2500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2481"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_strait_viewpoint",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_058",
@@ -7311,9 +7398,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2514"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "public_park",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_060",
@@ -7368,21 +7455,24 @@
       "prefectures": [
         "香川県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_reservoir",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 34.16324722,
           "lng": 133.87283056,
-          "radiusM": 750,
+          "radiusM": 2500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004088"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_reservoir",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_062",
@@ -7567,9 +7657,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2559"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_chushi_068",
@@ -7938,9 +8028,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2682"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kyushu_009",
@@ -8056,9 +8146,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003828"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kyushu_015",
@@ -8079,7 +8169,7 @@
       "prefectures": [
         "長崎県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -8093,7 +8183,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003868"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_kyushu_016",
@@ -8175,9 +8268,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2808"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_senganzan_takabuto",
@@ -8325,7 +8418,7 @@
       "prefectures": [
         "大分県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -8339,7 +8432,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004004"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_kyushu_029",
@@ -8360,21 +8456,24 @@
       "prefectures": [
         "大分県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_pond_site",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 33.04560556,
           "lng": 131.29954444,
-          "radiusM": 750,
+          "radiusM": 1000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004224"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_pond_site",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kyushu_025",
@@ -8383,7 +8482,7 @@
       "prefectures": [
         "大分県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -8397,7 +8496,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003651"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_kyushu_030",
@@ -8441,21 +8543,24 @@
       "prefectures": [
         "宮崎県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_coastal_shrine_area",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 31.60196083,
           "lng": 131.37875833,
-          "radiusM": 750,
+          "radiusM": 2000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004005"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_coastal_shrine_area",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kyushu_031",
@@ -8648,7 +8753,7 @@
       "prefectures": [
         "鹿児島県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -8662,7 +8767,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3291"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_kyushu_053",
@@ -8671,7 +8779,7 @@
       "prefectures": [
         "沖縄県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -8685,7 +8793,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003884"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_kyushu_041",
@@ -8809,7 +8920,7 @@
       "prefectures": [
         "沖縄県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -8823,7 +8934,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003843"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_ord_kyushu_054",
@@ -8832,21 +8946,24 @@
       "prefectures": [
         "沖縄県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_viewpoint",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 24.45354722,
           "lng": 123.03336944,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004195"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_viewpoint",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kyushu_045",
@@ -8901,21 +9018,24 @@
       "prefectures": [
         "沖縄県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_viewpoint",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 24.4665775,
           "lng": 123.00281111,
-          "radiusM": 750,
+          "radiusM": 1500,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003869"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_viewpoint",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kyushu_047",
@@ -8924,21 +9044,24 @@
       "prefectures": [
         "沖縄県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "reviewed_curated_cape",
       "coordinateStatus": "official_csv",
-      "checkinEnabled": false,
+      "checkinEnabled": true,
       "zones": [
         {
           "id": "official_ref_1",
           "label": "文化庁DB公式参照点",
           "lat": 24.72521793,
           "lng": 125.4605811,
-          "radiusM": 750,
+          "radiusM": 2000,
           "accuracyRequiredM": 500,
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003524"
         }
-      ]
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "curated_cape",
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ord_kyushu_049",
@@ -8970,7 +9093,7 @@
       "prefectures": [
         "沖縄県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -8984,7 +9107,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003790"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_bunka_401_00003842",
@@ -9169,9 +9295,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/703"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_kurobe_sarutobi_okukane",
@@ -9218,9 +9344,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/986"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_ichijodani_gardens",
@@ -9275,7 +9401,7 @@
       "prefectures": [
         "長野県"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -9289,7 +9415,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1165"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_heijo_toin_garden",
@@ -9750,9 +9879,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2502"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "public_park",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_nijinomatsubara",
@@ -9822,9 +9951,9 @@
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3058"
         }
       ],
-      "auditStatus": "rule_reviewed_single_official_reference",
+      "auditStatus": "reviewed_single_official_reference",
       "auditRule": "named_garden_enclosure",
-      "auditNote": "Culture Agency official coordinate; compact/single-site naming rule reviewed for one-point GPS use."
+      "auditNote": "Culture Agency official coordinate reviewed for one-point GPS use with a false-negative-resistant radius."
     },
     {
       "scenicId": "scenic_dorohatcho",
@@ -9833,7 +9962,7 @@
       "prefectures": [
         "２県以上"
       ],
-      "siteClass": "reference_only",
+      "siteClass": "broad",
       "coordinateStatus": "official_csv",
       "checkinEnabled": false,
       "zones": [
@@ -9847,7 +9976,10 @@
           "source": "国指定文化財等データベースCSV",
           "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3080"
         }
-      ]
+      ],
+      "auditStatus": "explicit_multi_zone_review_required",
+      "auditRule": "curated_multi_zone_required",
+      "auditNote": "Composite or broad scenic asset: keep GPS disabled until multiple representative accessible zones are reviewed."
     },
     {
       "scenicId": "scenic_towada_oirase",
@@ -9897,8 +10029,11 @@
     }
   ],
   "singleReferencePromotion": {
-    "version": 1,
-    "promotedCount": 27,
+    "version": 2,
+    "promotedCount": 54,
+    "curatedPromotedCount": 27,
+    "lexicalPromotedCount": 27,
+    "forcedMultiZoneCount": 17,
     "rules": [
       {
         "id": "public_park",
@@ -9921,168 +10056,591 @@
         "radiusM": 750
       }
     ],
+    "curatedSingles": [
+      {
+        "scenicId": "scenic_ord_kinki_052",
+        "rule": "curated_hill_site",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_noike",
+        "rule": "curated_pond_site",
+        "radiusM": 1000
+      },
+      {
+        "scenicId": "scenic_ord_kinki_086",
+        "rule": "curated_archaeological_pond",
+        "radiusM": 1000
+      },
+      {
+        "scenicId": "scenic_banji",
+        "rule": "curated_cliff_site",
+        "radiusM": 2000
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_035",
+        "rule": "curated_coastal_shrine_area",
+        "radiusM": 2000
+      },
+      {
+        "scenicId": "scenic_ord_chushi_052",
+        "rule": "curated_coastal_point",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_ord_chushi_016",
+        "rule": "curated_sea_cave_area",
+        "radiusM": 2000
+      },
+      {
+        "scenicId": "scenic_ord_chushi_018",
+        "rule": "curated_gorge_area",
+        "radiusM": 2500
+      },
+      {
+        "scenicId": "scenic_ord_chushi_014",
+        "rule": "curated_tea_garden",
+        "radiusM": 750
+      },
+      {
+        "scenicId": "scenic_ord_chushi_012",
+        "rule": "curated_headland",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_ord_chushi_009",
+        "rule": "curated_cliff_viewpoint",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_ord_chushi_013",
+        "rule": "curated_gorge_area",
+        "radiusM": 2500
+      },
+      {
+        "scenicId": "scenic_ord_chushi_056",
+        "rule": "curated_strait_viewpoint",
+        "radiusM": 2500
+      },
+      {
+        "scenicId": "scenic_tashiro_nanatsugama",
+        "rule": "curated_gorge_area",
+        "radiusM": 2500
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_054",
+        "rule": "curated_viewpoint",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_052",
+        "rule": "curated_viewpoint",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_047",
+        "rule": "curated_cape",
+        "radiusM": 2000
+      },
+      {
+        "scenicId": "scenic_shiroyone_senmaida",
+        "rule": "curated_terrace_landscape",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_shinsenkyo",
+        "rule": "curated_garden_area",
+        "radiusM": 1000
+      },
+      {
+        "scenicId": "scenic_tojinbo",
+        "rule": "curated_coastal_cliff",
+        "radiusM": 2000
+      },
+      {
+        "scenicId": "scenic_tsutsujigaoka",
+        "rule": "curated_flower_landscape",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_obasute_tagoto",
+        "rule": "curated_terrace_landscape",
+        "radiusM": 2500
+      },
+      {
+        "scenicId": "scenic_nezame_no_toko",
+        "rule": "curated_gorge_area",
+        "radiusM": 2000
+      },
+      {
+        "scenicId": "scenic_kanehiranarien",
+        "rule": "curated_garden_area",
+        "radiusM": 1000
+      },
+      {
+        "scenicId": "scenic_ord_tokai_011",
+        "rule": "curated_plateau_viewpoint",
+        "radiusM": 2500
+      },
+      {
+        "scenicId": "scenic_ord_tokai_016",
+        "rule": "curated_park_enclosure",
+        "radiusM": 1500
+      },
+      {
+        "scenicId": "scenic_mannoike",
+        "rule": "curated_reservoir",
+        "radiusM": 2500
+      }
+    ],
+    "forcedMultiZone": [
+      {
+        "scenicId": "scenic_nagatoro",
+        "name": "長瀞"
+      },
+      {
+        "scenicId": "scenic_ord_tokai_026",
+        "name": "熊野の鬼ケ城\n　附　獅子巖"
+      },
+      {
+        "scenicId": "scenic_bunka_401_1682",
+        "name": "琉璃溪"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_017",
+        "name": "千丈溪"
+      },
+      {
+        "scenicId": "scenic_bunka_401_2186",
+        "name": "断魚溪"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_024",
+        "name": "磐窟谷"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_026",
+        "name": "鬼ヶ嶽"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_057",
+        "name": "大歩危小歩危"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_014",
+        "name": "三井楽（みみらくのしま）"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_028",
+        "name": "天念寺耶馬及び無動寺耶馬"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_025",
+        "name": "別府の地獄"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_040",
+        "name": "坊津"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_053",
+        "name": "アマミクヌムイ"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_051",
+        "name": "久部良バリ及び久部良フリシ"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_048",
+        "name": "八重干瀬"
+      },
+      {
+        "scenicId": "scenic_kamikochi",
+        "name": "上高地"
+      },
+      {
+        "scenicId": "scenic_dorohatcho",
+        "name": "瀞八丁"
+      }
+    ],
     "entries": [
+      {
+        "scenicId": "scenic_kanehiranarien",
+        "name": "金平成園（澤成園）",
+        "rule": "curated_garden_area",
+        "radiusM": 1000,
+        "source": "curated_id_review"
+      },
       {
         "scenicId": "scenic_zuirakuen",
         "name": "瑞楽園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_seibien",
         "name": "盛美園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_banji",
+        "name": "磐司",
+        "rule": "curated_cliff_site",
+        "radiusM": 2000,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_tsutsujigaoka",
+        "name": "躑躅ヶ岡（ツツジ）",
+        "rule": "curated_flower_landscape",
+        "radiusM": 1500,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_tokiwa_koen",
         "name": "常磐公園",
         "rule": "public_park",
-        "radiusM": 2000
+        "radiusM": 2000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_tetsugakudo_park",
         "name": "哲学堂公園",
         "rule": "public_park",
-        "radiusM": 2000
+        "radiusM": 2000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_sankeien",
         "name": "三溪園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_shinsenkyo",
+        "name": "神仙郷",
+        "rule": "curated_garden_area",
+        "radiusM": 1000,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_tashiro_nanatsugama",
+        "name": "田代の七ツ釜",
+        "rule": "curated_gorge_area",
+        "radiusM": 2500,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_teikanen",
         "name": "貞観園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_shiroyone_senmaida",
+        "name": "白米の千枚田",
+        "rule": "curated_terrace_landscape",
+        "radiusM": 1500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_tojinbo",
+        "name": "東尋坊",
+        "rule": "curated_coastal_cliff",
+        "radiusM": 2000,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_obasute_tagoto",
+        "name": "姨捨（田毎の月）",
+        "rule": "curated_terrace_landscape",
+        "radiusM": 2500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_nezame_no_toko",
+        "name": "寝覚の床",
+        "rule": "curated_gorge_area",
+        "radiusM": 2000,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_tokai_016",
+        "name": "旧沼津御用邸苑地",
+        "rule": "curated_park_enclosure",
+        "radiusM": 1500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_tokai_011",
+        "name": "日本平",
+        "rule": "curated_plateau_viewpoint",
+        "radiusM": 2500,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_ord_tokai_013",
         "name": "楽寿園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_tokai_028",
         "name": "城之越遺跡",
         "rule": "archaeological_site",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kinki_010",
         "name": "玄宮楽々園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_ord_kinki_086",
+        "name": "飛鳥京跡苑池",
+        "rule": "curated_archaeological_pond",
+        "radiusM": 1000,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_ord_kinki_087",
         "name": "依水園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kinki_093",
         "name": "奈良公園",
         "rule": "public_park",
-        "radiusM": 2000
+        "radiusM": 2000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kinki_103",
         "name": "養翠園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kinki_041",
         "name": "渉成園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kinki_050",
         "name": "滴翠園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_ord_kinki_052",
+        "name": "雙ヶ岡",
+        "rule": "curated_hill_site",
+        "radiusM": 1500,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_ord_kinki_058",
         "name": "平安神宮神苑",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_009",
+        "name": "隠岐知夫赤壁",
+        "rule": "curated_cliff_viewpoint",
+        "radiusM": 1500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_012",
+        "name": "隠岐海苔田ノ鼻",
+        "rule": "curated_headland",
+        "radiusM": 1500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_013",
+        "name": "鬼舌振",
+        "rule": "curated_gorge_area",
+        "radiusM": 2500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_014",
+        "name": "菅田庵",
+        "rule": "curated_tea_garden",
+        "radiusM": 750,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_016",
+        "name": "潜戸",
+        "rule": "curated_sea_cave_area",
+        "radiusM": 2000,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_018",
+        "name": "立久恵",
+        "rule": "curated_gorge_area",
+        "radiusM": 2500,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_ord_chushi_037",
         "name": "縮景園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_chushi_040",
         "name": "鞆公園",
         "rule": "public_park",
-        "radiusM": 2000
+        "radiusM": 2000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_chushi_041",
         "name": "平和記念公園",
         "rule": "public_park",
-        "radiusM": 2000
+        "radiusM": 2000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_052",
+        "name": "龍宮の潮吹",
+        "rule": "curated_coastal_point",
+        "radiusM": 1500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_chushi_056",
+        "name": "鳴門",
+        "rule": "curated_strait_viewpoint",
+        "radiusM": 2500,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_ord_chushi_059",
         "name": "琴弾公園",
         "rule": "public_park",
-        "radiusM": 2000
+        "radiusM": 2000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_mannoike",
+        "name": "満濃池",
+        "rule": "curated_reservoir",
+        "radiusM": 2500,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_ord_chushi_067",
         "name": "天赦園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kyushu_005",
         "name": "藤江氏魚楽園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kyushu_013",
         "name": "棲霞園及び梅ヶ谷津偕楽園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ord_kyushu_018",
         "name": "水前寺成趣園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
+      },
+      {
+        "scenicId": "scenic_noike",
+        "name": "納池",
+        "rule": "curated_pond_site",
+        "radiusM": 1000,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_035",
+        "name": "鵜戸",
+        "rule": "curated_coastal_shrine_area",
+        "radiusM": 2000,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_054",
+        "name": "サンニヌ台",
+        "rule": "curated_viewpoint",
+        "radiusM": 1500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_052",
+        "name": "ティンダバナ",
+        "rule": "curated_viewpoint",
+        "radiusM": 1500,
+        "source": "curated_id_review"
+      },
+      {
+        "scenicId": "scenic_ord_kyushu_047",
+        "name": "東平安名崎",
+        "rule": "curated_cape",
+        "radiusM": 2000,
+        "source": "curated_id_review"
       },
       {
         "scenicId": "scenic_rikugien",
         "name": "六義園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_kenrokuen",
         "name": "兼六園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_ritsurin_park",
         "name": "栗林公園",
         "rule": "public_park",
-        "radiusM": 2000
+        "radiusM": 2000,
+        "source": "lexical_review"
       },
       {
         "scenicId": "scenic_shikinaen",
         "name": "識名園",
         "rule": "named_garden_enclosure",
-        "radiusM": 1000
+        "radiusM": 1000,
+        "source": "lexical_review"
       }
     ]
   }

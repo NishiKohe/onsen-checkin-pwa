@@ -15,63 +15,62 @@
     "note": "This queue is an engineering audit plan only. Items remain GPS-disabled until their generated zone record explicitly sets checkinEnabled=true."
   },
   "counts": {
-    "pending": 204,
+    "pending": 177,
     "byAuditType": {
-      "broad_multi_zone": 145,
-      "missing_official_coordinate": 15,
-      "single_reference_review": 44
+      "broad_multi_zone": 162,
+      "missing_official_coordinate": 15
     },
     "bySiteClass": {
-      "broad": 152,
+      "broad": 169,
       "compact_bridge": 1,
       "compact_garden": 5,
-      "reference_only": 46
+      "reference_only": 2
     },
     "byPrefecture": {
       "三重県": 4,
-      "京都府": 10,
+      "京都府": 9,
       "佐賀県": 1,
       "兵庫県": 5,
       "北海道": 2,
       "千葉県": 1,
       "和歌山県": 4,
       "埼玉県": 1,
-      "大分県": 7,
+      "大分県": 6,
       "大阪府": 1,
-      "奈良県": 4,
-      "宮城県": 3,
-      "宮崎県": 4,
+      "奈良県": 3,
+      "宮城県": 2,
+      "宮崎県": 3,
       "富山県": 2,
-      "山口県": 8,
+      "山口県": 7,
       "山形県": 4,
       "山梨県": 2,
       "岐阜県": 3,
       "岡山県": 10,
       "岩手県": 8,
-      "島根県": 13,
+      "島根県": 7,
       "広島県": 3,
-      "徳島県": 2,
+      "徳島県": 1,
       "愛媛県": 9,
       "愛知県": 4,
-      "新潟県": 6,
+      "新潟県": 5,
       "東京都": 5,
       "栃木県": 2,
-      "沖縄県": 9,
+      "沖縄県": 6,
       "滋賀県": 3,
       "熊本県": 8,
-      "石川県": 3,
-      "神奈川県": 2,
-      "福井県": 4,
+      "石川県": 2,
+      "神奈川県": 1,
+      "福井県": 3,
       "福岡県": 1,
       "福島県": 3,
       "秋田県": 2,
-      "群馬県": 6,
+      "群馬県": 5,
       "茨城県": 3,
       "長崎県": 3,
-      "長野県": 5,
-      "青森県": 4,
-      "静岡県": 5,
-      "香川県": 3,
+      "長野県": 3,
+      "青森県": 3,
+      "静岡県": 3,
+      "香川県": 2,
       "高知県": 2,
       "鳥取県": 3,
       "鹿児島県": 1,
@@ -177,104 +176,6 @@
         "location": "熊本県上益城郡山都町・八代市・八代郡氷川町・球磨郡球磨村"
       }
     ],
-    "single_reference_review": [
-      {
-        "scenicId": "scenic_ord_tokai_026",
-        "name": "熊野の鬼ケ城\n　附　獅子巖",
-        "prefectures": [
-          "三重県"
-        ],
-        "location": "熊野市木本町"
-      },
-      {
-        "scenicId": "scenic_bunka_401_1682",
-        "name": "琉璃溪",
-        "prefectures": [
-          "京都府"
-        ],
-        "location": "南丹市"
-      },
-      {
-        "scenicId": "scenic_ord_kinki_052",
-        "name": "雙ヶ岡",
-        "prefectures": [
-          "京都府"
-        ],
-        "location": "京都市右京区御室雙岡町"
-      },
-      {
-        "scenicId": "scenic_nagatoro",
-        "name": "長瀞",
-        "prefectures": [
-          "埼玉県"
-        ],
-        "location": "秩父郡長瀞町・皆野町"
-      },
-      {
-        "scenicId": "scenic_ord_kyushu_025",
-        "name": "別府の地獄",
-        "prefectures": [
-          "大分県"
-        ],
-        "location": "別府市大字鉄輪・野田"
-      },
-      {
-        "scenicId": "scenic_ord_kyushu_028",
-        "name": "天念寺耶馬及び無動寺耶馬",
-        "prefectures": [
-          "大分県"
-        ],
-        "location": "大分県豊後高田市"
-      },
-      {
-        "scenicId": "scenic_noike",
-        "name": "納池",
-        "prefectures": [
-          "大分県"
-        ],
-        "location": "大分県竹田市"
-      },
-      {
-        "scenicId": "scenic_ord_kinki_086",
-        "name": "飛鳥京跡苑池",
-        "prefectures": [
-          "奈良県"
-        ],
-        "location": "高市郡明日香村"
-      },
-      {
-        "scenicId": "scenic_banji",
-        "name": "磐司",
-        "prefectures": [
-          "宮城県"
-        ],
-        "location": "仙台市太白区秋保町"
-      },
-      {
-        "scenicId": "scenic_ord_kyushu_035",
-        "name": "鵜戸",
-        "prefectures": [
-          "宮崎県"
-        ],
-        "location": "宮崎県日南市"
-      },
-      {
-        "scenicId": "scenic_ord_chushi_052",
-        "name": "龍宮の潮吹",
-        "prefectures": [
-          "山口県"
-        ],
-        "location": "長門市油谷津黄"
-      },
-      {
-        "scenicId": "scenic_ord_chushi_024",
-        "name": "磐窟谷",
-        "prefectures": [
-          "岡山県"
-        ],
-        "location": "高梁市川上町・備中町"
-      }
-    ],
     "broad_multi_zone": [
       {
         "scenicId": "scenic_ord_tokai_027",
@@ -291,6 +192,14 @@
           "三重県"
         ],
         "location": "伊勢市"
+      },
+      {
+        "scenicId": "scenic_ord_tokai_026",
+        "name": "熊野の鬼ケ城\n　附　獅子巖",
+        "prefectures": [
+          "三重県"
+        ],
+        "location": "熊野市木本町"
       },
       {
         "scenicId": "scenic_ord_tokai_023",
@@ -341,6 +250,14 @@
         "location": "京都市右京区花園扇野町"
       },
       {
+        "scenicId": "scenic_bunka_401_1682",
+        "name": "琉璃溪",
+        "prefectures": [
+          "京都府"
+        ],
+        "location": "南丹市"
+      },
+      {
         "scenicId": "scenic_ord_kinki_023",
         "name": "琴引浜",
         "prefectures": [
@@ -355,22 +272,6 @@
           "京都府"
         ],
         "location": "相楽郡笠置町"
-      },
-      {
-        "scenicId": "scenic_nijinomatsubara",
-        "name": "虹の松原",
-        "prefectures": [
-          "佐賀県"
-        ],
-        "location": "唐津市鏡・東唐津・浜玉町浜崎"
-      },
-      {
-        "scenicId": "scenic_ord_kinki_082",
-        "name": "但馬御火浦",
-        "prefectures": [
-          "兵庫県"
-        ],
-        "location": "美方郡香美町、浜坂町"
       }
     ]
   },
@@ -616,1194 +517,6 @@
       "nextAction": "Find a fixed public reference point from an official local-government or cultural-property source; then add one or more >=500m zones."
     },
     {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_tokai_026",
-      "officialManageId": "1511",
-      "name": "熊野の鬼ケ城\n　附　獅子巖",
-      "specialScenic": false,
-      "prefectures": [
-        "三重県"
-      ],
-      "location": "熊野市木本町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 33.88926717,
-          "lng": 136.11432335,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1511"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1511",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_bunka_401_1682",
-      "officialManageId": "1682",
-      "name": "琉璃溪",
-      "specialScenic": false,
-      "prefectures": [
-        "京都府"
-      ],
-      "location": "南丹市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.0358173,
-          "lng": 135.40460946,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1682"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1682",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kinki_052",
-      "officialManageId": "1698",
-      "name": "雙ヶ岡",
-      "specialScenic": false,
-      "prefectures": [
-        "京都府"
-      ],
-      "location": "京都市右京区御室雙岡町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.02106329,
-          "lng": 135.71364778,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1698"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1698",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_nagatoro",
-      "officialManageId": "594",
-      "name": "長瀞",
-      "specialScenic": false,
-      "prefectures": [
-        "埼玉県"
-      ],
-      "location": "秩父郡長瀞町・皆野町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.09618974,
-          "lng": 139.11491542,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/594"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/594",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_025",
-      "officialManageId": "00003651",
-      "name": "別府の地獄",
-      "specialScenic": false,
-      "prefectures": [
-        "大分県"
-      ],
-      "location": "別府市大字鉄輪・野田",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 33.31530184,
-          "lng": 131.47412124,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003651"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003651",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_028",
-      "officialManageId": "00004004",
-      "name": "天念寺耶馬及び無動寺耶馬",
-      "specialScenic": false,
-      "prefectures": [
-        "大分県"
-      ],
-      "location": "大分県豊後高田市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 33.557225,
-          "lng": 131.44471944,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004004"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004004",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_noike",
-      "officialManageId": "00004224",
-      "name": "納池",
-      "specialScenic": false,
-      "prefectures": [
-        "大分県"
-      ],
-      "location": "大分県竹田市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 33.04560556,
-          "lng": 131.29954444,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004224"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004224",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kinki_086",
-      "officialManageId": "00003443",
-      "name": "飛鳥京跡苑池",
-      "specialScenic": false,
-      "prefectures": [
-        "奈良県"
-      ],
-      "location": "高市郡明日香村",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.474987,
-          "lng": 135.818604,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003443"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003443",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_banji",
-      "officialManageId": "200",
-      "name": "磐司",
-      "specialScenic": false,
-      "prefectures": [
-        "宮城県"
-      ],
-      "location": "仙台市太白区秋保町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 38.27392282,
-          "lng": 140.51461207,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/200"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/200",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_035",
-      "officialManageId": "00004005",
-      "name": "鵜戸",
-      "specialScenic": false,
-      "prefectures": [
-        "宮崎県"
-      ],
-      "location": "宮崎県日南市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 31.60196083,
-          "lng": 131.37875833,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004005"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004005",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_052",
-      "officialManageId": "2403",
-      "name": "龍宮の潮吹",
-      "specialScenic": false,
-      "prefectures": [
-        "山口県"
-      ],
-      "location": "長門市油谷津黄",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.42120283,
-          "lng": 131.06357825,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2403"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2403",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_024",
-      "officialManageId": "2267",
-      "name": "磐窟谷",
-      "specialScenic": false,
-      "prefectures": [
-        "岡山県"
-      ],
-      "location": "高梁市川上町・備中町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.76192972,
-          "lng": 133.44938388,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2267"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2267",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_026",
-      "officialManageId": "2265",
-      "name": "鬼ヶ嶽",
-      "specialScenic": false,
-      "prefectures": [
-        "岡山県"
-      ],
-      "location": "井原市美星町鳥頭、小田郡矢掛町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.69609597,
-          "lng": 133.59316089,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2265"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2265",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_017",
-      "officialManageId": "2170",
-      "name": "千丈溪",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "江津市桜江町、邑智郡邑南町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.91723466,
-          "lng": 132.35525401,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2170"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2170",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_bunka_401_2186",
-      "officialManageId": "2186",
-      "name": "断魚溪",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "邑智郡邑南町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.92919918,
-          "lng": 132.47441879,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2186"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2186",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_016",
-      "officialManageId": "2161",
-      "name": "潜戸",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "松江市島根町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.57699069,
-          "lng": 133.05081281,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2161"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2161",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_018",
-      "officialManageId": "2159",
-      "name": "立久恵",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "出雲市乙立町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.29514803,
-          "lng": 132.73496064,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2159"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2159",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_014",
-      "officialManageId": "2162",
-      "name": "菅田庵",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "松江市菅田町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.487926,
-          "lng": 133.061951,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2162"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2162",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_012",
-      "officialManageId": "2200",
-      "name": "隠岐海苔田ノ鼻",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "隠岐郡隠岐の島町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.32689341,
-          "lng": 133.3209874,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2200"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2200",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_009",
-      "officialManageId": "2187",
-      "name": "隠岐知夫赤壁",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "隠岐郡知夫村",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.01731873,
-          "lng": 133.00843016,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2187"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2187",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_013",
-      "officialManageId": "2160",
-      "name": "鬼舌振",
-      "specialScenic": false,
-      "prefectures": [
-        "島根県"
-      ],
-      "location": "仁多郡奥出雲町仁多",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.17377807,
-          "lng": 133.02145136,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2160"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2160",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_057",
-      "officialManageId": "00003844",
-      "name": "大歩危小歩危",
-      "specialScenic": false,
-      "prefectures": [
-        "徳島県"
-      ],
-      "location": "徳島県三好市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.02586361,
-          "lng": 133.80725278,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003844"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003844",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_chushi_056",
-      "officialManageId": "2481",
-      "name": "鳴門",
-      "specialScenic": false,
-      "prefectures": [
-        "徳島県"
-      ],
-      "location": "鳴門市鳴門町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.23168878,
-          "lng": 134.64548873,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2481"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2481",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_tashiro_nanatsugama",
-      "officialManageId": "853",
-      "name": "田代の七ツ釜",
-      "specialScenic": false,
-      "prefectures": [
-        "新潟県"
-      ],
-      "location": "中魚沼郡津南町、十日町市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.96984582,
-          "lng": 138.70877574,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/853"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/853",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_053",
-      "officialManageId": "00003884",
-      "name": "アマミクヌムイ",
-      "specialScenic": false,
-      "prefectures": [
-        "沖縄県"
-      ],
-      "location": "沖縄県国頭郡今帰仁村・国頭村・南城市・浦添市・那覇市・沖縄市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 26.686936,
-          "lng": 127.92779,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003884"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003884",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_054",
-      "officialManageId": "00004195",
-      "name": "サンニヌ台",
-      "specialScenic": false,
-      "prefectures": [
-        "沖縄県"
-      ],
-      "location": "沖縄県八重山郡与那国町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 24.45354722,
-          "lng": 123.03336944,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004195"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004195",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_052",
-      "officialManageId": "00003869",
-      "name": "ティンダバナ",
-      "specialScenic": false,
-      "prefectures": [
-        "沖縄県"
-      ],
-      "location": "沖縄県八重山郡与那国町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 24.4665775,
-          "lng": 123.00281111,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003869"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003869",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_051",
-      "officialManageId": "00003843",
-      "name": "久部良バリ及び久部良フリシ",
-      "specialScenic": false,
-      "prefectures": [
-        "沖縄県"
-      ],
-      "location": "沖縄県八重山郡与那国町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 24.4665775,
-          "lng": 123.00281111,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003843"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003843",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_048",
-      "officialManageId": "00003790",
-      "name": "八重干瀬",
-      "specialScenic": false,
-      "prefectures": [
-        "沖縄県"
-      ],
-      "location": "沖縄県宮古島市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 24.80596944,
-          "lng": 125.28068889,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003790"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003790",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_047",
-      "officialManageId": "00003524",
-      "name": "東平安名崎",
-      "specialScenic": false,
-      "prefectures": [
-        "沖縄県"
-      ],
-      "location": "宮古島市城辺",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 24.72521793,
-          "lng": 125.4605811,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003524"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003524",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_shiroyone_senmaida",
-      "officialManageId": "3286",
-      "name": "白米の千枚田",
-      "specialScenic": false,
-      "prefectures": [
-        "石川県"
-      ],
-      "location": "輪島市白米町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 37.42535922,
-          "lng": 137.00083069,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3286"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3286",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_shinsenkyo",
-      "officialManageId": "00004122",
-      "name": "神仙郷",
-      "specialScenic": false,
-      "prefectures": [
-        "神奈川県"
-      ],
-      "location": "神奈川県足柄下郡箱根町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.24836111,
-          "lng": 139.04357222,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004122"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004122",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_tojinbo",
-      "officialManageId": "1050",
-      "name": "東尋坊",
-      "specialScenic": false,
-      "prefectures": [
-        "福井県"
-      ],
-      "location": "坂井市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.25147269,
-          "lng": 136.12033106,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1050"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1050",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_tsutsujigaoka",
-      "officialManageId": "542",
-      "name": "躑躅ヶ岡（ツツジ）",
-      "specialScenic": false,
-      "prefectures": [
-        "群馬県"
-      ],
-      "location": "館林市花山町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.24282775,
-          "lng": 139.55531316,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/542"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/542",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_014",
-      "officialManageId": "00003868",
-      "name": "三井楽（みみらくのしま）",
-      "specialScenic": false,
-      "prefectures": [
-        "長崎県"
-      ],
-      "location": "長崎県五島市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 32.69552222,
-          "lng": 128.84086389,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003868"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003868",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_kamikochi",
-      "officialManageId": "1165",
-      "name": "上高地",
-      "specialScenic": true,
-      "prefectures": [
-        "長野県"
-      ],
-      "location": "松本市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.28300533,
-          "lng": 137.67525026,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1165"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1165",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_obasute_tagoto",
-      "officialManageId": "3201",
-      "name": "姨捨（田毎の月）",
-      "specialScenic": false,
-      "prefectures": [
-        "長野県"
-      ],
-      "location": "千曲市八幡",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 36.50672066,
-          "lng": 138.09818565,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3201"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3201",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_nezame_no_toko",
-      "officialManageId": "1162",
-      "name": "寝覚の床",
-      "specialScenic": false,
-      "prefectures": [
-        "長野県"
-      ],
-      "location": "木曽郡上松町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.76945834,
-          "lng": 137.69907344,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1162"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1162",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_kanehiranarien",
-      "officialManageId": "00003479",
-      "name": "金平成園（澤成園）",
-      "specialScenic": false,
-      "prefectures": [
-        "青森県"
-      ],
-      "location": "黒石市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 40.64344988,
-          "lng": 140.59249865,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003479"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003479",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_tokai_011",
-      "officialManageId": "1363",
-      "name": "日本平",
-      "specialScenic": false,
-      "prefectures": [
-        "静岡県"
-      ],
-      "location": "静岡市清水区村松・馬走・駒越・草薙",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.97276071,
-          "lng": 138.46549757,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1363"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1363",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_tokai_016",
-      "officialManageId": "00003958",
-      "name": "旧沼津御用邸苑地",
-      "specialScenic": false,
-      "prefectures": [
-        "静岡県"
-      ],
-      "location": "静岡県沼津市",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 35.07119444,
-          "lng": 138.87333333,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003958"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003958",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_mannoike",
-      "officialManageId": "00004088",
-      "name": "満濃池",
-      "specialScenic": false,
-      "prefectures": [
-        "香川県"
-      ],
-      "location": "香川県仲多度郡まんのう町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 34.16324722,
-          "lng": 133.87283056,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004088"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004088",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_ord_kyushu_040",
-      "officialManageId": "3291",
-      "name": "坊津",
-      "specialScenic": false,
-      "prefectures": [
-        "鹿児島県"
-      ],
-      "location": "南さつま市坊津町",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 31.26310291,
-          "lng": 130.21483435,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3291"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3291",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
-      "priority": 2,
-      "auditType": "single_reference_review",
-      "scenicId": "scenic_dorohatcho",
-      "officialManageId": "3080",
-      "name": "瀞八丁",
-      "specialScenic": true,
-      "prefectures": [
-        "２県以上"
-      ],
-      "location": "新宮市、南牟婁郡紀和町、吉野郡十津川村",
-      "siteClass": "reference_only",
-      "officialReferencePoints": [
-        {
-          "id": "official_ref_1",
-          "label": "文化庁DB公式参照点",
-          "lat": 33.90065266,
-          "lng": 135.88601176,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "国指定文化財等データベースCSV",
-          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3080"
-        }
-      ],
-      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3080",
-      "nextAction": "Review site extent. If the designation is spatially compact, enable a 750-1000m zone around the official point; otherwise convert to multiple zones."
-    },
-    {
       "priority": 3,
       "auditType": "broad_multi_zone",
       "scenicId": "scenic_ord_tokai_027",
@@ -1855,6 +568,33 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003510",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_tokai_026",
+      "officialManageId": "1511",
+      "name": "熊野の鬼ケ城\n　附　獅子巖",
+      "specialScenic": false,
+      "prefectures": [
+        "三重県"
+      ],
+      "location": "熊野市木本町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 33.88926717,
+          "lng": 136.11432335,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1511"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1511",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -2017,6 +757,33 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1730",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_bunka_401_1682",
+      "officialManageId": "1682",
+      "name": "琉璃溪",
+      "specialScenic": false,
+      "prefectures": [
+        "京都府"
+      ],
+      "location": "南丹市",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 35.0358173,
+          "lng": 135.40460946,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1682"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1682",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -2395,6 +1162,87 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2090",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_nagatoro",
+      "officialManageId": "594",
+      "name": "長瀞",
+      "specialScenic": false,
+      "prefectures": [
+        "埼玉県"
+      ],
+      "location": "秩父郡長瀞町・皆野町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 36.09618974,
+          "lng": 139.11491542,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/594"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/594",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_kyushu_025",
+      "officialManageId": "00003651",
+      "name": "別府の地獄",
+      "specialScenic": false,
+      "prefectures": [
+        "大分県"
+      ],
+      "location": "別府市大字鉄輪・野田",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 33.31530184,
+          "lng": 131.47412124,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003651"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003651",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_kyushu_028",
+      "officialManageId": "00004004",
+      "name": "天念寺耶馬及び無動寺耶馬",
+      "specialScenic": false,
+      "prefectures": [
+        "大分県"
+      ],
+      "location": "大分県豊後高田市",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 33.557225,
+          "lng": 131.44471944,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004004"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004004",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -3264,6 +2112,33 @@
     {
       "priority": 3,
       "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_chushi_024",
+      "officialManageId": "2267",
+      "name": "磐窟谷",
+      "specialScenic": false,
+      "prefectures": [
+        "岡山県"
+      ],
+      "location": "高梁市川上町・備中町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 34.76192972,
+          "lng": 133.44938388,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2267"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2267",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
       "scenicId": "scenic_ord_chushi_028",
       "officialManageId": "2262",
       "name": "神庭瀑",
@@ -3340,6 +2215,33 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2278",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_chushi_026",
+      "officialManageId": "2265",
+      "name": "鬼ヶ嶽",
+      "specialScenic": false,
+      "prefectures": [
+        "岡山県"
+      ],
+      "location": "井原市美星町鳥頭、小田郡矢掛町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 34.69609597,
+          "lng": 133.59316089,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2265"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2265",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -3529,6 +2431,60 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/149",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_chushi_017",
+      "officialManageId": "2170",
+      "name": "千丈溪",
+      "specialScenic": false,
+      "prefectures": [
+        "島根県"
+      ],
+      "location": "江津市桜江町、邑智郡邑南町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 34.91723466,
+          "lng": 132.35525401,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2170"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2170",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_bunka_401_2186",
+      "officialManageId": "2186",
+      "name": "断魚溪",
+      "specialScenic": false,
+      "prefectures": [
+        "島根県"
+      ],
+      "location": "邑智郡邑南町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 34.92919918,
+          "lng": 132.47441879,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2186"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2186",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -3745,6 +2701,33 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2316",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_chushi_057",
+      "officialManageId": "00003844",
+      "name": "大歩危小歩危",
+      "specialScenic": false,
+      "prefectures": [
+        "徳島県"
+      ],
+      "location": "徳島県三好市",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 34.02586361,
+          "lng": 133.80725278,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003844"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003844",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -4371,6 +3354,33 @@
     {
       "priority": 3,
       "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_kyushu_053",
+      "officialManageId": "00003884",
+      "name": "アマミクヌムイ",
+      "specialScenic": false,
+      "prefectures": [
+        "沖縄県"
+      ],
+      "location": "沖縄県国頭郡今帰仁村・国頭村・南城市・浦添市・那覇市・沖縄市",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 26.686936,
+          "lng": 127.92779,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003884"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003884",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
       "scenicId": "scenic_ord_kyushu_045",
       "officialManageId": "00003511",
       "name": "下地島の通り池",
@@ -4393,6 +3403,60 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003511",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_kyushu_051",
+      "officialManageId": "00003843",
+      "name": "久部良バリ及び久部良フリシ",
+      "specialScenic": false,
+      "prefectures": [
+        "沖縄県"
+      ],
+      "location": "沖縄県八重山郡与那国町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 24.4665775,
+          "lng": 123.00281111,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003843"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003843",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_kyushu_048",
+      "officialManageId": "00003790",
+      "name": "八重干瀬",
+      "specialScenic": false,
+      "prefectures": [
+        "沖縄県"
+      ],
+      "location": "沖縄県宮古島市",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 24.80596944,
+          "lng": 125.28068889,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003790"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003790",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -5181,6 +4245,33 @@
     {
       "priority": 3,
       "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_kyushu_014",
+      "officialManageId": "00003868",
+      "name": "三井楽（みみらくのしま）",
+      "specialScenic": false,
+      "prefectures": [
+        "長崎県"
+      ],
+      "location": "長崎県五島市",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 32.69552222,
+          "lng": 128.84086389,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003868"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00003868",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
       "scenicId": "scenic_unzendake",
       "officialManageId": "2745",
       "name": "温泉岳",
@@ -5203,6 +4294,33 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/2745",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_kamikochi",
+      "officialManageId": "1165",
+      "name": "上高地",
+      "specialScenic": true,
+      "prefectures": [
+        "長野県"
+      ],
+      "location": "松本市",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 36.28300533,
+          "lng": 137.67525026,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1165"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/1165",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     },
     {
@@ -5586,6 +4704,33 @@
     {
       "priority": 3,
       "auditType": "broad_multi_zone",
+      "scenicId": "scenic_ord_kyushu_040",
+      "officialManageId": "3291",
+      "name": "坊津",
+      "specialScenic": false,
+      "prefectures": [
+        "鹿児島県"
+      ],
+      "location": "南さつま市坊津町",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 31.26310291,
+          "lng": 130.21483435,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3291"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3291",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
       "scenicId": "scenic_bunka_401_00003842",
       "officialManageId": "00003842",
       "name": "おくのほそ道の風景地\n　草加松原\n　ガンマンガ淵（慈雲寺境内）\n　八幡宮（那須神社境内）\n　殺生石\n　遊行柳（清水流るゝの柳）\n　黒塚の岩屋\n　武隈の松\n　つゝじが岡及び天神の御社\n　木の下及び薬師堂\n　壺碑（つぼの石ぶみ）\n　興井\n　末の松山\n　籬が島\n　金鶏山\n　高館\n　さくら山\n　本合海\n　三崎（大師崎）\n　象潟及び汐越\n　親しらず\n　有磯海\n　那谷寺境内（奇石）\n　道明が淵（山中の温泉）\n　湯尾峠\n　けいの明神（氣比神宮境内）\n　大垣船町川湊",
@@ -5716,6 +4861,33 @@
         }
       ],
       "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3083",
+      "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
+    },
+    {
+      "priority": 3,
+      "auditType": "broad_multi_zone",
+      "scenicId": "scenic_dorohatcho",
+      "officialManageId": "3080",
+      "name": "瀞八丁",
+      "specialScenic": true,
+      "prefectures": [
+        "２県以上"
+      ],
+      "location": "新宮市、南牟婁郡紀和町、吉野郡十津川村",
+      "siteClass": "broad",
+      "officialReferencePoints": [
+        {
+          "id": "official_ref_1",
+          "label": "文化庁DB公式参照点",
+          "lat": 33.90065266,
+          "lng": 135.88601176,
+          "radiusM": 750,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3080"
+        }
+      ],
+      "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/3080",
       "nextAction": "Define multiple accessible representative zones from official component/site information. Use >=500m per zone; 1000-2500m is allowed for broad landscapes."
     }
   ]
