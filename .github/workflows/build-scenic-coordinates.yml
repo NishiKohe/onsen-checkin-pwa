@@ -1,4 +1,4 @@
-name: Inspect official scenic database
+name: Inspect official scenic search
 
 on:
   workflow_dispatch:
@@ -26,43 +26,45 @@ jobs:
       - name: Install dependencies
         run: python -m pip install --disable-pip-version-check requests beautifulsoup4
 
-      - name: Inspect official database form
+      - name: Inspect scenic search result
         run: |
           python - <<'PY'
           import requests
           from bs4 import BeautifulSoup
           from urllib.parse import urljoin
-          url='https://kunishitei.bunka.go.jp/bsys/categorylist?register_id=401'
-          s=requests.Session()
-          s.headers.update({'User-Agent':'onsen-checkin-pwa official scenic importer/1.0'})
-          r=s.get(url,timeout=30)
-          print('STATUS',r.status_code,'FINAL',r.url,'LEN',len(r.text))
-          r.raise_for_status()
-          soup=BeautifulSoup(r.text,'html.parser')
-          print('FORMS',len(soup.find_all('form')))
-          for i,form in enumerate(soup.find_all('form')):
-              print('FORM',i,'action=',form.get('action'),'method=',form.get('method'),'id=',form.get('id'),'name=',form.get('name'))
-              for node in form.find_all(['input','button','select']):
-                  typ=node.get('type') or node.name
-                  name=node.get('name')
-                  value=node.get('value')
-                  text=' '.join(node.stripped_strings)[:80]
-                  if name or value or text:
-                      print(' FIELD',typ,'name=',name,'value=',value,'id=',node.get('id'),'text=',text)
-                      if node.name=='select' and name:
-                          opts=[]
-                          for o in node.find_all('option'):
-                              label=' '.join(o.stripped_strings)
-                              if '名勝' in label or '史跡' in label or '天然' in label:
-                                  opts.append((o.get('value'),label))
-                          if opts: print('  OPTIONS',opts)
+          base='https://kunishitei.bunka.go.jp'
+          category=base+'/bsys/categorylist?register_id=401'
+          s=requests.Session(); s.headers.update({'User-Agent':'onsen-checkin-pwa official scenic importer/1.0'})
+          g=s.get(category,timeout=30); g.raise_for_status(); soup=BeautifulSoup(g.text,'html.parser')
+          form=None
+          for f in soup.find_all('form'):
+              if f.find('input',{'name':'entry_kind1_401[]','value':'名勝'}): form=f; break
+          assert form is not None
+          token=form.find('input',{'name':'_csrfToken'})['value']
+          data={'_method':'POST','_csrfToken':token,'register_sub_id':'401','kind_page_check':'史跡名勝天然記念物','entry_kind1_401[]':'名勝','sortTarget':'','sortType':''}
+          r=s.post(base+'/bsys/searchlist',data=data,timeout=30,allow_redirects=True)
+          print('POST STATUS',r.status_code,'FINAL',r.url,'LEN',len(r.text)); r.raise_for_status()
+          rs=BeautifulSoup(r.text,'html.parser')
+          print('TITLE',rs.title.get_text(' ',strip=True) if rs.title else '')
+          text=' '.join(rs.stripped_strings)
+          print('HAS397', '397' in text, 'CSV' in text)
+          print('HEADINGS')
+          for h in rs.find_all(['h1','h2','h3','h4'])[:30]: print(h.name,' '.join(h.stripped_strings)[:150])
+          print('RESULT LINKS')
+          for a in rs.find_all('a',href=True)[:120]:
+              t=' '.join(a.stripped_strings); href=a.get('href','')
+              if t or any(k in href.lower() for k in ['detail','page','csv','download']): print(t[:100],urljoin(r.url,href))
+          print('FORMS',len(rs.find_all('form')))
+          for i,f in enumerate(rs.find_all('form')):
+              action=f.get('action') or ''; fid=f.get('id') or ''; fname=f.get('name') or ''; ft=' '.join(f.stripped_strings)
+              interesting=any(k in (action+' '+fid+' '+fname+' '+ft).lower() for k in ['csv','download','page','次','前','表示件数','検索結果'])
+              if not interesting: continue
+              print('FORM',i,'action=',action,'method=',f.get('method'),'id=',fid,'name=',fname,'text=',ft[:200])
+              for n in f.find_all(['input','button','select']):
+                  typ=n.get('type') or n.name; name=n.get('name'); value=n.get('value'); nt=' '.join(n.stripped_strings)
+                  print(' FIELD',typ,'name=',name,'value=',value,'id=',n.get('id'),'text=',nt[:100])
+                  if n.name=='select': print('  OPTIONS',[(o.get('value'),' '.join(o.stripped_strings)) for o in n.find_all('option')][:30])
+          print('ALL FORM ACTIONS',sorted(set((f.get('action') or '') for f in rs.find_all('form'))))
           print('SCRIPTS')
-          for script in soup.find_all('script',src=True):
-              print(urljoin(url,script['src']))
-          print('LINKS containing csv/search/list')
-          for a in soup.find_all('a',href=True):
-              href=a.get('href','')
-              text=' '.join(a.stripped_strings)
-              if any(k in (href+text).lower() for k in ['csv','search','list','download']):
-                  print(text[:80],urljoin(url,href))
+          for sc in rs.find_all('script',src=True): print(urljoin(r.url,sc['src']))
           PY
