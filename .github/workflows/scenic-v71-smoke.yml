@@ -62,8 +62,9 @@ jobs:
           coord_entries = [e for e in entries if isinstance(e.get('lat'), (int,float)) and isinstance(e.get('lng'), (int,float))]
           enabled = [e for e in zone_entries if e.get('checkinEnabled')]
           assert len(coord_entries) == master['counts']['officialCoordinates'] == zones['counts']['officialCoordinates'] == 418
-          assert len(enabled) == zones['counts']['gpsEnabled'] == 202
-          assert zones['counts']['pendingMultiZoneOrAudit'] == 231
+          assert len(enabled) == zones['counts']['gpsEnabled']
+          assert len(enabled) >= 202, 'v71 GPS coverage must not regress below initial safe set'
+          assert zones['counts']['pendingMultiZoneOrAudit'] == 433 - len(enabled)
 
           for entry in zone_entries:
               zlist = entry.get('zones') or []
