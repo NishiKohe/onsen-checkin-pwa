@@ -1,7 +1,7 @@
 (() => {
-  const version = "v71";
-  const preferredWorker = "./sw.js?v=71";
-  window.OnsenBuildInfo = { version, updatedAt: "2026-09-01" };
+  const version = "v71.1";
+  const preferredWorker = "./sw.js?v=71.1";
+  window.OnsenBuildInfo = { version, updatedAt: "2026-09-02" };
 
   function addBridge({ globalName, id, src, label }) {
     if (window[globalName] || document.getElementById(id)) return;
@@ -19,7 +19,7 @@
     addBridge({ globalName: "__onsenEquipmentBattleSyncV69", id: "equipmentBattleSyncV69", src: "./equipment-battle-sync-v69.js?v=69", label: "v69 equipment battle sync" });
     addBridge({ globalName: "OnsenUiRecoveryV701", id: "uiRecoveryV701Script", src: "./ui-recovery-v701.js?v=70.1", label: "v70.1 UI recovery" });
     addBridge({ globalName: "OnsenDomainAchievements", id: "achievementDomainV702Script", src: "./achievement-domain-v702.js?v=70.8", label: "v70.8 domain achievements" });
-    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=71", label: "v71 scenic bridge" });
+    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=71.1", label: "v71.1 scenic bridge" });
   }
 
   function apply() {
@@ -41,7 +41,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v71 service worker update check skipped", err);
+      console.warn("v71.1 service worker update check skipped", err);
       return null;
     }
   }
@@ -49,7 +49,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV71RegisterPatched) return;
+    if (sw.__onsenV711RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -57,9 +57,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV71RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV711RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v71 service worker register patch skipped", error);
+      console.warn("v71.1 service worker register patch skipped", error);
     }
   }
 
