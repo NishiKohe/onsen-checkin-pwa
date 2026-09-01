@@ -1,11 +1,11 @@
-name: Build scenic coordinates
+name: Audit scenic catalog
 
 on:
   workflow_dispatch:
   push:
     paths:
       - ".github/workflows/build-scenic-coordinates.yml"
-      - "scripts/build_scenic_coordinates.py"
+      - "scripts/audit_scenic_online.py"
       - "data/scenic-national-v70.json"
       - "data/scenic-shards-v70.json"
       - "data/scenic-ordinary-*.json"
@@ -14,11 +14,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: build-scenic-coordinates
+  group: audit-scenic-catalog
   cancel-in-progress: true
 
 jobs:
-  build:
+  audit:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -35,92 +35,38 @@ jobs:
       - name: Install dependencies
         run: python -m pip install --disable-pip-version-check requests beautifulsoup4
 
-      - name: Diagnose catalog IDs
-        run: |
-          python - <<'PY'
-          import json
-          from collections import defaultdict
-          from pathlib import Path
-          root = Path('.')
-          master = json.loads((root/'data/scenic-national-v70.json').read_text(encoding='utf-8'))
-          manifest = json.loads((root/'data/scenic-shards-v70.json').read_text(encoding='utf-8'))
-          seen = defaultdict(list)
-          names = defaultdict(list)
-          for e in master.get('entries', []):
-              seen[e['id']].append(('master', e.get('name')))
-              names[e.get('name','')].append(('master', e['id']))
-          raw_ordinary = 0
-          for meta in manifest.get('shards', []):
-              p = root / meta['url'].replace('./','')
-              shard = json.loads(p.read_text(encoding='utf-8'))
-              prefix = str(shard.get('idPrefix') or f"scenic_{shard.get('shardId','compact')}")
-              for e in shard.get('entries', []):
-                  raw_ordinary += 1
-                  seen[e['id']].append((p.name, e.get('name')))
-                  names[e.get('name','')].append((p.name, e['id']))
-              for row in shard.get('compactEntries', []):
-                  raw_ordinary += 1
-                  sid = f"{prefix}_{row[0]}"
-                  seen[sid].append((p.name, row[1]))
-                  names[row[1]].append((p.name, sid))
-          print('manifest raw ordinary=', raw_ordinary)
-          print('unique total IDs=', len(seen))
-          print('ID COLLISIONS:')
-          for sid, srcs in sorted(seen.items()):
-              if len(srcs) > 1:
-                  print(sid, srcs)
-          print('DUPLICATE NAMES WITH DIFFERENT IDS:')
-          for name, srcs in sorted(names.items()):
-              ids = {x[1] for x in srcs}
-              if name and len(ids) > 1:
-                  print(name, srcs)
-          PY
+      - name: Audit current national scenic catalog
+        run: python scripts/audit_scenic_online.py
 
-      - name: Inspect Cultural Heritage Online scenic page
-        run: |
-          python - <<'PY'
-          import requests
-          from bs4 import BeautifulSoup
-          url='https://online.bunka.go.jp/heritages/search?genre_61=1&page=1&sorttype=insert_asc'
-          r=requests.get(url,timeout=30,headers={'User-Agent':'onsen-checkin-pwa catalog audit/1.0'})
-          print('STATUS',r.status_code,'LEN',len(r.text),'URL',r.url)
-          r.raise_for_status()
-          soup=BeautifulSoup(r.text,'html.parser')
-          heads=[]
-          for tag in soup.find_all(['h1','h2','h3','h4','h5']):
-              text=' '.join(tag.stripped_strings)
-              if text: heads.append((tag.name,text))
-          print('HEADINGS',heads[:80])
-          for a in soup.find_all('a',href=True):
-              text=' '.join(a.stripped_strings)
-              if text and ('種差海岸' in text or '/heritages/' in a.get('href','')):
-                  print('LINK',text[:120],a.get('href'))
-          PY
-
-      - name: Build coordinate catalog
-        run: python scripts/build_scenic_coordinates.py
-
-      - name: Show generated summary
+      - name: Show audit summary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path('data/scenic-checkin-zones-v70.json')
-          d = json.loads(p.read_text(encoding='utf-8'))
-          print('referencePointEntries=', d.get('referencePointEntries'))
-          print('gpsEnabledEntries=', d.get('gpsEnabledEntries'))
-          print('unmatchedEntries=', d.get('unmatchedEntries'))
-          print('fetchFailures=', len(d.get('fetchFailures', [])))
+          d=json.loads(Path('data/scenic-catalog-audit-v70.json').read_text(encoding='utf-8'))
+          print('repoRawRows=',d['repoRawRows'])
+          print('repoUniqueIds=',d['repoUniqueIds'])
+          print('repoDuplicateIds=',list(d['repoDuplicateIds']))
+          print('onlineDesignatedScenicTotal=',d['onlineDesignatedScenicTotal'])
+          print('onlineOrdinaryScenic=',d['onlineOrdinaryScenic'])
+          print('onlineSpecialScenic=',d['onlineSpecialScenic'])
+          print('onlineRegisteredScenicExcluded=',d['onlineRegisteredScenicExcluded'])
+          print('missingInRepo=',len(d['missingInRepo']))
+          for row in d['missingInRepo']:
+              print(' +',row['kind'],row['name'],row.get('detailUrl'))
+          print('extraInRepo=',len(d['extraInRepo']))
+          for row in d['extraInRepo']:
+              print(' -',row['name'],row['id'],row['source'])
           PY
 
-      - name: Commit generated coordinates
+      - name: Commit audit report
         run: |
-          if git diff --quiet -- data/scenic-checkin-zones-v70.json; then
-            echo "No coordinate changes"
+          git add -f data/scenic-catalog-audit-v70.json
+          if git diff --cached --quiet; then
+            echo "No audit changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/scenic-checkin-zones-v70.json
-          git commit -m "Generate scenic coordinate catalog"
+          git commit -m "Audit national scenic catalog"
           git push
