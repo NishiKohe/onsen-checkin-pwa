@@ -1,0 +1,113 @@
+name: Scenic v71 smoke
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "scenic-runtime-v70.js"
+      - "scenic-map-v71.js"
+      - "scenic-map-v71.css"
+      - "scenic-v70-bridge.js"
+      - "scenic-collection-ui-v70.js"
+      - "scenic-collection-ui-v70.css"
+      - "data/scenic-official-v71.json"
+      - "data/scenic-checkin-zones-v71.json"
+      - "build-info.js"
+      - "sw.js"
+      - ".github/workflows/scenic-v71-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: JavaScript syntax
+        run: |
+          node --check scenic-runtime-v70.js
+          node --check scenic-map-v71.js
+          node --check scenic-v70-bridge.js
+          node --check scenic-collection-ui-v70.js
+          node --check build-info.js
+          node --check sw.js
+
+      - name: Scenic catalog integrity
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          master = json.loads(Path('data/scenic-official-v71.json').read_text(encoding='utf-8'))
+          zones = json.loads(Path('data/scenic-checkin-zones-v71.json').read_text(encoding='utf-8'))
+
+          entries = master['entries']
+          zone_entries = zones['entries']
+          ids = [str(e['id']) for e in entries]
+          zone_ids = [str(e['scenicId']) for e in zone_entries]
+          manage_ids = [str(e['officialManageId']) for e in entries]
+
+          assert master['counts']['ordinary'] == 397, master['counts']
+          assert master['counts']['special'] == 36, master['counts']
+          assert master['counts']['total'] == 433, master['counts']
+          assert len(entries) == 433 and len(set(ids)) == 433
+          assert len(set(manage_ids)) == 433, 'official manage ID collision'
+          assert len(zone_entries) == 433 and len(set(zone_ids)) == 433
+          assert set(zone_ids) == set(ids), 'zone/master ID mismatch'
+
+          coord_entries = [e for e in entries if isinstance(e.get('lat'), (int,float)) and isinstance(e.get('lng'), (int,float))]
+          enabled = [e for e in zone_entries if e.get('checkinEnabled')]
+          assert len(coord_entries) == master['counts']['officialCoordinates'] == zones['counts']['officialCoordinates'] == 418
+          assert len(enabled) == zones['counts']['gpsEnabled'] == 202
+          assert zones['counts']['pendingMultiZoneOrAudit'] == 231
+
+          for entry in zone_entries:
+              zlist = entry.get('zones') or []
+              if entry.get('checkinEnabled'):
+                  assert zlist, f"enabled without zone: {entry['scenicId']}"
+              for z in zlist:
+                  assert float(z['radiusM']) >= 500, (entry['scenicId'], z)
+                  assert float(z['accuracyRequiredM']) >= 500, (entry['scenicId'], z)
+                  assert 20 <= float(z['lat']) <= 46.5, (entry['scenicId'], z)
+                  assert 122 <= float(z['lng']) <= 154, (entry['scenicId'], z)
+
+          print('official master: 397 ordinary + 36 special = 433 unique')
+          print('official coordinates:', len(coord_entries))
+          print('GPS enabled:', len(enabled))
+          print('pending audit:', zones['counts']['pendingMultiZoneOrAudit'])
+          PY
+
+      - name: Scenic safety guards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          files = [
+              Path('scenic-runtime-v70.js'),
+              Path('scenic-map-v71.js'),
+              Path('scenic-v70-bridge.js'),
+          ]
+          for p in files:
+              text = p.read_text(encoding='utf-8')
+              assert 'MutationObserver' not in text, f'MutationObserver forbidden in {p}'
+              assert 'stopImmediatePropagation' not in text, f'stopImmediatePropagation forbidden in {p}'
+
+          sw = Path('sw.js').read_text(encoding='utf-8')
+          for required in [
+              './data/scenic-official-v71.json',
+              './data/scenic-checkin-zones-v71.json',
+              './scenic-map-v71.js',
+              './scenic-map-v71.css',
+          ]:
+              assert required in sw, f'missing SW core asset {required}'
+          assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be v71 SW core assets'
+
+          build = Path('build-info.js').read_text(encoding='utf-8')
+          assert 'const version = "v71"' in build
+          assert './sw.js?v=71' in build
+          assert './scenic-v70-bridge.js?v=71' in build
+          print('safety guards OK')
+          PY
