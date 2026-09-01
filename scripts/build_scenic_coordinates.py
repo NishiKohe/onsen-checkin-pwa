@@ -28,11 +28,9 @@ PREF_SLUGS = {
     "福岡県":"fukuoka","佐賀県":"saga","長崎県":"nagasaki","熊本県":"kumamoto","大分県":"oita","宮崎県":"miyazaki","鹿児島県":"kagoshima","沖縄県":"okinawa",
 }
 
-COORD_RE = re.compile(r"(?<!\d)(2[0-9]|3[0-9]|4[0-6])\.\d{3,}\s+((?:12[2-9]|13[0-9]|14[0-9]|15[0-4])\.\d{3,})(?!\d)")
+COORD_RE = re.compile(r"(?<!\d)(?:2[0-9]|3[0-9]|4[0-6])\.\d{3,}\s+((?:12[2-9]|13[0-9]|14[0-9]|15[0-4])\.\d{3,})(?!\d)")
 PUNCT_RE = re.compile(r"[\s\u3000・･,，.。:：;；/／\\()（）\[\]［］{}「」『』<>〈〉《》\-―—_]+")
 
-# Compact sites can safely use the official/reference point with a generous radius.
-# Broad natural landscapes are map-only until multiple check-in zones are manually audited.
 COMPACT_TOKENS = ("庭園", "橋", "園地", "泉", "井泉")
 BROAD_TOKENS = ("峡", "渓", "海岸", "湖", "山", "岳", "島", "松原", "滝", "瀑", "岬", "浜", "浦", "湾", "河", "川", "高原", "丘", "岩", "洞", "瀬", "群", "連峰", "温泉")
 
@@ -53,6 +51,7 @@ def expand_catalog():
     master = load_json(MASTER_PATH)
     manifest = load_json(MANIFEST_PATH)
     by_id: dict[str, dict] = {}
+    collisions = []
     for entry in master.get("entries", []):
         if entry.get("id"):
             by_id[entry["id"]] = dict(entry)
@@ -63,6 +62,8 @@ def expand_catalog():
         shard = load_json(ROOT / rel)
         for entry in shard.get("entries", []):
             if entry.get("id"):
+                if entry["id"] in by_id:
+                    collisions.append((entry["id"], by_id[entry["id"]].get("name"), entry.get("name"), rel))
                 by_id[entry["id"]] = dict(entry)
         prefix = str(shard.get("idPrefix") or f"scenic_{shard.get('shardId', 'compact')}")
         for row in shard.get("compactEntries", []):
@@ -71,6 +72,8 @@ def expand_catalog():
             key, name, raw_prefs = row[:3]
             prefs = raw_prefs if isinstance(raw_prefs, list) else [raw_prefs]
             sid = f"{prefix}_{key}"
+            if sid in by_id:
+                collisions.append((sid, by_id[sid].get("name"), str(name), rel))
             by_id[sid] = {
                 "id": sid,
                 "name": str(name),
@@ -81,14 +84,18 @@ def expand_catalog():
     entries = list(by_id.values())
     special = sum(1 for e in entries if e.get("specialScenic"))
     ordinary = len(entries) - special
+    if collisions:
+        print("catalog ID collisions:", file=sys.stderr)
+        for collision in collisions:
+            print("  ", collision, file=sys.stderr)
     if len(entries) != 433 or ordinary != 397 or special != 36:
-        raise RuntimeError(f"catalog count mismatch: total={len(entries)} ordinary={ordinary} special={special}")
-    return entries
+        print(f"WARN catalog count mismatch: total={len(entries)} ordinary={ordinary} special={special}; continuing for source-gap diagnosis", file=sys.stderr)
+    return entries, collisions
 
 
 def fetch_pref_rows(pref: str, slug: str):
     url = f"https://japan-geographic.tv/index-cultural-{slug}.html"
-    response = requests.get(url, timeout=30, headers={"User-Agent":"onsen-checkin-pwa scenic coordinate builder/1.0"})
+    response = requests.get(url, timeout=30, headers={"User-Agent":"onsen-checkin-pwa scenic coordinate builder/1.1"})
     response.raise_for_status()
     response.encoding = response.apparent_encoding or response.encoding
     soup = BeautifulSoup(response.text, "html.parser")
@@ -104,18 +111,19 @@ def fetch_pref_rows(pref: str, slug: str):
         if not matches:
             continue
         m = matches[-1]
-        lat, lng = float(m.group(1) + joined[m.start(1)+2:m.end(1)]) if False else float(m.group(0).split()[0]), float(m.group(2))
+        pair = m.group(0).split()
+        if len(pair) != 2:
+            continue
+        lat, lng = float(pair[0]), float(pair[1])
         if not (20 <= lat <= 46.5 and 122 <= lng <= 154):
             continue
-        rows.append({"cells": cells, "norm_cells": [normalize(c) for c in cells], "text": joined, "lat": lat, "lng": lng, "sourceUrl": url})
+        rows.append({"prefecture": pref, "cells": cells, "norm_cells": [normalize(c) for c in cells], "text": joined, "lat": lat, "lng": lng, "sourceUrl": url})
     return rows
 
 
 def site_class(name: str):
-    if any(token in name for token in BROAD_TOKENS):
-        # A garden name may contain a temple mountain name; explicit garden wins.
-        if "庭園" not in name:
-            return "broad_natural", False, 1500
+    if any(token in name for token in BROAD_TOKENS) and "庭園" not in name:
+        return "broad_natural", False, 1500
     if "庭園" in name:
         return "compact_garden", True, 750
     if "橋" in name:
@@ -146,7 +154,6 @@ def match_entry(entry: dict, rows_by_pref: dict[str, list[dict]]):
     candidates.sort(key=lambda item: item[0], reverse=True)
     best_score = candidates[0][0]
     best = [row for score, row in candidates if score == best_score]
-    # Multiple exact rows can occur where one designation has several published reference points.
     unique = []
     seen = set()
     for row in best:
@@ -157,8 +164,36 @@ def match_entry(entry: dict, rows_by_pref: dict[str, list[dict]]):
     return {"score": best_score, "rows": unique[:12]}
 
 
+def source_gap_rows(entries, rows_by_pref):
+    targets_by_pref = {}
+    for entry in entries:
+        n = normalize(entry.get("name", ""))
+        for pref in entry.get("prefectures") or []:
+            targets_by_pref.setdefault(pref, []).append(n)
+    gaps = []
+    seen = set()
+    for pref, rows in rows_by_pref.items():
+        targets = targets_by_pref.get(pref, [])
+        for row in rows:
+            matched = False
+            for cell in row["norm_cells"]:
+                if not cell:
+                    continue
+                if any(t and (t == cell or t in cell or (len(cell) >= 4 and cell in t)) for t in targets):
+                    matched = True
+                    break
+            if matched:
+                continue
+            key = (pref, round(row["lat"], 6), round(row["lng"], 6), row["text"][:180])
+            if key in seen:
+                continue
+            seen.add(key)
+            gaps.append({"prefecture": pref, "lat": row["lat"], "lng": row["lng"], "cells": row["cells"], "sourceUrl": row["sourceUrl"]})
+    return gaps
+
+
 def main():
-    entries = expand_catalog()
+    entries, collisions = expand_catalog()
     rows_by_pref = {}
     failures = []
     for pref, slug in PREF_SLUGS.items():
@@ -169,6 +204,11 @@ def main():
             rows_by_pref[pref] = []
             failures.append({"prefecture": pref, "error": str(exc)})
             print(f"WARN {pref}: {exc}", file=sys.stderr)
+
+    gaps = source_gap_rows(entries, rows_by_pref)
+    print(f"source rows not matched to catalog={len(gaps)}")
+    for gap in gaps[:100]:
+        print("SOURCE-GAP", gap["prefecture"], gap["cells"], gap["lat"], gap["lng"])
 
     output_entries = []
     unmatched = []
@@ -190,7 +230,8 @@ def main():
                 "accuracyRequiredM": 500,
                 "sourceUrl": row["sourceUrl"],
             })
-        if allow_checkin and match["score"] >= 100:
+        gps_ok = bool(allow_checkin and match["score"] >= 100)
+        if gps_ok:
             enabled += 1
         output_entries.append({
             "scenicId": entry["id"],
@@ -199,37 +240,38 @@ def main():
             "siteClass": klass,
             "coordinateStatus": "source_matched",
             "matchConfidence": "exact" if match["score"] >= 100 else "normalized_contains",
-            "checkinEnabled": bool(allow_checkin and match["score"] >= 100),
+            "checkinEnabled": gps_ok,
             "zones": zones,
         })
 
     payload = {
-        "version": 1,
+        "version": 2,
         "dataset": "national_places_of_scenic_beauty_checkin_zones",
         "generatedAt": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "catalogTotal": 433,
+        "expectedCatalogTotal": 433,
+        "loadedCatalogTotal": len(entries),
         "referencePointEntries": len(output_entries),
         "gpsEnabledEntries": enabled,
         "unmatchedEntries": len(unmatched),
+        "catalogIdCollisions": [list(x) for x in collisions],
+        "sourceGapRows": gaps,
         "policy": {
             "minimumRadiusM": 500,
             "accuracyRequiredM": 500,
             "broadNaturalRule": "single reference points are map-only until multi-zone manual audit",
             "compactRule": "exact name matches for gardens/bridges may enable GPS at 750m",
         },
-        "sources": [
-            {
-                "name": "Japan Geographic cultural-property pages",
-                "role": "coordinate mirror / bootstrap",
-                "note": "Coordinates are cross-matched by exact normalized name and prefecture. The pages reproduce cultural-property coordinate tables; broad natural sites remain map-only pending multi-zone audit.",
-            }
-        ],
+        "sources": [{
+            "name": "Japan Geographic cultural-property pages",
+            "role": "coordinate mirror / bootstrap",
+            "note": "Coordinates are cross-matched by exact normalized name and prefecture. Broad natural sites remain map-only pending multi-zone audit.",
+        }],
         "entries": output_entries,
         "unmatched": unmatched,
         "fetchFailures": failures,
     }
     OUT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"wrote {OUT_PATH}: refs={len(output_entries)} gps={enabled} unmatched={len(unmatched)} failures={len(failures)}")
+    print(f"wrote {OUT_PATH}: refs={len(output_entries)} gps={enabled} unmatched={len(unmatched)} sourceGaps={len(gaps)} failures={len(failures)}")
 
 
 if __name__ == "__main__":
