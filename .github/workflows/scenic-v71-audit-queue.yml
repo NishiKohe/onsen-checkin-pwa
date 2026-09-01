@@ -1,0 +1,54 @@
+name: Scenic v71 GPS audit queue
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "scripts/build_scenic_v71_audit_queue.py"
+      - "data/scenic-official-v71.json"
+      - "data/scenic-checkin-zones-v71.json"
+      - ".github/workflows/scenic-v71-audit-queue.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scenic-v71-gps-audit-queue
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build audit queue
+        run: python scripts/build_scenic_v71_audit_queue.py
+
+      - name: Validate queue
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path('data/scenic-gps-audit-queue-v71.json').read_text(encoding='utf-8'))
+          assert q['counts']['pending']==231
+          assert len(q['entries'])==231
+          assert all(not (e.get('officialReferencePoints') and e['auditType']=='missing_official_coordinate') for e in q['entries'])
+          print(json.dumps(q['counts'],ensure_ascii=False,indent=2))
+          PY
+
+      - name: Commit queue
+        run: |
+          git add -f data/scenic-gps-audit-queue-v71.json
+          if git diff --cached --quiet; then
+            echo "No audit queue changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Generate scenic v71 GPS audit queue"
+          git push
