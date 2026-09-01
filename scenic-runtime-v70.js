@@ -1,12 +1,14 @@
 (() => {
-  const BUILD = "v70.13";
-  const DATA_URL = "./data/scenic-national-v70.json";
-  const SHARD_MANIFEST_URL = "./data/scenic-shards-v70.json";
+  const BUILD = "v71";
+  const DATA_URL = "./data/scenic-official-v71.json";
+  const ZONE_URL = "./data/scenic-checkin-zones-v71.json";
   const STATE_KEY = "scenicVisitStateV1";
   const DEFAULT_ACCURACY_M = 500;
+  const LOCATION_MAX_AGE_MS = 2 * 60 * 1000;
   let catalog = null;
-  let shardManifest = null;
-  let shardEntries = [];
+  let zoneCatalog = null;
+  let byId = new Map();
+  let zonesById = new Map();
   let ready = false;
 
   function storage() { return window.OnsenUserStorage || null; }
@@ -20,12 +22,10 @@
     if (storage()?.writeUserItem) storage().writeUserItem(STATE_KEY, text);
     else localStorage.setItem(STATE_KEY, text);
   }
-  function defaultState() {
-    return { schemaVersion: 1, visited: {}, updatedAt: Date.now() };
-  }
+  function defaultState() { return { schemaVersion: 2, visited: {}, updatedAt: Date.now() }; }
   function normalizeState(raw) {
     const base = defaultState(), state = raw && typeof raw === "object" ? raw : {};
-    return { ...base, ...state, schemaVersion: 1, visited: { ...(state.visited || {}) } };
+    return { ...base, ...state, schemaVersion: 2, visited: { ...(state.visited || {}) } };
   }
   function loadState() { return normalizeState(readRaw()); }
   function saveState(state, reason = "update") {
@@ -33,6 +33,7 @@
     next.updatedAt = Date.now();
     writeRaw(next);
     window.dispatchEvent(new CustomEvent("onsen-scenic-visit-changed", { detail: { build: BUILD, reason, state: next } }));
+    window.dispatchEvent(new CustomEvent("onsen-heritage-progress-changed", { detail: { build: BUILD, reason, scenicSites: visitCount(next) } }));
     return next;
   }
 
@@ -41,119 +42,142 @@
     if (!response.ok) throw new Error(`${url} load failed: ${response.status}`);
     return response.json();
   }
-  function expandShardEntries(data) {
-    const expanded = [];
-    for (const entry of Array.isArray(data?.entries) ? data.entries : []) {
-      if (entry?.id) expanded.push(entry);
-    }
-    const prefix = String(data?.idPrefix || `scenic_${data?.shardId || "compact"}`);
-    for (const row of Array.isArray(data?.compactEntries) ? data.compactEntries : []) {
-      if (!Array.isArray(row) || row.length < 3) continue;
-      const key = String(row[0] || "").trim();
-      const name = String(row[1] || "").trim();
-      const rawPrefectures = row[2];
-      const prefectures = Array.isArray(rawPrefectures) ? rawPrefectures.map(String) : [String(rawPrefectures || "")].filter(Boolean);
-      if (!key || !name || !prefectures.length) continue;
-      expanded.push({
-        id: `${prefix}_${key}`,
-        name,
-        designation: "名勝",
-        prefectures,
-        specialScenic: false,
-        zones: [],
-        coordinateStatus: "pending_audit",
-        verificationStatus: data?.status?.startsWith("official_verified") ? "official_verified" : "catalog_crosschecked"
-      });
-    }
-    return expanded;
+  function normalizeZone(zone, index = 0) {
+    const lat = Number(zone?.lat), lng = Number(zone?.lng);
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
+    return {
+      id: String(zone?.id || `zone_${index + 1}`),
+      label: String(zone?.label || `チェックイン地点${index + 1}`),
+      lat,
+      lng,
+      radiusM: Math.max(500, Number(zone?.radiusM) || 750),
+      accuracyRequiredM: Math.max(DEFAULT_ACCURACY_M, Number(zone?.accuracyRequiredM) || DEFAULT_ACCURACY_M),
+      source: zone?.source || null,
+      sourceUrl: zone?.sourceUrl || null
+    };
   }
   async function loadCatalog() {
-    catalog = await fetchJson(DATA_URL);
-    shardEntries = [];
-    try {
-      shardManifest = await fetchJson(SHARD_MANIFEST_URL);
-      const shardUrls = (Array.isArray(shardManifest?.shards) ? shardManifest.shards : [])
-        .map((item) => item?.url)
-        .filter(Boolean);
-      const results = await Promise.allSettled(shardUrls.map((url) => fetchJson(url)));
-      const loaded = [];
-      results.forEach((result, index) => {
-        if (result.status === "fulfilled") {
-          loaded.push(...expandShardEntries(result.value));
-        } else {
-          console.warn(`scenic shard load failed: ${shardUrls[index]}`, result.reason);
-        }
-      });
-      shardEntries = loaded;
-    } catch (error) {
-      shardManifest = null;
-      shardEntries = [];
-      console.warn("scenic shard manifest load skipped", error);
+    const [master, zones] = await Promise.all([fetchJson(DATA_URL), fetchJson(ZONE_URL)]);
+    const entries = Array.isArray(master?.entries) ? master.entries : [];
+    const zoneEntries = Array.isArray(zones?.entries) ? zones.entries : [];
+    if (entries.length !== 433 || new Set(entries.map((entry) => entry?.id).filter(Boolean)).size !== 433) {
+      throw new Error(`official scenic master must contain 433 unique entries; got ${entries.length}`);
     }
+    if (zoneEntries.length !== 433) throw new Error(`scenic zone catalog must contain 433 entries; got ${zoneEntries.length}`);
+    catalog = master;
+    zoneCatalog = zones;
+    byId = new Map(entries.filter((entry) => entry?.id).map((entry) => [String(entry.id), entry]));
+    zonesById = new Map(zoneEntries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
     return catalog;
   }
-  function entries() {
-    const byId = new Map();
-    for (const entry of Array.isArray(catalog?.entries) ? catalog.entries : []) if (entry?.id) byId.set(entry.id, entry);
-    for (const entry of shardEntries) if (entry?.id) byId.set(entry.id, entry);
-    return [...byId.values()];
+  function entries() { return Array.isArray(catalog?.entries) ? catalog.entries.slice() : []; }
+  function seedEntries() { return []; }
+  function get(id) { return byId.get(String(id || "")) || null; }
+  function zoneRecord(idOrEntry) {
+    const id = typeof idOrEntry === "string" ? idOrEntry : idOrEntry?.id;
+    return zonesById.get(String(id || "")) || null;
   }
-  function seedEntries() {
-    const imported = new Set(entries().map((entry) => entry.id));
-    return (Array.isArray(catalog?.seedEntries) ? catalog.seedEntries : []).filter((entry) => entry?.id && !imported.has(entry.id));
+  function referenceZones(idOrEntry) {
+    const record = zoneRecord(idOrEntry);
+    return (Array.isArray(record?.zones) ? record.zones : []).map(normalizeZone).filter(Boolean);
   }
-  function get(id) {
-    const key = String(id || "");
-    return entries().find((entry) => entry.id === key) || seedEntries().find((entry) => entry.id === key) || null;
+  function auditedZones(idOrEntry) {
+    const record = zoneRecord(idOrEntry);
+    if (!record?.checkinEnabled) return [];
+    return referenceZones(idOrEntry);
   }
-  function auditedZones(entry) {
-    if (!entry || entry.coordinateStatus !== "audited") return [];
-    return (Array.isArray(entry.zones) ? entry.zones : []).map((zone, index) => ({
-      label: zone?.label || `チェックイン地点${index + 1}`,
-      lat: Number(zone?.lat),
-      lng: Number(zone?.lng),
-      radiusM: Math.max(500, Number(zone?.radiusM || catalog?.checkinPolicy?.defaultRadiusM || 750)),
-      accuracyRequiredM: Math.max(DEFAULT_ACCURACY_M, Number(zone?.accuracyRequiredM || catalog?.checkinPolicy?.accuracyRequiredM || DEFAULT_ACCURACY_M))
-    })).filter((zone) => Number.isFinite(zone.lat) && Number.isFinite(zone.lng));
-  }
+  function isGpsReady(idOrEntry) { return auditedZones(idOrEntry).length > 0; }
   function isVisited(id, state = loadState()) { return !!state.visited[String(id || "")]; }
-  function listVisits() { const state = loadState(); return Object.entries(state.visited).map(([id, visit]) => ({ id, ...visit })); }
-  function visitCount() { return Object.keys(loadState().visited).length; }
-  function specialVisitCount() { return listVisits().filter((visit) => get(visit.id)?.specialScenic === true).length; }
+  function listVisits(state = loadState()) {
+    return Object.entries(state.visited || {}).filter(([id]) => byId.has(String(id))).map(([id, visit]) => ({ id, ...visit }));
+  }
+  function visitCount(state = loadState()) { return listVisits(state).length; }
+  function specialVisitCount(state = loadState()) { return listVisits(state).filter((visit) => get(visit.id)?.specialScenic === true).length; }
   function progress() {
     const imported = entries();
     return {
       visited: visitCount(),
-      total: Number(catalog?.officialCount || 433),
+      total: Number(catalog?.counts?.total || 433),
       specialVisited: specialVisitCount(),
-      specialTotal: Number(catalog?.specialCount || 36),
+      specialTotal: Number(catalog?.counts?.special || 36),
       catalogImported: imported.length,
-      ordinaryImported: imported.filter((entry) => entry.specialScenic !== true).length,
-      specialImported: imported.filter((entry) => entry.specialScenic === true).length,
-      coordinateReady: imported.filter((entry) => auditedZones(entry).length > 0).length,
-      shardCount: Array.isArray(shardManifest?.shards) ? shardManifest.shards.length : 0,
+      ordinaryImported: Number(catalog?.counts?.ordinary || imported.filter((entry) => entry.specialScenic !== true).length),
+      specialImported: Number(catalog?.counts?.special || imported.filter((entry) => entry.specialScenic === true).length),
+      coordinateReference: Number(zoneCatalog?.counts?.officialCoordinates || imported.filter((entry) => Number.isFinite(Number(entry.lat)) && Number.isFinite(Number(entry.lng))).length),
+      coordinateReady: Number(zoneCatalog?.counts?.gpsEnabled || imported.filter(isGpsReady).length),
+      pendingCoordinateAudit: Number(zoneCatalog?.counts?.pendingMultiZoneOrAudit || 0),
       ready
     };
   }
+
+  function haversineM(lat1, lng1, lat2, lng2) {
+    const R = 6371000, rad = (v) => v * Math.PI / 180;
+    const dLat = rad(lat2 - lat1), dLng = rad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(rad(lat1)) * Math.cos(rad(lat2)) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+  function normalizeFix(fix = {}) {
+    const lat = Number(fix.lat ?? fix.latitude), lng = Number(fix.lng ?? fix.longitude);
+    const accuracyM = Number(fix.accuracyM ?? fix.accuracy);
+    const sampledAt = Number(fix.sampledAt ?? fix.timestamp ?? Date.now());
+    return { lat, lng, accuracyM, sampledAt };
+  }
+  function evaluatePosition(fix = {}, scenicId = null) {
+    const position = normalizeFix(fix);
+    if (!Number.isFinite(position.lat) || !Number.isFinite(position.lng)) return { ok: false, reason: "invalid_position", position, matches: [] };
+    if (!Number.isFinite(position.accuracyM) || position.accuracyM < 0) return { ok: false, reason: "invalid_accuracy", position, matches: [] };
+    if (!Number.isFinite(position.sampledAt) || Date.now() - position.sampledAt > LOCATION_MAX_AGE_MS) return { ok: false, reason: "position_stale", position, matches: [] };
+
+    const targets = scenicId ? [get(scenicId)].filter(Boolean) : entries();
+    if (scenicId && !targets.length) return { ok: false, reason: "unknown_scenic", position, matches: [] };
+    const matches = [], nearest = [];
+    let hasEnabledZone = false, hasAccurateZone = false;
+    for (const entry of targets) {
+      const zones = auditedZones(entry);
+      if (!zones.length) continue;
+      hasEnabledZone = true;
+      for (const zone of zones) {
+        const distanceM = haversineM(position.lat, position.lng, zone.lat, zone.lng);
+        const accuracyOk = position.accuracyM <= zone.accuracyRequiredM;
+        if (accuracyOk) hasAccurateZone = true;
+        const result = { scenicId: entry.id, entry, zone, distanceM, radiusM: zone.radiusM, accuracyOk, inRange: distanceM <= zone.radiusM };
+        nearest.push(result);
+        if (accuracyOk && result.inRange) matches.push(result);
+      }
+    }
+    matches.sort((a, b) => a.distanceM - b.distanceM);
+    nearest.sort((a, b) => a.distanceM - b.distanceM);
+    if (matches.length) return { ok: true, reason: "matched", position, matches, best: matches[0] };
+    if (scenicId && !hasEnabledZone) return { ok: false, reason: "coordinate_not_audited", position, matches: [], nearest: null };
+    if (hasEnabledZone && !hasAccurateZone) return { ok: false, reason: "accuracy_too_low", position, matches: [], nearest: nearest[0] || null };
+    return { ok: false, reason: scenicId ? "out_of_range" : "no_match", position, matches: [], nearest: nearest[0] || null };
+  }
+
   function registerGpsVisit(id, fix = {}) {
-    const entry = get(id), zones = auditedZones(entry);
+    const entry = get(id);
     if (!entry) return { ok: false, reason: "unknown_scenic" };
-    if (!zones.length) return { ok: false, reason: "coordinate_not_audited" };
-    const state = loadState();
-    const key = String(entry.id);
-    if (state.visited[key]?.verificationType === "gps_scenic") return { ok: true, already: true, state };
+    const evaluation = evaluatePosition(fix, entry.id);
+    if (!evaluation.ok) return { ...evaluation, entry };
+    const match = evaluation.best;
+    const state = loadState(), key = String(entry.id), prior = state.visited[key];
+    if (prior?.verificationType === "gps_scenic") return { ok: true, already: true, entry, evaluation, state };
     state.visited[key] = {
+      ...(prior || {}),
       visitedAt: Date.now(),
       verificationType: "gps_scenic",
-      lat: Number(fix.lat),
-      lng: Number(fix.lng),
-      accuracyM: Number(fix.accuracyM || 0),
-      zoneLabel: fix.zoneLabel || null,
-      distanceM: Number(fix.distanceM || 0),
+      lat: evaluation.position.lat,
+      lng: evaluation.position.lng,
+      accuracyM: evaluation.position.accuracyM,
+      sampledAt: evaluation.position.sampledAt,
+      zoneId: match.zone.id,
+      zoneLabel: match.zone.label,
+      distanceM: Math.round(match.distanceM),
+      radiusM: match.zone.radiusM,
+      coordinateSource: match.zone.source || "国指定文化財等データベースCSV",
       source: DATA_URL,
       specialScenic: entry.specialScenic === true
     };
-    return { ok: true, already: false, entry, state: saveState(state, "scenic_gps_visit") };
+    return { ok: true, already: false, entry, evaluation, state: saveState(state, "scenic_gps_visit") };
   }
   function registerPastVisit(id, metadata = {}) {
     const entry = get(id);
@@ -185,18 +209,20 @@
   async function install() {
     await loadCatalog();
     ready = true;
-    connectProgression();
-    window.addEventListener("onsen-progression-runtime-ready", connectProgression);
     window.OnsenScenicRuntime = {
       build: BUILD,
       dataUrl: DATA_URL,
-      shardManifestUrl: SHARD_MANIFEST_URL,
+      zoneUrl: ZONE_URL,
       catalog: () => catalog,
-      shardManifest: () => shardManifest,
+      zoneCatalog: () => zoneCatalog,
       entries,
       seedEntries,
       get,
+      zoneRecord,
+      referenceZones,
       auditedZones,
+      isGpsReady,
+      evaluatePosition,
       loadState,
       saveState,
       isVisited,
@@ -207,8 +233,10 @@
       explorationStats,
       connectProgression
     };
+    connectProgression();
+    window.addEventListener("onsen-progression-runtime-ready", connectProgression);
     window.dispatchEvent(new CustomEvent("onsen-scenic-runtime-ready", { detail: { build: BUILD, progress: progress() } }));
   }
 
-  install().catch((error) => console.warn("scenic runtime v70.13 init failed", error));
+  install().catch((error) => console.warn("scenic runtime v71 init failed", error));
 })();
