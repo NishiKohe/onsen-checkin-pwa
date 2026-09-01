@@ -76,6 +76,27 @@ jobs:
                   print(name, srcs)
           PY
 
+      - name: Inspect Cultural Heritage Online scenic page
+        run: |
+          python - <<'PY'
+          import requests
+          from bs4 import BeautifulSoup
+          url='https://online.bunka.go.jp/heritages/search?genre_61=1&page=1&sorttype=insert_asc'
+          r=requests.get(url,timeout=30,headers={'User-Agent':'onsen-checkin-pwa catalog audit/1.0'})
+          print('STATUS',r.status_code,'LEN',len(r.text),'URL',r.url)
+          r.raise_for_status()
+          soup=BeautifulSoup(r.text,'html.parser')
+          heads=[]
+          for tag in soup.find_all(['h1','h2','h3','h4','h5']):
+              text=' '.join(tag.stripped_strings)
+              if text: heads.append((tag.name,text))
+          print('HEADINGS',heads[:80])
+          for a in soup.find_all('a',href=True):
+              text=' '.join(a.stripped_strings)
+              if text and ('種差海岸' in text or '/heritages/' in a.get('href','')):
+                  print('LINK',text[:120],a.get('href'))
+          PY
+
       - name: Build coordinate catalog
         run: python scripts/build_scenic_coordinates.py
 
