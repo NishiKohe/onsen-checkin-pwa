@@ -35,10 +35,17 @@ jobs:
           import json
           from pathlib import Path
           q=json.loads(Path('data/scenic-gps-audit-queue-v71.json').read_text(encoding='utf-8'))
-          assert q['counts']['pending']==231
-          assert len(q['entries'])==231
+          zones=json.loads(Path('data/scenic-checkin-zones-v71.json').read_text(encoding='utf-8'))
+          disabled={e['scenicId'] for e in zones['entries'] if not e.get('checkinEnabled')}
+          queued={e['scenicId'] for e in q['entries']}
+          assert q['counts']['pending']==len(q['entries'])==len(disabled)
+          assert queued==disabled
           assert all(not (e.get('officialReferencePoints') and e['auditType']=='missing_official_coordinate') for e in q['entries'])
           print(json.dumps(q['counts'],ensure_ascii=False,indent=2))
+          singles=[e for e in q['entries'] if e.get('auditType')=='single_reference_review']
+          print('SINGLE_REFERENCE_REVIEW',len(singles))
+          for e in singles:
+              print(f"- {e['scenicId']} | {e['name'].replace(chr(10),' / ')} | {'・'.join(e.get('prefectures') or [])} | {e.get('location','')}")
           PY
 
       - name: Commit queue
