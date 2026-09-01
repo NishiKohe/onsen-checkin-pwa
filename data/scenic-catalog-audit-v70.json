@@ -1,0 +1,1152 @@
+{
+  "version": 1,
+  "source": "文化遺産オンライン / 国指定文化財等データベース（文化庁）",
+  "searchUrl": "https://online.bunka.go.jp/heritages/search?genre_61=1&page=1&sorttype=insert_asc",
+  "repoRawRows": 433,
+  "repoUniqueIds": 432,
+  "repoDuplicateIds": {
+    "scenic_yonako_bakufugun": [
+      {
+        "name": "米子瀑布群",
+        "source": "data/scenic-ordinary-koshinetsu-hokuriku-v70.json"
+      },
+      {
+        "name": "米子瀑布群",
+        "source": "data/scenic-ordinary-previous-region-completion-v70.json"
+      }
+    ]
+  },
+  "onlineUniqueSearchRecords": 458,
+  "onlineOrdinaryScenic": 287,
+  "onlineSpecialScenic": 22,
+  "onlineDesignatedScenicTotal": 309,
+  "onlineRegisteredScenicExcluded": 149,
+  "missingInRepo": [
+    {
+      "name": "おくのほそ道の風景地 草加松原 ガンマンガ淵（慈雲寺境内） 八幡宮（那須神社境内） 殺生石 遊行柳（清水流るゝの柳） 黒塚の岩屋 武隈の松 つゝじが岡及び天神の御社 木の下及び薬師堂 壺碑（つぼの石ぶみ） 興井 末の松山 籬が島 金鶏山 高館 さくら山 本合海 三崎（大師崎） 象潟及び汐越 親しらず 有磯海 那谷寺境内（奇石） 道明が淵（山中の温泉） 湯尾峠 けいの明神（氣比神宮境内） 大垣船町川湊",
+      "normalizedName": "おくのほそ道の風景地草加松原ガンマンガ淵慈雲寺境内八幡宮那須神社境内殺生石遊行柳清水流るゝの柳黒塚の岩屋武隈の松つゝじが岡および天神の御社木の下および薬師堂壺碑つぼの石ぶみ興井末の松山籬が島金鶏山高館さくら山本合海三崎大師崎象潟および汐越親しらず有磯海那谷寺境内奇石道明が淵山中の温泉湯尾峠けいの明神氣比神宮境内大垣船町川湊",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/231138",
+      "cardText": "おくのほそ道の風景地 草加松原 ガンマンガ淵（慈雲寺境内） 八幡宮（那須神社境内） 殺生石 遊行柳（清水流るゝの柳） 黒塚の岩屋 武隈の松 つゝじが岡及び天神の御社 木の下及び薬師堂 壺碑（つぼの石ぶみ） 興井 末の松山 籬が島 金鶏山 高館 さくら山 本合海 三崎（大師崎） 象潟及び汐越 親しらず 有磯海 那谷寺境内（奇石） 道明が淵（山中の温泉） 湯尾峠 けいの明神（氣比神宮境内） 大垣船町川湊 おくのほそみちのふうけいち そうかまつばら がんまんがふち（じうんじけいだい） はちまんぐう（なすじんじゃけいだい） せっしょうせき ゆぎょうやなぎ（しみずながるるのやなぎ） くろづかのいわや たけくまのまつ つつじがおかおよびてんじんのみやしろ きのしたおよびやくしどう つぼのいしぶみ（つぼのいしぶみ） おきのい すえのまつやま まがきがしま きんけいさん たかだち さくらやま もとあいかい みさき(だいしざき) きさかたおよびしおこし おやしらず ありそうみ なたでらけいだい（きせき） どうめいがふち(やまなかのいでゆ) ゆのおとおげ けいのみょうじん（けひじんぐうけいだい） おおがきふなまちかわみなと 名勝/江戸/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "イーハトーブの風景地 鞍掛山 七つ森 狼森 釜淵の滝 イギリス海岸 五輪峠 種山ヶ原",
+      "normalizedName": "イーハトーブの風景地鞍掛山七つ森狼森釜淵の滝イギリス海岸五輪峠種山ケ原",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/140427",
+      "cardText": "イーハトーブの風景地 鞍掛山 七つ森 狼森 釜淵の滝 イギリス海岸 五輪峠 種山ヶ原 いーはとーぶのふうけいち くらかけやま ななつもり おいのもり かまぶちのたき いぎりすかいがん ごりんとうげ たねやまがはら 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "ピリカノカ 九度山（クトゥンヌプリ） 黄金山（ピンネタイオルシペ） 神威岬（カムイエトゥ） 襟裳岬（オンネエンルム） 瞰望岩（インカルシ） カムイチャシ 絵鞆半島外海岸 十勝幌尻岳（ポロシリ） 幌尻岳（ポロシリ） オキクルミのチャシ及びムイノカ",
+      "normalizedName": "ピリカノカ九度山クトゥンヌプリ黄金山ピンネタイオルシペ神威岬カムイエトゥ襟裳岬オンネエンルム瞰望岩インカルシカムイチャシ絵鞆半島外海岸十勝幌尻岳ポロシリ幌尻岳ポロシリオキクルミのチャシおよびムイノカ",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/163318",
+      "cardText": "ピリカノカ 九度山（クトゥンヌプリ） 黄金山（ピンネタイオルシペ） 神威岬（カムイエトゥ） 襟裳岬（オンネエンルム） 瞰望岩（インカルシ） カムイチャシ 絵鞆半島外海岸 十勝幌尻岳（ポロシリ） 幌尻岳（ポロシリ） オキクルミのチャシ及びムイノカ ぴりかのか くどさん（くとぅんぬぷり） こがねやま（ぴんねたいおるしぺ） かむいみさき（かむいえとぅ） えりもみさき（おんねえんるむ） がんぼういわ（いんかるし） かむいちゃし えともはんとうそとかいがん とかちぽろしりだけ（ぽろしり） ぽろしりだけ（ぽろしり） おきくるみのちゃしおよびむいのか 名勝/北海道 北海道/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "三田村氏庭園",
+      "normalizedName": "三田村氏庭園",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/278376",
+      "cardText": "三田村氏庭園 みたむらしていえん 庭園/中部 福井県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "仙巖園 附　花倉御仮屋庭園",
+      "normalizedName": "仙巖園付花倉御仮屋庭園",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/206863",
+      "cardText": "仙巖園 附　花倉御仮屋庭園 せんがんえんつけたりけくらおかりやていえん 名勝/九州 鹿児島県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "円月島（高嶋）及び千畳敷",
+      "normalizedName": "円月島高嶋および千畳敷",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/218980",
+      "cardText": "円月島（高嶋）及び千畳敷 えんげつとう（たかしま）およびせんじょうじき その他/近畿 和歌山県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "南方曼陀羅の風景地　神島　鬪雞神社　須佐神社　伊作田稲荷神社　継桜王子　高原熊野神社　奇絶峡　龍神山　八上神社　田中神社　九龍島　金刀比羅神社　天神崎",
+      "normalizedName": "南方曼陀羅の風景地神島鬪雞神社須佐神社伊作田稲荷神社継桜王子高原熊野神社奇絶峡龍神山八上神社田中神社九龍島金刀比羅神社天神崎",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/215014",
+      "cardText": "南方曼陀羅の風景地　神島　鬪雞神社　須佐神社　伊作田稲荷神社　継桜王子　高原熊野神社　奇絶峡　龍神山　八上神社　田中神社　九龍島　金刀比羅神社　天神崎 みなかたまんだらのふうけいち　かしま　とうけいじんじゃ　すさじんじゃ　いさいだいなりじんじゃ　つぎざくらおうじ　たかはらくまのじんじゃ　きぜつきょう　りゅうぜんさん　やがみじんじゃ　たなかじんじゃ　くろしま　ことひらじんじゃ　てんじんざき その他/明治 大正/近畿 和歌山県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "大和三山 香具山 畝傍山 耳成山",
+      "normalizedName": "大和三山香具山畝傍山耳成山",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/192682",
+      "cardText": "大和三山 香具山 畝傍山 耳成山 やまとさんざん かぐやま うねびやま みみなしやま 名勝/近畿 奈良県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "富士五湖 山中湖 河口湖 西湖 精進湖 本栖湖",
+      "normalizedName": "富士五湖山中湖河口湖西湖精進湖本栖湖",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/196258",
+      "cardText": "富士五湖 山中湖 河口湖 西湖 精進湖 本栖湖 ふじごご やまなかこ かわぐちこ さいこ しょうじこ もとすこ その他/中部 山梨県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "小清水海岸",
+      "normalizedName": "小清水海岸",
+      "kind": "special_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/112254",
+      "cardText": "酒井氏庭園 さかいしていえん 庭園/江戸/日本/名勝 公益財団法人致道博物館 聚楽園大仏及び境内地 しゅうらくえんだいぶつおよびけいだいち 山田才吉 名勝/愛知県/名勝/高画質画像 東海市立平洲記念館・郷土資料館 旧堀田正倫別邸庭園 きゅうほったまさともべっていていえん 西村市右衛門（主屋）・伊藤彦右衛門（庭園） 庭園/明治/千葉県/名勝 旧堀田邸 小清水海岸 こしみずかいがん 海浜/北海道/地方指定文化財 北海道（地方指定文化財） 羽衣の滝 はごろものたき 渓谷・渓流/北海道/地方指定文化財 北海道（地方指定文化財） 天都山 てんとざん 名勝/北海道 北海道/名勝 国指定文化財等データベース（文化庁） 種差海岸 たねさしかいがん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 仏宇多（仏ヶ浦） ほとけうた（ほとけがうら） 名勝/東北 青森県/名勝/天然記念物 国指定文化財等データベース（文化庁） 瑞楽園 ずいらくえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 清藤氏書院庭園 せいどうししょいんていえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 猊鼻渓 げいびけい 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 厳美渓 げんびけい 名勝/東北 岩手県/名勝/天然記念物 国指定文化財等データベース（文化庁） 高田松原 たかだのまつばら 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 毛越寺庭園 もうつうじていえん 名勝/東北 岩手県/特別名勝 国指定文化財等データベース（文化庁） 松島 まつしま 名勝/東北 宮城県/特別名勝 国指定文化財等データベース（文化庁） 秋保大滝 あきうおおたき 名勝/東北 宮城県/名勝 国指定文化財等データベース（文化庁） 磐司 ばんじ 名勝/東北 宮城県/"
+    },
+    {
+      "name": "平戸領地方八竒勝（平戸八景） 髙巌 潜龍水 石橋 大悲観 巌屋宮 福石山 潮之目",
+      "normalizedName": "平戸領地方八竒勝平戸八景高巌潜龍水石橋大悲観巌屋宮福石山潮之目",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/293159",
+      "cardText": "平戸領地方八竒勝（平戸八景） 髙巌 潜龍水 石橋 大悲観 巌屋宮 福石山 潮之目 ひらどりょうじかたはっきしょう（ひらどはっけい） たかいわ せんりゅうすい いしばし だいひかん いわやぐう ふくいしやま しおのめ 名勝/九州 長崎県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "延暦寺坂本里坊庭園 雙厳院庭園 宝積院庭園 滋賀院門跡庭園 佛乗院庭園 旧白毫院庭園 旧竹林院庭園 蓮華院庭園 律院庭園 実蔵坊庭園 寿量院庭園",
+      "normalizedName": "延暦寺坂本里坊庭園雙厳院庭園宝積院庭園滋賀院門跡庭園佛乗院庭園旧白毫院庭園旧竹林院庭園蓮華院庭園律院庭園実蔵坊庭園寿量院庭園",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/173755",
+      "cardText": "延暦寺坂本里坊庭園 雙厳院庭園 宝積院庭園 滋賀院門跡庭園 佛乗院庭園 旧白毫院庭園 旧竹林院庭園 蓮華院庭園 律院庭園 実蔵坊庭園 寿量院庭園 えんりゃくじさかもとさとぼうていえん　そうごんいんていえん・ほうしゃくいんていえん・しがいんもんぜきていえん・ぶつじょういんていえん・きゅうちくりんいんていえん・れんげいんていえん・りついんていえん・じつぞうぼうていえん・じゅりょういんていえん 名勝/近畿 滋賀県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "御嶽昇仙峡",
+      "normalizedName": "御嶽昇仙峡",
+      "kind": "special_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/161158",
+      "cardText": "御嶽昇仙峡 みたけしょうせんきょう 名勝/中部 山梨県/特別名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "志布志麓庭園 天水氏庭園 平山氏庭園 福山氏庭園",
+      "normalizedName": "志布志麓庭園天水氏庭園平山氏庭園福山氏庭園",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/212180",
+      "cardText": "志布志麓庭園 天水氏庭園 平山氏庭園 福山氏庭園 しぶしふもとていえん あまみずしていえん ひらやましていえん ふくやましていえん 名勝/九州 鹿児島県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "断魚溪",
+      "normalizedName": "断魚溪",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/163531",
+      "cardText": "断魚溪 だんぎょけい 名勝/中国・四国 島根県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "旧堀田正倫別邸庭園",
+      "normalizedName": "旧堀田正倫別邸庭園",
+      "kind": "special_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/46248",
+      "cardText": "酒井氏庭園 さかいしていえん 庭園/江戸/日本/名勝 公益財団法人致道博物館 聚楽園大仏及び境内地 しゅうらくえんだいぶつおよびけいだいち 山田才吉 名勝/愛知県/名勝/高画質画像 東海市立平洲記念館・郷土資料館 旧堀田正倫別邸庭園 きゅうほったまさともべっていていえん 西村市右衛門（主屋）・伊藤彦右衛門（庭園） 庭園/明治/千葉県/名勝 旧堀田邸 小清水海岸 こしみずかいがん 海浜/北海道/地方指定文化財 北海道（地方指定文化財） 羽衣の滝 はごろものたき 渓谷・渓流/北海道/地方指定文化財 北海道（地方指定文化財） 天都山 てんとざん 名勝/北海道 北海道/名勝 国指定文化財等データベース（文化庁） 種差海岸 たねさしかいがん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 仏宇多（仏ヶ浦） ほとけうた（ほとけがうら） 名勝/東北 青森県/名勝/天然記念物 国指定文化財等データベース（文化庁） 瑞楽園 ずいらくえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 清藤氏書院庭園 せいどうししょいんていえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 猊鼻渓 げいびけい 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 厳美渓 げんびけい 名勝/東北 岩手県/名勝/天然記念物 国指定文化財等データベース（文化庁） 高田松原 たかだのまつばら 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 毛越寺庭園 もうつうじていえん 名勝/東北 岩手県/特別名勝 国指定文化財等データベース（文化庁） 松島 まつしま 名勝/東北 宮城県/特別名勝 国指定文化財等データベース（文化庁） 秋保大滝 あきうおおたき 名勝/東北 宮城県/名勝 国指定文化財等データベース（文化庁） 磐司 ばんじ 名勝/東北 宮城県/"
+    },
+    {
+      "name": "旧赤穂城庭園 本丸庭園 二之丸庭園",
+      "normalizedName": "旧赤穂城庭園本丸庭園二之丸庭園",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/140144",
+      "cardText": "旧赤穂城庭園 本丸庭園 二之丸庭園 きゅうあこうじょうていえん ほんまるていえん　にのまるていえん 名勝/近畿 兵庫県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "羽衣の滝",
+      "normalizedName": "羽衣の滝",
+      "kind": "special_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/175776",
+      "cardText": "酒井氏庭園 さかいしていえん 庭園/江戸/日本/名勝 公益財団法人致道博物館 聚楽園大仏及び境内地 しゅうらくえんだいぶつおよびけいだいち 山田才吉 名勝/愛知県/名勝/高画質画像 東海市立平洲記念館・郷土資料館 旧堀田正倫別邸庭園 きゅうほったまさともべっていていえん 西村市右衛門（主屋）・伊藤彦右衛門（庭園） 庭園/明治/千葉県/名勝 旧堀田邸 小清水海岸 こしみずかいがん 海浜/北海道/地方指定文化財 北海道（地方指定文化財） 羽衣の滝 はごろものたき 渓谷・渓流/北海道/地方指定文化財 北海道（地方指定文化財） 天都山 てんとざん 名勝/北海道 北海道/名勝 国指定文化財等データベース（文化庁） 種差海岸 たねさしかいがん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 仏宇多（仏ヶ浦） ほとけうた（ほとけがうら） 名勝/東北 青森県/名勝/天然記念物 国指定文化財等データベース（文化庁） 瑞楽園 ずいらくえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 清藤氏書院庭園 せいどうししょいんていえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 猊鼻渓 げいびけい 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 厳美渓 げんびけい 名勝/東北 岩手県/名勝/天然記念物 国指定文化財等データベース（文化庁） 高田松原 たかだのまつばら 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 毛越寺庭園 もうつうじていえん 名勝/東北 岩手県/特別名勝 国指定文化財等データベース（文化庁） 松島 まつしま 名勝/東北 宮城県/特別名勝 国指定文化財等データベース（文化庁） 秋保大滝 あきうおおたき 名勝/東北 宮城県/名勝 国指定文化財等データベース（文化庁） 磐司 ばんじ 名勝/東北 宮城県/"
+    },
+    {
+      "name": "聚楽園大仏及び境内地",
+      "normalizedName": "聚楽園大仏および境内地",
+      "kind": "special_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/90183",
+      "cardText": "酒井氏庭園 さかいしていえん 庭園/江戸/日本/名勝 公益財団法人致道博物館 聚楽園大仏及び境内地 しゅうらくえんだいぶつおよびけいだいち 山田才吉 名勝/愛知県/名勝/高画質画像 東海市立平洲記念館・郷土資料館 旧堀田正倫別邸庭園 きゅうほったまさともべっていていえん 西村市右衛門（主屋）・伊藤彦右衛門（庭園） 庭園/明治/千葉県/名勝 旧堀田邸 小清水海岸 こしみずかいがん 海浜/北海道/地方指定文化財 北海道（地方指定文化財） 羽衣の滝 はごろものたき 渓谷・渓流/北海道/地方指定文化財 北海道（地方指定文化財） 天都山 てんとざん 名勝/北海道 北海道/名勝 国指定文化財等データベース（文化庁） 種差海岸 たねさしかいがん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 仏宇多（仏ヶ浦） ほとけうた（ほとけがうら） 名勝/東北 青森県/名勝/天然記念物 国指定文化財等データベース（文化庁） 瑞楽園 ずいらくえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 清藤氏書院庭園 せいどうししょいんていえん 名勝/東北 青森県/名勝 国指定文化財等データベース（文化庁） 猊鼻渓 げいびけい 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 厳美渓 げんびけい 名勝/東北 岩手県/名勝/天然記念物 国指定文化財等データベース（文化庁） 高田松原 たかだのまつばら 名勝/東北 岩手県/名勝 国指定文化財等データベース（文化庁） 毛越寺庭園 もうつうじていえん 名勝/東北 岩手県/特別名勝 国指定文化財等データベース（文化庁） 松島 まつしま 名勝/東北 宮城県/特別名勝 国指定文化財等データベース（文化庁） 秋保大滝 あきうおおたき 名勝/東北 宮城県/名勝 国指定文化財等データベース（文化庁） 磐司 ばんじ 名勝/東北 宮城県/"
+    },
+    {
+      "name": "肥後領内名勝地 五郎ガ瀧 聖リ瀧 走リ水ノ瀧 建神ノ岩 神ノ瀬ノ岩屋",
+      "normalizedName": "肥後領内名勝地五郎ガ瀧聖リ瀧走リ水ノ瀧建神ノ岩神ノ瀬ノ岩屋",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/286890",
+      "cardText": "肥後領内名勝地 五郎ガ瀧 聖リ瀧 走リ水ノ瀧 建神ノ岩 神ノ瀬ノ岩屋 ひごりょうないめいしょうち ごろうがたき ひじりだき はしりみずのたき たてがみのいわ こうのせのいわや 名勝/九州 熊本県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "英彦山庭園 旧座主院御本坊庭園 旧座主院御下屋庭園 旧政所坊庭園 旧亀石坊庭園 旧泉蔵坊庭園 旧顕揚坊庭園 英彦山神宮旅殿庭園",
+      "normalizedName": "英彦山庭園旧座主院御本坊庭園旧座主院御下屋庭園旧政所坊庭園旧亀石坊庭園旧泉蔵坊庭園旧顕揚坊庭園英彦山神宮旅殿庭園",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/211340",
+      "cardText": "英彦山庭園 旧座主院御本坊庭園 旧座主院御下屋庭園 旧政所坊庭園 旧亀石坊庭園 旧泉蔵坊庭園 旧顕揚坊庭園 英彦山神宮旅殿庭園 ひこさんていえん きゅうざすいんごほんぼうていえん きゅうざすいんごしもやていえん きゅうまんどころぼうていえん きゅうかめいしぼうていえん きゅうせんぞうぼうていえん きゅうけんようぼうていえん ひこさんじんぐうりょでんていえん 名勝/九州 福岡県/名勝 国指定文化財等データベース（文化庁）"
+    },
+    {
+      "name": "龍ヶ岳",
+      "normalizedName": "龍ケ岳",
+      "kind": "ordinary_scenic",
+      "detailUrl": "https://online.bunka.go.jp/heritages/detail/203016",
+      "cardText": "龍ヶ岳 りゅうがたけ 名勝/九州 熊本県/名勝 国指定文化財等データベース（文化庁）"
+    }
+  ],
+  "extraInRepo": [
+    {
+      "id": "scenic_okuno_hosomichi",
+      "name": "おくのほそ道の風景地",
+      "special": false,
+      "source": "data/scenic-ordinary-crossregional-v70.json"
+    },
+    {
+      "id": "scenic_ihatovo",
+      "name": "イーハトーブの風景地",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_054",
+      "name": "サンニヌ台",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_pirikanoka",
+      "name": "ピリカノカ",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_020",
+      "name": "万福寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_tokai_027",
+      "name": "三多気のサクラ",
+      "special": false,
+      "source": "data/scenic-ordinary-tokai-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_006",
+      "name": "三徳山",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_057",
+      "name": "不審庵（表千家）庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_029",
+      "name": "中山仙境（夷谷）",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_tokai_019",
+      "name": "乳岩および乳岩峡",
+      "special": false,
+      "source": "data/scenic-ordinary-tokai-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_037",
+      "name": "今日庵（裏千家）庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_038",
+      "name": "仙巌園附花倉御仮屋庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_sado_ogi_coast",
+      "name": "佐渡小木海岸",
+      "special": false,
+      "source": "data/scenic-ordinary-koshinetsu-hokuriku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_087",
+      "name": "依水園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_049",
+      "name": "俵島",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_088",
+      "name": "円成寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_106",
+      "name": "円月島（高嶋）・千畳敷・三段壁",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_engakuji_garden",
+      "name": "円覚寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_027",
+      "name": "円通寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_tokai_024",
+      "name": "北畠氏館跡庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-tokai-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_007",
+      "name": "医光寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_107",
+      "name": "南方曼陀羅の風景地",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_nanko_koen",
+      "name": "南湖公園",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_054",
+      "name": "南禅寺方丈庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_053",
+      "name": "南禅院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_itsukushima",
+      "name": "厳島",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kinki_096",
+      "name": "吉野山",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_mukojima_hyakkaen",
+      "name": "向島百花園",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_fukiware",
+      "name": "吹割渓ならびに吹割瀑",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_046",
+      "name": "大仙院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_daisenin_shoin",
+      "name": "大仙院書院庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kinki_095",
+      "name": "大和三山",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_daitokuji_hojo",
+      "name": "大徳寺方丈庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_chushi_057",
+      "name": "大歩危小歩危",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_029",
+      "name": "大沢池附名古曽滝跡",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_099",
+      "name": "天徳院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_028",
+      "name": "天念寺耶馬及び無動寺耶馬",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_amanohashidate",
+      "name": "天橋立",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_tenryuji_garden",
+      "name": "天龍寺庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kinki_093",
+      "name": "奈良公園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_061",
+      "name": "妙心寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_036",
+      "name": "孤篷庵庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_068",
+      "name": "宇治山",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_049",
+      "name": "宮良殿内庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_fuji_goko",
+      "name": "富士五湖",
+      "special": false,
+      "source": "data/scenic-ordinary-koshinetsu-hokuriku-v70.json"
+    },
+    {
+      "id": "scenic_nezame_no_toko",
+      "name": "寝覚の床",
+      "special": false,
+      "source": "data/scenic-ordinary-koshinetsu-hokuriku-v70.json"
+    },
+    {
+      "id": "scenic_koishikawa_korakuen",
+      "name": "小石川後楽園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_chushi_003",
+      "name": "小鹿渓",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_002",
+      "name": "尾崎氏庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_okayama_korakuen",
+      "name": "岡山後楽園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kinki_025",
+      "name": "嵐山",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_044",
+      "name": "常栄寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_tokiwa_koen",
+      "name": "常磐公園",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_heijokyo_miyaato_garden",
+      "name": "平城京左京三条二坊宮跡庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kinki_058",
+      "name": "平安神宮神苑",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_015",
+      "name": "平戸領地方八竒勝（平戸八景）",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_056",
+      "name": "平等院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_003",
+      "name": "延暦寺坂本里坊庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_kenchoji_garden",
+      "name": "建長寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_091",
+      "name": "当麻寺中之坊庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_030",
+      "name": "御室（サクラ）",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_mitake_shosenkyo",
+      "name": "御岳昇仙峡",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kyushu_037",
+      "name": "志布志麓庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_090",
+      "name": "慈光院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ginkakuji_garden",
+      "name": "慈照寺（銀閣寺）庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kinki_040",
+      "name": "成就院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_002",
+      "name": "戸島氏庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_030",
+      "name": "文殊耶馬",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_019",
+      "name": "断魚渓",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_032",
+      "name": "旧円徳院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_089",
+      "name": "旧大乗院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_073",
+      "name": "旧広瀬氏庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_kyu_yubikan",
+      "name": "旧有備館および庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_hamarikyu",
+      "name": "旧浜離宮庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kinki_085",
+      "name": "旧益習館庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_shiba_rikyu",
+      "name": "旧芝離宮庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_078",
+      "name": "旧赤穂城庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_072",
+      "name": "星ヶ森（横峰寺石鎚山遥拝所）",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_049",
+      "name": "智積院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_060",
+      "name": "曼殊院書院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_092",
+      "name": "月瀬梅林",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_059",
+      "name": "本法寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_honganji_daishoin",
+      "name": "本願寺大書院庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_tojinbo",
+      "name": "東尋坊",
+      "special": false,
+      "source": "data/scenic-ordinary-koshinetsu-hokuriku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_051",
+      "name": "東海庵書院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_067",
+      "name": "東福寺本坊庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_034",
+      "name": "桂春院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_tokai_013",
+      "name": "楽寿園",
+      "special": false,
+      "source": "data/scenic-ordinary-tokai-v70.json"
+    },
+    {
+      "id": "scenic_yokoyama_taikan",
+      "name": "横山大観旧宅及び庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_102",
+      "name": "橋杭岩",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_022",
+      "name": "櫻井氏庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_tokai_005",
+      "name": "江馬氏館跡庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-tokai-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_094",
+      "name": "法華寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_hokongo_seijo_goi",
+      "name": "法金剛院青女滝 附 五位山",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_joruriji_garden",
+      "name": "浄瑠璃寺庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_chushi_001",
+      "name": "浦富海岸",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_005",
+      "name": "深田氏庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_045",
+      "name": "清風荘庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_041",
+      "name": "渉成園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_unzendake",
+      "name": "温泉岳",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_yubatake",
+      "name": "湯畑",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_takidanji_garden",
+      "name": "滝谷寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-koshinetsu-hokuriku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_050",
+      "name": "滴翠園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_enunkan_teien",
+      "name": "煙雲館庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_tokai_026",
+      "name": "熊野の鬼ケ城 附 獅子巖",
+      "special": false,
+      "source": "data/scenic-ordinary-tokai-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_028",
+      "name": "燕庵庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_033",
+      "name": "玉鳳院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_sangojima",
+      "name": "珊琥島",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_023",
+      "name": "琴引浜",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_064",
+      "name": "瑠璃渓",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_hakusan_park_niigata",
+      "name": "白山公園",
+      "special": false,
+      "source": "data/scenic-ordinary-koshinetsu-hokuriku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_055",
+      "name": "白沙村荘庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_seibien",
+      "name": "盛美園",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_043",
+      "name": "真珠庵庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_043",
+      "name": "石垣氏庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_goishi_kaigan",
+      "name": "碁石海岸",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_003",
+      "name": "立花氏庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_021",
+      "name": "竜ヶ岳",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_031",
+      "name": "笠置山",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_039",
+      "name": "聚光院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_024",
+      "name": "肥後領内名勝地",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_001",
+      "name": "英彦山庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_014",
+      "name": "菅田庵",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_seizan_goten",
+      "name": "西山御殿跡（西山荘）",
+      "special": false,
+      "source": "data/scenic-ordinary-kanto-v70.json"
+    },
+    {
+      "id": "scenic_saihoji_garden",
+      "name": "西芳寺庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_tokai_023",
+      "name": "赤目の峡谷",
+      "special": false,
+      "source": "data/scenic-ordinary-tokai-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_047",
+      "name": "退蔵院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_100",
+      "name": "那智大滝",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_038",
+      "name": "酬恩庵庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_daigo_sanboin",
+      "name": "醍醐寺三宝院庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_konchiin_garden",
+      "name": "金地院庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_chushi_012",
+      "name": "隠岐海苔田ノ鼻",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_052",
+      "name": "雙ヶ岡",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ryozen",
+      "name": "霊山",
+      "special": false,
+      "source": "data/scenic-ordinary-hokkaido-tohoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_066",
+      "name": "霊洞院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_065",
+      "name": "霊雲院庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_042",
+      "name": "青海島",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_chushi_023",
+      "name": "青野山",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_086",
+      "name": "飛鳥京跡苑池",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_035",
+      "name": "高台寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ord_kyushu_035",
+      "name": "鵜戸",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_kinkakuji_garden",
+      "name": "鹿苑寺（金閣寺）庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_kyushu_022",
+      "name": "龍仙島（片島）",
+      "special": false,
+      "source": "data/scenic-ordinary-kyushu-okinawa-v70.json"
+    },
+    {
+      "id": "scenic_ord_kinki_063",
+      "name": "龍安寺庭園",
+      "special": false,
+      "source": "data/scenic-ordinary-kinki-v70.json"
+    },
+    {
+      "id": "scenic_ryoanji_hojo",
+      "name": "龍安寺方丈庭園",
+      "special": true,
+      "source": "master"
+    },
+    {
+      "id": "scenic_ord_chushi_052",
+      "name": "龍宮の潮吹",
+      "special": false,
+      "source": "data/scenic-ordinary-chugoku-shikoku-v70.json"
+    }
+  ],
+  "pageStats": [
+    {
+      "page": 1,
+      "cards": 20
+    },
+    {
+      "page": 2,
+      "cards": 20
+    },
+    {
+      "page": 3,
+      "cards": 20
+    },
+    {
+      "page": 4,
+      "cards": 20
+    },
+    {
+      "page": 5,
+      "cards": 20
+    },
+    {
+      "page": 6,
+      "cards": 20
+    },
+    {
+      "page": 7,
+      "cards": 20
+    },
+    {
+      "page": 8,
+      "cards": 20
+    },
+    {
+      "page": 9,
+      "cards": 20
+    },
+    {
+      "page": 10,
+      "cards": 20
+    },
+    {
+      "page": 11,
+      "cards": 20
+    },
+    {
+      "page": 12,
+      "cards": 20
+    },
+    {
+      "page": 13,
+      "cards": 20
+    },
+    {
+      "page": 14,
+      "cards": 20
+    },
+    {
+      "page": 15,
+      "cards": 20
+    },
+    {
+      "page": 16,
+      "cards": 20
+    },
+    {
+      "page": 17,
+      "cards": 20
+    },
+    {
+      "page": 18,
+      "cards": 20
+    },
+    {
+      "page": 19,
+      "cards": 20
+    },
+    {
+      "page": 20,
+      "cards": 20
+    },
+    {
+      "page": 21,
+      "cards": 20
+    },
+    {
+      "page": 22,
+      "cards": 20
+    },
+    {
+      "page": 23,
+      "cards": 18
+    }
+  ]
+}
