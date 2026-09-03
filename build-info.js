@@ -1,7 +1,7 @@
 (() => {
-  const version = "v71.1";
-  const preferredWorker = "./sw.js?v=71.1";
-  window.OnsenBuildInfo = { version, updatedAt: "2026-09-02" };
+  const version = "v71.2";
+  const preferredWorker = "./sw.js?v=71.2";
+  window.OnsenBuildInfo = { version, updatedAt: "2026-09-04" };
 
   function addBridge({ globalName, id, src, label }) {
     if (window[globalName] || document.getElementById(id)) return;
@@ -13,13 +13,24 @@
     document.head.appendChild(script);
   }
 
+  function addStyle({ id, href }) {
+    if (document.getElementById(id)) return;
+    const link = document.createElement("link");
+    link.id = id;
+    link.rel = "stylesheet";
+    link.href = href;
+    document.head.appendChild(link);
+  }
+
   function ensureBridges() {
     addBridge({ globalName: "OnsenGameV68Bridge", id: "gameV68BridgeScript", src: "./game-v68-bridge.js?v=68.2", label: "v68.2 game bridge" });
     addBridge({ globalName: "OnsenGameV69Bridge", id: "gameV69BridgeScript", src: "./game-v69-bridge.js?v=69.1", label: "v69.1 mining bridge" });
     addBridge({ globalName: "__onsenEquipmentBattleSyncV69", id: "equipmentBattleSyncV69", src: "./equipment-battle-sync-v69.js?v=69", label: "v69 equipment battle sync" });
     addBridge({ globalName: "OnsenUiRecoveryV701", id: "uiRecoveryV701Script", src: "./ui-recovery-v701.js?v=70.1", label: "v70.1 UI recovery" });
     addBridge({ globalName: "OnsenDomainAchievements", id: "achievementDomainV702Script", src: "./achievement-domain-v702.js?v=70.8", label: "v70.8 domain achievements" });
-    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=71.1", label: "v71.1 scenic bridge" });
+    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=71.2", label: "v71.2 scenic bridge" });
+    addStyle({ id: "scenicMapHotfixStyleV712", href: "./scenic-map-hotfix-v712.css?v=71.2" });
+    addBridge({ globalName: "OnsenScenicMapHotfixV712", id: "scenicMapHotfixV712Script", src: "./scenic-map-hotfix-v712.js?v=71.2", label: "v71.2 scenic map hotfix" });
   }
 
   function apply() {
@@ -41,7 +52,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v71.1 service worker update check skipped", err);
+      console.warn("v71.2 service worker update check skipped", err);
       return null;
     }
   }
@@ -49,7 +60,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV711RegisterPatched) return;
+    if (sw.__onsenV712RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -57,9 +68,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV711RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV712RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v71.1 service worker register patch skipped", error);
+      console.warn("v71.2 service worker register patch skipped", error);
     }
   }
 
