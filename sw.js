@@ -1,15 +1,15 @@
-const CACHE_NAME = "onsen-checkin-v71.1";
+const CACHE_NAME = "onsen-checkin-v71.2";
 const CORE_ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css", "./footer-navigation-v46.css",
   "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css", "./mining-pickaxe-v691.css",
-  "./castle-collection-ui-v61.css", "./castle-map-v62.css", "./endless-battle-v68.css", "./scenic-collection-ui-v70.css", "./scenic-map-v71.css",
+  "./castle-collection-ui-v61.css", "./castle-map-v62.css", "./endless-battle-v68.css", "./scenic-collection-ui-v70.css", "./scenic-map-v71.css", "./scenic-map-hotfix-v712.css",
   "./profile-storage.js", "./profile-game-extension-v61.js", "./visit-log-preload.js",
   "./trip-power-mode.js", "./app.js", "./castle-v62-hardening.js", "./domain-model.js",
   "./castle-domain-v61.js", "./app-shell.js", "./build-info.js", "./game-runtime-v59.js",
   "./castle-visit-runtime-v61.js", "./character-runtime-v61.js", "./fishing-game-v60.js",
   "./encyclopedia-ui-v61.js", "./game-hub-v61.js", "./game-v68-bridge.js", "./game-v69-bridge.js",
   "./progression-runtime-v69.js", "./equipment-battle-sync-v69.js", "./mining-game-v69.js", "./endless-battle-v68.js",
-  "./castle-collection-ui-v61.js", "./castle-map-v62.js", "./ui-recovery-v701.js", "./scenic-v70-bridge.js", "./scenic-runtime-v70.js", "./scenic-collection-ui-v70.js", "./scenic-map-v71.js",
+  "./castle-collection-ui-v61.js", "./castle-map-v62.js", "./ui-recovery-v701.js", "./scenic-v70-bridge.js", "./scenic-runtime-v70.js", "./scenic-collection-ui-v70.js", "./scenic-map-v71.js", "./scenic-map-hotfix-v712.js",
   "./achievement-system.js", "./achievement-onsite.js", "./achievement-next-up.js", "./achievement-history.js", "./achievement-domain-v702.js",
   "./data/castles-japan100-v61.json", "./data/castle-checkin-zones-v62.json", "./data/castles-zoku100-v68.csv",
   "./data/scenic-official-v71.json", "./data/scenic-checkin-zones-v71.json", "./data/fish-catalog-v61.json",
