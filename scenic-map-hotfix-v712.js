@@ -1,8 +1,11 @@
 (() => {
-  const BUILD = "v71.3";
+  const BUILD = "v71.4";
   let boundRoot = null;
   let observer = null;
   let retryTimer = null;
+  let scenicIntent = sessionStorage.getItem("mapDomainModeV71") === "scenic";
+  let patchedApi = null;
+  let originalShow = null;
 
   function getRoot() {
     return document.getElementById("mapDomainSwitchV62");
@@ -23,8 +26,16 @@
     return !current || current === "map";
   }
 
+  function setLayer(id, visible) {
+    try {
+      const targetMap = typeof map !== "undefined" ? map : null;
+      if (!targetMap?.getLayer?.(id)) return;
+      targetMap.setLayoutProperty(id, "visibility", visible ? "visible" : "none");
+    } catch {}
+  }
+
   function forceScenicLayout() {
-    if (!isScenicActive()) return;
+    if (!scenicIntent) return;
     const main = document.querySelector(".main");
     const shell = document.querySelector(".map-shell");
     const scenicPanel = document.getElementById("scenicMapPanelV71");
@@ -32,11 +43,10 @@
     if (!main || !shell || !scenicPanel) return;
 
     for (const panel of main.querySelectorAll(":scope > .panel")) {
-      panel.hidden = panel !== scenicPanel;
-      panel.setAttribute("aria-hidden", panel === scenicPanel ? "false" : "true");
+      const visible = panel === scenicPanel;
+      panel.hidden = !visible;
+      panel.setAttribute("aria-hidden", visible ? "false" : "true");
     }
-    scenicPanel.hidden = false;
-    scenicPanel.setAttribute("aria-hidden", "false");
 
     shell.classList.add("scenic-map-mode-v71");
     shell.classList.remove("castle-map-mode-v62");
@@ -48,6 +58,17 @@
         button.setAttribute("aria-pressed", active ? "true" : "false");
       }
     }
+
+    for (const id of [
+      "spots-symbol", "spots-labels", "checkin-zone-fill", "checkin-zone-line",
+      "castles-v62-symbol", "castles-v62-labels",
+      "castle-checkin-zone-v62-fill", "castle-checkin-zone-v62-line"
+    ]) setLayer(id, false);
+
+    for (const id of [
+      "scenic-v71-symbol", "scenic-v71-labels",
+      "scenic-v71-zone-fill", "scenic-v71-zone-line"
+    ]) setLayer(id, true);
 
     const toolsToggle = document.getElementById("btnMapToolsToggle");
     const tools = document.getElementById("mapToolsPanel");
@@ -63,74 +84,109 @@
     } catch {}
   }
 
-  function applyScenic(api, id = null) {
-    api.showMode(id);
+  function applyScenic(id = null) {
+    scenicIntent = true;
+    sessionStorage.setItem("mapDomainModeV71", "scenic");
+
+    const api = scenicApi();
+    if (!api?.showMode) {
+      forceScenicLayout();
+      return false;
+    }
+
+    try { api.showMode(id); } catch (error) { console.warn("scenic v71.4 showMode failed", error); }
+    forceScenicLayout();
     requestAnimationFrame(forceScenicLayout);
     setTimeout(forceScenicLayout, 40);
-    setTimeout(forceScenicLayout, 180);
+    setTimeout(forceScenicLayout, 120);
+    setTimeout(() => {
+      if (!scenicIntent) return;
+      if (!isScenicActive()) {
+        try { scenicApi()?.showMode?.(id); } catch {}
+      }
+      forceScenicLayout();
+    }, 260);
     return true;
   }
 
   function activateScenic(id = null) {
-    const api = scenicApi();
-    if (!api?.showMode) return false;
+    scenicIntent = true;
+    sessionStorage.setItem("mapDomainModeV71", "scenic");
 
-    // OnsenAppShell.show("map") dispatches onsen-app-tab-changed even when the
-    // map is already visible. CastleMap listens to that event and schedules its
-    // own applyMode() 20 ms later, which emits onsen-map-domain-changed and
-    // immediately kicks ScenicMap back out of scenic mode. Do not re-show the
-    // already-active map. When entering from another app tab, wait until the
-    // legacy castle refresh has finished before enabling scenic mode.
-    if (isMapViewActive()) return applyScenic(api, id);
+    if (isMapViewActive()) return applyScenic(id);
 
     window.OnsenAppShell?.show?.("map");
     setTimeout(() => {
-      const latest = scenicApi();
-      if (latest?.showMode) applyScenic(latest, id);
-    }, 60);
+      if (scenicIntent) applyScenic(id);
+    }, 80);
     return true;
   }
 
   function patchScenicApi() {
     const api = scenicApi();
-    if (!api || api.__scenicHotfixV713 === true) return !!api;
+    if (!api) return false;
+    if (patchedApi === api) return true;
 
-    // Also protect links that call OnsenScenicMapV71.show(id) from collection
-    // or achievement screens. The stock show() has the same app-shell race.
+    patchedApi = api;
+    originalShow = typeof api.show === "function" ? api.show.bind(api) : null;
     api.show = (id) => activateScenic(id || null);
-    Object.defineProperty(api, "__scenicHotfixV713", {
-      value: true,
-      configurable: false,
-      enumerable: false
-    });
+    api.showScenicStable = (id) => activateScenic(id || null);
+    api.hotfixBuild = BUILD;
     return true;
   }
 
   function bindRoot() {
     const root = getRoot();
     if (!root) return false;
-    if (boundRoot === root && root.dataset.scenicHotfixV713 === "1") return true;
+    if (boundRoot === root && root.dataset.scenicHotfixV714 === "1") return true;
 
     boundRoot = root;
-    root.dataset.scenicHotfixV713 = "1";
+    root.dataset.scenicHotfixV714 = "1";
     root.addEventListener("click", (event) => {
-      const target = event.target instanceof Element ? event.target.closest('[data-map-domain="scenic"]') : null;
+      const target = event.target instanceof Element ? event.target.closest("[data-map-domain]") : null;
       if (!target || !root.contains(target)) return;
 
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      activateScenic();
+      const domain = target.dataset.mapDomain || "onsen";
+      if (domain === "scenic") {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        activateScenic();
+        return;
+      }
+
+      scenicIntent = false;
+      sessionStorage.removeItem("mapDomainModeV71");
     }, true);
     return true;
+  }
+
+  function protectScenicIntent(event) {
+    if (!scenicIntent) return;
+    // CastleMap emits this event after its own delayed applyMode(). While the
+    // user still intends to view scenic spots, it is only a legacy repaint and
+    // must not be allowed to make ScenicMap call leaveScenic().
+    event.stopImmediatePropagation();
+    requestAnimationFrame(forceScenicLayout);
+    setTimeout(forceScenicLayout, 30);
   }
 
   function ensure() {
     patchScenicApi();
     bindRoot();
-    if (isScenicActive()) forceScenicLayout();
+    if (scenicIntent) {
+      if (!isScenicActive() && scenicApi()?.showMode && isMapViewActive()) {
+        try { scenicApi().showMode(); } catch {}
+      }
+      forceScenicLayout();
+    }
   }
 
   function install() {
+    // Capture phase is intentional: ScenicMap's stock listener is a bubbling
+    // listener on window and otherwise calls leaveScenic() on every castle
+    // repaint event.
+    window.addEventListener("onsen-map-domain-changed", protectScenicIntent, true);
+
     ensure();
     const shell = document.querySelector(".map-shell");
     if (shell && !observer) {
@@ -138,10 +194,17 @@
       observer.observe(shell, { childList: true, subtree: true });
     }
 
-    window.addEventListener("onsen-scenic-map-ready", ensure);
+    window.addEventListener("onsen-scenic-map-ready", () => {
+      patchScenicApi();
+      if (scenicIntent) setTimeout(() => applyScenic(), 0);
+    });
     window.addEventListener("onsen-scenic-map-domain-changed", () => {
+      if (!scenicIntent) return;
       requestAnimationFrame(forceScenicLayout);
       setTimeout(forceScenicLayout, 80);
+    });
+    window.addEventListener("onsen-app-tab-changed", (event) => {
+      if (event.detail?.tab === "map" && scenicIntent) setTimeout(() => applyScenic(), 70);
     });
     window.addEventListener("pageshow", ensure);
 
@@ -150,14 +213,16 @@
     retryTimer = setInterval(() => {
       ensure();
       attempts += 1;
-      if (attempts >= 40 || (getRoot() && scenicApi())) clearInterval(retryTimer);
+      if (attempts >= 80 || (getRoot() && scenicApi())) clearInterval(retryTimer);
     }, 250);
 
     window.OnsenScenicMapHotfixV712 = {
       build: BUILD,
       activate: activateScenic,
       repair: forceScenicLayout,
-      refresh: ensure
+      refresh: ensure,
+      intended: () => scenicIntent,
+      originalShow: () => originalShow
     };
   }
 
