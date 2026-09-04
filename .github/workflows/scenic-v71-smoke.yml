@@ -114,8 +114,9 @@ jobs:
           match = re.search(r'const version = "(v71(?:\.\d+)?)"', build)
           assert match, 'build-info must declare a v71.x build version'
           version = match.group(1)
-          assert f'./sw.js?v={version}' in build, f'SW query must match {version}'
-          assert f'./scenic-v70-bridge.js?v={version}' in build, f'scenic bridge query must match {version}'
-          assert f'./scenic-map-hotfix-v712.js?v={version}' in build, f'scenic hotfix query must match {version}'
+          query_version = version.removeprefix('v')
+          assert f'./sw.js?v={query_version}' in build, f'SW query must match {version}'
+          assert f'./scenic-v70-bridge.js?v={query_version}' in build, f'scenic bridge query must match {version}'
+          assert f'./scenic-map-hotfix-v712.js?v={query_version}' in build, f'scenic hotfix query must match {version}'
           print('safety guards OK:', version)
           PY
