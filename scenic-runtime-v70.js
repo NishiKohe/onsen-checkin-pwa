@@ -2,11 +2,13 @@
   const BUILD = "v71";
   const DATA_URL = "./data/scenic-official-v71.json";
   const ZONE_URL = "./data/scenic-checkin-zones-v71.json";
+  const AUDIT_URL = "./data/scenic-checkin-audit-v72.json";
   const STATE_KEY = "scenicVisitStateV1";
   const DEFAULT_ACCURACY_M = 500;
   const LOCATION_MAX_AGE_MS = 2 * 60 * 1000;
   let catalog = null;
   let zoneCatalog = null;
+  let auditCatalog = null;
   let byId = new Map();
   let zonesById = new Map();
   let ready = false;
@@ -56,18 +58,62 @@
       sourceUrl: zone?.sourceUrl || null
     };
   }
+  function mergeAuditCatalog(baseZones, audit, masterIds) {
+    const baseEntries = Array.isArray(baseZones?.entries) ? baseZones.entries : [];
+    const auditEntries = Array.isArray(audit?.entries) ? audit.entries : [];
+    const byScenicId = new Map(baseEntries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
+    const seen = new Set();
+
+    for (const override of auditEntries) {
+      const id = String(override?.scenicId || "");
+      if (!id || seen.has(id)) throw new Error(`invalid/duplicate scenic audit id: ${id || "(blank)"}`);
+      seen.add(id);
+      if (!masterIds.has(id) || !byScenicId.has(id)) throw new Error(`scenic audit references unknown id: ${id}`);
+      const base = byScenicId.get(id);
+      const merged = {
+        ...base,
+        ...override,
+        zones: Array.isArray(override.zones) ? override.zones : (base.zones || [])
+      };
+      if (merged.checkinEnabled && !(merged.zones || []).map(normalizeZone).filter(Boolean).length) {
+        throw new Error(`enabled scenic audit has no usable zone: ${id}`);
+      }
+      byScenicId.set(id, merged);
+    }
+
+    const mergedEntries = baseEntries.map((entry) => byScenicId.get(String(entry.scenicId)) || entry);
+    const gpsEnabled = mergedEntries.filter((entry) => entry?.checkinEnabled && (entry.zones || []).map(normalizeZone).filter(Boolean).length > 0).length;
+    return {
+      ...baseZones,
+      counts: {
+        ...(baseZones?.counts || {}),
+        entries: mergedEntries.length,
+        gpsEnabled,
+        pendingMultiZoneOrAudit: mergedEntries.length - gpsEnabled
+      },
+      audit: {
+        dataset: audit?.dataset || null,
+        asOf: audit?.asOf || null,
+        overrides: auditEntries.length,
+        source: AUDIT_URL
+      },
+      entries: mergedEntries
+    };
+  }
   async function loadCatalog() {
-    const [master, zones] = await Promise.all([fetchJson(DATA_URL), fetchJson(ZONE_URL)]);
+    const [master, zones, audit] = await Promise.all([fetchJson(DATA_URL), fetchJson(ZONE_URL), fetchJson(AUDIT_URL)]);
     const entries = Array.isArray(master?.entries) ? master.entries : [];
-    const zoneEntries = Array.isArray(zones?.entries) ? zones.entries : [];
+    const baseZoneEntries = Array.isArray(zones?.entries) ? zones.entries : [];
     if (entries.length !== 433 || new Set(entries.map((entry) => entry?.id).filter(Boolean)).size !== 433) {
       throw new Error(`official scenic master must contain 433 unique entries; got ${entries.length}`);
     }
-    if (zoneEntries.length !== 433) throw new Error(`scenic zone catalog must contain 433 entries; got ${zoneEntries.length}`);
+    if (baseZoneEntries.length !== 433) throw new Error(`scenic zone catalog must contain 433 entries; got ${baseZoneEntries.length}`);
+    const masterIds = new Set(entries.filter((entry) => entry?.id).map((entry) => String(entry.id)));
     catalog = master;
-    zoneCatalog = zones;
+    auditCatalog = audit;
+    zoneCatalog = mergeAuditCatalog(zones, audit, masterIds);
     byId = new Map(entries.filter((entry) => entry?.id).map((entry) => [String(entry.id), entry]));
-    zonesById = new Map(zoneEntries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
+    zonesById = new Map(zoneCatalog.entries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
     return catalog;
   }
   function entries() { return Array.isArray(catalog?.entries) ? catalog.entries.slice() : []; }
@@ -106,6 +152,7 @@
       coordinateReference: Number(zoneCatalog?.counts?.officialCoordinates || imported.filter((entry) => Number.isFinite(Number(entry.lat)) && Number.isFinite(Number(entry.lng))).length),
       coordinateReady: Number(zoneCatalog?.counts?.gpsEnabled || imported.filter(isGpsReady).length),
       pendingCoordinateAudit: Number(zoneCatalog?.counts?.pendingMultiZoneOrAudit || 0),
+      auditOverrides: Number(zoneCatalog?.audit?.overrides || 0),
       ready
     };
   }
@@ -213,8 +260,10 @@
       build: BUILD,
       dataUrl: DATA_URL,
       zoneUrl: ZONE_URL,
+      auditUrl: AUDIT_URL,
       catalog: () => catalog,
       zoneCatalog: () => zoneCatalog,
+      auditCatalog: () => auditCatalog,
       entries,
       seedEntries,
       get,
