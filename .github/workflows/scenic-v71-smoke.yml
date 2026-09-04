@@ -1,4 +1,4 @@
-name: Domain routers and scenic GPS v72.3 smoke
+name: Domain routers and scenic GPS v72.4 smoke
 
 on:
   workflow_dispatch:
@@ -17,6 +17,7 @@ on:
       - "data/scenic-official-v71.json"
       - "data/scenic-checkin-zones-v71.json"
       - "data/scenic-checkin-audit-v72.json"
+      - "data/scenic-checkin-multizone-v724.json"
       - "build-info.js"
       - "sw.js"
       - ".github/workflows/scenic-v71-smoke.yml"
@@ -54,10 +55,12 @@ jobs:
           master = json.loads(Path('data/scenic-official-v71.json').read_text(encoding='utf-8'))
           zones = json.loads(Path('data/scenic-checkin-zones-v71.json').read_text(encoding='utf-8'))
           audit = json.loads(Path('data/scenic-checkin-audit-v72.json').read_text(encoding='utf-8'))
+          multizone = json.loads(Path('data/scenic-checkin-multizone-v724.json').read_text(encoding='utf-8'))
 
           entries = master['entries']
           zone_entries = zones['entries']
           audit_entries = audit['entries']
+          multizone_entries = multizone['entries']
           ids = [str(e['id']) for e in entries]
           zone_ids = [str(e['scenicId']) for e in zone_entries]
           manage_ids = [str(e['officialManageId']) for e in entries]
@@ -77,9 +80,9 @@ jobs:
           assert len(base_enabled) == zones['counts']['gpsEnabled'] == 256
 
           audit_ids = [str(e['scenicId']) for e in audit_entries]
-          assert len(audit_entries) == 18, f'reviewed audit overlay should contain 18 entries, got {len(audit_entries)}'
-          assert len(set(audit_ids)) == len(audit_ids), 'duplicate audit scenicId'
-          assert set(audit_ids) <= set(zone_ids), 'audit contains unknown scenicId'
+          assert len(audit_entries) == 18, f'reviewed single-zone overlay should contain 18 entries, got {len(audit_entries)}'
+          assert len(set(audit_ids)) == len(audit_ids), 'duplicate single-zone audit scenicId'
+          assert set(audit_ids) <= set(zone_ids), 'single-zone audit contains unknown scenicId'
 
           for entry in audit_entries:
               scenic_id = str(entry['scenicId'])
@@ -96,16 +99,44 @@ jobs:
                   assert z.get('sourceUrl', '').startswith('https://kunishitei.bunka.go.jp/'), scenic_id
               assert str(entry.get('auditEvidenceUrl', '')).startswith('https://'), scenic_id
 
-          effective = {str(e['scenicId']): e for e in zone_entries}
-          effective.update({str(e['scenicId']): {**effective[str(e['scenicId'])], **e} for e in audit_entries})
+          multizone_ids = [str(e['scenicId']) for e in multizone_entries]
+          assert len(multizone_entries) == 2, f'first multi-zone overlay should contain 2 entries, got {len(multizone_entries)}'
+          assert len(set(multizone_ids)) == len(multizone_ids), 'duplicate multi-zone scenicId'
+          assert set(multizone_ids) <= set(zone_ids), 'multi-zone audit contains unknown scenicId'
+          assert not (set(multizone_ids) & set(audit_ids)), 'same scenicId must not appear in both audit layers'
+
+          expected_zone_counts = {'scenic_ord_kinki_095': 3, 'scenic_ord_kinki_106': 2}
+          for entry in multizone_entries:
+              scenic_id = str(entry['scenicId'])
+              assert not base_by_id[scenic_id].get('checkinEnabled'), f'multi-zone entry was already enabled: {scenic_id}'
+              assert entry.get('checkinEnabled') is True, f'multi-zone must explicitly enable: {scenic_id}'
+              assert entry.get('auditStatus') == 'reviewed_multi_zone', scenic_id
+              zlist = entry.get('zones') or []
+              assert len(zlist) == expected_zone_counts[scenic_id], (scenic_id, len(zlist))
+              assert len({str(z['id']) for z in zlist}) == len(zlist), f'duplicate zone id: {scenic_id}'
+              for z in zlist:
+                  assert float(z['radiusM']) >= 500, (scenic_id, z)
+                  assert float(z['accuracyRequiredM']) >= 500, (scenic_id, z)
+                  assert 20 <= float(z['lat']) <= 46.5, (scenic_id, z)
+                  assert 122 <= float(z['lng']) <= 154, (scenic_id, z)
+                  assert str(z.get('sourceUrl', '')).startswith('https://'), scenic_id
+              evidence = entry.get('auditEvidenceUrls') or []
+              assert len(evidence) >= 2 and all(str(url).startswith('https://') for url in evidence), scenic_id
+
+          effective = {str(e['scenicId']): dict(e) for e in zone_entries}
+          for layer in (audit_entries, multizone_entries):
+              for override in layer:
+                  scenic_id = str(override['scenicId'])
+                  effective[scenic_id] = {**effective[scenic_id], **override}
           effective_enabled = [e for e in effective.values() if e.get('checkinEnabled') and e.get('zones')]
-          assert len(effective_enabled) == 274, len(effective_enabled)
-          assert 433 - len(effective_enabled) == 159
+          assert len(effective_enabled) == 276, len(effective_enabled)
+          assert 433 - len(effective_enabled) == 157
 
           print('official master: 397 ordinary + 36 special = 433 unique')
           print('official coordinates:', len(coord_entries))
           print('base GPS enabled:', len(base_enabled))
-          print('audit overrides:', len(audit_entries))
+          print('single-zone audit overrides:', len(audit_entries))
+          print('multi-zone audit overrides:', len(multizone_entries))
           print('effective GPS enabled:', len(effective_enabled))
           print('pending audit:', 433 - len(effective_enabled))
           PY
@@ -134,17 +165,20 @@ jobs:
           sw = Path('sw.js').read_text(encoding='utf-8')
 
           assert 'AUDIT_URL = "./data/scenic-checkin-audit-v72.json"' in runtime
+          assert 'MULTIZONE_URL = "./data/scenic-checkin-multizone-v724.json"' in runtime
           assert 'mergeAuditCatalog' in runtime
-          assert 'auditOverrides' in runtime
-          assert 'const version = "v72.3"' in build
-          assert './sw.js?v=72.3' in build
-          assert './scenic-v70-bridge.js?v=72.3' in build
-          assert './scenic-runtime-v70.js?v=72.3' in bridge
+          assert 'multizoneCatalog' in runtime
+          assert 'auditLayers' in runtime
+          assert 'const version = "v72.4"' in build
+          assert './sw.js?v=72.4' in build
+          assert './scenic-v70-bridge.js?v=72.4' in build
+          assert './scenic-runtime-v70.js?v=72.4' in bridge
           assert './achievement-domain-v702.js?v=72.1' in build
           assert './achievement-domain-controller-v721.js?v=72.1' in build
           assert './map-domain-controller-v72.js?v=72' in build
           assert './data/scenic-checkin-audit-v72.json' in sw
-          assert 'onsen-checkin-v72.3' in sw
+          assert './data/scenic-checkin-multizone-v724.json' in sw
+          assert 'onsen-checkin-v72.4' in sw
 
           for text, label in [(build, 'build-info'), (bridge, 'scenic bridge'), (sw, 'service worker')]:
               assert 'scenic-map-hotfix-v712.js' not in text, f'legacy scenic JS hotfix still loaded by {label}'
@@ -153,12 +187,13 @@ jobs:
               './data/scenic-official-v71.json',
               './data/scenic-checkin-zones-v71.json',
               './data/scenic-checkin-audit-v72.json',
+              './data/scenic-checkin-multizone-v724.json',
               './scenic-map-v71.js',
               './scenic-map-v71.css',
           ]:
               assert required in sw, f'missing SW core asset {required}'
           assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be SW core assets'
-          print('v72.3 canonical router/release guards OK')
+          print('v72.4 canonical router/release guards OK')
           PY
 
       - name: Scenic safety guards
