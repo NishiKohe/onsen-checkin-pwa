@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v71.4";
+  const BUILD = "v71.5";
   let boundRoot = null;
   let observer = null;
   let retryTimer = null;
@@ -94,7 +94,7 @@
       return false;
     }
 
-    try { api.showMode(id); } catch (error) { console.warn("scenic v71.4 showMode failed", error); }
+    try { api.showMode(id); } catch (error) { console.warn("scenic v71.5 showMode failed", error); }
     forceScenicLayout();
     requestAnimationFrame(forceScenicLayout);
     setTimeout(forceScenicLayout, 40);
@@ -138,10 +138,10 @@
   function bindRoot() {
     const root = getRoot();
     if (!root) return false;
-    if (boundRoot === root && root.dataset.scenicHotfixV714 === "1") return true;
+    if (boundRoot === root && root.dataset.scenicHotfixV715 === "1") return true;
 
     boundRoot = root;
-    root.dataset.scenicHotfixV714 = "1";
+    root.dataset.scenicHotfixV715 = "1";
     root.addEventListener("click", (event) => {
       const target = event.target instanceof Element ? event.target.closest("[data-map-domain]") : null;
       if (!target || !root.contains(target)) return;
@@ -162,9 +162,6 @@
 
   function protectScenicIntent(event) {
     if (!scenicIntent) return;
-    // CastleMap emits this event after its own delayed applyMode(). While the
-    // user still intends to view scenic spots, it is only a legacy repaint and
-    // must not be allowed to make ScenicMap call leaveScenic().
     event.stopImmediatePropagation();
     requestAnimationFrame(forceScenicLayout);
     setTimeout(forceScenicLayout, 30);
@@ -182,9 +179,6 @@
   }
 
   function install() {
-    // Capture phase is intentional: ScenicMap's stock listener is a bubbling
-    // listener on window and otherwise calls leaveScenic() on every castle
-    // repaint event.
     window.addEventListener("onsen-map-domain-changed", protectScenicIntent, true);
 
     ensure();
