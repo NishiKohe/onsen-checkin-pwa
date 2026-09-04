@@ -1,0 +1,160 @@
+{
+  "version": 1,
+  "dataset": "national_places_of_scenic_beauty_gps_audit",
+  "asOf": "2026-09-04",
+  "policy": {
+    "minimumRadiusM": 500,
+    "accuracyRequiredM": 500,
+    "purpose": "文化庁公式参照点を正本とし、自治体・公的機関の範囲説明で単一地点判定が妥当と確認できた名勝のみGPS対応を上書きする",
+    "multiZoneRule": "離れた構成地・長大な海岸・峡谷・湖岸・山域はこのファイルで単純有効化せず、複数zone監査へ送る"
+  },
+  "entries": [
+    {
+      "scenicId": "scenic_tentozan",
+      "siteClass": "reviewed_single_viewpoint_hill",
+      "checkinEnabled": true,
+      "zones": [
+        {
+          "id": "official_ref_1",
+          "label": "天都山・文化庁DB公式参照点",
+          "lat": 43.99902132,
+          "lng": 144.23763002,
+          "radiusM": 1000,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/25"
+        }
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "single_viewpoint_hill",
+      "auditEvidenceUrl": "https://www.city.abashiri.hokkaido.jp/soshiki/2/1062.html",
+      "auditNote": "網走市が天都山を単一の国指定名勝・眺望地点として案内。山頂周辺への到達取りこぼしを避けつつ近隣広域を巻き込み過ぎない1000m判定。"
+    },
+    {
+      "scenicId": "scenic_seisenen",
+      "siteClass": "reviewed_named_garden_enclosure",
+      "checkinEnabled": true,
+      "zones": [
+        {
+          "id": "official_ref_1",
+          "label": "静川園・文化庁DB公式参照点",
+          "lat": 40.98076111,
+          "lng": 140.42677778,
+          "radiusM": 1000,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/00004248"
+        }
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "named_garden_enclosure",
+      "auditEvidenceUrl": "https://www.pref.aomori.lg.jp/soshiki/kyoiku/e-bunka/seisenen.html",
+      "auditNote": "青森県が宮越邸敷地内の近代住宅庭園として範囲を説明。新指定データの旧broad分類を庭園型へ補正し1000m判定。"
+    },
+    {
+      "scenicId": "scenic_naso_shiratakidani",
+      "siteClass": "reviewed_single_waterfall_valley",
+      "checkinEnabled": true,
+      "zones": [
+        {
+          "id": "official_ref_1",
+          "label": "奈曽の白瀑谷・文化庁DB公式参照点",
+          "lat": 39.18142891,
+          "lng": 139.94299982,
+          "radiusM": 1000,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/261"
+        }
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "single_waterfall_valley",
+      "auditEvidenceUrl": "https://www.city.nikaho.akita.jp/soshikikarasagasu/bunkazaihogoka/gyomuannai/2/1/1585.html",
+      "auditNote": "にかほ市の国指定名勝。市資料では高さ26m・幅11mの奈曽の白滝を中心とする単一の白瀑谷として説明され、1000mで参道・滝周辺を包含。"
+    },
+    {
+      "scenicId": "scenic_sukagawa_botanen",
+      "siteClass": "reviewed_managed_garden_park",
+      "checkinEnabled": true,
+      "zones": [
+        {
+          "id": "official_ref_1",
+          "label": "須賀川牡丹園・文化庁DB公式参照点",
+          "lat": 37.27330805,
+          "lng": 140.38960892,
+          "radiusM": 1000,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/351"
+        }
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "managed_garden_park",
+      "auditEvidenceUrl": "https://www.city.sukagawa.fukushima.jp/bunka_sports/bunka_geijyutsu/1013435/bunkazai/1-3/4156.html",
+      "auditNote": "須賀川市公式情報で現在約10haの単一園地。入口・駐車場を含む現地到達の取りこぼしを避ける1000m判定。"
+    },
+    {
+      "scenicId": "scenic_nanko_koen",
+      "siteClass": "reviewed_lake_park",
+      "checkinEnabled": true,
+      "zones": [
+        {
+          "id": "official_ref_1",
+          "label": "南湖公園・文化庁DB公式参照点",
+          "lat": 37.11038049,
+          "lng": 140.21591367,
+          "radiusM": 1500,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/344"
+        }
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "lake_park",
+      "auditEvidenceUrl": "https://www.city.shirakawa.fukushima.jp/page/page001385.html",
+      "auditNote": "白河市公式情報で中心池は東西690m・南北370m、約17.7ha。周辺の追加指定地と遊歩域を考慮し1500mで単一公園判定。"
+    },
+    {
+      "scenicId": "scenic_onuma_ukishima",
+      "siteClass": "reviewed_compact_pond_shrine",
+      "checkinEnabled": true,
+      "zones": [
+        {
+          "id": "official_ref_1",
+          "label": "大沼の浮島・文化庁DB公式参照点",
+          "lat": 38.33236421,
+          "lng": 140.11208516,
+          "radiusM": 1000,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/290"
+        }
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "compact_pond_shrine",
+      "auditEvidenceUrl": "https://www.town.asahi.yamagata.jp/portal/soshikinogoannai/kyoikubunkaka/shogaigakushugakari/4_1/2397.html",
+      "auditNote": "朝日町公式情報で浮嶋稲荷神社境内の約30,600㎡の沼。単一の境内・沼として1000m判定。"
+    },
+    {
+      "scenicId": "scenic_yamadera",
+      "siteClass": "reviewed_temple_mountain_route",
+      "checkinEnabled": true,
+      "zones": [
+        {
+          "id": "official_ref_1",
+          "label": "山寺・文化庁DB公式参照点",
+          "lat": 38.31375274,
+          "lng": 140.43511313,
+          "radiusM": 1500,
+          "accuracyRequiredM": 500,
+          "source": "国指定文化財等データベースCSV",
+          "sourceUrl": "https://kunishitei.bunka.go.jp/heritage/detail/401/293"
+        }
+      ],
+      "auditStatus": "reviewed_single_official_reference",
+      "auditRule": "temple_mountain_route",
+      "auditEvidenceUrl": "https://www.city.yamagata-yamagata.lg.jp/shiseijoho/machizukuri/1007107/1007108/1002145.html",
+      "auditNote": "山形市が国指定名勝・史跡の山寺を門前から石段、開山堂・五大堂へ至る連続した参詣景観として説明。駅・門前から山上までの取りこぼしを避け1500m判定。"
+    }
+  ]
+}
