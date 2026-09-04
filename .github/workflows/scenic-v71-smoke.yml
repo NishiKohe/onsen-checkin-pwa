@@ -7,6 +7,7 @@ on:
       - "scenic-runtime-v70.js"
       - "scenic-map-v71.js"
       - "scenic-map-v71.css"
+      - "scenic-map-hotfix-v712.js"
       - "scenic-v70-bridge.js"
       - "scenic-collection-ui-v70.js"
       - "scenic-collection-ui-v70.css"
@@ -31,6 +32,7 @@ jobs:
         run: |
           node --check scenic-runtime-v70.js
           node --check scenic-map-v71.js
+          node --check scenic-map-hotfix-v712.js
           node --check scenic-v70-bridge.js
           node --check scenic-collection-ui-v70.js
           node --check build-info.js
@@ -85,7 +87,9 @@ jobs:
       - name: Scenic safety guards
         run: |
           python - <<'PY'
+          import re
           from pathlib import Path
+
           files = [
               Path('scenic-runtime-v70.js'),
               Path('scenic-map-v71.js'),
@@ -107,8 +111,11 @@ jobs:
           assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be v71 SW core assets'
 
           build = Path('build-info.js').read_text(encoding='utf-8')
-          assert 'const version = "v71"' in build
-          assert './sw.js?v=71' in build
-          assert './scenic-v70-bridge.js?v=71' in build
-          print('safety guards OK')
+          match = re.search(r'const version = "(v71(?:\.\d+)?)"', build)
+          assert match, 'build-info must declare a v71.x build version'
+          version = match.group(1)
+          assert f'./sw.js?v={version}' in build, f'SW query must match {version}'
+          assert f'./scenic-v70-bridge.js?v={version}' in build, f'scenic bridge query must match {version}'
+          assert f'./scenic-map-hotfix-v712.js?v={version}' in build, f'scenic hotfix query must match {version}'
+          print('safety guards OK:', version)
           PY
