@@ -22,6 +22,21 @@
     document.head.appendChild(link);
   }
 
+  function precreateMapDomainSwitch() {
+    const shell = document.querySelector(".map-shell");
+    if (!shell) return null;
+    let root = document.getElementById("mapDomainSwitchV62");
+    if (!root) {
+      root = document.createElement("div");
+      root.id = "mapDomainSwitchV62";
+      root.className = "map-domain-switch-v62";
+      root.setAttribute("aria-label", "地図カテゴリ切替");
+      root.innerHTML = '<button type="button" data-map-domain="onsen">♨<span>温泉</span></button><button type="button" data-map-domain="castle">🏯<span>名城200</span></button><button type="button" data-map-domain="scenic">◇<span>名勝</span></button>';
+      shell.appendChild(root);
+    }
+    return root;
+  }
+
   function ensureBridges() {
     addBridge({ globalName: "OnsenGameV68Bridge", id: "gameV68BridgeScript", src: "./game-v68-bridge.js?v=68.2", label: "v68.2 game bridge" });
     addBridge({ globalName: "OnsenGameV69Bridge", id: "gameV69BridgeScript", src: "./game-v69-bridge.js?v=69.1", label: "v69.1 mining bridge" });
@@ -34,6 +49,7 @@
   }
 
   function apply() {
+    precreateMapDomainSwitch();
     document.documentElement.dataset.appBuild = version;
     const badge = document.getElementById("appBuildBadge");
     if (badge) {
@@ -95,8 +111,13 @@
   patchServiceWorkerRegister();
   installRefreshGuard();
   ensureBridges();
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", apply);
-  else apply();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      // Registered before legacy castle-map's DOMContentLoaded listener, so the switcher exists first.
+      precreateMapDomainSwitch();
+      apply();
+    }, { once: true });
+  } else apply();
   window.addEventListener("load", apply);
   setTimeout(apply, 600);
   setTimeout(apply, 1600);
