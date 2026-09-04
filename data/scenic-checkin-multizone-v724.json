@@ -14,45 +14,13 @@
       "siteClass": "reviewed_multi_zone_three_mountains",
       "checkinEnabled": true,
       "zones": [
-        {
-          "id": "kaguyama",
-          "label": "香具山",
-          "lat": 34.4956911,
-          "lng": 135.8184793,
-          "radiusM": 1000,
-          "accuracyRequiredM": 500,
-          "source": "橿原市公式観光ページ掲載GoogleMap座標",
-          "sourceUrl": "https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3961.html"
-        },
-        {
-          "id": "unebiyama",
-          "label": "畝傍山",
-          "lat": 34.4926898,
-          "lng": 135.7845704,
-          "radiusM": 1000,
-          "accuracyRequiredM": 500,
-          "source": "橿原市公式観光ページ掲載GoogleMap座標",
-          "sourceUrl": "https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3917.html"
-        },
-        {
-          "id": "miminashiyama",
-          "label": "耳成山",
-          "lat": 34.514996,
-          "lng": 135.8053691,
-          "radiusM": 1000,
-          "accuracyRequiredM": 500,
-          "source": "橿原市公式観光ページ掲載GoogleMap座標",
-          "sourceUrl": "https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3838.html"
-        }
+        {"id":"kaguyama","label":"香具山","lat":34.4956911,"lng":135.8184793,"radiusM":1000,"accuracyRequiredM":500,"source":"橿原市公式観光ページ掲載GoogleMap座標","sourceUrl":"https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3961.html"},
+        {"id":"unebiyama","label":"畝傍山","lat":34.4926898,"lng":135.7845704,"radiusM":1000,"accuracyRequiredM":500,"source":"橿原市公式観光ページ掲載GoogleMap座標","sourceUrl":"https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3917.html"},
+        {"id":"miminashiyama","label":"耳成山","lat":34.514996,"lng":135.8053691,"radiusM":1000,"accuracyRequiredM":500,"source":"橿原市公式観光ページ掲載GoogleMap座標","sourceUrl":"https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3838.html"}
       ],
       "auditStatus": "reviewed_multi_zone",
       "auditRule": "three_separate_named_mountains",
-      "auditEvidenceUrls": [
-        "https://www.city.kashihara.nara.jp/soshiki/1058/gyomu/3/5/3/3739.html",
-        "https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3961.html",
-        "https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3917.html",
-        "https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3838.html"
-      ],
+      "auditEvidenceUrls": ["https://www.city.kashihara.nara.jp/soshiki/1058/gyomu/3/5/3/3739.html","https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3961.html","https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3917.html","https://www.city.kashihara.nara.jp/soshiki/1021/1/2/4/3838.html"],
       "auditNote": "大和三山は香具山・畝傍山・耳成山という離れた3山の総称。文化庁の単一参照点では香具山側に偏るため、橿原市公式地図の各山座標へ1000m zoneを個別配置。"
     },
     {
@@ -60,34 +28,26 @@
       "siteClass": "reviewed_multi_zone_island_and_rock_platform",
       "checkinEnabled": true,
       "zones": [
-        {
-          "id": "engetsuto",
-          "label": "円月島（高嶋）",
-          "lat": 33.69002921566927,
-          "lng": 135.33646132636716,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "白浜町公式ページ掲載GoogleMap座標",
-          "sourceUrl": "https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454401479333.html"
-        },
-        {
-          "id": "senjojiki",
-          "label": "千畳敷",
-          "lat": 33.67059308075024,
-          "lng": 135.3304531781738,
-          "radiusM": 750,
-          "accuracyRequiredM": 500,
-          "source": "白浜町公式ページ掲載GoogleMap座標",
-          "sourceUrl": "https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454456648503.html"
-        }
+        {"id":"engetsuto","label":"円月島（高嶋）","lat":33.69002921566927,"lng":135.33646132636716,"radiusM":750,"accuracyRequiredM":500,"source":"白浜町公式ページ掲載GoogleMap座標","sourceUrl":"https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454401479333.html"},
+        {"id":"senjojiki","label":"千畳敷","lat":33.67059308075024,"lng":135.3304531781738,"radiusM":750,"accuracyRequiredM":500,"source":"白浜町公式ページ掲載GoogleMap座標","sourceUrl":"https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454456648503.html"}
       ],
       "auditStatus": "reviewed_multi_zone",
       "auditRule": "separate_island_viewpoint_and_rock_platform",
-      "auditEvidenceUrls": [
-        "https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454401479333.html",
-        "https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454456648503.html"
-      ],
+      "auditEvidenceUrls": ["https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454401479333.html","https://www.town.shirahama.wakayama.jp/soshiki/kanko/koen/gyomu/midokoro/1454456648503.html"],
       "auditNote": "円月島と千畳敷は約2km離れた別構成地。文化庁の単一参照点は千畳敷寄りのため、白浜町公式地図座標を用いて各750m zoneへ分離。"
+    },
+    {
+      "scenicId": "scenic_oya_kigan",
+      "siteClass": "reviewed_multi_zone_two_rock_areas",
+      "checkinEnabled": true,
+      "zones": [
+        {"id":"koshijiiwa","label":"越路岩","lat":36.60631101,"lng":139.82159839,"radiusM":750,"accuracyRequiredM":500,"source":"国指定文化財等データベースCSV公式参照点","sourceUrl":"https://kunishitei.bunka.go.jp/heritage/detail/401/00003509"},
+        {"id":"otomeyama_view","label":"御止山・大谷景観公園側","lat":36.5979562763264,"lng":139.822195165928,"radiusM":750,"accuracyRequiredM":500,"source":"宇都宮公式観光案内・大谷景観公園地図地点","sourceUrl":"https://www.utsunomiya-cvb.org/spot/detail_10023.html"}
+      ],
+      "auditStatus": "reviewed_multi_zone",
+      "auditRule": "two_separate_designated_rock_areas",
+      "auditEvidenceUrls": ["https://www.city.utsunomiya.lg.jp/event/rekishi/1036089/1036090.html","https://japan-heritage.bunka.go.jp/ja/culturalproperties/result/3687/","https://www.utsunomiya-cvb.org/spot/detail_10023.html"],
+      "auditNote": "国指定名勝は大谷寺背後の御止山区域と、姿川沿い北端の越路岩区域から成る。越路岩は文化庁公式参照点、御止山は対岸から直接眺望できる大谷景観公園側の公式観光地図地点を採用し、各750mで判定。"
     }
   ]
 }
