@@ -1,12 +1,15 @@
-/* v71 national scenic places map */
+/* v72 canonical national scenic places map */
 .map-domain-switch-v62:has([data-map-domain="scenic"]) { grid-template-columns: repeat(3, minmax(58px, auto)); }
 .map-domain-switch-v62 button[data-map-domain="scenic"].active {
   border-color: #765d89;
   background: #2a2134;
   color: #eadcf5;
 }
+.map-domain-switch-v62 [data-map-domain="scenic"] { touch-action: manipulation; }
 .scenic-map-panel-v71[hidden] { display: none !important; }
-.scenic-map-panel-v71 { background: #0f1018; }
+.scenic-map-panel-v71 { background: #0f1018; min-width: 0; min-height: 0; }
+.main > .map-shell.scenic-map-mode-v71 ~ .panel:not(.scenic-map-panel-v71) { display: none !important; }
+.main > .map-shell.scenic-map-mode-v71 ~ .scenic-map-panel-v71 { display: block !important; min-width: 0; min-height: 0; }
 .scenic-map-empty-v71 { padding: 4px 0; }
 .scenic-map-empty-v71 > span { color: #9b80ae; font-size: 8px; font-weight: 900; letter-spacing: .12em; }
 .scenic-map-empty-v71 h2 { margin-top: 4px; }
@@ -28,5 +31,8 @@
 #scenicMapCheckinV71:not(:disabled) { border: 1px solid #6e557e; background: linear-gradient(180deg,#704f85,#50365f); }
 .scenic-map-message-v71 { margin-top: 8px; padding: 8px 9px; border: 1px solid #332a3e; border-radius: 10px; background: #16131d; color: #aa9caf; font-size: 10px; line-height: 1.45; }
 .scenic-map-message-v71 strong { color: #eadcf5; }
-@media (max-width:900px){.scenic-map-panel-v71{border-left:0;border-top:1px solid #2b2332;}}
+@media (max-width:900px){
+  .scenic-map-panel-v71{border-left:0;border-top:1px solid #2b2332;}
+  .main > .map-shell.scenic-map-mode-v71 ~ .scenic-map-panel-v71 { grid-row: 2; overflow-y: auto; }
+}
 @media (max-width:520px){.map-domain-switch-v62:has([data-map-domain="scenic"]){left:8px;bottom:8px;}.map-domain-switch-v62:has([data-map-domain="scenic"]) button{min-width:0;padding:5px 6px;}.scenic-map-title-v71 h2{font-size:18px}.scenic-map-metrics-v71{gap:5px}.scenic-map-metrics-v71>div{padding:7px 6px}.scenic-map-metrics-v71 b{font-size:11px}.scenic-map-actions-v71{grid-template-columns:1fr;}}
