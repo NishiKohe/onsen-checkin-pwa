@@ -1,6 +1,6 @@
 (() => {
-  const version = "v71.6";
-  const preferredWorker = "./sw.js?v=71.6";
+  const version = "v72";
+  const preferredWorker = "./sw.js?v=72";
   window.OnsenBuildInfo = { version, updatedAt: "2026-09-04" };
 
   function addBridge({ globalName, id, src, label }) {
@@ -28,9 +28,9 @@
     addBridge({ globalName: "__onsenEquipmentBattleSyncV69", id: "equipmentBattleSyncV69", src: "./equipment-battle-sync-v69.js?v=69", label: "v69 equipment battle sync" });
     addBridge({ globalName: "OnsenUiRecoveryV701", id: "uiRecoveryV701Script", src: "./ui-recovery-v701.js?v=70.1", label: "v70.1 UI recovery" });
     addBridge({ globalName: "OnsenDomainAchievements", id: "achievementDomainV702Script", src: "./achievement-domain-v702.js?v=70.8", label: "v70.8 domain achievements" });
-    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=71.6", label: "v71.6 scenic bridge" });
-    addStyle({ id: "scenicMapHotfixStyleV712", href: "./scenic-map-hotfix-v712.css?v=71.6" });
-    addBridge({ globalName: "OnsenScenicMapHotfixV712", id: "scenicMapHotfixV712Script", src: "./scenic-map-hotfix-v712.js?v=71.6", label: "v71.6 scenic map hotfix" });
+    addBridge({ globalName: "OnsenMapDomainV72", id: "mapDomainControllerV72Script", src: "./map-domain-controller-v72.js?v=72", label: "v72 map domain controller" });
+    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=72", label: "v72 scenic bridge" });
+    addStyle({ id: "scenicMapStyleV71", href: "./scenic-map-v71.css?v=72" });
   }
 
   function apply() {
@@ -52,7 +52,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v71.6 service worker update check skipped", err);
+      console.warn("v72 service worker update check skipped", err);
       return null;
     }
   }
@@ -60,7 +60,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV716RegisterPatched) return;
+    if (sw.__onsenV72RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -68,9 +68,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV716RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV72RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v71.6 service worker register patch skipped", error);
+      console.warn("v72 service worker register patch skipped", error);
     }
   }
 
