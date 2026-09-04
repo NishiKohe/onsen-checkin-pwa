@@ -3,12 +3,14 @@
   const DATA_URL = "./data/scenic-official-v71.json";
   const ZONE_URL = "./data/scenic-checkin-zones-v71.json";
   const AUDIT_URL = "./data/scenic-checkin-audit-v72.json";
+  const MULTIZONE_URL = "./data/scenic-checkin-multizone-v724.json";
   const STATE_KEY = "scenicVisitStateV1";
   const DEFAULT_ACCURACY_M = 500;
   const LOCATION_MAX_AGE_MS = 2 * 60 * 1000;
   let catalog = null;
   let zoneCatalog = null;
   let auditCatalog = null;
+  let multizoneCatalog = null;
   let byId = new Map();
   let zonesById = new Map();
   let ready = false;
@@ -58,7 +60,7 @@
       sourceUrl: zone?.sourceUrl || null
     };
   }
-  function mergeAuditCatalog(baseZones, audit, masterIds) {
+  function mergeAuditCatalog(baseZones, audit, masterIds, sourceUrl) {
     const baseEntries = Array.isArray(baseZones?.entries) ? baseZones.entries : [];
     const auditEntries = Array.isArray(audit?.entries) ? audit.entries : [];
     const byScenicId = new Map(baseEntries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
@@ -83,6 +85,8 @@
 
     const mergedEntries = baseEntries.map((entry) => byScenicId.get(String(entry.scenicId)) || entry);
     const gpsEnabled = mergedEntries.filter((entry) => entry?.checkinEnabled && (entry.zones || []).map(normalizeZone).filter(Boolean).length > 0).length;
+    const previousLayers = Array.isArray(baseZones?.audit?.layers) ? baseZones.audit.layers : [];
+    const previousOverrides = Number(baseZones?.audit?.overrides || 0);
     return {
       ...baseZones,
       counts: {
@@ -92,16 +96,19 @@
         pendingMultiZoneOrAudit: mergedEntries.length - gpsEnabled
       },
       audit: {
-        dataset: audit?.dataset || null,
-        asOf: audit?.asOf || null,
-        overrides: auditEntries.length,
-        source: AUDIT_URL
+        overrides: previousOverrides + auditEntries.length,
+        layers: [
+          ...previousLayers,
+          { dataset: audit?.dataset || null, asOf: audit?.asOf || null, overrides: auditEntries.length, source: sourceUrl || null }
+        ]
       },
       entries: mergedEntries
     };
   }
   async function loadCatalog() {
-    const [master, zones, audit] = await Promise.all([fetchJson(DATA_URL), fetchJson(ZONE_URL), fetchJson(AUDIT_URL)]);
+    const [master, zones, audit, multizone] = await Promise.all([
+      fetchJson(DATA_URL), fetchJson(ZONE_URL), fetchJson(AUDIT_URL), fetchJson(MULTIZONE_URL)
+    ]);
     const entries = Array.isArray(master?.entries) ? master.entries : [];
     const baseZoneEntries = Array.isArray(zones?.entries) ? zones.entries : [];
     if (entries.length !== 433 || new Set(entries.map((entry) => entry?.id).filter(Boolean)).size !== 433) {
@@ -111,7 +118,9 @@
     const masterIds = new Set(entries.filter((entry) => entry?.id).map((entry) => String(entry.id)));
     catalog = master;
     auditCatalog = audit;
-    zoneCatalog = mergeAuditCatalog(zones, audit, masterIds);
+    multizoneCatalog = multizone;
+    zoneCatalog = mergeAuditCatalog(zones, audit, masterIds, AUDIT_URL);
+    zoneCatalog = mergeAuditCatalog(zoneCatalog, multizone, masterIds, MULTIZONE_URL);
     byId = new Map(entries.filter((entry) => entry?.id).map((entry) => [String(entry.id), entry]));
     zonesById = new Map(zoneCatalog.entries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
     return catalog;
@@ -153,6 +162,7 @@
       coordinateReady: Number(zoneCatalog?.counts?.gpsEnabled || imported.filter(isGpsReady).length),
       pendingCoordinateAudit: Number(zoneCatalog?.counts?.pendingMultiZoneOrAudit || 0),
       auditOverrides: Number(zoneCatalog?.audit?.overrides || 0),
+      auditLayers: Array.isArray(zoneCatalog?.audit?.layers) ? zoneCatalog.audit.layers.slice() : [],
       ready
     };
   }
@@ -261,9 +271,11 @@
       dataUrl: DATA_URL,
       zoneUrl: ZONE_URL,
       auditUrl: AUDIT_URL,
+      multizoneUrl: MULTIZONE_URL,
       catalog: () => catalog,
       zoneCatalog: () => zoneCatalog,
       auditCatalog: () => auditCatalog,
+      multizoneCatalog: () => multizoneCatalog,
       entries,
       seedEntries,
       get,
