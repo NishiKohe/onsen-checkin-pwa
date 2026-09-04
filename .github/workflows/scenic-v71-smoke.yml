@@ -1,4 +1,4 @@
-name: Domain routers and scenic GPS v72.2 smoke
+name: Domain routers and scenic GPS v72.3 smoke
 
 on:
   workflow_dispatch:
@@ -77,7 +77,7 @@ jobs:
           assert len(base_enabled) == zones['counts']['gpsEnabled'] == 256
 
           audit_ids = [str(e['scenicId']) for e in audit_entries]
-          assert len(audit_entries) == 7, f'first audit batch should contain 7 entries, got {len(audit_entries)}'
+          assert len(audit_entries) == 18, f'reviewed audit overlay should contain 18 entries, got {len(audit_entries)}'
           assert len(set(audit_ids)) == len(audit_ids), 'duplicate audit scenicId'
           assert set(audit_ids) <= set(zone_ids), 'audit contains unknown scenicId'
 
@@ -99,8 +99,8 @@ jobs:
           effective = {str(e['scenicId']): e for e in zone_entries}
           effective.update({str(e['scenicId']): {**effective[str(e['scenicId'])], **e} for e in audit_entries})
           effective_enabled = [e for e in effective.values() if e.get('checkinEnabled') and e.get('zones')]
-          assert len(effective_enabled) == 263, len(effective_enabled)
-          assert 433 - len(effective_enabled) == 170
+          assert len(effective_enabled) == 274, len(effective_enabled)
+          assert 433 - len(effective_enabled) == 159
 
           print('official master: 397 ordinary + 36 special = 433 unique')
           print('official coordinates:', len(coord_entries))
@@ -136,15 +136,15 @@ jobs:
           assert 'AUDIT_URL = "./data/scenic-checkin-audit-v72.json"' in runtime
           assert 'mergeAuditCatalog' in runtime
           assert 'auditOverrides' in runtime
-          assert 'const version = "v72.2"' in build
-          assert './sw.js?v=72.2' in build
-          assert './scenic-v70-bridge.js?v=72.2' in build
-          assert './scenic-runtime-v70.js?v=72.2' in bridge
+          assert 'const version = "v72.3"' in build
+          assert './sw.js?v=72.3' in build
+          assert './scenic-v70-bridge.js?v=72.3' in build
+          assert './scenic-runtime-v70.js?v=72.3' in bridge
           assert './achievement-domain-v702.js?v=72.1' in build
           assert './achievement-domain-controller-v721.js?v=72.1' in build
           assert './map-domain-controller-v72.js?v=72' in build
           assert './data/scenic-checkin-audit-v72.json' in sw
-          assert 'onsen-checkin-v72.2' in sw
+          assert 'onsen-checkin-v72.3' in sw
 
           for text, label in [(build, 'build-info'), (bridge, 'scenic bridge'), (sw, 'service worker')]:
               assert 'scenic-map-hotfix-v712.js' not in text, f'legacy scenic JS hotfix still loaded by {label}'
@@ -158,7 +158,7 @@ jobs:
           ]:
               assert required in sw, f'missing SW core asset {required}'
           assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be SW core assets'
-          print('v72.2 canonical router/release guards OK')
+          print('v72.3 canonical router/release guards OK')
           PY
 
       - name: Scenic safety guards
