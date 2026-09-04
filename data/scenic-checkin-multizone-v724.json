@@ -48,6 +48,32 @@
       "auditRule": "two_separate_designated_rock_areas",
       "auditEvidenceUrls": ["https://www.city.utsunomiya.lg.jp/event/rekishi/1036089/1036090.html","https://japan-heritage.bunka.go.jp/ja/culturalproperties/result/3687/","https://www.utsunomiya-cvb.org/spot/detail_10023.html"],
       "auditNote": "国指定名勝は大谷寺背後の御止山区域と、姿川沿い北端の越路岩区域から成る。越路岩は文化庁公式参照点、御止山は対岸から直接眺望できる大谷景観公園側の公式観光地図地点を採用し、各750mで判定。"
+    },
+    {
+      "scenicId": "scenic_ihatovo",
+      "siteClass": "reviewed_multi_zone_seven_literary_landscapes",
+      "checkinEnabled": true,
+      "zones": [
+        {"id":"kurakakeyama","label":"鞍掛山・相の沢登山口","lat":39.8057778,"lng":141.0111111,"radiusM":2000,"accuracyRequiredM":500,"source":"滝沢市公式登山起点（相の沢キャンプ場）＋登山口公開座標","sourceUrl":"https://www.city.takizawa.iwate.jp/kanko/shizen-kanko/contents-7628"},
+        {"id":"nanatsumori","label":"七つ森・生森山","lat":39.6941463,"lng":140.999631,"radiusM":1500,"accuracyRequiredM":500,"source":"岩手県公式景観地点（生森山・七つ森）","sourceUrl":"https://www.pref.iwate.jp/_res/projects/default_project/_page_/001/037/683/0142.pdf"},
+        {"id":"oinomori","label":"狼森","lat":39.76425749,"lng":141.01526554,"radiusM":1000,"accuracyRequiredM":500,"source":"雫石町公式所在地（丸谷地）＋公開地物座標","sourceUrl":"https://www.town.shizukuishi.iwate.jp/docs/2020031600022/"},
+        {"id":"kamabuchi","label":"釜淵の滝","lat":39.4554347,"lng":141.065431,"radiusM":1000,"accuracyRequiredM":500,"source":"岩手県公式景観地点（釜淵の滝遊歩道）","sourceUrl":"https://www.pref.iwate.jp/_res/projects/default_project/_page_/001/037/863/0285.pdf"},
+        {"id":"english_coast","label":"イギリス海岸","lat":39.39533,"lng":141.129315,"radiusM":1000,"accuracyRequiredM":500,"source":"花巻市公式ページ掲載GoogleMap座標","sourceUrl":"https://www.city.hanamaki.iwate.jp/miyazawakenji/town_kenji/1003963.html"},
+        {"id":"gorintoge","label":"五輪峠・市営東和五輪牧野","lat":39.263623,"lng":141.359761,"radiusM":1500,"accuracyRequiredM":500,"source":"花巻市公式施設ページ掲載GoogleMap座標","sourceUrl":"https://www.city.hanamaki.iwate.jp/shisetsu/sangyo/1007046.html"},
+        {"id":"taneyamagahara","label":"種山ヶ原","lat":39.20656434,"lng":141.39682365,"radiusM":2000,"accuracyRequiredM":500,"source":"国指定文化財等データベースCSV公式参照点（種山ヶ原側）","sourceUrl":"https://kunishitei.bunka.go.jp/heritage/detail/401/3437"}
+      ],
+      "auditStatus": "reviewed_multi_zone",
+      "auditRule": "seven_separate_literary_landscapes",
+      "auditEvidenceUrls": [
+        "https://www.city.takizawa.iwate.jp/about-takizawa/bunka-geijutsu/sitei-bunkazai/contents-13249",
+        "https://www.town.shizukuishi.iwate.jp/docs/2020031300021/",
+        "https://www.town.shizukuishi.iwate.jp/docs/2020031600022/",
+        "https://www.city.hanamaki.iwate.jp/bunkasports/bunka/1019886/bunkazai/1002090.html",
+        "https://www.city.hanamaki.iwate.jp/miyazawakenji/town_kenji/1003963.html",
+        "https://www.city.oshu.iwate.jp/material/files/group/79/3shisekimeisyoutennenkinenbutsu.pdf",
+        "https://www.town.sumita.iwate.jp/kanko/taneyama.html"
+      ],
+      "auditNote": "イーハトーブの風景地は鞍掛山・七つ森・狼森・釜淵の滝・イギリス海岸・五輪峠・種山ヶ原という離れた7構成地の一群指定。1つの巨大半径は使わず、各構成地の実際の訪問起点・景観地点へ独立zoneを設定。7構成地のいずれか1地点でGPS確認できれば、名勝『イーハトーブの風景地』1件の訪問として記録し、訪問zone名を履歴に保持する。"
     }
   ]
 }
