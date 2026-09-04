@@ -1,13 +1,14 @@
-name: Scenic v71 smoke
+name: Map domains v72 smoke
 
 on:
   workflow_dispatch:
   push:
     paths:
+      - "map-domain-controller-v72.js"
+      - "castle-map-v62.js"
       - "scenic-runtime-v70.js"
       - "scenic-map-v71.js"
       - "scenic-map-v71.css"
-      - "scenic-map-hotfix-v712.js"
       - "scenic-v70-bridge.js"
       - "scenic-collection-ui-v70.js"
       - "scenic-collection-ui-v70.css"
@@ -30,9 +31,10 @@ jobs:
 
       - name: JavaScript syntax
         run: |
+          node --check map-domain-controller-v72.js
+          node --check castle-map-v62.js
           node --check scenic-runtime-v70.js
           node --check scenic-map-v71.js
-          node --check scenic-map-hotfix-v712.js
           node --check scenic-v70-bridge.js
           node --check scenic-collection-ui-v70.js
           node --check build-info.js
@@ -65,7 +67,7 @@ jobs:
           enabled = [e for e in zone_entries if e.get('checkinEnabled')]
           assert len(coord_entries) == master['counts']['officialCoordinates'] == zones['counts']['officialCoordinates'] == 418
           assert len(enabled) == zones['counts']['gpsEnabled']
-          assert len(enabled) >= 202, 'v71 GPS coverage must not regress below initial safe set'
+          assert len(enabled) >= 202, 'GPS coverage must not regress below initial safe set'
           assert zones['counts']['pendingMultiZoneOrAudit'] == 433 - len(enabled)
 
           for entry in zone_entries:
@@ -84,12 +86,45 @@ jobs:
           print('pending audit:', zones['counts']['pendingMultiZoneOrAudit'])
           PY
 
+      - name: Canonical map router guards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          router = Path('map-domain-controller-v72.js').read_text(encoding='utf-8')
+          for required in ['onsen:', 'castle:', 'scenic:', 'mapDomainModeV72', 'onsen-map-domain-v72-changed']:
+              assert required in router, f'missing canonical router guard: {required}'
+          assert 'event.isTrusted === false && applying' in router, 'synthetic scenic onsen click guard missing'
+
+          bridge = Path('scenic-v70-bridge.js').read_text(encoding='utf-8')
+          build = Path('build-info.js').read_text(encoding='utf-8')
+          sw = Path('sw.js').read_text(encoding='utf-8')
+
+          assert 'const version = "v72"' in build
+          assert './sw.js?v=72' in build
+          assert './map-domain-controller-v72.js?v=72' in build
+          assert './scenic-v70-bridge.js?v=72' in build
+          assert './map-domain-controller-v72.js' in sw
+          assert 'onsen-checkin-v72' in sw
+
+          for text, label in [(build, 'build-info'), (bridge, 'scenic bridge'), (sw, 'service worker')]:
+              assert 'scenic-map-hotfix-v712.js' not in text, f'legacy scenic JS hotfix still loaded by {label}'
+
+          for required in [
+              './data/scenic-official-v71.json',
+              './data/scenic-checkin-zones-v71.json',
+              './scenic-map-v71.js',
+              './scenic-map-v71.css',
+          ]:
+              assert required in sw, f'missing SW core asset {required}'
+          assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be SW core assets'
+          print('v72 canonical router guards OK')
+          PY
+
       - name: Scenic safety guards
         run: |
           python - <<'PY'
-          import re
           from pathlib import Path
-
           files = [
               Path('scenic-runtime-v70.js'),
               Path('scenic-map-v71.js'),
@@ -99,24 +134,5 @@ jobs:
               text = p.read_text(encoding='utf-8')
               assert 'MutationObserver' not in text, f'MutationObserver forbidden in {p}'
               assert 'stopImmediatePropagation' not in text, f'stopImmediatePropagation forbidden in {p}'
-
-          sw = Path('sw.js').read_text(encoding='utf-8')
-          for required in [
-              './data/scenic-official-v71.json',
-              './data/scenic-checkin-zones-v71.json',
-              './scenic-map-v71.js',
-              './scenic-map-v71.css',
-          ]:
-              assert required in sw, f'missing SW core asset {required}'
-          assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be v71 SW core assets'
-
-          build = Path('build-info.js').read_text(encoding='utf-8')
-          match = re.search(r'const version = "(v71(?:\.\d+)?)"', build)
-          assert match, 'build-info must declare a v71.x build version'
-          version = match.group(1)
-          query_version = version.removeprefix('v')
-          assert f'./sw.js?v={query_version}' in build, f'SW query must match {version}'
-          assert f'./scenic-v70-bridge.js?v={query_version}' in build, f'scenic bridge query must match {version}'
-          assert f'./scenic-map-hotfix-v712.js?v={query_version}' in build, f'scenic hotfix query must match {version}'
-          print('safety guards OK:', version)
+          print('scenic safety guards OK')
           PY
