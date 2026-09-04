@@ -1,7 +1,7 @@
 (() => {
   const BUILD="v71";
   const ROUTER_BUILD="v72";
-  const RELEASE="v72.3";
+  const RELEASE="v72.4";
   let installed=false;
   function addStyle(href,id){if(document.getElementById(id))return;const link=document.createElement("link");link.id=id;link.rel="stylesheet";link.href=href;document.head.appendChild(link);}
   function waitFor(test,timeoutMs=10000,intervalMs=50){return new Promise((resolve)=>{const startedAt=Date.now();const tick=()=>{let value=null;try{value=test();}catch{}if(value){resolve(value);return;}if(Date.now()-startedAt>=timeoutMs){resolve(null);return;}setTimeout(tick,intervalMs);};tick();});}
@@ -12,7 +12,7 @@
     if(!window.OnsenMapDomainV72){await loadScriptOnce("./map-domain-controller-v72.js?v=72","mapDomainControllerV72Script");}
     if(!await waitFor(()=>window.OnsenMapDomainV72?.build===ROUTER_BUILD,12000)){console.warn(`${RELEASE} scenic bridge: map router not ready`);return false;}
     if(!await waitFor(()=>document.querySelector("#collectionView .collection-shell"),8000)){console.warn(`${RELEASE} scenic bridge: collection shell not ready`);return false;}
-    if(window.OnsenScenicRuntime?.build!==BUILD){if(!await loadScriptOnce("./scenic-runtime-v70.js?v=72.3","scenicRuntimeV71"))return false;}
+    if(window.OnsenScenicRuntime?.build!==BUILD){if(!await loadScriptOnce("./scenic-runtime-v70.js?v=72.4","scenicRuntimeV71"))return false;}
     if(!await waitFor(()=>window.OnsenScenicRuntime?.build===BUILD,12000)){console.warn(`${RELEASE} scenic bridge: runtime not ready`);return false;}
     if(!await waitFor(()=>window.OnsenCastleCollectionUI&&document.querySelector("#collectionView .collection-domain-switch"),10000)){console.warn(`${RELEASE} scenic bridge: canonical collection domain not ready`);return false;}
     if(window.OnsenScenicCollectionUI?.build!==BUILD){if(!await loadScriptOnce("./scenic-collection-ui-v70.js?v=72","scenicCollectionUiV71"))return false;}
