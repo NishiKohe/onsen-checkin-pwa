@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v71.5";
+  const BUILD = "v71.6";
   let boundRoot = null;
   let observer = null;
   let retryTimer = null;
@@ -94,7 +94,7 @@
       return false;
     }
 
-    try { api.showMode(id); } catch (error) { console.warn("scenic v71.5 showMode failed", error); }
+    try { api.showMode(id); } catch (error) { console.warn("scenic v71.6 showMode failed", error); }
     forceScenicLayout();
     requestAnimationFrame(forceScenicLayout);
     setTimeout(forceScenicLayout, 40);
@@ -138,10 +138,10 @@
   function bindRoot() {
     const root = getRoot();
     if (!root) return false;
-    if (boundRoot === root && root.dataset.scenicHotfixV715 === "1") return true;
+    if (boundRoot === root && root.dataset.scenicHotfixV716 === "1") return true;
 
     boundRoot = root;
-    root.dataset.scenicHotfixV715 = "1";
+    root.dataset.scenicHotfixV716 = "1";
     root.addEventListener("click", (event) => {
       const target = event.target instanceof Element ? event.target.closest("[data-map-domain]") : null;
       if (!target || !root.contains(target)) return;
