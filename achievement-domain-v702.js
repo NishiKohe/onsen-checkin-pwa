@@ -1,6 +1,7 @@
 (() => {
-  const BUILD = "v70.8";
-  const DOMAIN_KEY = "collectionDomainModeV61";
+  const BUILD = "v72.1";
+  const COLLECTION_DOMAIN_KEY = "collectionDomainModeV61";
+  const ACHIEVEMENT_DOMAIN_KEY = "achievementDomainModeV721";
   const VALID_DOMAINS = new Set(["onsen", "castle", "scenic"]);
   let reapplyTimer = null;
 
@@ -21,10 +22,24 @@
     { id: "domain:scenic:special36", category: "特別名勝", kind: "scenic_special", required: 36, name: "特別名勝 全制覇", description: "特別名勝36件をすべて訪問する", titleLabel: "特別名勝制覇者", rarity: "LEGEND" }
   ].map((definition) => Object.freeze({ ...definition, titleId: `title:${definition.id}`, total: definition.required, verification: "domain_visit" })));
 
-  function currentDomain() {
+  function achievementVisible() {
+    const collection = document.getElementById("collectionView");
+    const view = document.getElementById("achievementView");
+    return !!collection && !collection.hidden && !!view && !view.hidden;
+  }
+
+  function collectionDomain() {
     const runtime = window.OnsenCastleCollectionUI?.mode?.();
-    const stored = sessionStorage.getItem(DOMAIN_KEY);
+    const stored = sessionStorage.getItem(COLLECTION_DOMAIN_KEY);
     return VALID_DOMAINS.has(runtime) ? runtime : VALID_DOMAINS.has(stored) ? stored : "onsen";
+  }
+
+  function currentDomain() {
+    if (achievementVisible()) {
+      const stored = sessionStorage.getItem(ACHIEVEMENT_DOMAIN_KEY);
+      if (VALID_DOMAINS.has(stored)) return stored;
+    }
+    return collectionDomain();
   }
 
   function domainForDefinition(definition) {
@@ -143,6 +158,19 @@
     }
   }
 
+  function setDomain(next, { source = "api", silentEvent = false } = {}) {
+    const normalized = VALID_DOMAINS.has(next) ? next : "onsen";
+    const previous = currentDomain();
+    sessionStorage.setItem(ACHIEVEMENT_DOMAIN_KEY, normalized);
+    refreshBase();
+    if (!silentEvent) {
+      window.dispatchEvent(new CustomEvent("onsen-achievement-domain-changed", {
+        detail: { build: BUILD, mode: normalized, previous, source }
+      }));
+    }
+    return normalized;
+  }
+
   function notify(reason) {
     window.dispatchEvent(new CustomEvent("onsen-domain-achievements-changed", { detail: { build: BUILD, reason } }));
     refreshBase();
@@ -153,6 +181,7 @@
     definitions: () => DEFINITIONS.map((item) => ({ ...item })),
     evaluate,
     currentDomain,
+    setDomain,
     domainForDefinition,
     matchesDefinition,
     applyUiFilter,
@@ -166,7 +195,11 @@
   for (const eventName of ["onsen-castle-visit-changed", "onsen-scenic-visit-changed", "onsen-castle-visits-ready", "onsen-scenic-runtime-ready"]) {
     window.addEventListener(eventName, () => notify(eventName));
   }
-  window.addEventListener("onsen-collection-domain-changed", () => refreshBase());
+  window.addEventListener("onsen-collection-domain-changed", () => {
+    if (!achievementVisible()) return;
+    if (!VALID_DOMAINS.has(sessionStorage.getItem(ACHIEVEMENT_DOMAIN_KEY))) refreshBase();
+  });
+  window.addEventListener("onsen-achievement-domain-changed", () => { queueMicrotask(applyAllDomainViews); reapplyAfterBase(10); });
   window.addEventListener("onsen-collection-mode-changed", () => { queueMicrotask(applyAllDomainViews); reapplyAfterBase(10); });
   window.addEventListener("onsen-domain-achievements-changed", () => reapplyAfterBase(50));
   window.addEventListener("onsen-app-tab-changed", (event) => { if (event.detail?.tab === "collection") reapplyAfterBase(10); });
@@ -179,5 +212,5 @@
     }
   });
 
-  window.dispatchEvent(new CustomEvent("onsen-domain-achievements-ready", { detail: { build: BUILD, count: DEFINITIONS.length } }));
+  window.dispatchEvent(new CustomEvent("onsen-domain-achievements-ready", { detail: { build: BUILD, count: DEFINITIONS.length, domain: currentDomain() } }));
 })();
