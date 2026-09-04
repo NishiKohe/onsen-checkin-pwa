@@ -1,4 +1,4 @@
-name: Domain routers v72.1 smoke
+name: Domain routers and scenic GPS v72.2 smoke
 
 on:
   workflow_dispatch:
@@ -16,6 +16,7 @@ on:
       - "scenic-collection-ui-v70.css"
       - "data/scenic-official-v71.json"
       - "data/scenic-checkin-zones-v71.json"
+      - "data/scenic-checkin-audit-v72.json"
       - "build-info.js"
       - "sw.js"
       - ".github/workflows/scenic-v71-smoke.yml"
@@ -44,7 +45,7 @@ jobs:
           node --check build-info.js
           node --check sw.js
 
-      - name: Scenic catalog integrity
+      - name: Scenic catalog and GPS audit integrity
         run: |
           python - <<'PY'
           import json
@@ -52,12 +53,15 @@ jobs:
 
           master = json.loads(Path('data/scenic-official-v71.json').read_text(encoding='utf-8'))
           zones = json.loads(Path('data/scenic-checkin-zones-v71.json').read_text(encoding='utf-8'))
+          audit = json.loads(Path('data/scenic-checkin-audit-v72.json').read_text(encoding='utf-8'))
 
           entries = master['entries']
           zone_entries = zones['entries']
+          audit_entries = audit['entries']
           ids = [str(e['id']) for e in entries]
           zone_ids = [str(e['scenicId']) for e in zone_entries]
           manage_ids = [str(e['officialManageId']) for e in entries]
+          base_by_id = {str(e['scenicId']): e for e in zone_entries}
 
           assert master['counts']['ordinary'] == 397, master['counts']
           assert master['counts']['special'] == 36, master['counts']
@@ -68,29 +72,45 @@ jobs:
           assert set(zone_ids) == set(ids), 'zone/master ID mismatch'
 
           coord_entries = [e for e in entries if isinstance(e.get('lat'), (int,float)) and isinstance(e.get('lng'), (int,float))]
-          enabled = [e for e in zone_entries if e.get('checkinEnabled')]
+          base_enabled = [e for e in zone_entries if e.get('checkinEnabled')]
           assert len(coord_entries) == master['counts']['officialCoordinates'] == zones['counts']['officialCoordinates'] == 418
-          assert len(enabled) == zones['counts']['gpsEnabled']
-          assert len(enabled) >= 202, 'GPS coverage must not regress below initial safe set'
-          assert zones['counts']['pendingMultiZoneOrAudit'] == 433 - len(enabled)
+          assert len(base_enabled) == zones['counts']['gpsEnabled'] == 256
 
-          for entry in zone_entries:
+          audit_ids = [str(e['scenicId']) for e in audit_entries]
+          assert len(audit_entries) == 7, f'first audit batch should contain 7 entries, got {len(audit_entries)}'
+          assert len(set(audit_ids)) == len(audit_ids), 'duplicate audit scenicId'
+          assert set(audit_ids) <= set(zone_ids), 'audit contains unknown scenicId'
+
+          for entry in audit_entries:
+              scenic_id = str(entry['scenicId'])
+              assert not base_by_id[scenic_id].get('checkinEnabled'), f'audit entry was already enabled: {scenic_id}'
+              assert entry.get('checkinEnabled') is True, f'audit must explicitly enable: {scenic_id}'
+              assert entry.get('auditStatus') == 'reviewed_single_official_reference', scenic_id
               zlist = entry.get('zones') or []
-              if entry.get('checkinEnabled'):
-                  assert zlist, f"enabled without zone: {entry['scenicId']}"
+              assert zlist, f'enabled audit without zone: {scenic_id}'
               for z in zlist:
-                  assert float(z['radiusM']) >= 500, (entry['scenicId'], z)
-                  assert float(z['accuracyRequiredM']) >= 500, (entry['scenicId'], z)
-                  assert 20 <= float(z['lat']) <= 46.5, (entry['scenicId'], z)
-                  assert 122 <= float(z['lng']) <= 154, (entry['scenicId'], z)
+                  assert float(z['radiusM']) >= 500, (scenic_id, z)
+                  assert float(z['accuracyRequiredM']) >= 500, (scenic_id, z)
+                  assert 20 <= float(z['lat']) <= 46.5, (scenic_id, z)
+                  assert 122 <= float(z['lng']) <= 154, (scenic_id, z)
+                  assert z.get('sourceUrl', '').startswith('https://kunishitei.bunka.go.jp/'), scenic_id
+              assert str(entry.get('auditEvidenceUrl', '')).startswith('https://'), scenic_id
+
+          effective = {str(e['scenicId']): e for e in zone_entries}
+          effective.update({str(e['scenicId']): {**effective[str(e['scenicId'])], **e} for e in audit_entries})
+          effective_enabled = [e for e in effective.values() if e.get('checkinEnabled') and e.get('zones')]
+          assert len(effective_enabled) == 263, len(effective_enabled)
+          assert 433 - len(effective_enabled) == 170
 
           print('official master: 397 ordinary + 36 special = 433 unique')
           print('official coordinates:', len(coord_entries))
-          print('GPS enabled:', len(enabled))
-          print('pending audit:', zones['counts']['pendingMultiZoneOrAudit'])
+          print('base GPS enabled:', len(base_enabled))
+          print('audit overrides:', len(audit_entries))
+          print('effective GPS enabled:', len(effective_enabled))
+          print('pending audit:', 433 - len(effective_enabled))
           PY
 
-      - name: Canonical router guards
+      - name: Canonical router and release guards
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -108,19 +128,23 @@ jobs:
           assert 'achievementDomainModeV721' in achievement_domain, 'achievement domain state must be independent from collection domain'
           assert 'setDomain' in achievement_domain, 'achievement domain API must expose setDomain'
 
+          runtime = Path('scenic-runtime-v70.js').read_text(encoding='utf-8')
           bridge = Path('scenic-v70-bridge.js').read_text(encoding='utf-8')
           build = Path('build-info.js').read_text(encoding='utf-8')
           sw = Path('sw.js').read_text(encoding='utf-8')
 
-          assert 'const version = "v72.1"' in build
-          assert './sw.js?v=72.1' in build
+          assert 'AUDIT_URL = "./data/scenic-checkin-audit-v72.json"' in runtime
+          assert 'mergeAuditCatalog' in runtime
+          assert 'auditOverrides' in runtime
+          assert 'const version = "v72.2"' in build
+          assert './sw.js?v=72.2' in build
+          assert './scenic-v70-bridge.js?v=72.2' in build
+          assert './scenic-runtime-v70.js?v=72.2' in bridge
           assert './achievement-domain-v702.js?v=72.1' in build
           assert './achievement-domain-controller-v721.js?v=72.1' in build
           assert './map-domain-controller-v72.js?v=72' in build
-          assert './scenic-v70-bridge.js?v=72' in build
-          assert './map-domain-controller-v72.js' in sw
-          assert './achievement-domain-controller-v721.js' in sw
-          assert 'onsen-checkin-v72.1' in sw
+          assert './data/scenic-checkin-audit-v72.json' in sw
+          assert 'onsen-checkin-v72.2' in sw
 
           for text, label in [(build, 'build-info'), (bridge, 'scenic bridge'), (sw, 'service worker')]:
               assert 'scenic-map-hotfix-v712.js' not in text, f'legacy scenic JS hotfix still loaded by {label}'
@@ -128,12 +152,13 @@ jobs:
           for required in [
               './data/scenic-official-v71.json',
               './data/scenic-checkin-zones-v71.json',
+              './data/scenic-checkin-audit-v72.json',
               './scenic-map-v71.js',
               './scenic-map-v71.css',
           ]:
               assert required in sw, f'missing SW core asset {required}'
           assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be SW core assets'
-          print('v72.1 canonical router guards OK')
+          print('v72.2 canonical router/release guards OK')
           PY
 
       - name: Scenic safety guards
