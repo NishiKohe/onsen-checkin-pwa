@@ -16,6 +16,7 @@
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   function getMap() { try { return typeof map !== "undefined" ? map : null; } catch { return null; } }
   function runtime() { return window.OnsenScenicRuntime || null; }
+  function scenicIntentActive() { return sessionStorage.getItem("mapDomainModeV71") === "scenic"; }
   function esc(value) { return String(value ?? "").replace(/[&<>'\"]/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c])); }
   function shortName(entry) { return String(entry?.name || "").split(/\r?\n/)[0].trim(); }
   function formatDistance(m) { const n=Number(m); if(!Number.isFinite(n)) return "—"; return n<1000?`${Math.round(n)}m`:`${(n/1000).toFixed(n<10000?1:0)}km`; }
@@ -70,6 +71,15 @@
 
   function ensureSwitchButton(){
     const root=document.getElementById("mapDomainSwitchV62");if(!root)return null;
+    if(root.dataset.scenicIntentGuardV716!=="1"){
+      root.dataset.scenicIntentGuardV716="1";
+      root.addEventListener("click",(event)=>{
+        const target=event.target instanceof Element?event.target.closest("[data-map-domain]"):null;
+        if(!target||!root.contains(target))return;
+        const domain=target.dataset.mapDomain||"onsen";
+        if(domain!=="scenic")sessionStorage.removeItem("mapDomainModeV71");
+      },true);
+    }
     let button=root.querySelector('[data-map-domain="scenic"]');
     if(!button){button=document.createElement("button");button.type="button";button.dataset.mapDomain="scenic";button.innerHTML="◇<span>名勝</span>";button.addEventListener("click",(event)=>{event.preventDefault();event.stopPropagation();showScenicMode();});root.appendChild(button);}
     return button;
@@ -145,7 +155,14 @@
   async function install(){
     if(installed)return;for(let i=0;i<240;i+=1){if(runtime()?.build===BUILD&&getMap()&&document.getElementById("mapDomainSwitchV62"))break;await sleep(50);}if(runtime()?.build!==BUILD||!getMap()){console.warn("scenic map v71 prerequisites not ready");return;}installed=true;ensureSwitchButton();ensurePanel();
     const m=getMap();if(m.loaded?.())installLayers();else m.once?.("load",installLayers);
-    window.addEventListener("onsen-map-domain-changed",()=>{if(suppressBaseDomainEvent)return;leaveScenic();});
+    window.addEventListener("onsen-map-domain-changed",()=>{
+      if(suppressBaseDomainEvent)return;
+      if(active&&scenicIntentActive()){
+        requestAnimationFrame(applyMode);
+        return;
+      }
+      leaveScenic();
+    });
     window.addEventListener("onsen-scenic-visit-changed",()=>{refreshSource();if(active)updatePanel();});
     window.addEventListener("pageshow",()=>{ensureSwitchButton();if(active)applyMode();});
     window.OnsenScenicMapV71={build:BUILD,show:showScenic,showMode:showScenicMode,select:selectScenic,refresh:()=>{refreshSource();updatePanel();},active:()=>active};
