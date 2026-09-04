@@ -1,6 +1,6 @@
 (() => {
-  const version = "v72";
-  const preferredWorker = "./sw.js?v=72";
+  const version = "v72.1";
+  const preferredWorker = "./sw.js?v=72.1";
   window.OnsenBuildInfo = { version, updatedAt: "2026-09-04" };
 
   function addBridge({ globalName, id, src, label }) {
@@ -42,7 +42,8 @@
     addBridge({ globalName: "OnsenGameV69Bridge", id: "gameV69BridgeScript", src: "./game-v69-bridge.js?v=69.1", label: "v69.1 mining bridge" });
     addBridge({ globalName: "__onsenEquipmentBattleSyncV69", id: "equipmentBattleSyncV69", src: "./equipment-battle-sync-v69.js?v=69", label: "v69 equipment battle sync" });
     addBridge({ globalName: "OnsenUiRecoveryV701", id: "uiRecoveryV701Script", src: "./ui-recovery-v701.js?v=70.1", label: "v70.1 UI recovery" });
-    addBridge({ globalName: "OnsenDomainAchievements", id: "achievementDomainV702Script", src: "./achievement-domain-v702.js?v=70.8", label: "v70.8 domain achievements" });
+    addBridge({ globalName: "OnsenDomainAchievements", id: "achievementDomainV702Script", src: "./achievement-domain-v702.js?v=72.1", label: "v72.1 domain achievements" });
+    addBridge({ globalName: "OnsenAchievementDomainV721", id: "achievementDomainControllerV721Script", src: "./achievement-domain-controller-v721.js?v=72.1", label: "v72.1 achievement domain controller" });
     addBridge({ globalName: "OnsenMapDomainV72", id: "mapDomainControllerV72Script", src: "./map-domain-controller-v72.js?v=72", label: "v72 map domain controller" });
     addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=72", label: "v72 scenic bridge" });
     addStyle({ id: "scenicMapStyleV71", href: "./scenic-map-v71.css?v=72" });
@@ -68,7 +69,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v72 service worker update check skipped", err);
+      console.warn("v72.1 service worker update check skipped", err);
       return null;
     }
   }
@@ -76,7 +77,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV72RegisterPatched) return;
+    if (sw.__onsenV721RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -84,9 +85,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV72RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV721RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v72 service worker register patch skipped", error);
+      console.warn("v72.1 service worker register patch skipped", error);
     }
   }
 
@@ -113,7 +114,6 @@
   ensureBridges();
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => {
-      // Registered before legacy castle-map's DOMContentLoaded listener, so the switcher exists first.
       precreateMapDomainSwitch();
       apply();
     }, { once: true });
