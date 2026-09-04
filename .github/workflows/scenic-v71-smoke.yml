@@ -1,10 +1,12 @@
-name: Map domains v72 smoke
+name: Domain routers v72.1 smoke
 
 on:
   workflow_dispatch:
   push:
     paths:
       - "map-domain-controller-v72.js"
+      - "achievement-domain-controller-v721.js"
+      - "achievement-domain-v702.js"
       - "castle-map-v62.js"
       - "scenic-runtime-v70.js"
       - "scenic-map-v71.js"
@@ -32,6 +34,8 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check map-domain-controller-v72.js
+          node --check achievement-domain-controller-v721.js
+          node --check achievement-domain-v702.js
           node --check castle-map-v62.js
           node --check scenic-runtime-v70.js
           node --check scenic-map-v71.js
@@ -86,26 +90,37 @@ jobs:
           print('pending audit:', zones['counts']['pendingMultiZoneOrAudit'])
           PY
 
-      - name: Canonical map router guards
+      - name: Canonical router guards
         run: |
           python - <<'PY'
           from pathlib import Path
 
-          router = Path('map-domain-controller-v72.js').read_text(encoding='utf-8')
+          map_router = Path('map-domain-controller-v72.js').read_text(encoding='utf-8')
           for required in ['onsen:', 'castle:', 'scenic:', 'mapDomainModeV72', 'onsen-map-domain-v72-changed']:
-              assert required in router, f'missing canonical router guard: {required}'
-          assert 'event.isTrusted === false && applying' in router, 'synthetic scenic onsen click guard missing'
+              assert required in map_router, f'missing canonical map router guard: {required}'
+          assert 'event.isTrusted === false && applying' in map_router, 'synthetic scenic onsen click guard missing'
+
+          achievement_router = Path('achievement-domain-controller-v721.js').read_text(encoding='utf-8')
+          achievement_domain = Path('achievement-domain-v702.js').read_text(encoding='utf-8')
+          for required in ['achievementDomainModeV721', 'achievement_domain_tab', 'onsen-achievement-domain-changed']:
+              assert required in achievement_router, f'missing achievement router guard: {required}'
+          assert 'event.stopImmediatePropagation()' in achievement_router, 'achievement tab must block collection-domain click handler'
+          assert 'achievementDomainModeV721' in achievement_domain, 'achievement domain state must be independent from collection domain'
+          assert 'setDomain' in achievement_domain, 'achievement domain API must expose setDomain'
 
           bridge = Path('scenic-v70-bridge.js').read_text(encoding='utf-8')
           build = Path('build-info.js').read_text(encoding='utf-8')
           sw = Path('sw.js').read_text(encoding='utf-8')
 
-          assert 'const version = "v72"' in build
-          assert './sw.js?v=72' in build
+          assert 'const version = "v72.1"' in build
+          assert './sw.js?v=72.1' in build
+          assert './achievement-domain-v702.js?v=72.1' in build
+          assert './achievement-domain-controller-v721.js?v=72.1' in build
           assert './map-domain-controller-v72.js?v=72' in build
           assert './scenic-v70-bridge.js?v=72' in build
           assert './map-domain-controller-v72.js' in sw
-          assert 'onsen-checkin-v72' in sw
+          assert './achievement-domain-controller-v721.js' in sw
+          assert 'onsen-checkin-v72.1' in sw
 
           for text, label in [(build, 'build-info'), (bridge, 'scenic bridge'), (sw, 'service worker')]:
               assert 'scenic-map-hotfix-v712.js' not in text, f'legacy scenic JS hotfix still loaded by {label}'
@@ -118,7 +133,7 @@ jobs:
           ]:
               assert required in sw, f'missing SW core asset {required}'
           assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be SW core assets'
-          print('v72 canonical router guards OK')
+          print('v72.1 canonical router guards OK')
           PY
 
       - name: Scenic safety guards
