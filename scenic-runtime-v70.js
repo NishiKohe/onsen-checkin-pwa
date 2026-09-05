@@ -2,13 +2,16 @@
   const BUILD = "v71";
   const DATA_URL = "./data/scenic-official-v71.json";
   const ZONE_URL = "./data/scenic-checkin-zones-v71.json";
+  const SUPPLEMENT_URL = "./data/scenic-checkin-supplement-v727.json";
   const AUDIT_URL = "./data/scenic-checkin-audit-v72.json";
   const MULTIZONE_URL = "./data/scenic-checkin-multizone-v724.json";
   const STATE_KEY = "scenicVisitStateV1";
   const DEFAULT_ACCURACY_M = 500;
   const LOCATION_MAX_AGE_MS = 2 * 60 * 1000;
+
   let catalog = null;
   let zoneCatalog = null;
+  let supplementCatalog = null;
   let auditCatalog = null;
   let multizoneCatalog = null;
   let byId = new Map();
@@ -46,6 +49,7 @@
     if (!response.ok) throw new Error(`${url} load failed: ${response.status}`);
     return response.json();
   }
+
   function normalizeZone(zone, index = 0) {
     const lat = Number(zone?.lat), lng = Number(zone?.lng);
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
@@ -60,54 +64,109 @@
       sourceUrl: zone?.sourceUrl || null
     };
   }
-  function mergeAuditCatalog(baseZones, audit, masterIds, sourceUrl) {
+
+  function recalculateCounts(baseZones, entries) {
+    const gpsEnabled = entries.filter((entry) => entry?.checkinEnabled && (entry.zones || []).map(normalizeZone).filter(Boolean).length > 0).length;
+    const coverageComplete = entries.filter((entry) => entry?.checkinEnabled && entry?.gpsCoverageComplete === true).length;
+    return {
+      ...(baseZones?.counts || {}),
+      entries: entries.length,
+      gpsEnabled,
+      pendingMultiZoneOrAudit: entries.length - gpsEnabled,
+      coverageComplete,
+      coveragePartialOrPending: gpsEnabled - coverageComplete
+    };
+  }
+
+  function enableOfficialReferenceFallback(baseZones) {
     const baseEntries = Array.isArray(baseZones?.entries) ? baseZones.entries : [];
-    const auditEntries = Array.isArray(audit?.entries) ? audit.entries : [];
+    let newlyEnabled = 0;
+    const entries = baseEntries.map((entry) => {
+      const usableZones = (entry?.zones || []).map(normalizeZone).filter(Boolean);
+      if (entry?.checkinEnabled) {
+        return {
+          ...entry,
+          gpsCoverageStatus: entry.gpsCoverageStatus || "base_enabled",
+          gpsCoverageComplete: entry.gpsCoverageComplete ?? null
+        };
+      }
+      if (entry?.coordinateStatus === "official_csv" && usableZones.length) {
+        newlyEnabled += 1;
+        return {
+          ...entry,
+          checkinEnabled: true,
+          gpsFallbackEnabled: true,
+          gpsCoverageStatus: "official_reference_only",
+          gpsCoverageComplete: false,
+          auditStatus: entry.auditStatus || "official_reference_gps_enabled",
+          auditNote: entry.auditNote || "文化庁公式CSV参照点を既存半径のままGPS取得地点として有効化。複数構成地の網羅性は別途coverage監査する。"
+        };
+      }
+      return entry;
+    });
+    return {
+      ...baseZones,
+      counts: recalculateCounts(baseZones, entries),
+      fallback: {
+        ...(baseZones?.fallback || {}),
+        officialReferenceEnabled: newlyEnabled
+      },
+      entries
+    };
+  }
+
+  function mergeOverlayCatalog(baseZones, overlay, masterIds, sourceUrl) {
+    const baseEntries = Array.isArray(baseZones?.entries) ? baseZones.entries : [];
+    const overlayEntries = Array.isArray(overlay?.entries) ? overlay.entries : [];
     const byScenicId = new Map(baseEntries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
     const seen = new Set();
 
-    for (const override of auditEntries) {
+    for (const override of overlayEntries) {
       const id = String(override?.scenicId || "");
-      if (!id || seen.has(id)) throw new Error(`invalid/duplicate scenic audit id: ${id || "(blank)"}`);
+      if (!id || seen.has(id)) throw new Error(`invalid/duplicate scenic overlay id: ${id || "(blank)"}`);
       seen.add(id);
-      if (!masterIds.has(id) || !byScenicId.has(id)) throw new Error(`scenic audit references unknown id: ${id}`);
+      if (!masterIds.has(id) || !byScenicId.has(id)) throw new Error(`scenic overlay references unknown id: ${id}`);
       const base = byScenicId.get(id);
+      const inferredComplete = override.gpsCoverageComplete ?? (
+        override.auditStatus === "reviewed_multi_zone" || override.auditStatus === "reviewed_single_official_reference" ? true : base.gpsCoverageComplete
+      );
       const merged = {
         ...base,
         ...override,
+        gpsCoverageComplete: inferredComplete,
+        gpsCoverageStatus: override.gpsCoverageStatus || (
+          override.auditStatus === "reviewed_multi_zone" ? "reviewed_multi_zone" :
+          override.auditStatus === "reviewed_single_official_reference" ? "reviewed_single_zone" :
+          base.gpsCoverageStatus
+        ),
         zones: Array.isArray(override.zones) ? override.zones : (base.zones || [])
       };
       if (merged.checkinEnabled && !(merged.zones || []).map(normalizeZone).filter(Boolean).length) {
-        throw new Error(`enabled scenic audit has no usable zone: ${id}`);
+        throw new Error(`enabled scenic overlay has no usable zone: ${id}`);
       }
       byScenicId.set(id, merged);
     }
 
-    const mergedEntries = baseEntries.map((entry) => byScenicId.get(String(entry.scenicId)) || entry);
-    const gpsEnabled = mergedEntries.filter((entry) => entry?.checkinEnabled && (entry.zones || []).map(normalizeZone).filter(Boolean).length > 0).length;
+    const entries = baseEntries.map((entry) => byScenicId.get(String(entry.scenicId)) || entry);
     const previousLayers = Array.isArray(baseZones?.audit?.layers) ? baseZones.audit.layers : [];
     const previousOverrides = Number(baseZones?.audit?.overrides || 0);
     return {
       ...baseZones,
-      counts: {
-        ...(baseZones?.counts || {}),
-        entries: mergedEntries.length,
-        gpsEnabled,
-        pendingMultiZoneOrAudit: mergedEntries.length - gpsEnabled
-      },
+      counts: recalculateCounts(baseZones, entries),
       audit: {
-        overrides: previousOverrides + auditEntries.length,
+        overrides: previousOverrides + overlayEntries.length,
         layers: [
           ...previousLayers,
-          { dataset: audit?.dataset || null, asOf: audit?.asOf || null, overrides: auditEntries.length, source: sourceUrl || null }
+          { dataset: overlay?.dataset || null, asOf: overlay?.asOf || null, overrides: overlayEntries.length, source: sourceUrl || null }
         ]
       },
-      entries: mergedEntries
+      entries
     };
   }
+
   async function loadCatalog() {
-    const [master, zones, audit, multizone] = await Promise.all([
-      fetchJson(DATA_URL), fetchJson(ZONE_URL), fetchJson(AUDIT_URL), fetchJson(MULTIZONE_URL)
+    const [master, zones, supplement, audit, multizone] = await Promise.all([
+      fetchJson(DATA_URL), fetchJson(ZONE_URL), fetchJson(SUPPLEMENT_URL), fetchJson(AUDIT_URL), fetchJson(MULTIZONE_URL)
     ]);
     const entries = Array.isArray(master?.entries) ? master.entries : [];
     const baseZoneEntries = Array.isArray(zones?.entries) ? zones.entries : [];
@@ -115,16 +174,27 @@
       throw new Error(`official scenic master must contain 433 unique entries; got ${entries.length}`);
     }
     if (baseZoneEntries.length !== 433) throw new Error(`scenic zone catalog must contain 433 entries; got ${baseZoneEntries.length}`);
+
     const masterIds = new Set(entries.filter((entry) => entry?.id).map((entry) => String(entry.id)));
     catalog = master;
+    supplementCatalog = supplement;
     auditCatalog = audit;
     multizoneCatalog = multizone;
-    zoneCatalog = mergeAuditCatalog(zones, audit, masterIds, AUDIT_URL);
-    zoneCatalog = mergeAuditCatalog(zoneCatalog, multizone, masterIds, MULTIZONE_URL);
+
+    zoneCatalog = enableOfficialReferenceFallback(zones);
+    zoneCatalog = mergeOverlayCatalog(zoneCatalog, supplement, masterIds, SUPPLEMENT_URL);
+    zoneCatalog = mergeOverlayCatalog(zoneCatalog, audit, masterIds, AUDIT_URL);
+    zoneCatalog = mergeOverlayCatalog(zoneCatalog, multizone, masterIds, MULTIZONE_URL);
+
+    if (Number(zoneCatalog?.counts?.gpsEnabled || 0) !== 433) {
+      throw new Error(`v72.7 scenic GPS coverage must be 433/433; got ${zoneCatalog?.counts?.gpsEnabled || 0}`);
+    }
+
     byId = new Map(entries.filter((entry) => entry?.id).map((entry) => [String(entry.id), entry]));
     zonesById = new Map(zoneCatalog.entries.filter((entry) => entry?.scenicId).map((entry) => [String(entry.scenicId), entry]));
     return catalog;
   }
+
   function entries() { return Array.isArray(catalog?.entries) ? catalog.entries.slice() : []; }
   function seedEntries() { return []; }
   function get(id) { return byId.get(String(id || "")) || null; }
@@ -142,14 +212,27 @@
     return referenceZones(idOrEntry);
   }
   function isGpsReady(idOrEntry) { return auditedZones(idOrEntry).length > 0; }
+  function coverageStatus(idOrEntry) {
+    const record = zoneRecord(idOrEntry);
+    return {
+      ready: isGpsReady(idOrEntry),
+      status: record?.gpsCoverageStatus || null,
+      complete: record?.gpsCoverageComplete === true,
+      fallback: record?.gpsFallbackEnabled === true,
+      zoneCount: referenceZones(idOrEntry).length
+    };
+  }
   function isVisited(id, state = loadState()) { return !!state.visited[String(id || "")]; }
   function listVisits(state = loadState()) {
     return Object.entries(state.visited || {}).filter(([id]) => byId.has(String(id))).map(([id, visit]) => ({ id, ...visit }));
   }
   function visitCount(state = loadState()) { return listVisits(state).length; }
   function specialVisitCount(state = loadState()) { return listVisits(state).filter((visit) => get(visit.id)?.specialScenic === true).length; }
+
   function progress() {
     const imported = entries();
+    const gpsReady = Number(zoneCatalog?.counts?.gpsEnabled || imported.filter(isGpsReady).length);
+    const coverageComplete = Number(zoneCatalog?.counts?.coverageComplete || 0);
     return {
       visited: visitCount(),
       total: Number(catalog?.counts?.total || 433),
@@ -159,8 +242,12 @@
       ordinaryImported: Number(catalog?.counts?.ordinary || imported.filter((entry) => entry.specialScenic !== true).length),
       specialImported: Number(catalog?.counts?.special || imported.filter((entry) => entry.specialScenic === true).length),
       coordinateReference: Number(zoneCatalog?.counts?.officialCoordinates || imported.filter((entry) => Number.isFinite(Number(entry.lat)) && Number.isFinite(Number(entry.lng))).length),
-      coordinateReady: Number(zoneCatalog?.counts?.gpsEnabled || imported.filter(isGpsReady).length),
+      coordinateReady: gpsReady,
       pendingCoordinateAudit: Number(zoneCatalog?.counts?.pendingMultiZoneOrAudit || 0),
+      coverageComplete,
+      coveragePartialOrPending: gpsReady - coverageComplete,
+      pendingCoverageAudit: gpsReady - coverageComplete,
+      officialReferenceFallbackEnabled: Number(zoneCatalog?.fallback?.officialReferenceEnabled || 0),
       auditOverrides: Number(zoneCatalog?.audit?.overrides || 0),
       auditLayers: Array.isArray(zoneCatalog?.audit?.layers) ? zoneCatalog.audit.layers.slice() : [],
       ready
@@ -231,11 +318,13 @@
       distanceM: Math.round(match.distanceM),
       radiusM: match.zone.radiusM,
       coordinateSource: match.zone.source || "国指定文化財等データベースCSV",
+      gpsCoverageStatus: coverageStatus(entry).status,
       source: DATA_URL,
       specialScenic: entry.specialScenic === true
     };
     return { ok: true, already: false, entry, evaluation, state: saveState(state, "scenic_gps_visit") };
   }
+
   function registerPastVisit(id, metadata = {}) {
     const entry = get(id);
     if (!entry) return { ok: false, reason: "unknown_scenic" };
@@ -249,6 +338,7 @@
     };
     return { ok: true, already: false, entry, state: saveState(state, "scenic_past_visit") };
   }
+
   function explorationStats() {
     return {
       scenicSites: visitCount(),
@@ -270,10 +360,12 @@
       build: BUILD,
       dataUrl: DATA_URL,
       zoneUrl: ZONE_URL,
+      supplementUrl: SUPPLEMENT_URL,
       auditUrl: AUDIT_URL,
       multizoneUrl: MULTIZONE_URL,
       catalog: () => catalog,
       zoneCatalog: () => zoneCatalog,
+      supplementCatalog: () => supplementCatalog,
       auditCatalog: () => auditCatalog,
       multizoneCatalog: () => multizoneCatalog,
       entries,
@@ -283,6 +375,7 @@
       referenceZones,
       auditedZones,
       isGpsReady,
+      coverageStatus,
       evaluatePosition,
       loadState,
       saveState,
