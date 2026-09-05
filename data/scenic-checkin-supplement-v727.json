@@ -1,0 +1,226 @@
+{
+  "version": 1,
+  "dataset": "national_places_of_scenic_beauty_gps_supplement",
+  "asOf": "2026-09-05",
+  "policy": {
+    "minimumRadiusM": 500,
+    "accuracyRequiredM": 500,
+    "purpose": "文化庁CSVで緯度経度が未収録の15名勝について、自治体・文化財機関の公式所在地や現地アクセス地点を基準にGPSチェックイン地点を補完する",
+    "rule": "複数構成地は取得可能性と全構成地網羅を分離し、代表的な公式アクセス地点をGPS対応として有効化しつつ、未監査構成地がある場合はgpsCoverageComplete=falseとする"
+  },
+  "entries": [
+    {
+      "scenicId": "scenic_jodogahama",
+      "siteClass": "supplemented_broad_coast",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"jodogahama","label":"浄土ヶ浜","lat":39.652346,"lng":141.9790185,"radiusM":2000,"accuracyRequiredM":500,"source":"宮古市公式所在地（日立浜町32番地ほか）を基準とする浄土ヶ浜現地地点","sourceUrl":"https://www.city.miyako.iwate.jp/gyosei/kanko_bunka_sports/kankojoho/8/1/7383.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "named_coastal_site",
+      "auditEvidenceUrls": ["https://www.city.miyako.iwate.jp/gyosei/kanko_bunka_sports/kankojoho/8/1/7383.html"],
+      "auditNote": "文化庁CSV座標未収録。宮古市公式の浄土ヶ浜所在地・アクセス情報に基づき、浜と主要園地を包含する2000m zoneを設定。"
+    },
+    {
+      "scenicId": "scenic_honmashi_bettei",
+      "siteClass": "supplemented_compact_garden",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"kakubuen","label":"本間氏別邸庭園（鶴舞園）","lat":38.9233636,"lng":139.8420419,"radiusM":750,"accuracyRequiredM":500,"source":"本間美術館・鶴舞園所在地（酒田市御成町7-7）","sourceUrl":"https://www.homma-museum.or.jp/"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "compact_garden",
+      "auditEvidenceUrls": ["https://www.homma-museum.or.jp/"],
+      "auditNote": "文化庁CSV座標未収録。庭園を管理・公開する本間美術館の所在地を750m判定で使用。"
+    },
+    {
+      "scenicId": "scenic_denboin_garden",
+      "siteClass": "supplemented_compact_garden",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"denboin","label":"伝法院庭園","lat":35.7138256,"lng":139.7950115,"radiusM":750,"accuracyRequiredM":500,"source":"台東区公式観光情報の伝法院所在地（浅草2-3-1）","sourceUrl":"https://t-navi.city.taito.lg.jp/spot/1266"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "compact_garden",
+      "auditEvidenceUrls": ["https://t-navi.city.taito.lg.jp/spot/1266","https://kunishitei.bunka.go.jp/heritage/detail/401/00003721"],
+      "auditNote": "文化庁CSV座標未収録。台東区公式観光情報の所在地・地図地点を750m判定で使用。"
+    },
+    {
+      "scenicId": "scenic_hakusan_park_niigata",
+      "siteClass": "supplemented_public_park",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"hakusan_park","label":"白山公園","lat":37.9147481,"lng":139.0384403,"radiusM":1000,"accuracyRequiredM":500,"source":"新潟市公式白山公園所在地・公園中心部","sourceUrl":"https://www.city.niigata.lg.jp/chuo/shisetsu/yoka/leisure/hakusan.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "public_park",
+      "auditEvidenceUrls": ["https://www.city.niigata.lg.jp/kanko/bunka/rekishi/bunkazai/shokai/hakusankoen.html","https://www.city.niigata.lg.jp/chuo/shisetsu/yoka/leisure/hakusan.html"],
+      "auditNote": "文化庁CSV座標未収録。新潟市公式の公園所在地を基準に1000m zoneを設定。"
+    },
+    {
+      "scenicId": "scenic_sue_waterworks_garden",
+      "siteClass": "supplemented_waterworks_garden",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"sue_waterworks","label":"末浄水場園地","lat":36.5130556,"lng":136.6991667,"radiusM":1500,"accuracyRequiredM":500,"source":"金沢市公式所在地（末町1-1）を基準とする末浄水場地点","sourceUrl":"https://www4.city.kanazawa.lg.jp/soshikikarasagasu/bunkazaihogoka/gyomuannai/3/1/1/siteibunkazai/5/5832.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "waterworks_garden",
+      "auditEvidenceUrls": ["https://www4.city.kanazawa.lg.jp/soshikikarasagasu/bunkazaihogoka/gyomuannai/3/1/1/siteibunkazai/5/5832.html","https://www2.city.kanazawa.ishikawa.jp/about_us/facility_tour/water02/water03/"],
+      "auditNote": "文化庁CSV座標未収録。指定面積約8haの浄水場園地を1500mで判定。"
+    },
+    {
+      "scenicId": "scenic_yonako_bakufugun",
+      "siteClass": "supplemented_waterfall_group",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"yonako_falls","label":"米子瀑布群","lat":36.5683730114566,"lng":138.405260857672,"radiusM":2000,"accuracyRequiredM":500,"source":"須坂市公式ページ掲載地図地点","sourceUrl":"https://www.city.suzaka.nagano.jp/cgi-bin/recruit.php/2/detail/1152"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "waterfall_group",
+      "auditEvidenceUrls": ["https://www.city.suzaka.nagano.jp/cgi-bin/recruit.php/2/detail/1152"],
+      "auditNote": "文化庁CSV座標未収録。須坂市公式の米子瀑布群地図地点を中心に、山中の遊歩道・滝群を考慮して2000m。"
+    },
+    {
+      "scenicId": "scenic_ord_kinki_005",
+      "siteClass": "supplemented_historic_garden",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_locality_reference",
+      "gpsCoverageComplete": false,
+      "zones": [
+        {"id":"kutsuki_murai","label":"朽木池の沢庭園・朽木村井","lat":35.308879,"lng":135.895096,"radiusM":2000,"accuracyRequiredM":500,"source":"高島市公式所在地（朽木村井）を基準にした村井地区参照点","sourceUrl":"https://www.city.takashima.lg.jp/"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "locality_reference_pending_precision",
+      "auditEvidenceUrls": ["https://online.bunka.go.jp/heritages/detail/197328"],
+      "auditNote": "文化庁CSV座標未収録。所在地は高島市朽木村井まで確認できるため、現地取得を可能にする2000m暫定zone。精密な庭園中心点は継続監査対象。"
+    },
+    {
+      "scenicId": "scenic_ord_kinki_085",
+      "siteClass": "supplemented_compact_garden",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"ekishukan","label":"旧益習館庭園","lat":34.339499,"lng":134.894656,"radiusM":750,"accuracyRequiredM":500,"source":"洲本市公式所在地（山手3丁目）と現地公開地点","sourceUrl":"https://www.city.sumoto.lg.jp/soshiki/34/1735.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "compact_garden",
+      "auditEvidenceUrls": ["https://www.city.sumoto.lg.jp/soshiki/34/1735.html","https://online.bunka.go.jp/heritages/detail/454629"],
+      "auditNote": "文化庁CSV座標未収録。洲本市山手3丁目の公開庭園地点を750m判定で使用。"
+    },
+    {
+      "scenicId": "scenic_ord_kinki_068",
+      "siteClass": "supplemented_broad_hillside",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_representative_access_point",
+      "gpsCoverageComplete": false,
+      "zones": [
+        {"id":"ujigami_butsutokuzan","label":"宇治上神社・仏徳山側","lat":34.8919499,"lng":135.8112894,"radiusM":2000,"accuracyRequiredM":500,"source":"宇治市指定範囲内の宇治上神社・仏徳山登り口側代表地点","sourceUrl":"https://www.city.uji.kyoto.jp/site/bunkazai/91130.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "representative_access_point_pending_multizone",
+      "auditEvidenceUrls": ["https://www.city.uji.kyoto.jp/site/bunkazai/91130.html"],
+      "auditNote": "名勝宇治山は仏徳山・朝日山・二子山・社寺境内等からなるため、まず指定範囲内の宇治上神社・仏徳山側を2000m代表zoneとして有効化。構成地別zoneは継続監査。"
+    },
+    {
+      "scenicId": "scenic_ord_kyushu_015",
+      "siteClass": "supplemented_composite_hirado_hakkei",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_partial_multizone",
+      "gpsCoverageComplete": false,
+      "zones": [
+        {"id":"senryu","label":"潜龍水（潜竜ヶ滝）","lat":33.2932166,"lng":129.6840524,"radiusM":1000,"accuracyRequiredM":500,"source":"佐世保市観光情報に基づく潜竜ヶ滝地点","sourceUrl":"https://www.sasebo99.com/spot/639/"},
+        {"id":"ishibashi","label":"石橋（御橋観音）","lat":33.272637,"lng":129.701436,"radiusM":1000,"accuracyRequiredM":500,"source":"佐世保市文化財・観光情報に基づく御橋観音地点","sourceUrl":"https://www.city.sasebo.lg.jp/kyouiku/bunzai/bunkazaimapu.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "partial_multizone_pending_all_components",
+      "auditEvidenceUrls": ["https://www.city.sasebo.lg.jp/kyouiku/bunzai/bunkazaimapu.html","https://kunishitei.bunka.go.jp/heritage/detail/401/00003909"],
+      "auditNote": "平戸八景は佐世保市内に点在する複数構成地。まず位置を確実に確認できた潜龍水・石橋の2zoneで取得可能化し、残構成地はcoverageComplete=falseで継続監査。"
+    },
+    {
+      "scenicId": "scenic_ord_kyushu_017",
+      "siteClass": "supplemented_composite_shiranui_mizushima",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_partial_multizone",
+      "gpsCoverageComplete": false,
+      "zones": [
+        {"id":"eino_tsurugi","label":"永尾剱神社・不知火観望地","lat":32.631918,"lng":130.616051,"radiusM":1500,"accuracyRequiredM":500,"source":"宇城市公式観光サイト所在地（不知火町永尾615）","sourceUrl":"https://ukitrip.city.uki.kumamoto.jp/sashiyori/775/"},
+        {"id":"mizushima","label":"水島","lat":32.471953,"lng":130.569291,"radiusM":1500,"accuracyRequiredM":500,"source":"八代市公式の水島所在地（植柳元町）を基準とする現地地点","sourceUrl":"https://www.city.yatsushiro.lg.jp/kiji003311/index.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "two_land_access_points_plus_seascape",
+      "auditEvidenceUrls": ["https://www.city.uki.kumamoto.jp/kankobunka/bunka/2268781","https://www.city.yatsushiro.lg.jp/kiji003311/index.html"],
+      "auditNote": "不知火及び水島は永尾剱神社・不知火現象発生海域・水島の複合指定。陸上から訪問可能な永尾剱神社と水島側を独立zone化し、海域はcoverageComplete=falseとして残す。"
+    },
+    {
+      "scenicId": "scenic_ord_kyushu_024",
+      "siteClass": "supplemented_composite_higo_landscapes",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_partial_multizone",
+      "gpsCoverageComplete": false,
+      "zones": [
+        {"id":"gorogataki","label":"五郎ガ瀧（五老ヶ滝）","lat":32.681319,"lng":130.994808,"radiusM":1500,"accuracyRequiredM":500,"source":"山都町公式が五郎ガ瀧として指定確認する五老ヶ滝現地地点","sourceUrl":"https://www.town.kumamoto-yamato.lg.jp/kiji0032583/index.html"},
+        {"id":"tategaminoiwa","label":"建神ノ岩（立神峡）","lat":32.5509,"lng":130.7068,"radiusM":1500,"accuracyRequiredM":500,"source":"氷川町・立神峡里地公園を現地アクセス点とする建神ノ岩地点","sourceUrl":"https://www.town.hikawa.kumamoto.jp/"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "partial_multizone_pending_all_components",
+      "auditEvidenceUrls": ["https://www.town.kumamoto-yamato.lg.jp/kiji0032583/index.html","https://www.city.yatsushiro.lg.jp/kiji0032440/index.html","https://kunishitei.bunka.go.jp/heritage/detail/401/00003910"],
+      "auditNote": "肥後領内名勝地5構成地のうち、現地アクセス点が確実な五郎ガ瀧・建神ノ岩を先行zone化。聖リ瀧・走リ水ノ瀧・神ノ瀬ノ岩屋は継続監査のためcoverageComplete=false。"
+    },
+    {
+      "scenicId": "scenic_ord_kyushu_027",
+      "siteClass": "supplemented_connected_gardens",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"kurushima_garden","label":"旧久留島氏庭園","lat":33.30329,"lng":131.15771,"radiusM":1000,"accuracyRequiredM":500,"source":"玖珠町公式所在地（大字森885）を基準とする庭園群地点","sourceUrl":"https://www.town.kusu.oita.jp/soshiki/syokokankoseisakuka/1/1/2/706.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "connected_garden_group",
+      "auditEvidenceUrls": ["https://www.town.kusu.oita.jp/soshiki/syokokankoseisakuka/1/1/2/706.html"],
+      "auditNote": "3庭園は園路で有機的につながる一体の庭園群。中心部1000mで現地訪問を判定。"
+    },
+    {
+      "scenicId": "scenic_ord_kyushu_029",
+      "siteClass": "supplemented_mountain_ridge",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"nakayama_senkyo","label":"中山仙境（夷谷）","lat":33.610407,"lng":131.563577,"radiusM":2000,"accuracyRequiredM":500,"source":"豊後高田市公式の夷地区・中山仙境登山エリアを基準とする地点","sourceUrl":"https://www.city.bungotakada.oita.jp/site/bunkazai/list71-281.html"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "mountain_ridge_access_area",
+      "auditEvidenceUrls": ["https://www.city.bungotakada.oita.jp/site/bunkazai/list71-281.html","https://www.city.bungotakada.oita.jp/site/weblocation/3299.html"],
+      "auditNote": "文化庁CSV座標未収録。夷地区の登山・駐車エリアと高城・無明橋を含む山稜の現地訪問を2000mで判定。"
+    },
+    {
+      "scenicId": "scenic_ord_kyushu_030",
+      "siteClass": "supplemented_religious_mountain_landscape",
+      "checkinEnabled": true,
+      "gpsCoverageStatus": "supplemental_official_access_point",
+      "gpsCoverageComplete": true,
+      "zones": [
+        {"id":"monjusenji","label":"文殊耶馬・文殊仙寺","lat":33.6022225,"lng":131.6139014,"radiusM":2000,"accuracyRequiredM":500,"source":"大分県公式観光情報の文殊仙寺所在地（国東町大恩寺2432）を基準とする地点","sourceUrl":"https://www.visit-oita.jp/"}
+      ],
+      "auditStatus": "reviewed_supplemental_location",
+      "auditRule": "religious_mountain_landscape",
+      "auditEvidenceUrls": ["https://www.visit-oita.jp/"],
+      "auditNote": "文殊仙寺を取り巻く岩峰群が文殊耶馬として指定対象。寺院と周辺岩峰を含む2000mで判定。"
+    }
+  ]
+}
