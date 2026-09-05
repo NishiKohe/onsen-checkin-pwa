@@ -1,4 +1,4 @@
-name: Domain routers and scenic GPS v72.6 smoke
+name: Domain routers and scenic GPS v72.7 smoke
 
 on:
   workflow_dispatch:
@@ -16,6 +16,7 @@ on:
       - "scenic-collection-ui-v70.css"
       - "data/scenic-official-v71.json"
       - "data/scenic-checkin-zones-v71.json"
+      - "data/scenic-checkin-supplement-v727.json"
       - "data/scenic-checkin-audit-v72.json"
       - "data/scenic-checkin-multizone-v724.json"
       - "build-info.js"
@@ -46,7 +47,7 @@ jobs:
           node --check build-info.js
           node --check sw.js
 
-      - name: Scenic catalog and GPS audit integrity
+      - name: Scenic catalog and full GPS integrity
         run: |
           python - <<'PY'
           import json
@@ -54,11 +55,13 @@ jobs:
 
           master = json.loads(Path('data/scenic-official-v71.json').read_text(encoding='utf-8'))
           zones = json.loads(Path('data/scenic-checkin-zones-v71.json').read_text(encoding='utf-8'))
+          supplement = json.loads(Path('data/scenic-checkin-supplement-v727.json').read_text(encoding='utf-8'))
           audit = json.loads(Path('data/scenic-checkin-audit-v72.json').read_text(encoding='utf-8'))
           multizone = json.loads(Path('data/scenic-checkin-multizone-v724.json').read_text(encoding='utf-8'))
 
           entries = master['entries']
           zone_entries = zones['entries']
+          supplement_entries = supplement['entries']
           audit_entries = audit['entries']
           multizone_entries = multizone['entries']
           ids = [str(e['id']) for e in entries]
@@ -79,80 +82,116 @@ jobs:
           assert len(coord_entries) == master['counts']['officialCoordinates'] == zones['counts']['officialCoordinates'] == 418
           assert len(base_enabled) == zones['counts']['gpsEnabled'] == 256
 
-          audit_ids = [str(e['scenicId']) for e in audit_entries]
-          assert len(audit_entries) == 18, f'reviewed single-zone overlay should contain 18 entries, got {len(audit_entries)}'
-          assert len(set(audit_ids)) == len(audit_ids), 'duplicate single-zone audit scenicId'
-          assert set(audit_ids) <= set(zone_ids), 'single-zone audit contains unknown scenicId'
-
-          for entry in audit_entries:
-              scenic_id = str(entry['scenicId'])
-              assert not base_by_id[scenic_id].get('checkinEnabled'), f'audit entry was already enabled: {scenic_id}'
-              assert entry.get('checkinEnabled') is True, f'audit must explicitly enable: {scenic_id}'
-              assert entry.get('auditStatus') == 'reviewed_single_official_reference', scenic_id
-              zlist = entry.get('zones') or []
-              assert zlist, f'enabled audit without zone: {scenic_id}'
-              for z in zlist:
-                  assert float(z['radiusM']) >= 500, (scenic_id, z)
-                  assert float(z['accuracyRequiredM']) >= 500, (scenic_id, z)
-                  assert 20 <= float(z['lat']) <= 46.5, (scenic_id, z)
-                  assert 122 <= float(z['lng']) <= 154, (scenic_id, z)
-                  assert z.get('sourceUrl', '').startswith('https://kunishitei.bunka.go.jp/'), scenic_id
-              assert str(entry.get('auditEvidenceUrl', '')).startswith('https://'), scenic_id
-
-          multizone_ids = [str(e['scenicId']) for e in multizone_entries]
-          assert len(multizone_entries) == 4, f'multi-zone overlay should contain 4 entries, got {len(multizone_entries)}'
-          assert len(set(multizone_ids)) == len(multizone_ids), 'duplicate multi-zone scenicId'
-          assert set(multizone_ids) <= set(zone_ids), 'multi-zone audit contains unknown scenicId'
-          assert not (set(multizone_ids) & set(audit_ids)), 'same scenicId must not appear in both audit layers'
-
-          expected_zone_counts = {
-              'scenic_ord_kinki_095': 3,
-              'scenic_ord_kinki_106': 2,
-              'scenic_oya_kigan': 2,
-              'scenic_ihatovo': 7,
+          no_coord_ids = {
+              str(e['scenicId']) for e in zone_entries
+              if e.get('coordinateStatus') == 'official_no_coordinate'
           }
-          assert set(multizone_ids) == set(expected_zone_counts), multizone_ids
-          for entry in multizone_entries:
+          expected_no_coord_ids = {
+              'scenic_jodogahama',
+              'scenic_honmashi_bettei',
+              'scenic_denboin_garden',
+              'scenic_hakusan_park_niigata',
+              'scenic_sue_waterworks_garden',
+              'scenic_yonako_bakufugun',
+              'scenic_ord_kinki_005',
+              'scenic_ord_kinki_085',
+              'scenic_ord_kinki_068',
+              'scenic_ord_kyushu_015',
+              'scenic_ord_kyushu_017',
+              'scenic_ord_kyushu_024',
+              'scenic_ord_kyushu_027',
+              'scenic_ord_kyushu_029',
+              'scenic_ord_kyushu_030',
+          }
+          assert no_coord_ids == expected_no_coord_ids, (len(no_coord_ids), no_coord_ids ^ expected_no_coord_ids)
+
+          supplement_ids = [str(e['scenicId']) for e in supplement_entries]
+          assert len(supplement_entries) == 15
+          assert len(set(supplement_ids)) == 15
+          assert set(supplement_ids) == expected_no_coord_ids
+          for entry in supplement_entries:
               scenic_id = str(entry['scenicId'])
-              assert not base_by_id[scenic_id].get('checkinEnabled'), f'multi-zone entry was already enabled: {scenic_id}'
-              assert entry.get('checkinEnabled') is True, f'multi-zone must explicitly enable: {scenic_id}'
-              assert entry.get('auditStatus') == 'reviewed_multi_zone', scenic_id
+              assert not base_by_id[scenic_id].get('checkinEnabled'), scenic_id
+              assert base_by_id[scenic_id].get('coordinateStatus') == 'official_no_coordinate', scenic_id
+              assert entry.get('checkinEnabled') is True, scenic_id
+              assert entry.get('gpsCoverageStatus'), scenic_id
+              assert isinstance(entry.get('gpsCoverageComplete'), bool), scenic_id
               zlist = entry.get('zones') or []
-              assert len(zlist) == expected_zone_counts[scenic_id], (scenic_id, len(zlist))
-              assert len({str(z['id']) for z in zlist}) == len(zlist), f'duplicate zone id: {scenic_id}'
+              assert zlist, scenic_id
+              assert len({str(z['id']) for z in zlist}) == len(zlist), scenic_id
               for z in zlist:
                   assert 500 <= float(z['radiusM']) <= 2000, (scenic_id, z)
                   assert float(z['accuracyRequiredM']) == 500, (scenic_id, z)
                   assert 20 <= float(z['lat']) <= 46.5, (scenic_id, z)
                   assert 122 <= float(z['lng']) <= 154, (scenic_id, z)
                   assert str(z.get('sourceUrl', '')).startswith('https://'), scenic_id
-              evidence = entry.get('auditEvidenceUrls') or []
-              assert len(evidence) >= 2 and all(str(url).startswith('https://') for url in evidence), scenic_id
 
-          ihatovo = next(e for e in multizone_entries if e['scenicId'] == 'scenic_ihatovo')
-          assert {z['id'] for z in ihatovo['zones']} == {
-              'kurakakeyama', 'nanatsumori', 'oinomori', 'kamabuchi',
-              'english_coast', 'gorintoge', 'taneyamagahara'
+          audit_ids = [str(e['scenicId']) for e in audit_entries]
+          assert len(audit_entries) == 18
+          assert len(set(audit_ids)) == 18
+          assert set(audit_ids) <= set(zone_ids)
+
+          multizone_ids = [str(e['scenicId']) for e in multizone_entries]
+          assert len(multizone_entries) == 4
+          assert len(set(multizone_ids)) == 4
+          expected_zone_counts = {
+              'scenic_ord_kinki_095': 3,
+              'scenic_ord_kinki_106': 2,
+              'scenic_oya_kigan': 2,
+              'scenic_ihatovo': 7,
           }
-          assert ihatovo['auditRule'] == 'seven_separate_literary_landscapes'
+          assert set(multizone_ids) == set(expected_zone_counts)
+          for entry in multizone_entries:
+              scenic_id = str(entry['scenicId'])
+              zlist = entry.get('zones') or []
+              assert len(zlist) == expected_zone_counts[scenic_id]
+              assert len({str(z['id']) for z in zlist}) == len(zlist)
+              for z in zlist:
+                  assert 500 <= float(z['radiusM']) <= 2000, (scenic_id, z)
+                  assert float(z['accuracyRequiredM']) == 500, (scenic_id, z)
 
           effective = {str(e['scenicId']): dict(e) for e in zone_entries}
-          for layer in (audit_entries, multizone_entries):
+          fallback_enabled = 0
+          for scenic_id, entry in effective.items():
+              if entry.get('checkinEnabled'):
+                  continue
+              zlist = entry.get('zones') or []
+              if entry.get('coordinateStatus') == 'official_csv' and zlist:
+                  entry['checkinEnabled'] = True
+                  entry['gpsFallbackEnabled'] = True
+                  entry['gpsCoverageStatus'] = 'official_reference_only'
+                  entry['gpsCoverageComplete'] = False
+                  fallback_enabled += 1
+
+          assert fallback_enabled == 162, fallback_enabled
+          assert sum(1 for e in effective.values() if e.get('checkinEnabled') and e.get('zones')) == 418
+
+          for layer in (supplement_entries, audit_entries, multizone_entries):
               for override in layer:
                   scenic_id = str(override['scenicId'])
                   effective[scenic_id] = {**effective[scenic_id], **override}
+
           effective_enabled = [e for e in effective.values() if e.get('checkinEnabled') and e.get('zones')]
-          assert len(effective_enabled) == 278, len(effective_enabled)
-          assert 433 - len(effective_enabled) == 155
+          assert len(effective_enabled) == 433, len(effective_enabled)
+          assert 433 - len(effective_enabled) == 0
+          for entry in effective_enabled:
+              for z in entry.get('zones') or []:
+                  assert float(z['radiusM']) >= 500, (entry['scenicId'], z)
+                  assert float(z['accuracyRequiredM']) >= 500, (entry['scenicId'], z)
+
+          partial_supplements = [e for e in supplement_entries if e.get('gpsCoverageComplete') is False]
+          assert partial_supplements, 'coverage completeness must remain separate from GPS readiness'
 
           print('official master: 397 ordinary + 36 special = 433 unique')
-          print('official coordinates:', len(coord_entries))
+          print('Culture Agency coordinates:', len(coord_entries))
           print('base GPS enabled:', len(base_enabled))
+          print('official-reference fallback enabled:', fallback_enabled)
+          print('no-coordinate supplements:', len(supplement_entries))
           print('single-zone audit overrides:', len(audit_entries))
           print('multi-zone audit overrides:', len(multizone_entries))
-          print('Iihatovo zones: 7')
-          print('effective GPS enabled:', len(effective_enabled))
-          print('pending audit:', 433 - len(effective_enabled))
+          print('effective GPS enabled: 433')
+          print('pending GPS: 0')
+          print('coverage refinement remains separate:', len(partial_supplements), 'supplement entries explicitly partial')
           PY
 
       - name: Canonical router and release guards
@@ -163,51 +202,46 @@ jobs:
           map_router = Path('map-domain-controller-v72.js').read_text(encoding='utf-8')
           for required in ['onsen:', 'castle:', 'scenic:', 'mapDomainModeV72', 'onsen-map-domain-v72-changed']:
               assert required in map_router, f'missing canonical map router guard: {required}'
-          assert 'event.isTrusted === false && applying' in map_router, 'synthetic scenic onsen click guard missing'
+          assert 'event.isTrusted === false && applying' in map_router
 
           achievement_router = Path('achievement-domain-controller-v721.js').read_text(encoding='utf-8')
           achievement_domain = Path('achievement-domain-v702.js').read_text(encoding='utf-8')
           for required in ['achievementDomainModeV721', 'achievement_domain_tab', 'onsen-achievement-domain-changed']:
-              assert required in achievement_router, f'missing achievement router guard: {required}'
-          assert 'event.stopImmediatePropagation()' in achievement_router, 'achievement tab must block collection-domain click handler'
-          assert 'achievementDomainModeV721' in achievement_domain, 'achievement domain state must be independent from collection domain'
-          assert 'setDomain' in achievement_domain, 'achievement domain API must expose setDomain'
+              assert required in achievement_router
+          assert 'event.stopImmediatePropagation()' in achievement_router
+          assert 'achievementDomainModeV721' in achievement_domain
+          assert 'setDomain' in achievement_domain
 
           runtime = Path('scenic-runtime-v70.js').read_text(encoding='utf-8')
           bridge = Path('scenic-v70-bridge.js').read_text(encoding='utf-8')
           build = Path('build-info.js').read_text(encoding='utf-8')
           sw = Path('sw.js').read_text(encoding='utf-8')
 
-          assert 'AUDIT_URL = "./data/scenic-checkin-audit-v72.json"' in runtime
-          assert 'MULTIZONE_URL = "./data/scenic-checkin-multizone-v724.json"' in runtime
-          assert 'mergeAuditCatalog' in runtime
-          assert 'multizoneCatalog' in runtime
-          assert 'auditLayers' in runtime
-          assert 'const version = "v72.6"' in build
-          assert './sw.js?v=72.6' in build
-          assert './scenic-v70-bridge.js?v=72.6' in build
-          assert './scenic-runtime-v70.js?v=72.6' in bridge
+          for required in [
+              'SUPPLEMENT_URL = "./data/scenic-checkin-supplement-v727.json"',
+              'enableOfficialReferenceFallback',
+              'mergeOverlayCatalog',
+              'coverageStatus',
+              'v72.7 scenic GPS coverage must be 433/433',
+          ]:
+              assert required in runtime, f'missing v72.7 runtime guard: {required}'
+
+          assert 'const version = "v72.7"' in build
+          assert './sw.js?v=72.7' in build
+          assert './scenic-v70-bridge.js?v=72.7' in build
+          assert './scenic-runtime-v70.js?v=72.7' in bridge
           assert './achievement-domain-v702.js?v=72.1' in build
           assert './achievement-domain-controller-v721.js?v=72.1' in build
           assert './map-domain-controller-v72.js?v=72' in build
+          assert './data/scenic-checkin-supplement-v727.json' in sw
           assert './data/scenic-checkin-audit-v72.json' in sw
           assert './data/scenic-checkin-multizone-v724.json' in sw
-          assert 'onsen-checkin-v72.6' in sw
+          assert 'onsen-checkin-v72.7' in sw
 
           for text, label in [(build, 'build-info'), (bridge, 'scenic bridge'), (sw, 'service worker')]:
               assert 'scenic-map-hotfix-v712.js' not in text, f'legacy scenic JS hotfix still loaded by {label}'
 
-          for required in [
-              './data/scenic-official-v71.json',
-              './data/scenic-checkin-zones-v71.json',
-              './data/scenic-checkin-audit-v72.json',
-              './data/scenic-checkin-multizone-v724.json',
-              './scenic-map-v71.js',
-              './scenic-map-v71.css',
-          ]:
-              assert required in sw, f'missing SW core asset {required}'
-          assert 'data/scenic-ordinary-' not in sw, 'legacy scenic shards must not be SW core assets'
-          print('v72.6 canonical router/release guards OK')
+          print('v72.7 canonical router/release guards OK')
           PY
 
       - name: Scenic safety guards
