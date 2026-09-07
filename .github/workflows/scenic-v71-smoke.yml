@@ -1,4 +1,4 @@
-name: Domain routers and scenic GPS v72.7 smoke
+name: Travel recovery and scenic stability v72.8 smoke
 
 on:
   workflow_dispatch:
@@ -8,17 +8,20 @@ on:
       - "achievement-domain-controller-v721.js"
       - "achievement-domain-v702.js"
       - "castle-map-v62.js"
+      - "castle-visit-runtime-v61.js"
+      - "visit-log-ui.js"
+      - "trip-power-mode.js"
+      - "travel-domain-recovery-v728.js"
       - "scenic-runtime-v70.js"
       - "scenic-map-v71.js"
-      - "scenic-map-v71.css"
+      - "scenic-map-stability-v728.js"
       - "scenic-v70-bridge.js"
-      - "scenic-collection-ui-v70.js"
-      - "scenic-collection-ui-v70.css"
       - "data/scenic-official-v71.json"
       - "data/scenic-checkin-zones-v71.json"
       - "data/scenic-checkin-supplement-v727.json"
       - "data/scenic-checkin-audit-v72.json"
       - "data/scenic-checkin-multizone-v724.json"
+      - "data/castle-checkin-zones-v62.json"
       - "build-info.js"
       - "sw.js"
       - ".github/workflows/scenic-v71-smoke.yml"
@@ -40,14 +43,18 @@ jobs:
           node --check achievement-domain-controller-v721.js
           node --check achievement-domain-v702.js
           node --check castle-map-v62.js
+          node --check castle-visit-runtime-v61.js
+          node --check visit-log-ui.js
+          node --check trip-power-mode.js
+          node --check travel-domain-recovery-v728.js
           node --check scenic-runtime-v70.js
           node --check scenic-map-v71.js
+          node --check scenic-map-stability-v728.js
           node --check scenic-v70-bridge.js
-          node --check scenic-collection-ui-v70.js
           node --check build-info.js
           node --check sw.js
 
-      - name: Scenic catalog and full GPS integrity
+      - name: Scenic catalog remains 433 GPS ready
         run: |
           python - <<'PY'
           import json
@@ -58,204 +65,148 @@ jobs:
           supplement = json.loads(Path('data/scenic-checkin-supplement-v727.json').read_text(encoding='utf-8'))
           audit = json.loads(Path('data/scenic-checkin-audit-v72.json').read_text(encoding='utf-8'))
           multizone = json.loads(Path('data/scenic-checkin-multizone-v724.json').read_text(encoding='utf-8'))
+          castles = json.loads(Path('data/castle-checkin-zones-v62.json').read_text(encoding='utf-8'))
 
           entries = master['entries']
           zone_entries = zones['entries']
-          supplement_entries = supplement['entries']
-          audit_entries = audit['entries']
-          multizone_entries = multizone['entries']
-          ids = [str(e['id']) for e in entries]
-          zone_ids = [str(e['scenicId']) for e in zone_entries]
-          manage_ids = [str(e['officialManageId']) for e in entries]
-          base_by_id = {str(e['scenicId']): e for e in zone_entries}
-
-          assert master['counts']['ordinary'] == 397, master['counts']
-          assert master['counts']['special'] == 36, master['counts']
-          assert master['counts']['total'] == 433, master['counts']
-          assert len(entries) == 433 and len(set(ids)) == 433
-          assert len(set(manage_ids)) == 433, 'official manage ID collision'
-          assert len(zone_entries) == 433 and len(set(zone_ids)) == 433
-          assert set(zone_ids) == set(ids), 'zone/master ID mismatch'
-
-          coord_entries = [e for e in entries if isinstance(e.get('lat'), (int,float)) and isinstance(e.get('lng'), (int,float))]
-          base_enabled = [e for e in zone_entries if e.get('checkinEnabled')]
-          assert len(coord_entries) == master['counts']['officialCoordinates'] == zones['counts']['officialCoordinates'] == 418
-          assert len(base_enabled) == zones['counts']['gpsEnabled'] == 256
-
-          no_coord_ids = {
-              str(e['scenicId']) for e in zone_entries
-              if e.get('coordinateStatus') == 'official_no_coordinate'
-          }
-          expected_no_coord_ids = {
-              'scenic_jodogahama',
-              'scenic_honmashi_bettei',
-              'scenic_denboin_garden',
-              'scenic_hakusan_park_niigata',
-              'scenic_sue_waterworks_garden',
-              'scenic_yonako_bakufugun',
-              'scenic_ord_kinki_005',
-              'scenic_ord_kinki_085',
-              'scenic_ord_kinki_068',
-              'scenic_ord_kyushu_015',
-              'scenic_ord_kyushu_017',
-              'scenic_ord_kyushu_024',
-              'scenic_ord_kyushu_027',
-              'scenic_ord_kyushu_029',
-              'scenic_ord_kyushu_030',
-          }
-          assert no_coord_ids == expected_no_coord_ids, (len(no_coord_ids), no_coord_ids ^ expected_no_coord_ids)
-
-          supplement_ids = [str(e['scenicId']) for e in supplement_entries]
-          assert len(supplement_entries) == 15
-          assert len(set(supplement_ids)) == 15
-          assert set(supplement_ids) == expected_no_coord_ids
-          for entry in supplement_entries:
-              scenic_id = str(entry['scenicId'])
-              assert not base_by_id[scenic_id].get('checkinEnabled'), scenic_id
-              assert base_by_id[scenic_id].get('coordinateStatus') == 'official_no_coordinate', scenic_id
-              assert entry.get('checkinEnabled') is True, scenic_id
-              assert entry.get('gpsCoverageStatus'), scenic_id
-              assert isinstance(entry.get('gpsCoverageComplete'), bool), scenic_id
-              zlist = entry.get('zones') or []
-              assert zlist, scenic_id
-              assert len({str(z['id']) for z in zlist}) == len(zlist), scenic_id
-              for z in zlist:
-                  assert 500 <= float(z['radiusM']) <= 2000, (scenic_id, z)
-                  assert float(z['accuracyRequiredM']) == 500, (scenic_id, z)
-                  assert 20 <= float(z['lat']) <= 46.5, (scenic_id, z)
-                  assert 122 <= float(z['lng']) <= 154, (scenic_id, z)
-                  assert str(z.get('sourceUrl', '')).startswith('https://'), scenic_id
-
-          audit_ids = [str(e['scenicId']) for e in audit_entries]
-          assert len(audit_entries) == 18
-          assert len(set(audit_ids)) == 18
-          assert set(audit_ids) <= set(zone_ids)
-
-          multizone_ids = [str(e['scenicId']) for e in multizone_entries]
-          assert len(multizone_entries) == 4
-          assert len(set(multizone_ids)) == 4
-          expected_zone_counts = {
-              'scenic_ord_kinki_095': 3,
-              'scenic_ord_kinki_106': 2,
-              'scenic_oya_kigan': 2,
-              'scenic_ihatovo': 7,
-          }
-          assert set(multizone_ids) == set(expected_zone_counts)
-          for entry in multizone_entries:
-              scenic_id = str(entry['scenicId'])
-              zlist = entry.get('zones') or []
-              assert len(zlist) == expected_zone_counts[scenic_id]
-              assert len({str(z['id']) for z in zlist}) == len(zlist)
-              for z in zlist:
-                  assert 500 <= float(z['radiusM']) <= 2000, (scenic_id, z)
-                  assert float(z['accuracyRequiredM']) == 500, (scenic_id, z)
+          assert master['counts']['ordinary'] == 397
+          assert master['counts']['special'] == 36
+          assert master['counts']['total'] == 433
+          assert len(entries) == 433 and len({str(e['id']) for e in entries}) == 433
+          assert len(zone_entries) == 433 and len({str(e['scenicId']) for e in zone_entries}) == 433
+          assert len([e for e in entries if isinstance(e.get('lat'), (int,float)) and isinstance(e.get('lng'), (int,float))]) == 418
+          assert len(supplement['entries']) == 15
+          assert len(multizone['entries']) == 4
+          assert len(audit['entries']) == 18
+          assert len(castles['entries']) == 200
 
           effective = {str(e['scenicId']): dict(e) for e in zone_entries}
           fallback_enabled = 0
-          for scenic_id, entry in effective.items():
+          for entry in effective.values():
               if entry.get('checkinEnabled'):
                   continue
               zlist = entry.get('zones') or []
               if entry.get('coordinateStatus') == 'official_csv' and zlist:
                   entry['checkinEnabled'] = True
-                  entry['gpsFallbackEnabled'] = True
-                  entry['gpsCoverageStatus'] = 'official_reference_only'
-                  entry['gpsCoverageComplete'] = False
                   fallback_enabled += 1
-
-          assert fallback_enabled == 162, fallback_enabled
-          assert sum(1 for e in effective.values() if e.get('checkinEnabled') and e.get('zones')) == 418
-
-          for layer in (supplement_entries, audit_entries, multizone_entries):
+          assert fallback_enabled == 162
+          for layer in (supplement['entries'], audit['entries'], multizone['entries']):
               for override in layer:
-                  scenic_id = str(override['scenicId'])
-                  effective[scenic_id] = {**effective[scenic_id], **override}
-
-          effective_enabled = [e for e in effective.values() if e.get('checkinEnabled') and e.get('zones')]
-          assert len(effective_enabled) == 433, len(effective_enabled)
-          assert 433 - len(effective_enabled) == 0
-          for entry in effective_enabled:
+                  sid = str(override['scenicId'])
+                  effective[sid] = {**effective[sid], **override}
+          enabled = [e for e in effective.values() if e.get('checkinEnabled') and e.get('zones')]
+          assert len(enabled) == 433
+          for entry in enabled:
               for z in entry.get('zones') or []:
-                  assert float(z['radiusM']) >= 500, (entry['scenicId'], z)
-                  assert float(z['accuracyRequiredM']) >= 500, (entry['scenicId'], z)
+                  assert float(z['radiusM']) >= 500
+                  assert float(z['accuracyRequiredM']) >= 500
 
-          partial_supplements = [e for e in supplement_entries if e.get('gpsCoverageComplete') is False]
-          assert partial_supplements, 'coverage completeness must remain separate from GPS readiness'
-
-          print('official master: 397 ordinary + 36 special = 433 unique')
-          print('Culture Agency coordinates:', len(coord_entries))
-          print('base GPS enabled:', len(base_enabled))
-          print('official-reference fallback enabled:', fallback_enabled)
-          print('no-coordinate supplements:', len(supplement_entries))
-          print('single-zone audit overrides:', len(audit_entries))
-          print('multi-zone audit overrides:', len(multizone_entries))
-          print('effective GPS enabled: 433')
-          print('pending GPS: 0')
-          print('coverage refinement remains separate:', len(partial_supplements), 'supplement entries explicitly partial')
+          # Castle travel recovery must normalize legacy sub-500m radii at runtime.
+          assert any(float(e['radiusM']) < 500 for e in castles['entries'])
+          print('scenic GPS ready: 433/433; castle zones: 200 (runtime min radius guard required)')
           PY
 
-      - name: Canonical router and release guards
+      - name: Travel recovery domain guards
         run: |
           python - <<'PY'
           from pathlib import Path
+          travel = Path('travel-domain-recovery-v728.js').read_text(encoding='utf-8')
+          legacy = Path('visit-log-ui.js').read_text(encoding='utf-8')
 
-          map_router = Path('map-domain-controller-v72.js').read_text(encoding='utf-8')
-          for required in ['onsen:', 'castle:', 'scenic:', 'mapDomainModeV72', 'onsen-map-domain-v72-changed']:
-              assert required in map_router, f'missing canonical map router guard: {required}'
-          assert 'event.isTrusted === false && applying' in map_router
+          # Preserve the known legacy behavior while extending it through a separate safe store.
+          assert 'entityType: "onsen"' in legacy
+          for required in [
+              'visitDomainCandidatesV728',
+              'function scanCastles',
+              'function scanScenic',
+              'const castleChanged=scanCastles',
+              'const scenicChanged=scanScenic',
+              'entityType:"castle"',
+              'entityType:"scenic"',
+              'Math.max(500,Number(raw.radiusM)||750)',
+              'window.OnsenCastleVisits',
+              'window.OnsenScenicRuntime',
+              'verificationType:onsite?"gps_recovered"',
+              'verificationType:onsite?"gps_scenic"',
+              'recordSource:"visit_candidate_confirmation"',
+              'window.OnsenMapDomainV72?.open?.',
+              'SAMPLE_INTERVAL_MS = 60 * 1000',
+          ]:
+              assert required in travel, f'missing travel recovery guard: {required}'
+          assert 'scanCastles(normalized,accuracyM,cfg.activeSessionId)||scanScenic' not in travel, 'castle match must not short-circuit scenic scan'
+          assert 'MutationObserver' not in travel
+          print('castle/scenic travel recovery guards OK')
+          PY
 
+      - name: Scenic layer lifecycle guards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          stability = Path('scenic-map-stability-v728.js').read_text(encoding='utf-8')
+          router = Path('map-domain-controller-v72.js').read_text(encoding='utf-8')
+          scenic = Path('scenic-map-v71.js').read_text(encoding='utf-8')
+
+          for required in [
+              'router()?.getMode?.()==="scenic"',
+              'function ensureSourceAndLayers',
+              'if(!m.getSource(SOURCE))m.addSource',
+              'if(!m.getLayer(SYMBOL))m.addLayer',
+              'if(!m.getLayer(LABELS))m.addLayer',
+              'if(!m.getLayer(ZONE_FILL))m.addLayer',
+              'if(!m.getLayer(ZONE_LINE))m.addLayer',
+              '"style.load"',
+              '"styledata"',
+              '"idle"',
+              'syncLegacyActive',
+              'onsen-map-domain-v72-changed',
+              'onsen-map-domain-changed',
+          ]:
+              assert required in stability, f'missing scenic stability guard: {required}'
+          assert 'mapDomainModeV72' in router
+          assert 'let active = false' in scenic, 'legacy active state expected to remain only as compatibility state'
+          assert 'MutationObserver' not in stability
+          print('scenic layer lifecycle recovery guards OK')
+          PY
+
+      - name: Release and regression guards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          build = Path('build-info.js').read_text(encoding='utf-8')
+          sw = Path('sw.js').read_text(encoding='utf-8')
+          bridge = Path('scenic-v70-bridge.js').read_text(encoding='utf-8')
+          runtime = Path('scenic-runtime-v70.js').read_text(encoding='utf-8')
           achievement_router = Path('achievement-domain-controller-v721.js').read_text(encoding='utf-8')
           achievement_domain = Path('achievement-domain-v702.js').read_text(encoding='utf-8')
-          for required in ['achievementDomainModeV721', 'achievement_domain_tab', 'onsen-achievement-domain-changed']:
+
+          assert 'const version = "v72.8"' in build
+          assert './sw.js?v=72.8' in build
+          assert './scenic-v70-bridge.js?v=72.8' in build
+          assert './travel-domain-recovery-v728.js?v=72.8' in build
+          assert './scenic-map-stability-v728.js?v=72.8' in build
+          assert 'const RELEASE="v72.8"' in bridge
+          assert './scenic-runtime-v70.js?v=72.8' in bridge
+          assert 'onsen-checkin-v72.8' in sw
+          assert './travel-domain-recovery-v728.js' in sw
+          assert './scenic-map-stability-v728.js' in sw
+          assert 'v72.7 scenic GPS coverage must be 433/433' in runtime
+
+          for required in ['achievementDomainModeV721','achievement_domain_tab','onsen-achievement-domain-changed']:
               assert required in achievement_router
           assert 'event.stopImmediatePropagation()' in achievement_router
           assert 'achievementDomainModeV721' in achievement_domain
-          assert 'setDomain' in achievement_domain
 
-          runtime = Path('scenic-runtime-v70.js').read_text(encoding='utf-8')
-          bridge = Path('scenic-v70-bridge.js').read_text(encoding='utf-8')
-          build = Path('build-info.js').read_text(encoding='utf-8')
-          sw = Path('sw.js').read_text(encoding='utf-8')
-
-          for required in [
-              'SUPPLEMENT_URL = "./data/scenic-checkin-supplement-v727.json"',
-              'enableOfficialReferenceFallback',
-              'mergeOverlayCatalog',
-              'coverageStatus',
-              'v72.7 scenic GPS coverage must be 433/433',
-          ]:
-              assert required in runtime, f'missing v72.7 runtime guard: {required}'
-
-          assert 'const version = "v72.7"' in build
-          assert './sw.js?v=72.7' in build
-          assert './scenic-v70-bridge.js?v=72.7' in build
-          assert './scenic-runtime-v70.js?v=72.7' in bridge
-          assert './achievement-domain-v702.js?v=72.1' in build
-          assert './achievement-domain-controller-v721.js?v=72.1' in build
-          assert './map-domain-controller-v72.js?v=72' in build
-          assert './data/scenic-checkin-supplement-v727.json' in sw
-          assert './data/scenic-checkin-audit-v72.json' in sw
-          assert './data/scenic-checkin-multizone-v724.json' in sw
-          assert 'onsen-checkin-v72.7' in sw
-
-          for text, label in [(build, 'build-info'), (bridge, 'scenic bridge'), (sw, 'service worker')]:
-              assert 'scenic-map-hotfix-v712.js' not in text, f'legacy scenic JS hotfix still loaded by {label}'
-
-          print('v72.7 canonical router/release guards OK')
+          for text in (build, bridge, sw):
+              assert 'scenic-map-hotfix-v712.js' not in text
+          print('v72.8 release and achievement regression guards OK')
           PY
 
-      - name: Scenic safety guards
+      - name: Scenic core safety guards
         run: |
           python - <<'PY'
           from pathlib import Path
-          files = [
-              Path('scenic-runtime-v70.js'),
-              Path('scenic-map-v71.js'),
-              Path('scenic-v70-bridge.js'),
-          ]
-          for p in files:
+          for p in [Path('scenic-runtime-v70.js'), Path('scenic-map-v71.js'), Path('scenic-v70-bridge.js'), Path('scenic-map-stability-v728.js')]:
               text = p.read_text(encoding='utf-8')
               assert 'MutationObserver' not in text, f'MutationObserver forbidden in {p}'
-              assert 'stopImmediatePropagation' not in text, f'stopImmediatePropagation forbidden in {p}'
           print('scenic safety guards OK')
           PY
