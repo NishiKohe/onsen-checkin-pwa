@@ -73,12 +73,12 @@
   }
 
   function scanScenic(sample, accuracyM, sessionId) {
-    const rt = window.OnsenScenicRuntime;
-    if (!rt?.entries || !rt?.auditedZones) return false;
+    const runtime = window.OnsenScenicRuntime;
+    if (!runtime?.entries || !runtime?.auditedZones) return false;
     let changed = false;
-    for (const entry of rt.entries()) {
-      if (!entry?.id || rt.isVisited?.(entry.id)) continue;
-      const zones = rt.auditedZones(entry);
+    for (const entry of runtime.entries()) {
+      if (!entry?.id || runtime.isVisited?.(entry.id)) continue;
+      const zones = runtime.auditedZones(entry);
       let nearest = null;
       for (const zone of zones) {
         const d=distanceM(sample.lat,sample.lng,Number(zone.lat),Number(zone.lng)),radiusM=Math.max(500,Number(zone.radiusM)||750),remainingM=Math.max(0,d-radiusM);
@@ -102,7 +102,9 @@
     if(!cfg.tripMode||!Number.isFinite(Number(sample?.lat))||!Number.isFinite(Number(sample?.lng)))return false;
     const accuracyM=Number.isFinite(Number(sample?.accuracyM))?Number(sample.accuracyM):9999;if(accuracyM>1000)return false;
     const normalized={...sample,lat:Number(sample.lat),lng:Number(sample.lng),accuracyM};
-    const changed=scanCastles(normalized,accuracyM,cfg.activeSessionId)||scanScenic(normalized,accuracyM,cfg.activeSessionId);
+    const castleChanged=scanCastles(normalized,accuracyM,cfg.activeSessionId);
+    const scenicChanged=scanScenic(normalized,accuracyM,cfg.activeSessionId);
+    const changed=castleChanged||scenicChanged;
     if(changed)render();
     return changed;
   }
@@ -117,11 +119,11 @@
   }
 
   function confirmScenic(candidate, onsite) {
-    const rt=window.OnsenScenicRuntime;if(!rt)return false;
-    if(rt.isVisited?.(candidate.entityId))return true;
-    const state=rt.loadState(),entry=rt.get?.(candidate.entityId)||{};
+    const runtime=window.OnsenScenicRuntime;if(!runtime)return false;
+    if(runtime.isVisited?.(candidate.entityId))return true;
+    const state=runtime.loadState(),entry=runtime.get?.(candidate.entityId)||{};
     state.visited[String(candidate.entityId)]={visitedAt:Number(candidate.detectedAt||Date.now()),verificationType:onsite?"gps_scenic":"past_self_report",verificationLevel:onsite?"onsite":"recorded",recordSource:"visit_candidate_confirmation",source:"travel_domain_recovery_v728",lat:candidate.evidence?.[0]?.lat??null,lng:candidate.evidence?.[0]?.lng??null,accuracyM:candidate.accuracyM??null,zoneLabel:candidate.zoneLabel||null,distanceM:candidate.distanceM??null,radiusM:candidate.radiusM??null,specialScenic:entry.specialScenic===true,evidence:candidate.evidence||[],recoveredAt:Date.now()};
-    rt.saveState(state,"scenic_travel_candidate_recovered");
+    runtime.saveState(state,"scenic_travel_candidate_recovered");
     return true;
   }
 
