@@ -8,6 +8,7 @@ on:
       - "achievement-domain-controller-v721.js"
       - "achievement-domain-v702.js"
       - "castle-map-v62.js"
+      - "castle-domain-v61.js"
       - "castle-visit-runtime-v61.js"
       - "visit-log-ui.js"
       - "trip-power-mode.js"
@@ -22,6 +23,7 @@ on:
       - "data/scenic-checkin-audit-v72.json"
       - "data/scenic-checkin-multizone-v724.json"
       - "data/castle-checkin-zones-v62.json"
+      - "data/castles-zoku100-v68.csv"
       - "build-info.js"
       - "sw.js"
       - ".github/workflows/scenic-v71-smoke.yml"
@@ -43,6 +45,7 @@ jobs:
           node --check achievement-domain-controller-v721.js
           node --check achievement-domain-v702.js
           node --check castle-map-v62.js
+          node --check castle-domain-v61.js
           node --check castle-visit-runtime-v61.js
           node --check visit-log-ui.js
           node --check trip-power-mode.js
@@ -66,6 +69,7 @@ jobs:
           audit = json.loads(Path('data/scenic-checkin-audit-v72.json').read_text(encoding='utf-8'))
           multizone = json.loads(Path('data/scenic-checkin-multizone-v724.json').read_text(encoding='utf-8'))
           castles = json.loads(Path('data/castle-checkin-zones-v62.json').read_text(encoding='utf-8'))
+          zoku_rows = [line for line in Path('data/castles-zoku100-v68.csv').read_text(encoding='utf-8').splitlines()[1:] if line.strip()]
 
           entries = master['entries']
           zone_entries = zones['entries']
@@ -78,7 +82,8 @@ jobs:
           assert len(supplement['entries']) == 15
           assert len(multizone['entries']) == 4
           assert len(audit['entries']) == 18
-          assert len(castles['entries']) == 200
+          assert len(castles['entries']) == 100
+          assert len(zoku_rows) == 100
 
           effective = {str(e['scenicId']): dict(e) for e in zone_entries}
           fallback_enabled = 0
@@ -101,9 +106,12 @@ jobs:
                   assert float(z['radiusM']) >= 500
                   assert float(z['accuracyRequiredM']) >= 500
 
-          # Castle travel recovery must normalize legacy sub-500m radii at runtime.
+          # Japan 100 still contains legacy sub-500m source radii; runtime must clamp them to 500m.
           assert any(float(e['radiusM']) < 500 for e in castles['entries'])
-          print('scenic GPS ready: 433/433; castle zones: 200 (runtime min radius guard required)')
+          castle_domain = Path('castle-domain-v61.js').read_text(encoding='utf-8')
+          assert 'entries.length !== 200' in castle_domain
+          assert 'Math.max(500, Number(zone.radiusM) || 750)' in castle_domain
+          print('scenic GPS ready: 433/433; castle runtime combines 100 + continued 100 = 200')
           PY
 
       - name: Travel recovery domain guards
@@ -113,7 +121,6 @@ jobs:
           travel = Path('travel-domain-recovery-v728.js').read_text(encoding='utf-8')
           legacy = Path('visit-log-ui.js').read_text(encoding='utf-8')
 
-          # Preserve the known legacy behavior while extending it through a separate safe store.
           assert 'entityType: "onsen"' in legacy
           for required in [
               'visitDomainCandidatesV728',
@@ -133,7 +140,7 @@ jobs:
               'SAMPLE_INTERVAL_MS = 60 * 1000',
           ]:
               assert required in travel, f'missing travel recovery guard: {required}'
-          assert 'scanCastles(normalized,accuracyM,cfg.activeSessionId)||scanScenic' not in travel, 'castle match must not short-circuit scenic scan'
+          assert 'scanCastles(normalized,accuracyM,cfg.activeSessionId)||scanScenic' not in travel
           assert 'MutationObserver' not in travel
           print('castle/scenic travel recovery guards OK')
           PY
@@ -149,11 +156,13 @@ jobs:
           for required in [
               'router()?.getMode?.()==="scenic"',
               'function ensureSourceAndLayers',
-              'if(!m.getSource(SOURCE))m.addSource',
-              'if(!m.getLayer(SYMBOL))m.addLayer',
-              'if(!m.getLayer(LABELS))m.addLayer',
-              'if(!m.getLayer(ZONE_FILL))m.addLayer',
-              'if(!m.getLayer(ZONE_LINE))m.addLayer',
+              'if(!m.getSource(SOURCE))',
+              'if(!m.getLayer(SYMBOL))',
+              'if(!m.getLayer(LABELS))',
+              'if(!m.getLayer(ZONE_FILL))',
+              'if(!m.getLayer(ZONE_LINE))',
+              'm.getLayoutProperty?.(id,"visibility")===desired',
+              'layerState.recreated&&scenicActive()&&lastSelectedId',
               '"style.load"',
               '"styledata"',
               '"idle"',
@@ -163,7 +172,7 @@ jobs:
           ]:
               assert required in stability, f'missing scenic stability guard: {required}'
           assert 'mapDomainModeV72' in router
-          assert 'let active = false' in scenic, 'legacy active state expected to remain only as compatibility state'
+          assert 'let active = false' in scenic
           assert 'MutationObserver' not in stability
           print('scenic layer lifecycle recovery guards OK')
           PY
