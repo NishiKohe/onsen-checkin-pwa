@@ -1,4 +1,4 @@
-name: Travel recovery and scenic stability v72.8 smoke
+name: Travel recovery and scenic stability v72.9 smoke
 
 on:
   workflow_dispatch:
@@ -106,7 +106,6 @@ jobs:
                   assert float(z['radiusM']) >= 500
                   assert float(z['accuracyRequiredM']) >= 500
 
-          # Japan 100 still contains legacy sub-500m source radii; runtime must clamp them to 500m.
           assert any(float(e['radiusM']) < 500 for e in castles['entries'])
           castle_domain = Path('castle-domain-v61.js').read_text(encoding='utf-8')
           assert 'entries.length !== 200' in castle_domain
@@ -145,13 +144,28 @@ jobs:
           print('castle/scenic travel recovery guards OK')
           PY
 
-      - name: Scenic layer lifecycle guards
+      - name: Scenic selection and layer lifecycle guards
         run: |
           python - <<'PY'
           from pathlib import Path
           stability = Path('scenic-map-stability-v728.js').read_text(encoding='utf-8')
           router = Path('map-domain-controller-v72.js').read_text(encoding='utf-8')
           scenic = Path('scenic-map-v71.js').read_text(encoding='utf-8')
+
+          for required in [
+              'function pickScenicFeature',
+              'function bindScenicSelection',
+              'm.queryRenderedFeatures(event.point,{layers})',
+              'featureScreenDistance',
+              'function syncZoneVisibility',
+              'active&&!!selectedId',
+              'onsen-scenic-selection-changed',
+              'selectedId:()=>selectedId',
+              'renderSelectedZone',
+          ]:
+              assert required in scenic, f'missing scenic single-selection guard: {required}'
+          assert 'm.on("click",SYMBOL,select)' not in scenic
+          assert 'm.on("click",LABELS,select)' not in scenic
 
           for required in [
               'router()?.getMode?.()==="scenic"',
@@ -162,19 +176,25 @@ jobs:
               'if(!m.getLayer(ZONE_FILL))',
               'if(!m.getLayer(ZONE_LINE))',
               'm.getLayoutProperty?.(id,"visibility")===desired',
-              'layerState.recreated&&scenicActive()&&lastSelectedId',
+              'function restoreSelectedZoneIfNeeded',
+              'api?.selectedId?.()',
+              'api.renderSelectedZone?.()',
+              'for(const id of [SYMBOL,LABELS])',
               '"style.load"',
               '"styledata"',
               '"idle"',
               'syncLegacyActive',
               'onsen-map-domain-v72-changed',
               'onsen-map-domain-changed',
+              'onsen-scenic-selection-changed',
           ]:
               assert required in stability, f'missing scenic stability guard: {required}'
+          assert 'for(const id of [SYMBOL,LABELS,ZONE_FILL,ZONE_LINE])' not in stability
+          assert 'lastSelectedId' not in stability
           assert 'mapDomainModeV72' in router
           assert 'let active = false' in scenic
           assert 'MutationObserver' not in stability
-          print('scenic layer lifecycle recovery guards OK')
+          print('scenic selection is single-resolved and zone ownership stays in scenic core')
           PY
 
       - name: Release and regression guards
@@ -188,14 +208,15 @@ jobs:
           achievement_router = Path('achievement-domain-controller-v721.js').read_text(encoding='utf-8')
           achievement_domain = Path('achievement-domain-v702.js').read_text(encoding='utf-8')
 
-          assert 'const version = "v72.8"' in build
-          assert './sw.js?v=72.8' in build
-          assert './scenic-v70-bridge.js?v=72.8' in build
+          assert 'const version = "v72.9"' in build
+          assert './sw.js?v=72.9' in build
+          assert './scenic-v70-bridge.js?v=72.9' in build
           assert './travel-domain-recovery-v728.js?v=72.8' in build
-          assert './scenic-map-stability-v728.js?v=72.8' in build
-          assert 'const RELEASE="v72.8"' in bridge
+          assert './scenic-map-stability-v728.js?v=72.9' in build
+          assert 'const RELEASE="v72.9"' in bridge
+          assert './scenic-map-v71.js?v=72.9' in bridge
           assert './scenic-runtime-v70.js?v=72.8' in bridge
-          assert 'onsen-checkin-v72.8' in sw
+          assert 'onsen-checkin-v72.9' in sw
           assert './travel-domain-recovery-v728.js' in sw
           assert './scenic-map-stability-v728.js' in sw
           assert 'v72.7 scenic GPS coverage must be 433/433' in runtime
@@ -207,7 +228,7 @@ jobs:
 
           for text in (build, bridge, sw):
               assert 'scenic-map-hotfix-v712.js' not in text
-          print('v72.8 release and achievement regression guards OK')
+          print('v72.9 release and achievement regression guards OK')
           PY
 
       - name: Scenic core safety guards
