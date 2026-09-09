@@ -1,6 +1,6 @@
 (() => {
-  const version = "v72.9";
-  const preferredWorker = "./sw.js?v=72.9";
+  const version = "v73";
+  const preferredWorker = "./sw.js?v=73";
   window.OnsenBuildInfo = { version, updatedAt: "2026-09-09" };
 
   function addBridge({ globalName, id, src, label }) {
@@ -44,11 +44,10 @@
     addBridge({ globalName: "OnsenUiRecoveryV701", id: "uiRecoveryV701Script", src: "./ui-recovery-v701.js?v=70.1", label: "v70.1 UI recovery" });
     addBridge({ globalName: "OnsenDomainAchievements", id: "achievementDomainV702Script", src: "./achievement-domain-v702.js?v=72.1", label: "v72.1 domain achievements" });
     addBridge({ globalName: "OnsenAchievementDomainV721", id: "achievementDomainControllerV721Script", src: "./achievement-domain-controller-v721.js?v=72.1", label: "v72.1 achievement domain controller" });
-    addBridge({ globalName: "OnsenMapDomainV72", id: "mapDomainControllerV72Script", src: "./map-domain-controller-v72.js?v=72", label: "v72 map domain controller" });
-    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=72.9", label: "v72.9 scenic bridge" });
-    addBridge({ globalName: "OnsenTravelDomainRecoveryV728", id: "travelDomainRecoveryV728Script", src: "./travel-domain-recovery-v728.js?v=72.8", label: "v72.8 castle/scenic travel recovery" });
-    addBridge({ globalName: "OnsenScenicMapStabilityV728", id: "scenicMapStabilityV728Script", src: "./scenic-map-stability-v728.js?v=72.9", label: "v72.9 scenic map stability" });
-    addStyle({ id: "scenicMapStyleV71", href: "./scenic-map-v71.css?v=72" });
+    addBridge({ globalName: "OnsenMapDomainV73", id: "mapDomainControllerV73Script", src: "./map-domain-controller-v72.js?v=73", label: "v73 map domain controller" });
+    addBridge({ globalName: "OnsenScenicV71Bridge", id: "scenicV71BridgeScript", src: "./scenic-v70-bridge.js?v=73", label: "v73 scenic bridge" });
+    addBridge({ globalName: "OnsenTravelDomainRecoveryV728", id: "travelDomainRecoveryV728Script", src: "./travel-domain-recovery-v728.js?v=73", label: "v73 travel recovery" });
+    addStyle({ id: "scenicMapStyleV71", href: "./scenic-map-v71.css?v=73" });
   }
 
   function apply() {
@@ -71,7 +70,7 @@
       await registration?.update?.();
       return registration;
     } catch (err) {
-      console.warn("v72.9 service worker update check skipped", err);
+      console.warn("v73 service worker update check skipped", err);
       return null;
     }
   }
@@ -79,7 +78,7 @@
   function patchServiceWorkerRegister() {
     if (!("serviceWorker" in navigator)) return;
     const sw = navigator.serviceWorker;
-    if (sw.__onsenV729RegisterPatched) return;
+    if (sw.__onsenV73RegisterPatched) return;
     try {
       const originalRegister = sw.register.bind(sw);
       sw.register = (scriptURL, options) => {
@@ -87,9 +86,9 @@
         if (/(?:^|\/)sw\.js(?:\?|$)/.test(raw)) return originalRegister(preferredWorker, options);
         return originalRegister(scriptURL, options);
       };
-      Object.defineProperty(sw, "__onsenV729RegisterPatched", { value: true, configurable: false });
+      Object.defineProperty(sw, "__onsenV73RegisterPatched", { value: true, configurable: false });
     } catch (error) {
-      console.warn("v72.9 service worker register patch skipped", error);
+      console.warn("v73 service worker register patch skipped", error);
     }
   }
 
