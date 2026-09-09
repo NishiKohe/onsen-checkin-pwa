@@ -1,11 +1,11 @@
-const CACHE_NAME = "onsen-checkin-v72.9";
+const CACHE_NAME = "onsen-checkin-v73";
 const CORE_ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css", "./footer-navigation-v46.css",
   "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css", "./mining-pickaxe-v691.css",
   "./castle-collection-ui-v61.css", "./castle-map-v62.css", "./endless-battle-v68.css", "./scenic-collection-ui-v70.css", "./scenic-map-v71.css",
   "./profile-storage.js", "./profile-game-extension-v61.js", "./visit-log-preload.js",
   "./trip-power-mode.js", "./travel-domain-recovery-v728.js", "./app.js", "./castle-v62-hardening.js", "./domain-model.js",
-  "./castle-domain-v61.js", "./app-shell.js", "./build-info.js", "./map-domain-controller-v72.js", "./scenic-map-stability-v728.js", "./game-runtime-v59.js",
+  "./castle-domain-v61.js", "./app-shell.js", "./build-info.js", "./map-domain-controller-v72.js", "./game-runtime-v59.js",
   "./castle-visit-runtime-v61.js", "./character-runtime-v61.js", "./fishing-game-v60.js",
   "./encyclopedia-ui-v61.js", "./game-hub-v61.js", "./game-v68-bridge.js", "./game-v69-bridge.js",
   "./progression-runtime-v69.js", "./equipment-battle-sync-v69.js", "./mining-game-v69.js", "./endless-battle-v68.js",
@@ -23,16 +23,12 @@ const CORE_ASSETS = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => Promise.allSettled(CORE_ASSETS.map((asset) => cache.add(asset))))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => Promise.allSettled(CORE_ASSETS.map((asset) => cache.add(asset)))));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
-  );
+  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))));
   self.clients.claim();
 });
 
@@ -48,18 +44,13 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
-
   const dataLike = /\.(?:html|css|js|json|csv|webmanifest)$/i.test(url.pathname);
   const networkFirst = event.request.mode === "navigate" || dataLike;
-
   if (networkFirst) {
     event.respondWith((async () => {
       try {
         const response = await fetch(event.request);
-        if (response && response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-        }
+        if (response?.ok) caches.open(CACHE_NAME).then((cache) => cache.put(event.request, response.clone()));
         return response;
       } catch {
         const cached = await findCached(event.request, url);
@@ -70,19 +61,13 @@ self.addEventListener("fetch", (event) => {
     })());
     return;
   }
-
   event.respondWith((async () => {
     const cached = await caches.match(event.request);
     if (cached) return cached;
     try {
       const response = await fetch(event.request);
-      if (response && response.ok) {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-      }
+      if (response?.ok) caches.open(CACHE_NAME).then((cache) => cache.put(event.request, response.clone()));
       return response;
-    } catch {
-      return Response.error();
-    }
+    } catch { return Response.error(); }
   })());
 });
