@@ -1,7 +1,7 @@
 (() => {
   const BUILD="v71";
   const ROUTER_BUILD="v72";
-  const RELEASE="v72.8";
+  const RELEASE="v72.9";
   let installed=false;
   function addStyle(href,id){if(document.getElementById(id))return;const link=document.createElement("link");link.id=id;link.rel="stylesheet";link.href=href;document.head.appendChild(link);}
   function waitFor(test,timeoutMs=10000,intervalMs=50){return new Promise((resolve)=>{const startedAt=Date.now();const tick=()=>{let value=null;try{value=test();}catch{}if(value){resolve(value);return;}if(Date.now()-startedAt>=timeoutMs){resolve(null);return;}setTimeout(tick,intervalMs);};tick();});}
@@ -17,7 +17,7 @@
     if(!await waitFor(()=>window.OnsenCastleCollectionUI&&document.querySelector("#collectionView .collection-domain-switch"),10000)){console.warn(`${RELEASE} scenic bridge: canonical collection domain not ready`);return false;}
     if(window.OnsenScenicCollectionUI?.build!==BUILD){if(!await loadScriptOnce("./scenic-collection-ui-v70.js?v=72","scenicCollectionUiV71"))return false;}
     if(!await waitFor(()=>window.OnsenScenicCollectionUI?.build===BUILD,10000)){console.warn(`${RELEASE} scenic bridge: collection UI not ready`);return false;}
-    if(window.OnsenScenicMapV71?.build!==BUILD){await loadScriptOnce("./scenic-map-v71.js?v=72","scenicMapV71Script");}
+    if(window.OnsenScenicMapV71?.build!==BUILD){await loadScriptOnce("./scenic-map-v71.js?v=72.9","scenicMapV71Script");}
     if(!await waitFor(()=>window.OnsenScenicMapV71?.build===BUILD,10000)){console.warn(`${RELEASE} scenic bridge: map UI not ready`);return false;}
     const achievements=await waitFor(()=>window.OnsenAchievements&&document.getElementById("achievementView"),12000);
     if(achievements&&!window.OnsenDomainAchievements)await loadScriptOnce("./achievement-domain-v702.js?v=72.1","achievementDomainV702Script");
