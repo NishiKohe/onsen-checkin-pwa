@@ -1,5 +1,6 @@
 (() => {
   const BUILD = "v71";
+  const RELEASE = "v72.9";
   const SOURCE = "scenic-v71";
   const SYMBOL = "scenic-v71-symbol";
   const LABELS = "scenic-v71-labels";
@@ -53,9 +54,44 @@
     return {type:"FeatureCollection",features};
   }
   function refreshSource(){getMap()?.getSource(SOURCE)?.setData?.(buildGeoJson());}
+
+  function featureScreenDistance(m,event,feature){
+    const coords=feature?.geometry?.coordinates;
+    if(!Array.isArray(coords)||coords.length<2)return Infinity;
+    try{const p=m.project([Number(coords[0]),Number(coords[1])]);const dx=Number(p.x)-Number(event.point?.x),dy=Number(p.y)-Number(event.point?.y);return Math.hypot(dx,dy);}catch{return Infinity;}
+  }
+  function pickScenicFeature(m,event){
+    const layers=[SYMBOL,LABELS].filter((id)=>m.getLayer(id));
+    if(!layers.length)return null;
+    let features=[];
+    try{features=m.queryRenderedFeatures(event.point,{layers})||[];}catch{return null;}
+    if(!features.length)return null;
+    const bestById=new Map();
+    for(const feature of features){
+      const id=String(feature?.properties?.id||"");if(!id)continue;
+      const distance=featureScreenDistance(m,event,feature);
+      const layerPenalty=feature?.layer?.id===SYMBOL?0:0.75;
+      const score=distance+layerPenalty;
+      const current=bestById.get(id);
+      if(!current||score<current.score)bestById.set(id,{feature,score});
+    }
+    return [...bestById.values()].sort((a,b)=>a.score-b.score)[0]?.feature||null;
+  }
+  function bindScenicSelection(m){
+    if(m.__scenicUnifiedSelectionV729)return;
+    Object.defineProperty(m,"__scenicUnifiedSelectionV729",{value:true,configurable:true});
+    m.on("click",(event)=>{
+      if(!active)return;
+      if(window.OnsenMapDomainV72?.getMode?.()&&window.OnsenMapDomainV72.getMode()!=="scenic")return;
+      const feature=pickScenicFeature(m,event);if(!feature)return;
+      selectScenic(feature.properties.id,{fly:false,source:"map-tap"});
+    });
+    for(const id of [SYMBOL,LABELS]){m.on("mouseenter",id,()=>{m.getCanvas().style.cursor="pointer";});m.on("mouseleave",id,()=>{m.getCanvas().style.cursor="";});}
+  }
+
   function installLayers(){
     const m=getMap(),rt=runtime();if(!m||!rt)return false;
-    if(m.getSource(SOURCE)){refreshSource();applyMode();return true;}
+    if(m.getSource(SOURCE)){refreshSource();bindScenicSelection(m);applyMode();return true;}
     ensureIcons(m);
     m.addSource(SOURCE,{type:"geojson",data:buildGeoJson()});
     m.addLayer({id:SYMBOL,type:"symbol",source:SOURCE,layout:{visibility:"none","icon-image":["case",["==",["get","gps"],true],"scenic-v71-gps",["==",["get","visited"],true],"scenic-v71-visited",["==",["get","special"],true],"scenic-v71-special","scenic-v71-unvisited"],"icon-size":["interpolate",["linear"],["zoom"],4.6,.32,8,.48,12,.66],"icon-allow-overlap":true,"icon-ignore-placement":true}});
@@ -63,9 +99,7 @@
     m.addSource(ZONE_SOURCE,{type:"geojson",data:{type:"FeatureCollection",features:[]}});
     m.addLayer({id:ZONE_FILL,type:"fill",source:ZONE_SOURCE,layout:{visibility:"none"},paint:{"fill-color":"#7d5a92","fill-opacity":.13}});
     m.addLayer({id:ZONE_LINE,type:"line",source:ZONE_SOURCE,layout:{visibility:"none"},paint:{"line-color":"#75528b","line-width":2,"line-opacity":.88}});
-    const select=(event)=>{const feature=event.features?.[0];if(feature)selectScenic(feature.properties.id,{fly:false});};
-    m.on("click",SYMBOL,select);m.on("click",LABELS,select);
-    for(const id of [SYMBOL,LABELS]){m.on("mouseenter",id,()=>{m.getCanvas().style.cursor="pointer";});m.on("mouseleave",id,()=>{m.getCanvas().style.cursor="";});}
+    bindScenicSelection(m);
     applyMode();return true;
   }
 
@@ -97,9 +131,12 @@
   function basePanels(){const main=document.querySelector(".main");return {onsen:main?.querySelector(":scope > .panel:not(.castle-map-panel-v62):not(.scenic-map-panel-v71)"),castle:document.getElementById("castleMapPanelV62"),scenic:ensurePanel()};}
   function clearZone(){getMap()?.getSource(ZONE_SOURCE)?.setData?.({type:"FeatureCollection",features:[]});}
   function renderZone(id){
-    const rt=runtime(),source=getMap()?.getSource(ZONE_SOURCE);if(!rt||!source)return;const zones=rt.auditedZones(id);
+    const rt=runtime(),source=getMap()?.getSource(ZONE_SOURCE);if(!rt||!source)return false;const zones=rt.auditedZones(id);
     source.setData({type:"FeatureCollection",features:zones.map((zone)=>({type:"Feature",properties:{id,zoneId:zone.id,radiusM:zone.radiusM},geometry:circlePolygon(zone.lat,zone.lng,zone.radiusM)}))});
+    return zones.length>0;
   }
+  function syncZoneVisibility(){const visible=active&&!!selectedId;setLayer(ZONE_FILL,visible);setLayer(ZONE_LINE,visible);}
+  function renderSelectedZone(){if(!active||!selectedId){clearZone();syncZoneVisibility();return false;}const rendered=renderZone(selectedId);syncZoneVisibility();return rendered;}
   function selectedReferenceDistance(){const refs=runtime()?.referenceZones(selectedId)||[];if(!position||!refs.length)return null;return Math.min(...refs.map((z)=>haversineM(position.lat,position.lng,z.lat,z.lng)));}
   function selectedEvaluation(){return selectedId&&position?runtime()?.evaluatePosition(position,selectedId)||null:null;}
   function updatePanel(){
@@ -133,21 +170,27 @@
     if(!selectedId||!position)return;const result=runtime()?.registerGpsVisit(selectedId,position);const message=document.getElementById("scenicMapMessageV71");if(!result?.ok){updatePanel();return;}refreshSource();updatePanel();if(message)message.innerHTML=result.already?"<strong>GPS確認済みです。</strong>":"<strong>チェックイン成功！</strong> 名勝のGPS訪問を記録しました。";try{navigator.vibrate?.([70,40,120]);}catch{}
   }
   function selectScenic(id,options={}){
-    const entry=runtime()?.get(id),refs=runtime()?.referenceZones(id)||[];if(!entry)return false;selectedId=entry.id;renderZone(entry.id);updatePanel();if(options.fly!==false&&refs.length)getMap()?.flyTo?.({center:[refs[0].lng,refs[0].lat],zoom:Math.max(11,getMap()?.getZoom?.()||11)});return true;
+    const entry=runtime()?.get(id),refs=runtime()?.referenceZones(id)||[];if(!entry)return false;
+    selectedId=entry.id;
+    renderSelectedZone();
+    updatePanel();
+    window.dispatchEvent(new CustomEvent("onsen-scenic-selection-changed",{detail:{build:BUILD,release:RELEASE,id:selectedId,source:options.source||"api"}}));
+    if(options.fly!==false&&refs.length)getMap()?.flyTo?.({center:[refs[0].lng,refs[0].lat],zoom:Math.max(11,getMap()?.getZoom?.()||11)});
+    return true;
   }
 
   function applyMode(){
-    const m=getMap(),button=ensureSwitchButton(),panels=basePanels();setLayer(SYMBOL,active);setLayer(LABELS,active);setLayer(ZONE_FILL,active);setLayer(ZONE_LINE,active);
+    const m=getMap(),button=ensureSwitchButton(),panels=basePanels();setLayer(SYMBOL,active);setLayer(LABELS,active);syncZoneVisibility();
     if(button){button.classList.toggle("active",active);button.setAttribute("aria-pressed",active?"true":"false");}
     const root=document.getElementById("mapDomainSwitchV62");if(active&&root)for(const b of root.querySelectorAll('[data-map-domain]:not([data-map-domain="scenic"])')){b.classList.remove("active");b.setAttribute("aria-pressed","false");}
-    if(active){for(const id of ["spots-symbol","spots-labels","checkin-zone-fill","checkin-zone-line","castles-v62-symbol","castles-v62-labels","castle-checkin-zone-v62-fill","castle-checkin-zone-v62-line"])setLayer(id,false);if(panels.onsen)panels.onsen.hidden=true;if(panels.castle)panels.castle.hidden=true;if(panels.scenic)panels.scenic.hidden=false;const toolsToggle=document.getElementById("btnMapToolsToggle"),tools=document.getElementById("mapToolsPanel");if(toolsToggle)toolsToggle.hidden=true;if(tools){tools.hidden=true;tools.setAttribute("aria-hidden","true");}if(selectedId)renderZone(selectedId);else clearZone();}
-    else {if(panels.scenic)panels.scenic.hidden=true;clearZone();}
+    if(active){for(const id of ["spots-symbol","spots-labels","checkin-zone-fill","checkin-zone-line","castles-v62-symbol","castles-v62-labels","castle-checkin-zone-v62-fill","castle-checkin-zone-v62-line"])setLayer(id,false);if(panels.onsen)panels.onsen.hidden=true;if(panels.castle)panels.castle.hidden=true;if(panels.scenic)panels.scenic.hidden=false;const toolsToggle=document.getElementById("btnMapToolsToggle"),tools=document.getElementById("mapToolsPanel");if(toolsToggle)toolsToggle.hidden=true;if(tools){tools.hidden=true;tools.setAttribute("aria-hidden","true");}if(selectedId)renderSelectedZone();else{clearZone();syncZoneVisibility();}}
+    else {if(panels.scenic)panels.scenic.hidden=true;clearZone();syncZoneVisibility();}
     document.querySelector(".map-shell")?.classList.toggle("scenic-map-mode-v71",active);requestAnimationFrame(()=>m?.resize?.());
   }
   function showScenicMode(id=null){
     const onsenButton=document.querySelector('#mapDomainSwitchV62 [data-map-domain="onsen"]');
     suppressBaseDomainEvent=true;try{onsenButton?.click?.();}finally{suppressBaseDomainEvent=false;}
-    active=true;sessionStorage.setItem("mapDomainModeV71","scenic");applyMode();if(id)setTimeout(()=>selectScenic(id,{fly:true}),50);window.dispatchEvent(new CustomEvent("onsen-scenic-map-domain-changed",{detail:{build:BUILD,mode:"scenic"}}));
+    active=true;sessionStorage.setItem("mapDomainModeV71","scenic");applyMode();if(id)setTimeout(()=>selectScenic(id,{fly:true,source:"show-mode"}),50);window.dispatchEvent(new CustomEvent("onsen-scenic-map-domain-changed",{detail:{build:BUILD,mode:"scenic"}}));
   }
   function leaveScenic(){if(!active)return;active=false;sessionStorage.removeItem("mapDomainModeV71");applyMode();}
   function showScenic(id){window.OnsenAppShell?.show?.("map");showScenicMode(id);}
@@ -165,9 +208,9 @@
     });
     window.addEventListener("onsen-scenic-visit-changed",()=>{refreshSource();if(active)updatePanel();});
     window.addEventListener("pageshow",()=>{ensureSwitchButton();if(active)applyMode();});
-    window.OnsenScenicMapV71={build:BUILD,show:showScenic,showMode:showScenicMode,select:selectScenic,refresh:()=>{refreshSource();updatePanel();},active:()=>active};
+    window.OnsenScenicMapV71={build:BUILD,release:RELEASE,show:showScenic,showMode:showScenicMode,select:selectScenic,refresh:()=>{refreshSource();updatePanel();},active:()=>active,selectedId:()=>selectedId,renderSelectedZone};
     if(sessionStorage.getItem("mapDomainModeV71")==="scenic")setTimeout(()=>showScenicMode(),80);
-    window.dispatchEvent(new CustomEvent("onsen-scenic-map-ready",{detail:{build:BUILD}}));
+    window.dispatchEvent(new CustomEvent("onsen-scenic-map-ready",{detail:{build:BUILD,release:RELEASE}}));
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>install().catch((e)=>console.warn("scenic map v71 init failed",e)),{once:true});else install().catch((e)=>console.warn("scenic map v71 init failed",e));
 })();
