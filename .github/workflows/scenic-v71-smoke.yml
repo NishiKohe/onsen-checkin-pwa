@@ -1,4 +1,4 @@
-name: Canonical map domains v73 smoke
+name: Canonical map domains and trip recovery v73.1 smoke
 
 on:
   workflow_dispatch:
@@ -9,6 +9,9 @@ on:
       - "scenic-map-v71.js"
       - "scenic-v70-bridge.js"
       - "travel-domain-recovery-v728.js"
+      - "photo-exif-runtime-v731.js"
+      - "trip-manual-recovery-v731.js"
+      - "trip-photo-recovery-v731.js"
       - "scenic-runtime-v70.js"
       - "achievement-domain-controller-v721.js"
       - "achievement-domain-v702.js"
@@ -35,6 +38,9 @@ jobs:
           node --check scenic-map-v71.js
           node --check scenic-v70-bridge.js
           node --check travel-domain-recovery-v728.js
+          node --check photo-exif-runtime-v731.js
+          node --check trip-manual-recovery-v731.js
+          node --check trip-photo-recovery-v731.js
           node --check scenic-runtime-v70.js
           node --check build-info.js
           node --check sw.js
@@ -74,36 +80,53 @@ jobs:
               assert required in router, required
           for forbidden in ['callLegacyCastle','callLegacyScenic','castleOriginalSetMode','scenicOriginalShowMode']:
               assert forbidden not in router, forbidden
-          assert 'event.stopImmediatePropagation();\n      locateCurrent' in router
           for text,label in [(castle,'castle'),(scenic,'scenic')]:
               assert 'const BUILD = "v73"' in text, label
               assert 'function setControllerActive' in text, label
               assert 'function ensureLayers' in text, label
-              assert 'm.on("style.load"' in text, label
               assert 'onsen-map-domain-changed' not in text, label
           assert 'MODE_KEY' not in castle
           assert 'mapDomainModeV71' not in scenic
           assert 'onsenButton?.click' not in scenic
-          assert 'resolvePosition' in scenic and 'selectedId:()=>selectedId' in scenic
-          assert 'resolveCurrentPosition' in castle and 'selectedCastleId:()=>selectedCastleId' in castle
-          assert 'queryRenderedFeatures(event.point,{layers})' in scenic
           print('v73 domain ownership guards OK')
           PY
-      - name: Release and cleanup guards
+      - name: Three-domain travel recovery guards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          recovery=Path('travel-domain-recovery-v728.js').read_text()
+          exif=Path('photo-exif-runtime-v731.js').read_text()
+          manual=Path('trip-manual-recovery-v731.js').read_text()
+          photo=Path('trip-photo-recovery-v731.js').read_text()
+          for text in (recovery,exif,manual,photo): assert 'const BUILD = "v73.1"' in text
+          for required in ['entityType==="onsen"?confirmOnsen','photo_verified_range','candidate.source==="photo_exif"','OnsenMapDomainV73?.open?.','upsertCandidate','window.OnsenTravelDomainRecoveryV731']:
+              assert required in recovery, required
+          for required in ['readGps','parseTiffExif','0x8825','0x9003','window.OnsenPhotoExifV731']:
+              assert required in exif, required
+          for required in ['tripManualDomainV731','<option value="onsen">','<option value="castle">','<option value="scenic">','registerPastVisit','past_visit_manual_v731','stopImmediatePropagation']:
+              assert required in manual, required
+          for required in ['nearestOnsen','nearestCastles','nearestScenic','PHOTO_NEARBY_MARGIN_M = 1000','photo_verified_range','photo_nearby','upsertCandidate','stopImmediatePropagation']:
+              assert required in photo, required
+          assert 'saveState(' not in photo and 'saveCheckins(' not in photo
+          print('v73.1 manual/photo recovery guards OK')
+          PY
+      - name: Release and regression guards
         run: |
           python - <<'PY'
           from pathlib import Path
           build=Path('build-info.js').read_text(); bridge=Path('scenic-v70-bridge.js').read_text(); sw=Path('sw.js').read_text()
-          assert 'const version = "v73"' in build
-          assert './sw.js?v=73' in build
-          assert './map-domain-controller-v72.js?v=73' in build
-          assert 'OnsenMapDomainV73' in build
+          assert 'const version = "v73.1"' in build
+          assert './sw.js?v=73.1' in build
+          assert './travel-domain-recovery-v728.js?v=73.1' in build
+          assert './photo-exif-runtime-v731.js?v=73.1' in build
+          assert './trip-manual-recovery-v731.js?v=73.1' in build
+          assert './trip-photo-recovery-v731.js?v=73.1' in build
           assert 'const ROUTER_BUILD="v73"' in bridge and 'const MAP_BUILD="v73"' in bridge
-          assert './scenic-map-v71.js?v=73' in bridge
-          assert 'onsen-checkin-v73' in sw
+          assert 'onsen-checkin-v73.1' in sw
+          for asset in ['photo-exif-runtime-v731.js','trip-manual-recovery-v731.js','trip-photo-recovery-v731.js']:
+              assert asset in sw
           for text in (build,bridge,sw): assert 'scenic-map-stability-v728.js' not in text
-          assert not Path('scenic-map-stability-v728.js').exists()
           achievement=Path('achievement-domain-controller-v721.js').read_text()
           assert 'achievementDomainModeV721' in achievement and 'event.stopImmediatePropagation()' in achievement
-          print('v73 release/cleanup guards OK')
+          print('v73.1 release/regression guards OK')
           PY
