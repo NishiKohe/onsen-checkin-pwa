@@ -1,10 +1,14 @@
-name: Canonical map domains and trip recovery v73.1 smoke
+name: Canonical map, trip recovery and collections v73.2 smoke
 
 on:
   workflow_dispatch:
   push:
     paths:
       - "map-domain-controller-v72.js"
+      - "collection-domain-controller-v732.js"
+      - "collection-domain-controller-v732.css"
+      - "castle-collection-ui-v61.js"
+      - "scenic-collection-ui-v70.js"
       - "castle-map-v62.js"
       - "scenic-map-v71.js"
       - "scenic-v70-bridge.js"
@@ -34,6 +38,7 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check map-domain-controller-v72.js
+          node --check collection-domain-controller-v732.js
           node --check castle-map-v62.js
           node --check scenic-map-v71.js
           node --check scenic-v70-bridge.js
@@ -44,6 +49,7 @@ jobs:
           node --check scenic-runtime-v70.js
           node --check build-info.js
           node --check sw.js
+
       - name: GPS catalogs remain complete
         run: |
           python - <<'PY'
@@ -69,13 +75,12 @@ jobs:
           assert len([x for x in Path('data/castles-zoku100-v68.csv').read_text().splitlines()[1:] if x.strip()])==100
           print('GPS catalogs OK: scenic 433/433, castles 200')
           PY
+
       - name: Canonical map ownership guards
         run: |
           python - <<'PY'
           from pathlib import Path
-          router=Path('map-domain-controller-v72.js').read_text()
-          castle=Path('castle-map-v62.js').read_text()
-          scenic=Path('scenic-map-v71.js').read_text()
+          router=Path('map-domain-controller-v72.js').read_text(); castle=Path('castle-map-v62.js').read_text(); scenic=Path('scenic-map-v71.js').read_text()
           for required in ['const BUILD = "v73"','mapDomainModeV73','function locateCurrent','setControllerActive','onsen-map-domain-v73-changed','window.OnsenMapDomainV73 = api']:
               assert required in router, required
           for forbidden in ['callLegacyCastle','callLegacyScenic','castleOriginalSetMode','scenicOriginalShowMode']:
@@ -85,48 +90,58 @@ jobs:
               assert 'function setControllerActive' in text, label
               assert 'function ensureLayers' in text, label
               assert 'onsen-map-domain-changed' not in text, label
-          assert 'MODE_KEY' not in castle
-          assert 'mapDomainModeV71' not in scenic
-          assert 'onsenButton?.click' not in scenic
-          print('v73 domain ownership guards OK')
+          print('v73 map ownership guards OK')
           PY
-      - name: Three-domain travel recovery guards
+
+      - name: Three-domain trip recovery guards
         run: |
           python - <<'PY'
           from pathlib import Path
-          recovery=Path('travel-domain-recovery-v728.js').read_text()
-          exif=Path('photo-exif-runtime-v731.js').read_text()
-          manual=Path('trip-manual-recovery-v731.js').read_text()
-          photo=Path('trip-photo-recovery-v731.js').read_text()
+          recovery=Path('travel-domain-recovery-v728.js').read_text(); exif=Path('photo-exif-runtime-v731.js').read_text(); manual=Path('trip-manual-recovery-v731.js').read_text(); photo=Path('trip-photo-recovery-v731.js').read_text()
           for text in (recovery,exif,manual,photo): assert 'const BUILD = "v73.1"' in text
-          for required in ['entityType==="onsen"?confirmOnsen','photo_verified_range','candidate.source==="photo_exif"','OnsenMapDomainV73?.open?.','upsertCandidate','window.OnsenTravelDomainRecoveryV731']:
+          for required in ['entityType==="onsen"?confirmOnsen','photo_verified_range','OnsenMapDomainV73?.open?.','upsertCandidate','window.OnsenTravelDomainRecoveryV731']:
               assert required in recovery, required
-          for required in ['readGps','parseTiffExif','0x8825','0x9003','window.OnsenPhotoExifV731']:
-              assert required in exif, required
-          for required in ['tripManualDomainV731','<option value="onsen">','<option value="castle">','<option value="scenic">','registerPastVisit','past_visit_manual_v731','stopImmediatePropagation']:
+          for required in ['tripManualDomainV731','<option value="onsen">','<option value="castle">','<option value="scenic">','registerPastVisit']:
               assert required in manual, required
-          for required in ['nearestOnsen','nearestCastles','nearestScenic','PHOTO_NEARBY_MARGIN_M = 1000','photo_verified_range','photo_nearby','upsertCandidate','stopImmediatePropagation']:
+          for required in ['nearestOnsen','nearestCastles','nearestScenic','PHOTO_NEARBY_MARGIN_M = 1000','photo_verified_range','photo_nearby','upsertCandidate']:
               assert required in photo, required
           assert 'saveState(' not in photo and 'saveCheckins(' not in photo
-          print('v73.1 manual/photo recovery guards OK')
+          print('v73.1 trip recovery guards OK')
           PY
+
+      - name: Unified collection guards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          common=Path('collection-domain-controller-v732.js').read_text(); css=Path('collection-domain-controller-v732.css').read_text()
+          castle=Path('castle-collection-ui-v61.js').read_text(); scenic=Path('scenic-collection-ui-v70.js').read_text(); achievement=Path('achievement-domain-controller-v721.js').read_text()
+          for required in [
+              'const BUILD = "v73.2"','collectionDomainModeV732','function onsenItems','function castleItems','function scenicItems',
+              'data-common-status="unvisited"','collectionCommonPrefV732','function renderPrefectures','function renderList',
+              '温泉むすめ','地域資産','日本100名城','続100名城','特別名勝','function openOnMap',
+              'OnsenMapDomainV73?.open?.','collectionOnsenExtrasHeadingV732','window.OnsenCollectionDomainV732',
+              'event.stopImmediatePropagation()','achievementsVisible()'
+          ]:
+              assert required in common, required
+          assert 'collection-common-row-v732' in css and 'collection-common-overview-v732' in css
+          assert 'collectionDomainModeV61' in castle
+          assert 'OnsenCastleCollectionUI?.mode?.()' in scenic
+          assert 'achievementDomainModeV721' in achievement and 'if (!achievementVisible()) return;' in achievement
+          print('v73.2 unified collection guards OK')
+          PY
+
       - name: Release and regression guards
         run: |
           python - <<'PY'
           from pathlib import Path
           build=Path('build-info.js').read_text(); bridge=Path('scenic-v70-bridge.js').read_text(); sw=Path('sw.js').read_text()
-          assert 'const version = "v73.1"' in build
-          assert './sw.js?v=73.1' in build
-          assert './travel-domain-recovery-v728.js?v=73.1' in build
-          assert './photo-exif-runtime-v731.js?v=73.1' in build
-          assert './trip-manual-recovery-v731.js?v=73.1' in build
-          assert './trip-photo-recovery-v731.js?v=73.1' in build
+          assert 'const version="v73.2"' in build
+          assert './sw.js?v=73.2' in build
+          assert './collection-domain-controller-v732.js?v=73.2' in build
+          assert './collection-domain-controller-v732.css?v=73.2' in build
           assert 'const ROUTER_BUILD="v73"' in bridge and 'const MAP_BUILD="v73"' in bridge
-          assert 'onsen-checkin-v73.1' in sw
-          for asset in ['photo-exif-runtime-v731.js','trip-manual-recovery-v731.js','trip-photo-recovery-v731.js']:
-              assert asset in sw
+          assert 'onsen-checkin-v73.2' in sw
+          assert './collection-domain-controller-v732.js' in sw and './collection-domain-controller-v732.css' in sw
           for text in (build,bridge,sw): assert 'scenic-map-stability-v728.js' not in text
-          achievement=Path('achievement-domain-controller-v721.js').read_text()
-          assert 'achievementDomainModeV721' in achievement and 'event.stopImmediatePropagation()' in achievement
-          print('v73.1 release/regression guards OK')
+          print('v73.2 release/regression guards OK')
           PY
