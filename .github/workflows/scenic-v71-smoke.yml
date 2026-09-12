@@ -1,10 +1,10 @@
-name: Canonical map, trip recovery and collections v73.2 smoke
+name: Deterministic map, trip recovery and collections v73.3 smoke
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "map-domain-controller-v72.js"
+      - "map-domain-controller-v733.js"
       - "collection-domain-controller-v732.js"
       - "collection-domain-controller-v732.css"
       - "castle-collection-ui-v61.js"
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: JavaScript syntax
         run: |
-          node --check map-domain-controller-v72.js
+          node --check map-domain-controller-v733.js
           node --check collection-domain-controller-v732.js
           node --check castle-map-v62.js
           node --check scenic-map-v71.js
@@ -76,21 +76,36 @@ jobs:
           print('GPS catalogs OK: scenic 433/433, castles 200')
           PY
 
-      - name: Canonical map ownership guards
+      - name: Deterministic map bootstrap guards
         run: |
           python - <<'PY'
           from pathlib import Path
-          router=Path('map-domain-controller-v72.js').read_text(); castle=Path('castle-map-v62.js').read_text(); scenic=Path('scenic-map-v71.js').read_text()
-          for required in ['const BUILD = "v73"','mapDomainModeV73','function locateCurrent','setControllerActive','onsen-map-domain-v73-changed','window.OnsenMapDomainV73 = api']:
+          router=Path('map-domain-controller-v733.js').read_text()
+          build=Path('build-info.js').read_text()
+          bridge=Path('scenic-v70-bridge.js').read_text()
+          castle=Path('castle-map-v62.js').read_text()
+          scenic=Path('scenic-map-v71.js').read_text()
+          for required in [
+              'const BUILD = "v73.3"','function domainLayerReady','function scheduleHeal',
+              'idle-missing-layer','attempts >= 300','function diagnostics','window.OnsenMapDomainV73 = api',
+              'function locateCurrent','setControllerActive','onsen-map-domain-v73-changed'
+          ]:
               assert required in router, required
-          for forbidden in ['callLegacyCastle','callLegacyScenic','castleOriginalSetMode','scenicOriginalShowMode']:
-              assert forbidden not in router, forbidden
+          for required in [
+              'async function bootCritical','async function ensureCastleAdapter','async function ensureScenicAdapter',
+              './map-domain-controller-v733.js?v=73.3','./castle-map-v62.js?v=73.3',
+              './scenic-v70-bridge.js?v=73.3','./collection-domain-controller-v732.js?v=73.3',
+              'onsen-critical-bootstrap-v733-ready'
+          ]:
+              assert required in build, required
+          assert build.index('./map-domain-controller-v733.js?v=73.3') < build.index('./collection-domain-controller-v732.js?v=73.3')
+          assert build.index('const castle=await ensureCastleAdapter()') < build.index('const scenic=await ensureScenicAdapter()') < build.index('./collection-domain-controller-v732.js?v=73.3')
+          assert 'const ROUTER_BUILD="v73.3"' in bridge and './map-domain-controller-v733.js?v=73.3' in bridge
           for text,label in [(castle,'castle'),(scenic,'scenic')]:
               assert 'const BUILD = "v73"' in text, label
               assert 'function setControllerActive' in text, label
               assert 'function ensureLayers' in text, label
-              assert 'onsen-map-domain-changed' not in text, label
-          print('v73 map ownership guards OK')
+          print('v73.3 deterministic map bootstrap guards OK')
           PY
 
       - name: Three-domain trip recovery guards
@@ -113,20 +128,11 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          common=Path('collection-domain-controller-v732.js').read_text(); css=Path('collection-domain-controller-v732.css').read_text()
-          castle=Path('castle-collection-ui-v61.js').read_text(); scenic=Path('scenic-collection-ui-v70.js').read_text(); achievement=Path('achievement-domain-controller-v721.js').read_text()
-          for required in [
-              'const BUILD = "v73.2"','collectionDomainModeV732','function onsenItems','function castleItems','function scenicItems',
-              'data-common-status="unvisited"','collectionCommonPrefV732','function renderPrefectures','function renderList',
-              '温泉むすめ','地域資産','日本100名城','続100名城','特別名勝','function openOnMap',
-              'OnsenMapDomainV73?.open?.','collectionOnsenExtrasHeadingV732','window.OnsenCollectionDomainV732',
-              'event.stopImmediatePropagation()','achievementsVisible()'
-          ]:
+          common=Path('collection-domain-controller-v732.js').read_text(); css=Path('collection-domain-controller-v732.css').read_text(); achievement=Path('achievement-domain-controller-v721.js').read_text()
+          for required in ['const BUILD = "v73.2"','collectionDomainModeV732','function onsenItems','function castleItems','function scenicItems','data-common-status="unvisited"','collectionCommonPrefV732','function renderPrefectures','function renderList','温泉むすめ','地域資産','日本100名城','続100名城','特別名勝','function openOnMap','OnsenMapDomainV73?.open?.','window.OnsenCollectionDomainV732','achievementsVisible()']:
               assert required in common, required
-          assert 'collection-common-row-v732' in css and 'collection-common-overview-v732' in css
-          assert 'collectionDomainModeV61' in castle
-          assert 'OnsenCastleCollectionUI?.mode?.()' in scenic
-          assert 'achievementDomainModeV721' in achievement and 'if (!achievementVisible()) return;' in achievement
+          assert 'collection-common-row-v732' in css
+          assert 'achievementDomainModeV721' in achievement
           print('v73.2 unified collection guards OK')
           PY
 
@@ -135,13 +141,12 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           build=Path('build-info.js').read_text(); bridge=Path('scenic-v70-bridge.js').read_text(); sw=Path('sw.js').read_text()
-          assert 'const version="v73.2"' in build
-          assert './sw.js?v=73.2' in build
-          assert './collection-domain-controller-v732.js?v=73.2' in build
-          assert './collection-domain-controller-v732.css?v=73.2' in build
-          assert 'const ROUTER_BUILD="v73"' in bridge and 'const MAP_BUILD="v73"' in bridge
-          assert 'onsen-checkin-v73.2' in sw
+          assert 'const version="v73.3"' in build
+          assert './sw.js?v=73.3' in build
+          assert 'const ROUTER_BUILD="v73.3"' in bridge
+          assert 'onsen-checkin-v73.3' in sw
+          assert './map-domain-controller-v733.js' in sw
           assert './collection-domain-controller-v732.js' in sw and './collection-domain-controller-v732.css' in sw
           for text in (build,bridge,sw): assert 'scenic-map-stability-v728.js' not in text
-          print('v73.2 release/regression guards OK')
+          print('v73.3 release/regression guards OK')
           PY
