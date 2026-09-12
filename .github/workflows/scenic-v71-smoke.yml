@@ -1,4 +1,4 @@
-name: Deterministic map, trip recovery and collections v73.3 smoke
+name: Canonical scenic renderer and collections v73.4 smoke
 
 on:
   workflow_dispatch:
@@ -7,11 +7,9 @@ on:
       - "map-domain-controller-v733.js"
       - "collection-domain-controller-v732.js"
       - "collection-domain-controller-v732.css"
-      - "castle-collection-ui-v61.js"
-      - "scenic-collection-ui-v70.js"
       - "castle-map-v62.js"
       - "scenic-map-v71.js"
-      - "scenic-v70-bridge.js"
+      - "scenic-map-renderer-v734.js"
       - "travel-domain-recovery-v728.js"
       - "photo-exif-runtime-v731.js"
       - "trip-manual-recovery-v731.js"
@@ -41,7 +39,7 @@ jobs:
           node --check collection-domain-controller-v732.js
           node --check castle-map-v62.js
           node --check scenic-map-v71.js
-          node --check scenic-v70-bridge.js
+          node --check scenic-map-renderer-v734.js
           node --check travel-domain-recovery-v728.js
           node --check photo-exif-runtime-v731.js
           node --check trip-manual-recovery-v731.js
@@ -76,36 +74,43 @@ jobs:
           print('GPS catalogs OK: scenic 433/433, castles 200')
           PY
 
-      - name: Deterministic map bootstrap guards
+      - name: Scenic renderer guards
         run: |
           python - <<'PY'
           from pathlib import Path
-          router=Path('map-domain-controller-v733.js').read_text()
+          renderer=Path('scenic-map-renderer-v734.js').read_text()
           build=Path('build-info.js').read_text()
-          bridge=Path('scenic-v70-bridge.js').read_text()
-          castle=Path('castle-map-v62.js').read_text()
+          router=Path('map-domain-controller-v733.js').read_text()
           scenic=Path('scenic-map-v71.js').read_text()
           for required in [
-              'const BUILD = "v73.3"','function domainLayerReady','function scheduleHeal',
-              'idle-missing-layer','attempts >= 300','function diagnostics','window.OnsenMapDomainV73 = api',
-              'function locateCurrent','setControllerActive','onsen-map-domain-v73-changed'
+              'const BUILD = "v73.4"',
+              'const SOURCE = "scenic-v734-source"',
+              'const POINTS = "scenic-v734-points"',
+              'type: "circle"',
+              'for (const entry of rt.entries())',
+              'rt.referenceZones(entry)',
+              'lastFeatureCount = features.length',
+              'lastFeatureCount === 433',
+              'window.OnsenScenicRendererV734',
+              'for (const id of LEGACY_POINTS) setVisibility(id, false)',
+              'window.OnsenScenicMapV71?.select?.(id, { fly: false })'
           ]:
-              assert required in router, required
+              assert required in renderer, required
           for required in [
-              'async function bootCritical','async function ensureCastleAdapter','async function ensureScenicAdapter',
-              './map-domain-controller-v733.js?v=73.3','./castle-map-v62.js?v=73.3',
-              './scenic-v70-bridge.js?v=73.3','./collection-domain-controller-v732.js?v=73.3',
-              'onsen-critical-bootstrap-v733-ready'
+              'async function ensureScenicRuntime',
+              'async function ensureScenicAdapter',
+              'async function ensureScenicRenderer',
+              './scenic-runtime-v70.js?v=73.4',
+              './scenic-map-v71.js?v=73.4',
+              './scenic-map-renderer-v734.js?v=73.4',
+              'window.OnsenScenicRendererV734?.featureCount?.()===433',
+              'onsen-critical-bootstrap-v734-ready'
           ]:
               assert required in build, required
-          assert build.index('./map-domain-controller-v733.js?v=73.3') < build.index('./collection-domain-controller-v732.js?v=73.3')
-          assert build.index('const castle=await ensureCastleAdapter()') < build.index('const scenic=await ensureScenicAdapter()') < build.index('./collection-domain-controller-v732.js?v=73.3')
-          assert 'const ROUTER_BUILD="v73.3"' in bridge and './map-domain-controller-v733.js?v=73.3' in bridge
-          for text,label in [(castle,'castle'),(scenic,'scenic')]:
-              assert 'const BUILD = "v73"' in text, label
-              assert 'function setControllerActive' in text, label
-              assert 'function ensureLayers' in text, label
-          print('v73.3 deterministic map bootstrap guards OK')
+          assert build.index('const scenic=await ensureScenicAdapter()') < build.index('const renderer=await ensureScenicRenderer()') < build.index('./collection-domain-controller-v732.js?v=73.4')
+          assert 'const BUILD = "v73.3"' in router
+          assert 'const BUILD = "v73"' in scenic and 'function ensureLayers' in scenic and 'function setControllerActive' in scenic
+          print('v73.4 canonical scenic renderer guards OK')
           PY
 
       - name: Three-domain trip recovery guards
@@ -140,13 +145,14 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          build=Path('build-info.js').read_text(); bridge=Path('scenic-v70-bridge.js').read_text(); sw=Path('sw.js').read_text()
-          assert 'const version="v73.3"' in build
-          assert './sw.js?v=73.3' in build
-          assert 'const ROUTER_BUILD="v73.3"' in bridge
-          assert 'onsen-checkin-v73.3' in sw
+          build=Path('build-info.js').read_text(); sw=Path('sw.js').read_text(); renderer=Path('scenic-map-renderer-v734.js').read_text()
+          assert 'const version="v73.4"' in build
+          assert './sw.js?v=73.4' in build
+          assert 'onsen-checkin-v73.4' in sw
+          assert './scenic-map-renderer-v734.js' in sw
           assert './map-domain-controller-v733.js' in sw
           assert './collection-domain-controller-v732.js' in sw and './collection-domain-controller-v732.css' in sw
-          for text in (build,bridge,sw): assert 'scenic-map-stability-v728.js' not in text
-          print('v73.3 release/regression guards OK')
+          assert 'scenic-map-stability-v728.js' not in build and 'scenic-map-stability-v728.js' not in sw
+          assert 'icon-image' not in renderer
+          print('v73.4 release/regression guards OK')
           PY
