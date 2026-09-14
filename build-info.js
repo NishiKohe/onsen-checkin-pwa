@@ -13,7 +13,8 @@
     ["OnsenTravelDomainRecoveryV731","travelDomainRecoveryV731Script","./travel-domain-recovery-v728.js?v=73.1","v73.1 travel candidate runtime"],
     ["OnsenPhotoExifV731","photoExifV731Script","./photo-exif-runtime-v731.js?v=73.1","v73.1 photo EXIF runtime"],
     ["OnsenTripManualRecoveryV731","tripManualRecoveryV731Script","./trip-manual-recovery-v731.js?v=73.1","v73.1 manual trip recovery"],
-    ["OnsenTripPhotoRecoveryV731","tripPhotoRecoveryV731Script","./trip-photo-recovery-v731.js?v=73.1","v73.1 photo trip recovery"]
+    ["OnsenTripPhotoRecoveryV731","tripPhotoRecoveryV731Script","./trip-photo-recovery-v731.js?v=73.1","v73.1 photo trip recovery"],
+    ["OnsenCollectionMapNavigationV735","collectionMapNavigationV735Script","./collection-map-navigation-v735.js?v=73.5","v73.5 collection map navigation"]
   ];
   const styles=[
     ["scenicMapStyleV71","./scenic-map-v71.css?v=73.4"],
@@ -76,6 +77,8 @@
     renderer?.refresh?.();
     await loadScriptOnce("./collection-domain-controller-v732.js?v=73.4","collectionDomainV734Script");
     await waitFor(()=>window.OnsenCollectionDomainV732,12000);
+    await loadScriptOnce("./collection-map-navigation-v735.js?v=73.5","collectionMapNavigationV735Script");
+    await waitFor(()=>window.OnsenCollectionMapNavigationV735?.build==="v73.5",8000);
     window.OnsenMapDomainV73?.refresh?.();renderer?.refresh?.();
     window.dispatchEvent(new CustomEvent("onsen-critical-bootstrap-v734-ready",{detail:{build:version,castle:!!castle,scenic:!!scenic,scenicFeatures:renderer?.featureCount?.()||0}}));
     return !!castle&&!!scenic&&renderer?.featureCount?.()===433;
