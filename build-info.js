@@ -13,8 +13,7 @@
     ["OnsenTravelDomainRecoveryV731","travelDomainRecoveryV731Script","./travel-domain-recovery-v728.js?v=73.1","v73.1 travel candidate runtime"],
     ["OnsenPhotoExifV731","photoExifV731Script","./photo-exif-runtime-v731.js?v=73.1","v73.1 photo EXIF runtime"],
     ["OnsenTripManualRecoveryV731","tripManualRecoveryV731Script","./trip-manual-recovery-v731.js?v=73.1","v73.1 manual trip recovery"],
-    ["OnsenTripPhotoRecoveryV731","tripPhotoRecoveryV731Script","./trip-photo-recovery-v731.js?v=73.1","v73.1 photo trip recovery"],
-    ["OnsenCollectionMapNavigationV735","collectionMapNavigationV735Script","./collection-map-navigation-v735.js?v=73.5","v73.5 collection map navigation"]
+    ["OnsenTripPhotoRecoveryV731","tripPhotoRecoveryV731Script","./trip-photo-recovery-v731.js?v=73.1","v73.1 photo trip recovery"]
   ];
   const styles=[
     ["scenicMapStyleV71","./scenic-map-v71.css?v=73.4"],
