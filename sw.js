@@ -5,7 +5,7 @@ const CORE_ASSETS = [
   "./castle-collection-ui-v61.css", "./castle-map-v62.css", "./endless-battle-v68.css", "./scenic-collection-ui-v70.css", "./scenic-map-v71.css", "./collection-domain-controller-v732.css",
   "./profile-storage.js", "./profile-game-extension-v61.js", "./visit-log-preload.js",
   "./trip-power-mode.js", "./travel-domain-recovery-v728.js", "./photo-exif-runtime-v731.js", "./trip-manual-recovery-v731.js", "./trip-photo-recovery-v731.js", "./app.js", "./castle-v62-hardening.js", "./domain-model.js",
-  "./castle-domain-v61.js", "./app-shell.js", "./build-info.js", "./map-domain-controller-v733.js", "./collection-domain-controller-v732.js", "./game-runtime-v59.js",
+  "./castle-domain-v61.js", "./app-shell.js", "./build-info.js", "./map-domain-controller-v733.js", "./collection-domain-controller-v732.js", "./collection-map-navigation-v735.js", "./game-runtime-v59.js",
   "./castle-visit-runtime-v61.js", "./character-runtime-v61.js", "./fishing-game-v60.js",
   "./encyclopedia-ui-v61.js", "./game-hub-v61.js", "./game-v68-bridge.js", "./game-v69-bridge.js",
   "./progression-runtime-v69.js", "./equipment-battle-sync-v69.js", "./mining-game-v69.js", "./endless-battle-v68.js",
