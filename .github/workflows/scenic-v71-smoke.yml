@@ -6,6 +6,7 @@ on:
     paths:
       - "map-domain-controller-v733.js"
       - "collection-domain-controller-v732.js"
+      - "collection-map-navigation-v735.js"
       - "collection-domain-controller-v732.css"
       - "castle-map-v62.js"
       - "scenic-map-v71.js"
@@ -37,6 +38,7 @@ jobs:
         run: |
           node --check map-domain-controller-v733.js
           node --check collection-domain-controller-v732.js
+          node --check collection-map-navigation-v735.js
           node --check castle-map-v62.js
           node --check scenic-map-v71.js
           node --check scenic-map-renderer-v734.js
@@ -113,6 +115,33 @@ jobs:
           print('v73.4 canonical scenic renderer guards OK')
           PY
 
+      - name: Collection map navigation guards
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          nav=Path('collection-map-navigation-v735.js').read_text()
+          build=Path('build-info.js').read_text()
+          for required in [
+              'const BUILD = "v73.5"',
+              'const DOMAINS = new Set(["onsen", "castle", "scenic"])',
+              'window.OnsenMapDomainV73?.setMode?.(target',
+              'window.OnsenAppShell?.show?.("map")',
+              'onsen-app-tab-changed',
+              '#collectionCommonPanelV732 [data-common-map]',
+              'event.stopImmediatePropagation()',
+              'selectTarget(request.domain, request.id)',
+              'domain === "castle"',
+              'domain === "scenic"',
+              'typeof selectSpot === "function"',
+              'window.OnsenCollectionMapNavigationV735'
+          ]:
+              assert required in nav, required
+          assert nav.index('setMode?.(target') < nav.index('show?.("map")')
+          assert './collection-map-navigation-v735.js?v=73.5' in build
+          assert build.index('./collection-domain-controller-v732.js?v=73.4') < build.index('./collection-map-navigation-v735.js?v=73.5')
+          print('v73.5 collection map navigation guards OK')
+          PY
+
       - name: Three-domain trip recovery guards
         run: |
           python - <<'PY'
@@ -145,14 +174,17 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          build=Path('build-info.js').read_text(); sw=Path('sw.js').read_text(); renderer=Path('scenic-map-renderer-v734.js').read_text()
+          build=Path('build-info.js').read_text(); sw=Path('sw.js').read_text(); renderer=Path('scenic-map-renderer-v734.js').read_text(); nav=Path('collection-map-navigation-v735.js').read_text()
           assert 'const version="v73.4"' in build
           assert './sw.js?v=73.4' in build
           assert 'onsen-checkin-v73.4' in sw
           assert './scenic-map-renderer-v734.js' in sw
+          assert './collection-map-navigation-v735.js' in sw
+          assert './collection-map-navigation-v735.js?v=73.5' in build
           assert './map-domain-controller-v733.js' in sw
           assert './collection-domain-controller-v732.js' in sw and './collection-domain-controller-v732.css' in sw
           assert 'scenic-map-stability-v728.js' not in build and 'scenic-map-stability-v728.js' not in sw
           assert 'icon-image' not in renderer
-          print('v73.4 release/regression guards OK')
+          assert 'const BUILD = "v73.5"' in nav
+          print('v73.4 release + v73.5 navigation patch guards OK')
           PY
