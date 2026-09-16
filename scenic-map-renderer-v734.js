@@ -1,5 +1,5 @@
 (() => {
-  const BUILD = "v73.4";
+  const BUILD = "v73.6";
   const SOURCE = "scenic-v734-source";
   const POINTS = "scenic-v734-points";
   const LABELS = "scenic-v734-labels";
@@ -11,12 +11,16 @@
   function getMap() { try { return typeof map !== "undefined" ? map : null; } catch { return null; } }
   function runtime() { return window.OnsenScenicRuntime || null; }
   function mode() { return window.OnsenMapDomainV73?.getMode?.() || sessionStorage.getItem("mapDomainModeV73") || "onsen"; }
-  function visible() { return mode() === "scenic"; }
+  function visible() { return mode() === "scenic" || mode() === "all"; }
   function shortName(value) { return String(value || "").split(/\r?\n/)[0].trim(); }
   function setVisibility(id, show) {
     const m = getMap();
     if (!m?.getLayer?.(id)) return false;
-    try { m.setLayoutProperty(id, "visibility", show ? "visible" : "none"); return true; } catch { return false; }
+    try {
+      const desired = show ? "visible" : "none";
+      if (m.getLayoutProperty?.(id, "visibility") !== desired) m.setLayoutProperty(id, "visibility", desired);
+      return true;
+    } catch { return false; }
   }
 
   function buildGeoJson() {
@@ -52,7 +56,7 @@
     if (!m || !rt || !m.isStyleLoaded?.()) return false;
     const data = buildGeoJson();
     if (!data.features.length) {
-      console.warn("v73.4 scenic renderer has zero features", { runtime: !!rt, entries: rt.entries?.().length || 0 });
+      console.warn("v73.6 scenic renderer has zero features", { runtime: !!rt, entries: rt.entries?.().length || 0 });
       return false;
     }
     try {
@@ -60,7 +64,7 @@
       if (source?.setData) source.setData(data);
       else m.addSource(SOURCE, { type: "geojson", data });
     } catch (error) {
-      console.warn("v73.4 scenic source install failed", error);
+      console.warn("v73.6 scenic source install failed", error);
       return false;
     }
     try {
@@ -82,7 +86,7 @@
           "circle-opacity": 0.96
         }
       });
-    } catch (error) { console.warn("v73.4 scenic point layer install failed", error); }
+    } catch (error) { console.warn("v73.6 scenic point layer install failed", error); }
     try {
       if (!m.getLayer(LABELS)) m.addLayer({
         id: LABELS,
@@ -99,7 +103,7 @@
         },
         paint: { "text-color": "#55485d", "text-halo-color": "#fffaf0", "text-halo-width": 1.5 }
       });
-    } catch (error) { console.warn("v73.4 scenic label layer install failed", error); }
+    } catch (error) { console.warn("v73.6 scenic label layer install failed", error); }
     syncVisibility();
     bindMap();
     window.dispatchEvent(new CustomEvent("onsen-scenic-renderer-ready", { detail: { build: BUILD, featureCount: lastFeatureCount } }));
@@ -128,7 +132,7 @@
     if (!m || boundMap === m) return;
     boundMap = m;
     m.on?.("click", (event) => {
-      if (!visible()) return;
+      if (mode() !== "scenic") return; // Combined-mode tap ownership belongs to MapDetail.
       const feature = chooseFeature(event);
       const id = feature?.properties?.id;
       if (id) window.OnsenScenicMapV71?.select?.(id, { fly: false });
@@ -152,12 +156,9 @@
     installed = true;
     bindMap();
     for (const eventName of [
-      "onsen-scenic-runtime-ready",
-      "onsen-map-domain-v73-changed",
-      "onsen-map-domain-v72-changed",
-      "onsen-scenic-visit-changed",
-      "onsen-app-tab-changed",
-      "pageshow"
+      "onsen-scenic-runtime-ready", "onsen-map-domain-v73-changed",
+      "onsen-map-domain-v72-changed", "onsen-scenic-visit-changed",
+      "onsen-app-tab-changed", "pageshow"
     ]) window.addEventListener(eventName, () => setTimeout(refresh, 0));
 
     let attempts = 0;
@@ -174,6 +175,7 @@
       labelLayerId: LABELS,
       ensureLayers,
       refresh,
+      syncVisibility,
       featureCount: () => lastFeatureCount,
       diagnostics: () => ({ build: BUILD, mode: mode(), visible: visible(), featureCount: lastFeatureCount, source: !!getMap()?.getSource?.(SOURCE), points: !!getMap()?.getLayer?.(POINTS), labels: !!getMap()?.getLayer?.(LABELS) })
     };
