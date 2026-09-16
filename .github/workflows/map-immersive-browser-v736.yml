@@ -1,0 +1,34 @@
+name: Immersive map v73.6 mobile browser
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "scripts/test-map-immersive-browser-v736.cjs"
+      - ".github/workflows/map-immersive-browser-v736.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser test dependency
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Exercise published mobile map and pin detail sheets
+        run: node scripts/test-map-immersive-browser-v736.cjs
+      - name: Upload failure screenshot
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: immersive-map-browser-failure
+          path: map-immersive-browser-failure.png
+          if-no-files-found: ignore
