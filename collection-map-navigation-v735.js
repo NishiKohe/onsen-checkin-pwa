@@ -23,15 +23,16 @@
     if (domain === "castle") return !!window.OnsenCastleMap?.selectCastle?.(id, { fly: true });
     if (domain === "scenic") return !!window.OnsenScenicMapV71?.select?.(id, { fly: true });
     try {
-      if (typeof selectSpot === "function") selectSpot(id);
       const spot = getSpot(id);
-      if (spot && typeof map !== "undefined" && map) {
+      if (!spot) return false;
+      if (typeof selectSpot === "function") selectSpot(id);
+      if (typeof map !== "undefined" && map) {
         map.flyTo?.({
           center: [Number(spot.lng), Number(spot.lat)],
           zoom: Math.max(Number(map.getZoom?.() || 10), 10)
         });
       }
-      return !!spot;
+      return true;
     } catch { return false; }
   }
 
@@ -42,10 +43,11 @@
     if (!router?.setMode) return false;
     router.setMode(request.domain, { source: `collection-map-v735:${reason}` });
     router.apply?.();
-    if (request.domain === "scenic") window.OnsenScenicRendererV734?.refresh?.();
-    selectTarget(request.domain, request.id);
+    if (request.domain === "scenic") window.OnsenScenicRendererV734?.syncVisibility?.();
+    const selected = selectTarget(request.domain, request.id);
+    if (selected) window.OnsenMapDetailV736?.present?.(request.domain, request.id);
     router.apply?.();
-    return router.getMode?.() === request.domain;
+    return router.getMode?.() === request.domain && selected;
   }
 
   function open(domain, id) {
@@ -53,7 +55,7 @@
     if (!id) return false;
     pending = { domain: target, id: String(id), startedAt: Date.now() };
 
-    // Set the target before changing the app tab so the map never opens on a stale domain.
+    // Choose the map category before showing the map, never expose the previous tab.
     window.OnsenMapDomainV73?.setMode?.(target, { source: "collection-map-v735:preopen" });
     window.OnsenAppShell?.show?.("map");
 
