@@ -1,0 +1,165 @@
+/* v73.6: the map owns all space between the app header and footer. */
+html[data-app-tab="map"] body.has-app-tabs .main {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  height: var(--app-content-h) !important;
+  max-height: var(--app-content-h) !important;
+  overflow: hidden !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+}
+html[data-app-tab="map"] body.has-app-tabs .main > .map-shell {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+}
+html[data-app-tab="map"] body.has-app-tabs .main .map-shell > #map {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Use the existing check-in DOM, rather than duplicating its inputs or state. */
+html[data-app-tab="map"] .main > .panel {
+  position: absolute !important;
+  z-index: 22 !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: 12px !important;
+  top: auto !important;
+  transform: translateX(-50%) !important;
+  box-sizing: border-box !important;
+  width: min(540px, calc(100% - 24px)) !important;
+  height: auto !important;
+  max-height: min(70%, 640px) !important;
+  min-height: 0 !important;
+  padding: 16px 16px calc(18px + env(safe-area-inset-bottom)) !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain !important;
+  border: 1px solid #34485a !important;
+  border-radius: 22px !important;
+  background: rgba(12, 19, 28, .98) !important;
+  color: #e8eef6 !important;
+  box-shadow: 0 12px 45px rgba(0, 0, 0, .5) !important;
+  scrollbar-width: thin;
+}
+html[data-app-tab="map"] .main:not(.map-detail-open) > .panel,
+html[data-app-tab="map"] .main > .panel[hidden] {
+  display: none !important;
+}
+html[data-app-tab="map"] .main.map-detail-open > .panel:not([hidden]) {
+  display: block !important;
+}
+.main > .panel .map-detail-close-v736 {
+  position: sticky;
+  z-index: 2;
+  top: 0;
+  float: right;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  min-height: 34px;
+  margin: -4px -4px 0 8px;
+  padding: 0;
+  border: 1px solid #415669;
+  border-radius: 50%;
+  background: #243244;
+  color: #e6edf4;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1;
+}
+.main > .panel .map-detail-handle-v736 {
+  display: none;
+}
+
+/* Four equal-width category tabs float above the map, not outside it. */
+.map-shell > .map-domain-switch-v62 {
+  position: absolute !important;
+  top: 10px !important;
+  left: 10px !important;
+  right: 10px !important;
+  bottom: auto !important;
+  z-index: 11 !important;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  width: min(490px, calc(100% - 20px)) !important;
+  box-sizing: border-box;
+  gap: 3px;
+}
+.map-shell > .map-domain-switch-v62 button {
+  min-width: 0;
+  gap: 3px;
+  padding: 7px 3px;
+  white-space: nowrap;
+}
+.map-shell > .map-domain-switch-v62 button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.map-shell > .map-domain-switch-v62 button[data-map-domain="all"].active {
+  border-color: #6382ab;
+  background: #233751;
+  color: #eef5ff;
+}
+.map-shell > .map-tools-toggle {
+  top: 62px !important;
+  left: 10px !important;
+}
+.map-shell > .map-tools {
+  top: 107px !important;
+  left: 10px !important;
+  max-height: min(55%, 360px);
+  overflow: auto;
+}
+.map-shell #map .maplibregl-ctrl-top-right {
+  top: 58px !important;
+  right: 6px !important;
+}
+.map-shell.map-tools-expanded #map .maplibregl-ctrl-top-right {
+  top: 200px !important;
+}
+
+@media (max-width: 600px) {
+  html[data-app-tab="map"] .main > .panel {
+    bottom: 0 !important;
+    width: 100% !important;
+    max-height: min(77%, 680px) !important;
+    padding: 12px 14px calc(18px + env(safe-area-inset-bottom)) !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 22px 22px 0 0 !important;
+  }
+  .main > .panel .map-detail-handle-v736 {
+    display: block;
+    width: 44px;
+    height: 5px;
+    margin: -4px auto 12px;
+    border-radius: 999px;
+    background: #728397;
+    touch-action: pan-y;
+  }
+  .map-shell > .map-domain-switch-v62 {
+    top: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: calc(100% - 16px) !important;
+  }
+  .map-shell > .map-domain-switch-v62 button {
+    min-height: 37px;
+    font-size: 12px;
+  }
+  .map-shell > .map-domain-switch-v62 button span {
+    font-size: 10px;
+  }
+  .map-shell > .map-tools-toggle { top: 62px !important; left: 8px !important; }
+  .map-shell > .map-tools { top: 106px !important; left: 8px !important; }
+  .map-shell #map .maplibregl-ctrl-top-right { top: 61px !important; right: 4px !important; }
+}
