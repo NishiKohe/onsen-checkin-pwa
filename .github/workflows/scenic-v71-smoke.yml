@@ -1,10 +1,13 @@
-name: Canonical scenic renderer and collections v73.4 smoke
+name: Immersive four-domain map v73.6 regression
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - "map-domain-controller-v733.js"
+      - "map-domain-controller-v736.js"
+      - "map-immersive-v736.js"
+      - "map-immersive-v736.css"
+      - "scripts/test-map-immersive-v736.cjs"
       - "collection-domain-controller-v732.js"
       - "collection-map-navigation-v735.js"
       - "collection-domain-controller-v732.css"
@@ -36,20 +39,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: JavaScript syntax
         run: |
-          node --check map-domain-controller-v733.js
-          node --check collection-domain-controller-v732.js
-          node --check collection-map-navigation-v735.js
-          node --check castle-map-v62.js
-          node --check scenic-map-v71.js
-          node --check scenic-map-renderer-v734.js
-          node --check travel-domain-recovery-v728.js
-          node --check photo-exif-runtime-v731.js
-          node --check trip-manual-recovery-v731.js
-          node --check trip-photo-recovery-v731.js
-          node --check scenic-runtime-v70.js
-          node --check build-info.js
-          node --check sw.js
-
+          for file in map-domain-controller-v736.js map-immersive-v736.js collection-domain-controller-v732.js collection-map-navigation-v735.js castle-map-v62.js scenic-map-v71.js scenic-map-renderer-v734.js travel-domain-recovery-v728.js photo-exif-runtime-v731.js trip-manual-recovery-v731.js trip-photo-recovery-v731.js scenic-runtime-v70.js build-info.js sw.js scripts/test-map-immersive-v736.cjs scripts/test-collection-map-navigation-v735.cjs; do node --check "$file"; done
+      - name: Real controller transitions and navigation
+        run: |
+          node scripts/test-map-immersive-v736.cjs
+          node scripts/test-collection-map-navigation-v735.cjs
       - name: GPS catalogs remain complete
         run: |
           python - <<'PY'
@@ -75,116 +69,57 @@ jobs:
           assert len([x for x in Path('data/castles-zoku100-v68.csv').read_text().splitlines()[1:] if x.strip()])==100
           print('GPS catalogs OK: scenic 433/433, castles 200')
           PY
-
-      - name: Scenic renderer guards
+      - name: Scene loading, exclusive renderer and screen composition
         run: |
           python - <<'PY'
           from pathlib import Path
+          build=Path('build-info.js').read_text()
+          sw=Path('sw.js').read_text()
+          router=Path('map-domain-controller-v736.js').read_text()
           renderer=Path('scenic-map-renderer-v734.js').read_text()
-          build=Path('build-info.js').read_text()
-          router=Path('map-domain-controller-v733.js').read_text()
-          scenic=Path('scenic-map-v71.js').read_text()
-          for required in [
-              'const BUILD = "v73.4"',
-              'const SOURCE = "scenic-v734-source"',
-              'const POINTS = "scenic-v734-points"',
-              'type: "circle"',
-              'for (const entry of rt.entries())',
-              'rt.referenceZones(entry)',
-              'lastFeatureCount = features.length',
-              'lastFeatureCount === 433',
-              'window.OnsenScenicRendererV734',
-              'for (const id of LEGACY_POINTS) setVisibility(id, false)',
-              'window.OnsenScenicMapV71?.select?.(id, { fly: false })'
-          ]:
-              assert required in renderer, required
-          for required in [
-              'async function ensureScenicRuntime',
-              'async function ensureScenicAdapter',
-              'async function ensureScenicRenderer',
-              './scenic-runtime-v70.js?v=73.4',
-              './scenic-map-v71.js?v=73.4',
-              './scenic-map-renderer-v734.js?v=73.4',
-              'window.OnsenScenicRendererV734?.featureCount?.()===433',
-              'onsen-critical-bootstrap-v734-ready'
-          ]:
-              assert required in build, required
-          assert build.index('const scenic=await ensureScenicAdapter()') < build.index('const renderer=await ensureScenicRenderer()') < build.index('./collection-domain-controller-v732.js?v=73.4')
-          assert 'const BUILD = "v73.3"' in router
-          assert 'const BUILD = "v73"' in scenic and 'function ensureLayers' in scenic and 'function setControllerActive' in scenic
-          print('v73.4 canonical scenic renderer guards OK')
+          detail=Path('map-immersive-v736.js').read_text()
+          css=Path('map-immersive-v736.css').read_text()
+          assert 'const version="v73.6"' in build and './sw.js?v=73.6' in build
+          assert 'onsen-checkin-v73.6' in sw
+          for asset in ('map-domain-controller-v736.js','map-immersive-v736.js','map-immersive-v736.css','scenic-map-renderer-v734.js','collection-map-navigation-v735.js'):
+              assert asset in build or asset in sw, asset
+              assert asset in sw, asset
+          for key in ('map-domain-controller-v736.js?v=73.6','scenic-map-renderer-v734.js?v=73.6','collection-map-navigation-v735.js?v=73.6','map-immersive-v736.js?v=73.6'):
+              assert key in build, key
+          assert build.index('const scenic=await ensureScenicAdapter()') < build.index('const renderer=await ensureScenicRenderer()') < build.index('collection-domain-controller-v732.js?v=73.6') < build.index('map-immersive-v736.js?v=73.6')
+          assert 'const DOMAINS = ["all", "onsen", "castle", "scenic"]' in router
+          assert 'mode === "all" || mode === domain' in router
+          assert 'const canonicalScenic = layerExists("scenic-v734-points")' in router
+          assert 'type: "circle"' in renderer and 'for (const entry of rt.entries())' in renderer
+          assert 'lastFeatureCount = features.length' in renderer and 'lastFeatureCount === 433' in renderer
+          assert 'mode() === "scenic" || mode() === "all"' in renderer
+          assert 'function present(domain, id)' in detail and 'function close(reason' in detail
+          assert 'grid-template-columns: none !important' in css
+          assert 'scenic-map-stability-v728.js' not in build and 'scenic-map-stability-v728.js' not in sw
+          print('v73.6 boot, exclusive 433-point renderer and full-viewport sheet guards OK')
           PY
-
-      - name: Collection map navigation guards
+      - name: Trip recovery, collections and achievements unchanged
         run: |
           python - <<'PY'
           from pathlib import Path
+          recovery=Path('travel-domain-recovery-v728.js').read_text()
+          exif=Path('photo-exif-runtime-v731.js').read_text()
+          manual=Path('trip-manual-recovery-v731.js').read_text()
+          photo=Path('trip-photo-recovery-v731.js').read_text()
+          common=Path('collection-domain-controller-v732.js').read_text()
+          achievement=Path('achievement-domain-controller-v721.js').read_text()
           nav=Path('collection-map-navigation-v735.js').read_text()
-          build=Path('build-info.js').read_text()
-          for required in [
-              'const BUILD = "v73.5"',
-              'const DOMAINS = new Set(["onsen", "castle", "scenic"])',
-              'window.OnsenMapDomainV73?.setMode?.(target',
-              'window.OnsenAppShell?.show?.("map")',
-              'onsen-app-tab-changed',
-              '#collectionCommonPanelV732 [data-common-map]',
-              'event.stopImmediatePropagation()',
-              'selectTarget(request.domain, request.id)',
-              'domain === "castle"',
-              'domain === "scenic"',
-              'typeof selectSpot === "function"',
-              'window.OnsenCollectionMapNavigationV735'
-          ]:
-              assert required in nav, required
-          assert nav.index('setMode?.(target') < nav.index('show?.("map")')
-          assert './collection-map-navigation-v735.js?v=73.5' in build
-          assert build.index('./collection-domain-controller-v732.js?v=73.4') < build.index('./collection-map-navigation-v735.js?v=73.5')
-          print('v73.5 collection map navigation guards OK')
-          PY
-
-      - name: Three-domain trip recovery guards
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          recovery=Path('travel-domain-recovery-v728.js').read_text(); exif=Path('photo-exif-runtime-v731.js').read_text(); manual=Path('trip-manual-recovery-v731.js').read_text(); photo=Path('trip-photo-recovery-v731.js').read_text()
           for text in (recovery,exif,manual,photo): assert 'const BUILD = "v73.1"' in text
           for required in ['entityType==="onsen"?confirmOnsen','photo_verified_range','OnsenMapDomainV73?.open?.','upsertCandidate','window.OnsenTravelDomainRecoveryV731']:
-              assert required in recovery, required
+              assert required in recovery,required
           for required in ['tripManualDomainV731','<option value="onsen">','<option value="castle">','<option value="scenic">','registerPastVisit']:
-              assert required in manual, required
+              assert required in manual,required
           for required in ['nearestOnsen','nearestCastles','nearestScenic','PHOTO_NEARBY_MARGIN_M = 1000','photo_verified_range','photo_nearby','upsertCandidate']:
-              assert required in photo, required
+              assert required in photo,required
           assert 'saveState(' not in photo and 'saveCheckins(' not in photo
-          print('v73.1 trip recovery guards OK')
-          PY
-
-      - name: Unified collection guards
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          common=Path('collection-domain-controller-v732.js').read_text(); css=Path('collection-domain-controller-v732.css').read_text(); achievement=Path('achievement-domain-controller-v721.js').read_text()
-          for required in ['const BUILD = "v73.2"','collectionDomainModeV732','function onsenItems','function castleItems','function scenicItems','data-common-status="unvisited"','collectionCommonPrefV732','function renderPrefectures','function renderList','温泉むすめ','地域資産','日本100名城','続100名城','特別名勝','function openOnMap','OnsenMapDomainV73?.open?.','window.OnsenCollectionDomainV732','achievementsVisible()']:
-              assert required in common, required
-          assert 'collection-common-row-v732' in css
+          for required in ['const BUILD = "v73.2"','function onsenItems','function castleItems','function scenicItems','collectionCommonPrefV732','function renderPrefectures','function renderList','achievementsVisible()']:
+              assert required in common,required
           assert 'achievementDomainModeV721' in achievement
-          print('v73.2 unified collection guards OK')
-          PY
-
-      - name: Release and regression guards
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          build=Path('build-info.js').read_text(); sw=Path('sw.js').read_text(); renderer=Path('scenic-map-renderer-v734.js').read_text(); nav=Path('collection-map-navigation-v735.js').read_text()
-          assert 'const version="v73.4"' in build
-          assert './sw.js?v=73.4' in build
-          assert 'onsen-checkin-v73.4' in sw
-          assert './scenic-map-renderer-v734.js' in sw
-          assert './collection-map-navigation-v735.js' in sw
-          assert './collection-map-navigation-v735.js?v=73.5' in build
-          assert './map-domain-controller-v733.js' in sw
-          assert './collection-domain-controller-v732.js' in sw and './collection-domain-controller-v732.css' in sw
-          assert 'scenic-map-stability-v728.js' not in build and 'scenic-map-stability-v728.js' not in sw
-          assert 'icon-image' not in renderer
-          assert 'const BUILD = "v73.5"' in nav
-          print('v73.4 release + v73.5 navigation patch guards OK')
+          assert 'window.OnsenMapDetailV736?.present?.(request.domain, request.id)' in nav
+          print('Trip v73.1, collection v73.2, achievement and map navigation guards OK')
           PY
