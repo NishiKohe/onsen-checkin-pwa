@@ -1,0 +1,25 @@
+name: Collection map navigation v73.5 behavior
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "collection-map-navigation-v735.js"
+      - "scripts/test-collection-map-navigation-v735.cjs"
+      - ".github/workflows/collection-map-navigation-v735.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  navigation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: JavaScript syntax
+        run: |
+          node --check collection-map-navigation-v735.js
+          node --check scripts/test-collection-map-navigation-v735.cjs
+      - name: Exercise three-domain navigation and legacy tab reset
+        run: node scripts/test-collection-map-navigation-v735.cjs
