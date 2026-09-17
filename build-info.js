@@ -2,7 +2,6 @@
   const version="v73.7";
   const preferredWorker="./sw.js?v=73.7";
   window.OnsenBuildInfo={version,updatedAt:"2026-09-17"};
-
   const bridges=[
     ["OnsenGameV68Bridge","gameV68BridgeScript","./game-v68-bridge.js?v=68.2","v68.2 game bridge"],
     ["OnsenGameV69Bridge","gameV69BridgeScript","./game-v69-bridge.js?v=69.1","v69.1 mining bridge"],
@@ -19,9 +18,9 @@
     ["scenicMapStyleV71","./scenic-map-v71.css?v=73.6"],
     ["collectionDomainStyleV732","./collection-domain-controller-v732.css?v=73.6"],
     ["mapImmersiveStyleV736","./map-immersive-v736.css?v=73.6"],
-    ["mapUxStyleV737","./map-ux-v737.css?v=73.7"]
+    ["mapUxStyleV737","./map-ux-v737.css?v=73.7"],
+    ["collectionPrefFoldStyleV737","./collection-pref-fold-v737.css?v=73.7"]
   ];
-
   function addBridge([globalName,id,src,label]){
     if(window[globalName]||document.getElementById(id))return;
     const script=document.createElement("script");script.id=id;script.src=src;script.async=true;
@@ -32,14 +31,12 @@
   function loadScriptOnce(src,id){return new Promise((resolve)=>{const existing=document.getElementById(id);if(existing){if(existing.dataset.loaded==="1"){resolve(true);return;}existing.addEventListener("load",()=>resolve(true),{once:true});existing.addEventListener("error",()=>resolve(false),{once:true});setTimeout(()=>resolve(existing.dataset.loaded==="1"),15000);return;}const script=document.createElement("script");script.id=id;script.src=src;script.async=false;script.addEventListener("load",()=>{script.dataset.loaded="1";resolve(true);},{once:true});script.addEventListener("error",()=>resolve(false),{once:true});document.head.appendChild(script);});}
   function ensureMapSwitch(){const shell=document.querySelector(".map-shell");if(!shell)return null;let root=document.getElementById("mapDomainSwitchV62");if(!root){root=document.createElement("div");root.id="mapDomainSwitchV62";root.className="map-domain-switch-v62";root.setAttribute("aria-label","地図カテゴリ切替");root.innerHTML='<button type="button" data-map-domain="all">◎<span>すべて</span></button><button type="button" data-map-domain="onsen">♨<span>温泉</span></button><button type="button" data-map-domain="castle">🏯<span>名城200</span></button><button type="button" data-map-domain="scenic">◇<span>名勝</span></button>';shell.appendChild(root);}return root;}
   function ensureBridges(){bridges.forEach(addBridge);styles.forEach(addStyle);}
-
   async function ensureCastleAdapter(){
     let castle=await waitFor(()=>window.OnsenCastleMap,12000);if(castle)return castle;
     const prereq=await waitFor(()=>window.OnsenCastleDomain&&window.OnsenCastleVisits&&typeof map!=="undefined"&&map,8000);if(!prereq)return null;
     await loadScriptOnce("./castle-map-v62.js?v=73.6","castleMapRecoveryV736Script");
     return waitFor(()=>window.OnsenCastleMap,12000);
   }
-
   async function ensureScenicRuntime(){
     let rt=await waitFor(()=>window.OnsenScenicRuntime?.entries?.().length===433?window.OnsenScenicRuntime:null,2500);
     if(rt)return rt;
@@ -48,7 +45,6 @@
     if(!rt)console.warn("v73.7 scenic runtime 433 entries not ready");
     return rt;
   }
-
   async function ensureScenicAdapter(){
     const rt=await ensureScenicRuntime();if(!rt)return null;
     let scenic=await waitFor(()=>window.OnsenScenicMapV71,3000);if(scenic)return scenic;
@@ -57,7 +53,6 @@
     if(!scenic)console.warn("v73.7 scenic interaction adapter not ready");
     return scenic;
   }
-
   async function ensureScenicRenderer(){
     const rt=await ensureScenicRuntime();if(!rt)return null;
     await loadScriptOnce("./scenic-map-renderer-v734.js?v=73.6","scenicRendererV736Script");
@@ -65,7 +60,6 @@
     if(!renderer)console.warn("v73.7 scenic renderer did not reach 433 features",window.OnsenScenicRendererV734?.diagnostics?.());
     return renderer;
   }
-
   async function bootCritical(){
     ensureMapSwitch();
     await loadScriptOnce("./map-domain-controller-v736.js?v=73.6","mapDomainControllerV736Script");
@@ -74,10 +68,11 @@
     const castle=await ensureCastleAdapter();if(!castle)console.warn("v73.7 castle adapter not ready");
     const scenic=await ensureScenicAdapter();
     const renderer=await ensureScenicRenderer();
-    window.OnsenMapDomainV73?.refresh?.();
-    renderer?.refresh?.();
+    window.OnsenMapDomainV73?.refresh?.();renderer?.refresh?.();
     await loadScriptOnce("./collection-domain-controller-v732.js?v=73.6","collectionDomainV736Script");
     await waitFor(()=>window.OnsenCollectionDomainV732,12000);
+    await loadScriptOnce("./collection-pref-fold-v737.js?v=73.7","collectionPrefFoldV737Script");
+    await waitFor(()=>window.OnsenCollectionPrefFoldV737?.build==="v73.7",8000);
     await loadScriptOnce("./collection-map-navigation-v735.js?v=73.6","collectionMapNavigationV736Script");
     await waitFor(()=>window.OnsenCollectionMapNavigationV735?.build==="v73.5",8000);
     await loadScriptOnce("./map-immersive-v736.js?v=73.6","mapImmersiveV736Script");
@@ -87,15 +82,13 @@
     await loadScriptOnce("./map-discovery-v737.js?v=73.7","mapDiscoveryV737Script");
     await waitFor(()=>window.OnsenMapDiscoveryV737?.build==="v73.7",8000);
     window.OnsenMapDomainV73?.refresh?.();renderer?.refresh?.();window.OnsenMapDiscoveryV737?.refresh?.();
-    window.dispatchEvent(new CustomEvent("onsen-critical-bootstrap-v737-ready",{detail:{build:version,castle:!!castle,scenic:!!scenic,scenicFeatures:renderer?.featureCount?.()||0,mapDetail:!!window.OnsenMapDetailV736,discovery:!!window.OnsenMapDiscoveryV737,compact:!!window.OnsenMapDetailCompactV737}}));
-    return !!castle&&!!scenic&&renderer?.featureCount?.()===433&&!!window.OnsenMapDetailV736&&!!window.OnsenMapDiscoveryV737&&!!window.OnsenMapDetailCompactV737;
+    window.dispatchEvent(new CustomEvent("onsen-critical-bootstrap-v737-ready",{detail:{build:version,castle:!!castle,scenic:!!scenic,scenicFeatures:renderer?.featureCount?.()||0,mapDetail:!!window.OnsenMapDetailV736,discovery:!!window.OnsenMapDiscoveryV737,compact:!!window.OnsenMapDetailCompactV737,collection:!!window.OnsenCollectionPrefFoldV737}}));
+    return !!castle&&!!scenic&&renderer?.featureCount?.()===433&&!!window.OnsenMapDetailV736&&!!window.OnsenMapDiscoveryV737&&!!window.OnsenMapDetailCompactV737&&!!window.OnsenCollectionPrefFoldV737;
   }
-
   function apply(){ensureMapSwitch();document.documentElement.dataset.appBuild=version;const badge=document.getElementById("appBuildBadge");if(badge){badge.textContent=version;badge.title=`温泉チェックイン build ${version}`;}if(window.OnsenAppShell)window.OnsenAppShell.build=version;ensureBridges();}
   async function registerPreferredWorker(){if(!("serviceWorker" in navigator))return null;try{const registration=await navigator.serviceWorker.register(preferredWorker);await registration?.update?.();return registration;}catch(err){console.warn("v73.7 service worker update check skipped",err);return null;}}
   function patchServiceWorkerRegister(){if(!("serviceWorker" in navigator))return;const sw=navigator.serviceWorker;if(sw.__onsenV737RegisterPatched)return;try{const originalRegister=sw.register.bind(sw);sw.register=(scriptURL,options)=>/(?:^|\/)sw\.js(?:\?|$)/.test(String(scriptURL||""))?originalRegister(preferredWorker,options):originalRegister(scriptURL,options);Object.defineProperty(sw,"__onsenV737RegisterPatched",{value:true});}catch(error){console.warn("v73.7 service worker register patch skipped",error);}}
   function installRefreshGuard(){if(!("serviceWorker" in navigator))return;let refreshing=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(refreshing)return;const key=`onsenBuildControllerReload:${version}`;if(sessionStorage.getItem(key)==="1")return;refreshing=true;sessionStorage.setItem(key,"1");location.reload();});window.addEventListener("load",()=>{registerPreferredWorker();setTimeout(registerPreferredWorker,800);setTimeout(registerPreferredWorker,2200);});}
-
   patchServiceWorkerRegister();installRefreshGuard();ensureBridges();
   const start=()=>{apply();bootCritical().catch((error)=>console.warn("v73.7 critical bootstrap failed",error));};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start,{once:true});else start();
