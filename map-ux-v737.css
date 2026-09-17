@@ -1,0 +1,31 @@
+/* v73.7: one truthful search for all map categories. */
+html[data-app-tab="map"] .map-shell > #btnMapToolsToggle,
+html[data-app-tab="map"] .map-shell > #mapToolsPanel { display: none !important; }
+.map-discovery-v737 { position:absolute; z-index:17; top:61px; left:8px; width:min(360px,calc(100% - 16px)); pointer-events:none; }
+.map-discovery-v737 > button { pointer-events:auto; min-height:44px; padding:9px 13px; border:1px solid #405770; background:rgba(11,20,31,.94); color:#e9f0f7; border-radius:12px; font-size:13px; box-shadow:0 3px 16px rgba(0,0,0,.25); }
+.map-discovery-v737 > section { pointer-events:auto; box-sizing:border-box; margin-top:7px; padding:12px; border:1px solid #3a4c61; border-radius:16px; background:rgba(12,20,30,.97); color:#f0f5fa; box-shadow:0 10px 32px rgba(0,0,0,.36); max-height:min(68dvh,570px); overflow-y:auto; overscroll-behavior:contain; }
+.map-discovery-v737 > section[hidden] { display:none !important; }
+.map-discovery-search-v737 { display:flex; gap:6px; align-items:center; }
+.map-discovery-v737 input,.map-discovery-v737 select { min-width:0; min-height:44px; box-sizing:border-box; border:1px solid #40556b; border-radius:10px; background:#132235; color:#f0f5fa; font-size:14px; }
+.map-discovery-v737 input { width:100%; flex:1; padding:9px 11px; }
+.map-discovery-search-v737 button { min-width:44px; min-height:44px; padding:0; background:#283a4d; }
+.map-discovery-filters-v737 { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.map-discovery-filters-v737 select { flex:1 1 100px; padding:8px; }
+.map-discovery-filters-v737 button { flex:1 0 auto; min-height:44px; padding:8px; font-size:12px; background:#263950; }
+#mapDiscoveryCountV737 { margin:10px 1px 6px; font-size:12px; color:#bdccda; }
+.map-discovery-results-v737 { display:grid; gap:4px; }
+.map-discovery-results-v737 > button { display:grid; gap:3px; width:100%; min-height:52px; padding:8px 10px; text-align:left; border:1px solid #2e4358; border-radius:10px; background:#152434; color:#eaf1f7; }
+.map-discovery-results-v737 > button strong { font-size:14px; line-height:1.35; overflow-wrap:anywhere; }
+.map-discovery-results-v737 > button span,.map-discovery-results-v737 > p { font-size:12px; color:#b0c2d2; margin:0; }
+/* Compact on first selection. Existing GPS buttons retain their original handlers. */
+html[data-app-tab="map"] .main.map-detail-open:not(.map-detail-expanded) > .panel:not([hidden]) { max-height:min(42dvh,330px) !important; }
+html[data-app-tab="map"] .main.map-detail-expanded > .panel:not([hidden]) { max-height:min(77dvh,680px) !important; }
+html[data-app-tab="map"] .main.map-detail-open:not(.map-detail-expanded) > .panel .details,
+html[data-app-tab="map"] .main.map-detail-open:not(.map-detail-expanded) > .panel #spotTags { display:none !important; }
+.main > .panel .map-detail-expand-v737 { display:inline-flex; align-items:center; justify-content:center; float:right; min-height:44px; padding:7px 10px; margin:-5px 6px 9px 0; border:1px solid #466078; border-radius:11px; background:#203448; color:#e2edf7; font-size:12px; font-weight:700; }
+.main > .panel .map-detail-close-v736 { width:44px; height:44px; min-height:44px; }
+@media(max-width:600px) {
+  .map-discovery-v737 { top:60px; }
+  html[data-app-tab="map"] .main.map-detail-open:not(.map-detail-expanded) > .panel:not([hidden]) { max-height:min(43dvh,325px) !important; }
+  .map-discovery-v737 > section { max-height:min(64dvh,520px); }
+}
