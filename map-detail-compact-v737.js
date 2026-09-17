@@ -6,7 +6,8 @@
   function syncButtons() {
     const expanded = !!main()?.classList.contains("map-detail-expanded");
     for (const button of document.querySelectorAll(".main > .panel .map-detail-expand-v737")) {
-      button.textContent = expanded ? "簡易表示に戻す" : "詳細を見る";
+      const label = expanded ? "簡易表示に戻す" : "詳細を見る";
+      if (button.textContent !== label) button.textContent = label;
       button.setAttribute("aria-expanded", String(expanded));
     }
   }
