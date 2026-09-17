@@ -1,0 +1,49 @@
+name: Map and collection UX v73.7 mobile browser
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "map-discovery-v737.js"
+      - "map-detail-compact-v737.js"
+      - "map-ux-v737.css"
+      - "collection-pref-fold-v737.js"
+      - "collection-pref-fold-v737.css"
+      - "scripts/test-map-ux-browser-v737.cjs"
+      - ".github/workflows/map-ux-browser-v737.yml"
+      - "build-info.js"
+      - "sw.js"
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax checks
+        run: |
+          node --check map-discovery-v737.js
+          node --check map-detail-compact-v737.js
+          node --check collection-pref-fold-v737.js
+          node --check build-info.js
+          node --check sw.js
+          node --check scripts/test-map-ux-browser-v737.cjs
+      - name: Install headless Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Verify published mobile UI and three-domain maps
+        run: node scripts/test-map-ux-browser-v737.cjs
+      - name: Upload failure screenshot
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: map-ux-v737-failure
+          path: map-ux-v737-failure.png
+          if-no-files-found: ignore
