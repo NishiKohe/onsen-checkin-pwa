@@ -1,4 +1,4 @@
-name: Immersive four-domain map v73.6 regression
+name: Four-domain map and collection v73.7 regression
 
 on:
   workflow_dispatch:
@@ -7,6 +7,11 @@ on:
       - "map-domain-controller-v736.js"
       - "map-immersive-v736.js"
       - "map-immersive-v736.css"
+      - "map-discovery-v737.js"
+      - "map-detail-compact-v737.js"
+      - "map-ux-v737.css"
+      - "collection-pref-fold-v737.js"
+      - "collection-pref-fold-v737.css"
       - "scripts/test-map-immersive-v736.cjs"
       - "collection-domain-controller-v732.js"
       - "collection-map-navigation-v735.js"
@@ -39,7 +44,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: JavaScript syntax
         run: |
-          for file in map-domain-controller-v736.js map-immersive-v736.js collection-domain-controller-v732.js collection-map-navigation-v735.js castle-map-v62.js scenic-map-v71.js scenic-map-renderer-v734.js travel-domain-recovery-v728.js photo-exif-runtime-v731.js trip-manual-recovery-v731.js trip-photo-recovery-v731.js scenic-runtime-v70.js build-info.js sw.js scripts/test-map-immersive-v736.cjs scripts/test-collection-map-navigation-v735.cjs; do node --check "$file"; done
+          for file in map-domain-controller-v736.js map-immersive-v736.js map-discovery-v737.js map-detail-compact-v737.js collection-pref-fold-v737.js collection-domain-controller-v732.js collection-map-navigation-v735.js castle-map-v62.js scenic-map-v71.js scenic-map-renderer-v734.js travel-domain-recovery-v728.js photo-exif-runtime-v731.js trip-manual-recovery-v731.js trip-photo-recovery-v731.js scenic-runtime-v70.js build-info.js sw.js scripts/test-map-immersive-v736.cjs scripts/test-collection-map-navigation-v735.cjs scripts/test-map-ux-browser-v737.cjs; do node --check "$file"; done
       - name: Real controller transitions and navigation
         run: |
           node scripts/test-map-immersive-v736.cjs
@@ -79,14 +84,13 @@ jobs:
           renderer=Path('scenic-map-renderer-v734.js').read_text()
           detail=Path('map-immersive-v736.js').read_text()
           css=Path('map-immersive-v736.css').read_text()
-          assert 'const version="v73.6"' in build and './sw.js?v=73.6' in build
-          assert 'onsen-checkin-v73.6' in sw
-          for asset in ('map-domain-controller-v736.js','map-immersive-v736.js','map-immersive-v736.css','scenic-map-renderer-v734.js','collection-map-navigation-v735.js'):
-              assert asset in build or asset in sw, asset
+          assert 'const version="v73.7"' in build and './sw.js?v=73.7' in build
+          assert 'onsen-checkin-v73.7' in sw
+          for asset in ('map-domain-controller-v736.js','map-immersive-v736.js','map-immersive-v736.css','scenic-map-renderer-v734.js','collection-map-navigation-v735.js','map-discovery-v737.js','map-detail-compact-v737.js','map-ux-v737.css','collection-pref-fold-v737.js','collection-pref-fold-v737.css'):
               assert asset in sw, asset
-          for key in ('map-domain-controller-v736.js?v=73.6','scenic-map-renderer-v734.js?v=73.6','collection-map-navigation-v735.js?v=73.6','map-immersive-v736.js?v=73.6'):
+          for key in ('map-domain-controller-v736.js?v=73.6','scenic-map-renderer-v734.js?v=73.6','collection-map-navigation-v735.js?v=73.6','map-immersive-v736.js?v=73.6','map-discovery-v737.js?v=73.7','map-detail-compact-v737.js?v=73.7','collection-pref-fold-v737.js?v=73.7'):
               assert key in build, key
-          assert build.index('const scenic=await ensureScenicAdapter()') < build.index('const renderer=await ensureScenicRenderer()') < build.index('collection-domain-controller-v732.js?v=73.6') < build.index('map-immersive-v736.js?v=73.6')
+          assert build.index('const scenic=await ensureScenicAdapter()') < build.index('const renderer=await ensureScenicRenderer()') < build.index('collection-domain-controller-v732.js?v=73.6') < build.index('map-immersive-v736.js?v=73.6') < build.index('map-detail-compact-v737.js?v=73.7') < build.index('map-discovery-v737.js?v=73.7')
           assert 'const DOMAINS = ["all", "onsen", "castle", "scenic"]' in router
           assert 'mode === "all" || mode === domain' in router
           assert 'const canonicalScenic = layerExists("scenic-v734-points")' in router
@@ -96,9 +100,9 @@ jobs:
           assert 'function present(domain, id)' in detail and 'function close(reason' in detail
           assert 'grid-template-columns: none !important' in css
           assert 'scenic-map-stability-v728.js' not in build and 'scenic-map-stability-v728.js' not in sw
-          print('v73.6 boot, exclusive 433-point renderer and full-viewport sheet guards OK')
+          print('v73.7 boot, 433-point renderer and full-viewport sheet guards OK')
           PY
-      - name: Trip recovery, collections and achievements unchanged
+      - name: Trip recovery, collections, achievements and UX integration
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -109,6 +113,9 @@ jobs:
           common=Path('collection-domain-controller-v732.js').read_text()
           achievement=Path('achievement-domain-controller-v721.js').read_text()
           nav=Path('collection-map-navigation-v735.js').read_text()
+          discovery=Path('map-discovery-v737.js').read_text()
+          compact=Path('map-detail-compact-v737.js').read_text()
+          fold=Path('collection-pref-fold-v737.js').read_text()
           for text in (recovery,exif,manual,photo): assert 'const BUILD = "v73.1"' in text
           for required in ['entityType==="onsen"?confirmOnsen','photo_verified_range','OnsenMapDomainV73?.open?.','upsertCandidate','window.OnsenTravelDomainRecoveryV731']:
               assert required in recovery,required
@@ -121,5 +128,8 @@ jobs:
               assert required in common,required
           assert 'achievementDomainModeV721' in achievement
           assert 'window.OnsenMapDetailV736?.present?.(request.domain, request.id)' in nav
-          print('Trip v73.1, collection v73.2, achievement and map navigation guards OK')
+          assert 'function catalog()' in discovery and 'function applyLayers(all)' in discovery
+          assert 'function expand(next)' in compact and 'map-detail-expanded' in compact
+          assert 'function setAll(expanded)' in fold and 'collection-common-rows-v732' in fold
+          print('Trip v73.1, collection v73.2, achievements and v73.7 UX guards OK')
           PY
