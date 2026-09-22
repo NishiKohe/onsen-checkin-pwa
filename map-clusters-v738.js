@@ -17,6 +17,9 @@
   let timer = null;
   let retries = 0;
   let pickerEpoch = 0;
+  let lastSourceSignature = null;
+  let lastSource = null;
+  let sourceUpdates = 0;
   const originalZoom = new Map();
   const $ = id => document.getElementById(id);
   function mapInstance() { try { return typeof map !== "undefined" ? map : null; } catch { return null; } }
@@ -25,7 +28,7 @@
   function filteredCatalog() {
     const all = window.OnsenMapDiscoveryV737?.catalog?.() || [];
     const counts = Object.fromEntries(DOMAINS.map(domain => [domain, all.filter(item => item.domain === domain).length]));
-    // Do not conceal original pins when an adapter or a catalog is only partially available.
+    // Never hide original pins if a category has not loaded in full.
     if (counts.castle !== 200 || counts.scenic !== 433 || counts.onsen < 1) return null;
     const selectedMode = domainMode();
     const query = normalise($("mapDiscoveryQueryV737")?.value || "");
@@ -42,6 +45,7 @@
       geometry: { type: "Point", coordinates: [item.lng, item.lat] }
     })) };
   }
+  function signature(items) { return items.map(item => `${item.domain}:${item.id}:${item.visited ? 1 : 0}`).join("|"); }
   function makeLayer(m, layer) { if (!m.getLayer(layer.id)) m.addLayer(layer); }
   function ensureUi() {
     const shell = document.querySelector(".map-shell");
@@ -129,10 +133,20 @@
     const items = filteredCatalog();
     if (!items) { if (active) restoreOriginal(m); active = false; return false; }
     try {
-      const data = geoJson(items);
-      const source = m.getSource(SOURCE);
-      if (source) source.setData(data);
-      else m.addSource(SOURCE, { type: "geojson", data, cluster: true, clusterMaxZoom: 9, clusterRadius: 52 });
+      const key = signature(items);
+      let source = m.getSource(SOURCE);
+      if (!source) {
+        m.addSource(SOURCE, { type: "geojson", data: geoJson(items), cluster: true, clusterMaxZoom: 9, clusterRadius: 52 });
+        source = m.getSource(SOURCE);
+        lastSource = source;
+        lastSourceSignature = key;
+        sourceUpdates++;
+      } else if (source !== lastSource || key !== lastSourceSignature) {
+        source.setData(geoJson(items));
+        lastSource = source;
+        lastSourceSignature = key;
+        sourceUpdates++;
+      }
       makeLayer(m, { id: CLUSTER, type: "circle", source: SOURCE, maxzoom: DETAIL_ZOOM, filter: ["has", "point_count"], paint: {
         "circle-color": "#24394e", "circle-stroke-color": "#f3f7fb", "circle-stroke-width": 2,
         "circle-radius": ["interpolate", ["linear"], ["get", "point_count"], 2, 18, 20, 23, 100, 30], "circle-opacity": 0.94
@@ -148,14 +162,13 @@
       makeLayer(m, { id: LABEL, type: "symbol", source: SOURCE, minzoom: 9.3, maxzoom: DETAIL_ZOOM, filter: ["!", ["has", "point_count"]], layout: {
         "text-field": ["get", "name"], "text-size": 11, "text-offset": [0, 1.4], "text-anchor": "top", "text-optional": true
       }, paint: { "text-color": "#344253", "text-halo-color": "#fffaf0", "text-halo-width": 1.5 } });
-      // Change the zoom ranges only after the replacement layers have been created.
       if (![CLUSTER, COUNT, SINGLE].every(id => !!m.getLayer(id)) || !restrictOriginal(m)) {
         restoreOriginal(m); active = false; return false;
       }
       active = true;
       featuresCount = items.length;
       const legend = $("mapClusterLegendV738");
-      if (legend) legend.hidden = domainMode() !== "all";
+      if (legend) legend.hidden = domainMode() !== "all" || (m.getZoom?.() || 0) >= DETAIL_ZOOM;
       return true;
     } catch (error) {
       restoreOriginal(m);
@@ -166,7 +179,7 @@
   }
   function schedule() {
     clearTimeout(timer);
-    timer = setTimeout(() => { ensureUi(); ensure(); }, 45);
+    timer = setTimeout(() => { ensureUi(); ensure(); }, 65);
   }
   async function openCluster(feature) {
     const m = mapInstance();
@@ -239,7 +252,7 @@
     if (!m || m === boundMap) return;
     boundMap = m;
     m.on?.("click", onClick);
-    m.on?.("style.load", () => { originalZoom.clear(); active = false; schedule(); });
+    m.on?.("style.load", () => { originalZoom.clear(); lastSource = null; lastSourceSignature = null; active = false; schedule(); });
     m.on?.("zoomend", () => {
       const legend = $("mapClusterLegendV738");
       if (legend) legend.hidden = domainMode() !== "all" || m.getZoom?.() >= DETAIL_ZOOM || !active;
@@ -258,7 +271,7 @@
     document.addEventListener("click", e => { if (e.target instanceof Element && e.target.closest("#mapDiscoveryResetV737, #mapDiscoveryClearV737")) schedule(); });
     window.addEventListener("onsen-map-detail-v736-opened", closePicker);
     const timerId = setInterval(() => { bind(); if (ensure() || ++retries >= 180) clearInterval(timerId); }, 250);
-    window.OnsenMapClustersV738 = { build: BUILD, refresh: schedule, closePicker, diagnostics: () => ({ build: BUILD, active, featuresCount, mode: domainMode(), clusterLayer: !!mapInstance()?.getLayer?.(CLUSTER), originalMinZoom: mapInstance()?.getLayer?.("spots-symbol")?.minzoom ?? null }) };
+    window.OnsenMapClustersV738 = { build: BUILD, refresh: schedule, closePicker, diagnostics: () => ({ build: BUILD, active, featuresCount, sourceUpdates, mode: domainMode(), clusterLayer: !!mapInstance()?.getLayer?.(CLUSTER), originalMinZoom: mapInstance()?.getLayer?.("spots-symbol")?.minzoom ?? null }) };
     schedule();
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", install, { once: true }); else install();
