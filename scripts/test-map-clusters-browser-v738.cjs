@@ -11,14 +11,15 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
   page.on("pageerror", error => errors.push(String(error)));
   try {
     let published = false;
-    for (let i = 0; i < 30; i++) {
-      await page.goto(`${BASE}?qa=73.8-${i}`, { waitUntil: "domcontentloaded", timeout: 60000 });
-      await page.waitForTimeout(1600);
-      published = await page.evaluate(() => window.OnsenBuildInfo?.version === "v73.8");
+    for (let i = 0; i < 32; i++) {
+      await page.goto(`${BASE}?qa=73.8-stable-${i}`, { waitUntil: "domcontentloaded", timeout: 60000 });
+      await page.waitForTimeout(1300);
+      published = await page.evaluate(() => window.OnsenBuildInfo?.version === "v73.8" &&
+        typeof window.OnsenMapClustersV738?.diagnostics?.().sourceUpdates === "number");
       if (published) break;
       await page.waitForTimeout(2000);
     }
-    assert.ok(published, "v73.8 not yet publicly deployed");
+    assert.ok(published, "v73.8 stable clustering not yet publicly deployed");
     await page.waitForFunction(() => window.OnsenMapClustersV738?.diagnostics?.().active &&
       window.OnsenScenicRendererV734?.featureCount?.() === 433 &&
       window.OnsenMapDiscoveryV737?.catalog?.().length >= 856 &&
@@ -34,26 +35,48 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     assert.ok(start.catalog.onsen > 0);
     assert.equal(start.cluster.featuresCount, start.catalog.onsen + 633);
     assert.ok(Math.abs(start.mapHeight - start.mainHeight) <= 2);
-    console.log("PASS all three catalogs and cluster source", JSON.stringify(start));
+    console.log("PASS complete 856-place catalogs", JSON.stringify(start));
 
     await page.locator('[data-map-domain="all"]').click();
     await page.evaluate(() => map.jumpTo({ center: [139.70, 35.69], zoom: 6.5 }));
-    await page.waitForTimeout(1300);
-    const overview = await page.evaluate(() => {
-      const cluster = map.queryRenderedFeatures(undefined, { layers: ["map-v738-cluster"] });
-      const singles = map.queryRenderedFeatures(undefined, { layers: ["map-v738-single"] });
-      const original = map.getLayer("spots-symbol");
-      return { clusterCount: cluster.length, singles: singles.length, originalMinZoom: original?.minzoom,
-        clusterMaxZoom: map.getLayer("map-v738-cluster")?.maxzoom,
-        counts: cluster.slice(0, 3).map(f => f.properties.point_count) };
+    const render = () => page.evaluate(() => {
+      const rect = map.getCanvas().getBoundingClientRect();
+      const box = [[0, 0], [rect.width, rect.height]];
+      const clusters = map.queryRenderedFeatures(box, { layers: ["map-v738-cluster"] });
+      const singles = map.queryRenderedFeatures(box, { layers: ["map-v738-single"] });
+      return { clusters, singles, box };
     });
-    assert.ok(overview.clusterCount > 0, `no clusters rendered near Tokyo: ${JSON.stringify(overview)}`);
+    let overview = null;
+    for (let attempt = 0; attempt < 20; attempt++) {
+      const found = await render();
+      if (found.clusters.length) {
+        overview = { clusterCount: found.clusters.length, singles: found.singles.length,
+          originalMinZoom: await page.evaluate(() => map.getLayer("spots-symbol")?.minzoom),
+          clusterMaxZoom: await page.evaluate(() => map.getLayer("map-v738-cluster")?.maxzoom),
+          counts: found.clusters.slice(0, 3).map(f => f.properties.point_count) };
+        break;
+      }
+      await page.waitForTimeout(600);
+    }
+    if (!overview) {
+      const snapshot = await page.evaluate(() => {
+        const m = map, source = m.getSource("map-v738-clusters"), layer = m.getLayer("map-v738-cluster");
+        return { zoom: m.getZoom(), center: m.getCenter().toArray(), loaded: m.loaded(), styleLoaded: m.isStyleLoaded(),
+          sourceLoaded: m.isSourceLoaded("map-v738-clusters"), clusterFilter: layer?.filter,
+          clusterVisibility: m.getLayoutProperty("map-v738-cluster", "visibility"),
+          clusterDataSize: source?._data?.features?.length, diagnostics: window.OnsenMapClustersV738.diagnostics(),
+          visibleAny: m.queryRenderedFeatures([[0,0],[390,700]]).slice(0,3).map(f => f.layer.id) };
+      });
+      throw new Error(`cluster layer drew zero features: ${JSON.stringify(snapshot)}`);
+    }
+    assert.ok(overview.clusterCount > 0);
     assert.equal(overview.originalMinZoom, 10);
     assert.equal(overview.clusterMaxZoom, 10);
-    console.log("PASS low zoom shows count bubbles rather than original overlapping pins", JSON.stringify(overview));
+    console.log("PASS clustered circles rendered at zoom 6.5", JSON.stringify(overview));
 
     const clusterApi = await page.evaluate(async () => {
-      const feature = map.queryRenderedFeatures(undefined, { layers: ["map-v738-cluster"] })
+      const r = map.getCanvas().getBoundingClientRect();
+      const feature = map.queryRenderedFeatures([[0,0],[r.width,r.height]], { layers: ["map-v738-cluster"] })
         .find(f => Number(f.properties.point_count) >= 2);
       const source = map.getSource("map-v738-clusters");
       if (!feature || !source) return null;
@@ -64,13 +87,13 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     });
     assert.ok(clusterApi && clusterApi.count >= 2 && clusterApi.leaves > 0, JSON.stringify(clusterApi));
     assert.ok(["onsen", "castle", "scenic"].includes(clusterApi.domain));
-    console.log("PASS cluster expands and exposes selectable catalog leaves", JSON.stringify(clusterApi));
+    console.log("PASS cluster expansion and member lookup", JSON.stringify(clusterApi));
 
     for (const [domain, expected] of [["castle", 200], ["scenic", 433], ["onsen", start.catalog.onsen], ["all", start.cluster.featuresCount]]) {
       await page.locator(`[data-map-domain="${domain}"]`).click();
-      await page.waitForFunction(count => window.OnsenMapClustersV738?.diagnostics?.().featuresCount === count, expected);
+      await page.waitForFunction(count => window.OnsenMapClustersV738?.diagnostics?.().featuresCount === count, expected, { timeout: 20000 });
       assert.equal(await page.evaluate(() => window.OnsenMapClustersV738.diagnostics().active), true);
-      console.log(`PASS ${domain} cluster input ${expected} features`);
+      console.log(`PASS ${domain} clusters include ${expected} places`);
     }
 
     await page.locator("#mapDiscoveryToggleV737").click();
@@ -81,13 +104,13 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     const matches = await page.evaluate(() => ({ cluster: window.OnsenMapClustersV738.diagnostics().featuresCount,
       search: window.OnsenMapDiscoveryV737.diagnostics().results }));
     assert.ok(matches.search > 0 && matches.search < start.cluster.featuresCount);
-    console.log("PASS search matches cluster contents", JSON.stringify(matches));
+    console.log("PASS shared search and cluster source stay synchronized", JSON.stringify(matches));
     await page.locator("#mapDiscoveryResetV737").click();
     await page.locator("#mapDiscoveryToggleV737").click();
 
     await page.locator('[data-map-domain="scenic"]').click();
     await page.evaluate(item => map.jumpTo({ center: [item.lng, item.lat], zoom: 11.5 }), sample);
-    await page.waitForTimeout(1100);
+    await page.waitForTimeout(1000);
     const detail = await page.evaluate(item => ({
       sourceCount: window.OnsenScenicRendererV734.featureCount(),
       originalMinZoom: map.getLayer("scenic-v734-points")?.minzoom,
@@ -99,10 +122,10 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     assert.equal(detail.sourceCount, 433);
     assert.equal(detail.originalMinZoom, 10);
     assert.equal(detail.visible, "visible");
-    assert.ok(detail.rendered > 0, `original scenic pins missing at close zoom: ${JSON.stringify(detail)}`);
+    assert.ok(detail.rendered > 0, `scenic pins not restored at close zoom: ${JSON.stringify(detail)}`);
     assert.equal(detail.selected, true);
     assert.equal(detail.checkinExists, true);
-    console.log("PASS close zoom restores canonical scenic pins and detail/check-in", JSON.stringify(detail));
+    console.log("PASS close zoom original scenic pins and check-in", JSON.stringify(detail));
 
     await page.locator("#scenicMapPanelV71 .map-detail-close-v736").click();
     await page.locator('[data-map-domain="castle"]').click();
@@ -110,9 +133,9 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     await page.locator('[data-map-domain="onsen"]').click();
     assert.ok(await page.locator("#btnCheckin").count());
     assert.deepEqual(errors, [], `uncaught browser errors: ${errors.join(" | ")}`);
-    console.log("All published v73.8 map cluster and check-in regressions passed");
+    console.log("All published v73.8 clustering and check-in tests passed");
   } catch (error) {
-    console.error("v73.8 map cluster browser failure", error.stack || error);
+    console.error("v73.8 browser failure", error.stack || error);
     console.error("Page errors", errors.slice(0, 12).join(" | "));
     await page.screenshot({ path: "map-clusters-v738-failure.png", fullPage: true }).catch(() => {});
     process.exitCode = 1;
