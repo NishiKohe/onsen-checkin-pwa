@@ -1,0 +1,36 @@
+/* v73.8: clustering is confined to wide views; original pins return at zoom 10. */
+.map-cluster-legend-v738 {
+  position: absolute; right: 8px; bottom: 15px; z-index: 12;
+  display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end;
+  gap: 6px 9px; max-width: min(330px, calc(100% - 18px));
+  padding: 7px 10px; border: 1px solid rgba(67,86,106,.68); border-radius: 12px;
+  background: rgba(13,23,35,.93); color: #edf3fa; font-size: 11px;
+  pointer-events: none; box-shadow: 0 3px 14px rgba(0,0,0,.2);
+}
+.map-cluster-legend-v738[hidden], .map-cluster-picker-v738[hidden] { display: none !important; }
+.map-cluster-legend-v738 span { display: inline-flex; gap: 4px; align-items: center; white-space: nowrap; }
+.map-cluster-legend-v738 i { width: 10px; height: 10px; display: inline-block; border: 2px solid #fff; border-radius: 50%; }
+.map-cluster-legend-v738 i.onsen { background: #ae4c3f; }
+.map-cluster-legend-v738 i.castle { background: #3e7399; }
+.map-cluster-legend-v738 i.scenic { background: #765889; }
+.map-cluster-legend-v738 small { color: #d7bb7d; font-size: 10px; white-space: nowrap; }
+html[data-app-tab="map"] .main.map-detail-open .map-cluster-legend-v738 { display: none; }
+.map-cluster-picker-v738 {
+  position: absolute; z-index: 24; box-sizing: border-box;
+  width: min(450px, calc(100% - 16px)); left: 50%; bottom: 8px;
+  transform: translateX(-50%); max-height: min(53dvh, 460px);
+  overflow: hidden; border: 1px solid #43576c; border-radius: 18px;
+  background: rgba(13,22,33,.98); color: #e9f2fb;
+  box-shadow: 0 14px 38px rgba(0,0,0,.43);
+}
+.map-cluster-picker-v738 > header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 11px; border-bottom: 1px solid #2a4157; }
+.map-cluster-picker-v738 > header strong { font-size: 14px; }
+.map-cluster-picker-v738 > header button { flex: 0 0 44px; width: 44px; height: 44px; border: 1px solid #4b6073; border-radius: 12px; background: #253b50; color: #fff; font-size: 22px; }
+#mapClusterPickerListV738 { display: grid; gap: 4px; padding: 7px; max-height: min(42dvh, 350px); overflow-y: auto; overscroll-behavior: contain; }
+#mapClusterPickerListV738 > button { display: grid; gap: 3px; text-align: left; min-height: 52px; padding: 9px 11px; border: 1px solid #31495f; border-radius: 10px; background: #192c40; color: #eef4fb; }
+#mapClusterPickerListV738 > button strong { font-size: 14px; line-height: 1.35; overflow-wrap: anywhere; }
+#mapClusterPickerListV738 > button span { font-size: 11px; color: #bccbd9; }
+@media (max-width: 600px) {
+  .map-cluster-legend-v738 { bottom: 8px; left: 8px; right: 8px; max-width: none; justify-content: center; }
+  .map-cluster-picker-v738 { width: 100%; bottom: 0; border-radius: 18px 18px 0 0; border-bottom: 0; }
+}
