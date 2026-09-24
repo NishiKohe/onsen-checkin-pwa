@@ -13,6 +13,9 @@
   opacity: 0;
   pointer-events: none;
 }
+.map-cluster-overlay-v738.is-moving .map-cluster-marker-v738 {
+  pointer-events: none;
+}
 .map-cluster-marker-v738 {
   position: absolute;
   transform: translate(-50%, -50%);
