@@ -1,7 +1,7 @@
 (() => {
-  const version="v73.8";
+  const version="v73.9";
   const preferredWorker="./sw.js?v=73.8";
-  window.OnsenBuildInfo={version,updatedAt:"2026-09-22"};
+  window.OnsenBuildInfo={version,updatedAt:"2026-09-25"};
   const bridges=[
     ["OnsenGameV68Bridge","gameV68BridgeScript","./game-v68-bridge.js?v=68.2","v68.2 game bridge"],
     ["OnsenGameV69Bridge","gameV69BridgeScript","./game-v69-bridge.js?v=69.1","v69.1 mining bridge"],
@@ -20,7 +20,7 @@
     ["mapImmersiveStyleV736","./map-immersive-v736.css?v=73.6"],
     ["mapUxStyleV737","./map-ux-v737.css?v=73.7"],
     ["collectionPrefFoldStyleV737","./collection-pref-fold-v737.css?v=73.7"],
-    ["mapClustersStyleV738","./map-clusters-v738.css?v=73.8"]
+    ["mapClustersStyleV738","./map-clusters-v738.css?v=73.9"]
   ];
   function addBridge([globalName,id,src,label]){
     if(window[globalName]||document.getElementById(id))return;
@@ -43,7 +43,7 @@
     if(rt)return rt;
     await loadScriptOnce("./scenic-runtime-v70.js?v=73.6","scenicRuntimeV736Script");
     rt=await waitFor(()=>window.OnsenScenicRuntime?.entries?.().length===433?window.OnsenScenicRuntime:null,20000);
-    if(!rt)console.warn("v73.8 scenic runtime 433 entries not ready");
+    if(!rt)console.warn("v73.9 scenic runtime 433 entries not ready");
     return rt;
   }
   async function ensureScenicAdapter(){
@@ -51,22 +51,22 @@
     let scenic=await waitFor(()=>window.OnsenScenicMapV71,3000);if(scenic)return scenic;
     await loadScriptOnce("./scenic-map-v71.js?v=73.6","scenicMapV736Script");
     scenic=await waitFor(()=>window.OnsenScenicMapV71,15000);
-    if(!scenic)console.warn("v73.8 scenic interaction adapter not ready");
+    if(!scenic)console.warn("v73.9 scenic interaction adapter not ready");
     return scenic;
   }
   async function ensureScenicRenderer(){
     const rt=await ensureScenicRuntime();if(!rt)return null;
     await loadScriptOnce("./scenic-map-renderer-v734.js?v=73.6","scenicRendererV736Script");
     const renderer=await waitFor(()=>window.OnsenScenicRendererV734?.featureCount?.()===433?window.OnsenScenicRendererV734:null,15000);
-    if(!renderer)console.warn("v73.8 scenic renderer did not reach 433 features",window.OnsenScenicRendererV734?.diagnostics?.());
+    if(!renderer)console.warn("v73.9 scenic renderer did not reach 433 features",window.OnsenScenicRendererV734?.diagnostics?.());
     return renderer;
   }
   async function bootCritical(){
     ensureMapSwitch();
     await loadScriptOnce("./map-domain-controller-v736.js?v=73.6","mapDomainControllerV736Script");
     const router=await waitFor(()=>window.OnsenMapDomainV73?.build==="v73.6",15000);
-    if(!router){console.warn("v73.8 map router not ready");return false;}
-    const castle=await ensureCastleAdapter();if(!castle)console.warn("v73.8 castle adapter not ready");
+    if(!router){console.warn("v73.9 map router not ready");return false;}
+    const castle=await ensureCastleAdapter();if(!castle)console.warn("v73.9 castle adapter not ready");
     const scenic=await ensureScenicAdapter();
     const renderer=await ensureScenicRenderer();
     window.OnsenMapDomainV73?.refresh?.();renderer?.refresh?.();
@@ -82,18 +82,18 @@
     await waitFor(()=>window.OnsenMapDetailCompactV737?.build==="v73.7",8000);
     await loadScriptOnce("./map-discovery-v737.js?v=73.7","mapDiscoveryV737Script");
     await waitFor(()=>window.OnsenMapDiscoveryV737?.build==="v73.7",8000);
-    await loadScriptOnce("./map-clusters-v738.js?v=73.8","mapClustersV738Script");
-    const clusters=await waitFor(()=>window.OnsenMapClustersV738?.build==="v73.8",8000);
+    await loadScriptOnce("./map-clusters-v738.js?v=73.9","mapClustersV738Script");
+    const clusters=await waitFor(()=>window.OnsenMapClustersV738?.build==="v73.9",8000);
     window.OnsenMapDomainV73?.refresh?.();renderer?.refresh?.();window.OnsenMapDiscoveryV737?.refresh?.();clusters?.refresh?.();
     window.dispatchEvent(new CustomEvent("onsen-critical-bootstrap-v738-ready",{detail:{build:version,castle:!!castle,scenic:!!scenic,scenicFeatures:renderer?.featureCount?.()||0,mapDetail:!!window.OnsenMapDetailV736,discovery:!!window.OnsenMapDiscoveryV737,compact:!!window.OnsenMapDetailCompactV737,collection:!!window.OnsenCollectionPrefFoldV737,clusters:!!clusters}}));
     return !!castle&&!!scenic&&renderer?.featureCount?.()===433&&!!window.OnsenMapDetailV736&&!!window.OnsenMapDiscoveryV737&&!!window.OnsenMapDetailCompactV737&&!!window.OnsenCollectionPrefFoldV737&&!!clusters;
   }
   function apply(){ensureMapSwitch();document.documentElement.dataset.appBuild=version;const badge=document.getElementById("appBuildBadge");if(badge){badge.textContent=version;badge.title=`温泉チェックイン build ${version}`;}if(window.OnsenAppShell)window.OnsenAppShell.build=version;ensureBridges();}
-  async function registerPreferredWorker(){if(!("serviceWorker" in navigator))return null;try{const registration=await navigator.serviceWorker.register(preferredWorker);await registration?.update?.();return registration;}catch(err){console.warn("v73.8 service worker update check skipped",err);return null;}}
-  function patchServiceWorkerRegister(){if(!("serviceWorker" in navigator))return;const sw=navigator.serviceWorker;if(sw.__onsenV738RegisterPatched)return;try{const originalRegister=sw.register.bind(sw);sw.register=(scriptURL,options)=>/(?:^|\/)sw\.js(?:\?|$)/.test(String(scriptURL||""))?originalRegister(preferredWorker,options):originalRegister(scriptURL,options);Object.defineProperty(sw,"__onsenV738RegisterPatched",{value:true});}catch(error){console.warn("v73.8 service worker register patch skipped",error);}}
+  async function registerPreferredWorker(){if(!("serviceWorker" in navigator))return null;try{const registration=await navigator.serviceWorker.register(preferredWorker);await registration?.update?.();return registration;}catch(err){console.warn("v73.9 service worker update check skipped",err);return null;}}
+  function patchServiceWorkerRegister(){if(!("serviceWorker" in navigator))return;const sw=navigator.serviceWorker;if(sw.__onsenV738RegisterPatched)return;try{const originalRegister=sw.register.bind(sw);sw.register=(scriptURL,options)=>/(?:^|\/)sw\.js(?:\?|$)/.test(String(scriptURL||""))?originalRegister(preferredWorker,options):originalRegister(scriptURL,options);Object.defineProperty(sw,"__onsenV738RegisterPatched",{value:true});}catch(error){console.warn("v73.9 service worker register patch skipped",error);}}
   function installRefreshGuard(){if(!("serviceWorker" in navigator))return;let refreshing=false;navigator.serviceWorker.addEventListener("controllerchange",()=>{if(refreshing)return;const key=`onsenBuildControllerReload:${version}`;if(sessionStorage.getItem(key)==="1")return;refreshing=true;sessionStorage.setItem(key,"1");location.reload();});window.addEventListener("load",()=>{registerPreferredWorker();setTimeout(registerPreferredWorker,800);setTimeout(registerPreferredWorker,2200);});}
   patchServiceWorkerRegister();installRefreshGuard();ensureBridges();
-  const start=()=>{apply();bootCritical().catch((error)=>console.warn("v73.8 critical bootstrap failed",error));};
+  const start=()=>{apply();bootCritical().catch((error)=>console.warn("v73.9 critical bootstrap failed",error));};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start,{once:true});else start();
   window.addEventListener("load",()=>{apply();setTimeout(()=>{window.OnsenMapDomainV73?.refresh?.();window.OnsenScenicRendererV734?.refresh?.();window.OnsenMapDiscoveryV737?.refresh?.();window.OnsenMapClustersV738?.refresh?.();},100);});
   setTimeout(apply,600);setTimeout(apply,1600);
