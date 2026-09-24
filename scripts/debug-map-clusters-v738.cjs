@@ -27,7 +27,7 @@ const { chromium } = require("playwright");
     const m = map;
     const rect = m.getCanvas().getBoundingClientRect();
     const box = [[0, 0], [rect.width, rect.height]];
-    const source = m.getSource("map-v738-clusters");
+    const groupSource = m.getSource("map-v738-groups");\n    const singleSource = m.getSource("map-v738-singles");
     const groups = m.queryRenderedFeatures(box, { layers: ["map-v738-cluster"] });
     const singles = m.queryRenderedFeatures(box, { layers: ["map-v738-single"] });
     const all = window.OnsenMapDiscoveryV737?.catalog?.() || [];
@@ -38,8 +38,8 @@ const { chromium } = require("playwright");
       center: m.getCenter().toArray(),
       zoom: m.getZoom(),
       styleLoaded: m.isStyleLoaded(),
-      sourceLoaded: m.isSourceLoaded("map-v738-clusters"),
-      sourceDataSize: source?._data?.features?.length,
+      sourceLoaded: m.isSourceLoaded("map-v738-groups") && m.isSourceLoaded("map-v738-singles"),
+      sourceDataSize: (groupSource?._data?.features?.length || 0) + (singleSource?._data?.features?.length || 0),
       renderedGroups: groups.length,
       renderedSingles: singles.length,
       groupSamples: groups.slice(0, 5).map(f => ({
