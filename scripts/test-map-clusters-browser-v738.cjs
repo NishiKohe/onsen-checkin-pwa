@@ -75,13 +75,13 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
 
     if (!overview) {
       const snapshot = await page.evaluate(() => {
-        const source = map.getSource("map-v738-clusters");
+        const groupSource = map.getSource("map-v738-groups"); const singleSource = map.getSource("map-v738-singles");
         return {
           zoom: map.getZoom(),
           center: map.getCenter().toArray(),
           styleLoaded: map.isStyleLoaded(),
-          sourceLoaded: map.isSourceLoaded("map-v738-clusters"),
-          sourceDataSize: source?._data?.features?.length,
+          sourceLoaded: map.isSourceLoaded("map-v738-groups") && map.isSourceLoaded("map-v738-singles"),
+          sourceDataSize: (groupSource?._data?.features?.length || 0) + (singleSource?._data?.features?.length || 0),
           diagnostics: window.OnsenMapClustersV738.diagnostics(),
           visibility: map.getLayoutProperty("map-v738-cluster", "visibility")
         };
