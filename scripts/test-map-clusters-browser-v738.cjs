@@ -208,11 +208,20 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
 
     await page.locator("#mapDiscoveryToggleV737").click();
 
-    const sample = await page.evaluate(() =>
-      window.OnsenMapDiscoveryV737
+    const sample = await page.evaluate(() => {
+      const scenic = window.OnsenMapDiscoveryV737
         .catalog()
-        .find(item => item.domain === "scenic")
-    );
+        .filter(item => item.domain === "scenic");
+      const target = [139.70, 35.69];
+      return scenic
+        .map(item => ({
+          ...item,
+          testDistance:
+            Math.pow(item.lng - target[0], 2) +
+            Math.pow(item.lat - target[1], 2)
+        }))
+        .sort((a, b) => a.testDistance - b.testDistance)[0];
+    });
 
     await page.locator("#mapDiscoveryQueryV737").fill(sample.name);
 
