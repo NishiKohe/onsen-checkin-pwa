@@ -1,5 +1,5 @@
-name: Map and collection UX v73.9 mobile browser
-# v73.9 split-source aggregation
+name: Map and collection UX v73.10 mobile browser
+# v73.10 split-source aggregation
 
 on:
   workflow_dispatch:
