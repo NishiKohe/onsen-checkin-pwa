@@ -1,4 +1,4 @@
-name: Four-domain map and collection v73.8 regression
+name: Four-domain map and collection v73.10 regression
 
 on:
   workflow_dispatch:
@@ -77,7 +77,7 @@ jobs:
           assert len([x for x in Path('data/castles-zoku100-v68.csv').read_text().splitlines()[1:] if x.strip()])==100
           print('GPS catalogs OK: scenic 433/433, castles 200')
           PY
-      - name: Scene loading, 433-point renderer and reversible clustering
+      - name: Scene loading, 433-point renderer and reversible DOM aggregation
         run: |
           python - <<'PY'
           from pathlib import Path
@@ -88,13 +88,13 @@ jobs:
           detail=Path('map-immersive-v736.js').read_text()
           css=Path('map-immersive-v736.css').read_text()
           clusters=Path('map-clusters-v738.js').read_text()
-          assert 'const version="v73.8"' in build and './sw.js?v=73.8' in build
-          assert 'onsen-checkin-v73.8' in sw
+          assert 'const version="v73.10"' in build and './sw.js?v=73.10' in build
+          assert 'onsen-checkin-v73.10' in sw
           for asset in ('map-domain-controller-v736.js','map-immersive-v736.js','map-immersive-v736.css','scenic-map-renderer-v734.js','collection-map-navigation-v735.js','map-discovery-v737.js','map-detail-compact-v737.js','map-ux-v737.css','collection-pref-fold-v737.js','collection-pref-fold-v737.css','map-clusters-v738.js','map-clusters-v738.css'):
               assert asset in sw, asset
-          for key in ('map-domain-controller-v736.js?v=73.6','scenic-map-renderer-v734.js?v=73.6','collection-map-navigation-v735.js?v=73.6','map-immersive-v736.js?v=73.6','map-discovery-v737.js?v=73.7','map-detail-compact-v737.js?v=73.7','collection-pref-fold-v737.js?v=73.7','map-clusters-v738.js?v=73.8','map-clusters-v738.css?v=73.8'):
+          for key in ('map-domain-controller-v736.js?v=73.6','scenic-map-renderer-v734.js?v=73.6','collection-map-navigation-v735.js?v=73.6','map-immersive-v736.js?v=73.6','map-discovery-v737.js?v=73.7','map-detail-compact-v737.js?v=73.7','collection-pref-fold-v737.js?v=73.7','map-clusters-v738.js?v=73.10','map-clusters-v738.css?v=73.10'):
               assert key in build, key
-          assert build.index('const scenic=await ensureScenicAdapter()') < build.index('const renderer=await ensureScenicRenderer()') < build.index('collection-domain-controller-v732.js?v=73.6') < build.index('map-immersive-v736.js?v=73.6') < build.index('map-detail-compact-v737.js?v=73.7') < build.index('map-discovery-v737.js?v=73.7') < build.index('map-clusters-v738.js?v=73.8')
+          assert build.index('const scenic=await ensureScenicAdapter()') < build.index('const renderer=await ensureScenicRenderer()') < build.index('collection-domain-controller-v732.js?v=73.6') < build.index('map-immersive-v736.js?v=73.6') < build.index('map-detail-compact-v737.js?v=73.7') < build.index('map-discovery-v737.js?v=73.7') < build.index('map-clusters-v738.js?v=73.10')
           assert 'const DOMAINS = ["all", "onsen", "castle", "scenic"]' in router
           assert 'mode === "all" || mode === domain' in router
           assert 'const canonicalScenic = layerExists("scenic-v734-points")' in router
@@ -103,10 +103,10 @@ jobs:
           assert 'mode() === "scenic" || mode() === "all"' in renderer
           assert 'function present(domain, id)' in detail and 'function close(reason' in detail
           assert 'grid-template-columns: none !important' in css
-          for guard in ('cluster: true','clusterMaxZoom: 9','getClusterExpansionZoom','getClusterLeaves','setLayerZoomRange','restoreOriginal(m)','counts.castle !== 200 || counts.scenic !== 433','OnsenMapDetailV736?.select?.','overlapCandidates'):
+          for guard in ('mapClusterOverlayV738','map-cluster-marker-v738','setLayerZoomRange','restoreOriginal(m)','counts.castle !== 200 || counts.scenic !== 433','OnsenMapDetailV736?.select?.','overlapCandidates','cleanupLegacyDynamicMapLayers'):
               assert guard in clusters,guard
           assert 'scenic-map-stability-v728.js' not in build and 'scenic-map-stability-v728.js' not in sw
-          print('v73.8 boot, 433-point renderer, fallback and zoom-based cluster guards OK')
+          print('v73.10 boot, 433-point renderer, fallback and DOM aggregation guards OK')
           PY
       - name: Trip recovery, collections, achievements and UX integration
         run: |
