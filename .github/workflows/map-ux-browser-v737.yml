@@ -1,5 +1,5 @@
 name: Map and collection UX v73.10 mobile browser
-# v73.10 split-source aggregation
+# v73.10 DOM aggregation
 
 on:
   workflow_dispatch:
@@ -17,6 +17,10 @@ on:
       - ".github/workflows/map-ux-browser-v737.yml"
       - "build-info.js"
       - "sw.js"
+
+concurrency:
+  group: map-ux-browser-v7310
+  cancel-in-progress: true
 
 permissions:
   contents: read
