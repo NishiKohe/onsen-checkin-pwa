@@ -1,4 +1,4 @@
-name: Map and collection UX v73.8 mobile browser
+name: Map and collection UX v73.9 mobile browser
 
 on:
   workflow_dispatch:
@@ -43,9 +43,9 @@ jobs:
         run: |
           npm install --no-save --no-package-lock playwright@1.55.0
           npx playwright install --with-deps chromium
-      - name: Capture published cluster initialization diagnostics
+      - name: Capture published aggregation diagnostics
         run: node scripts/debug-map-clusters-v738.cjs
-      - name: Verify published mobile clusters and original pins
+      - name: Verify published mobile aggregation and original pins
         run: node scripts/test-map-clusters-browser-v738.cjs
       - name: Upload failure screenshot
         if: failure()
