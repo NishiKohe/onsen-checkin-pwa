@@ -97,6 +97,84 @@ const { chromium } = require("playwright");
 
     console.log("DOM AGGREGATION DEBUG", JSON.stringify(status));
 
+    const highZoom = await page.evaluate(async () => {
+      const scenic = window.OnsenMapDiscoveryV737?.catalog?.()
+        ?.filter(item => item.domain === "scenic") || [];
+      const target = [139.70, 35.69];
+      const sample = scenic
+        .map(item => ({
+          ...item,
+          testDistance:
+            Math.pow(item.lng - target[0], 2) +
+            Math.pow(item.lat - target[1], 2)
+        }))
+        .sort((a, b) => a.testDistance - b.testDistance)[0];
+
+      window.OnsenMapDomainV73?.setMode?.("scenic", {
+        source: "v7310-debug"
+      });
+      map.jumpTo({
+        center: [sample.lng, sample.lat],
+        zoom: 11.5
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      const rect = map.getCanvas().getBoundingClientRect();
+      const box = [[0, 0], [rect.width, rect.height]];
+      const point = map.project([sample.lng, sample.lat]);
+      const before = {
+        sample: {
+          id: sample.id,
+          name: sample.name,
+          lng: sample.lng,
+          lat: sample.lat
+        },
+        center: map.getCenter().toArray(),
+        zoom: map.getZoom(),
+        projected: [point.x, point.y],
+        pointLayerFilter: map.getFilter("scenic-v734-points"),
+        labelLayerFilter: map.getFilter("scenic-v734-labels"),
+        sourceFeatureCount:
+          map.querySourceFeatures("scenic-v734-source").length,
+        viewportRendered:
+          map.queryRenderedFeatures(box, {
+            layers: ["scenic-v734-points"]
+          }).length,
+        pointRendered:
+          map.queryRenderedFeatures(point, {
+            layers: ["scenic-v734-points"]
+          }).length
+      };
+
+      const pointFilter = map.getFilter("scenic-v734-points");
+      const labelFilter = map.getFilter("scenic-v734-labels");
+
+      map.setFilter("scenic-v734-points", null);
+      map.setFilter("scenic-v734-labels", null);
+      await new Promise(resolve => setTimeout(resolve, 250));
+
+      const after = {
+        sourceFeatureCount:
+          map.querySourceFeatures("scenic-v734-source").length,
+        viewportRendered:
+          map.queryRenderedFeatures(box, {
+            layers: ["scenic-v734-points"]
+          }).length,
+        pointRendered:
+          map.queryRenderedFeatures(point, {
+            layers: ["scenic-v734-points"]
+          }).length
+      };
+
+      map.setFilter("scenic-v734-points", pointFilter || null);
+      map.setFilter("scenic-v734-labels", labelFilter || null);
+
+      return { before, after };
+    });
+
+    console.log("HIGH ZOOM FILTER DEBUG", JSON.stringify(highZoom));
+
     if (!status.aggregation?.active) {
       throw new Error(
         "v73.10 aggregation did not become active: " +
