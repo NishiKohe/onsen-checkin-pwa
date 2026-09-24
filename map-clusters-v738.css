@@ -1,4 +1,68 @@
-/* v73.8: clustering is confined to wide views; original pins return at zoom 10. */
+/* v73.10: wide-view aggregation uses an independent DOM overlay; original MapLibre pins return at zoom 10. */
+.map-cluster-overlay-v738 {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .12s ease;
+}
+.map-cluster-overlay-v738[hidden] { display: none !important; }
+.map-cluster-overlay-v738.is-moving {
+  opacity: 0;
+  pointer-events: none;
+}
+.map-cluster-marker-v738 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.28);
+}
+.map-cluster-marker-v738.is-group {
+  width: 42px;
+  height: 42px;
+  border: 2px solid #f3f7fb;
+  border-radius: 999px;
+  background: rgba(36,57,78,.96);
+  color: #fff;
+  font-size: 13px;
+}
+.map-cluster-marker-v738.is-group:active {
+  transform: translate(-50%, -50%) scale(.94);
+}
+.map-cluster-marker-v738.is-single {
+  width: 26px;
+  height: 26px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 12px;
+}
+.map-cluster-marker-v738.domain-onsen { background: #ae4c3f; }
+.map-cluster-marker-v738.domain-castle { background: #3e7399; }
+.map-cluster-marker-v738.domain-scenic { background: #765889; }
+.map-cluster-marker-v738.is-single.is-visited {
+  border-color: #f0c25e;
+  box-shadow: 0 0 0 1px rgba(240,194,94,.48), 0 2px 8px rgba(0,0,0,.28);
+}
+.map-cluster-marker-v738:focus-visible {
+  outline: 3px solid rgba(255,255,255,.95);
+  outline-offset: 2px;
+}
+
 .map-cluster-legend-v738 {
   position: absolute; right: 8px; bottom: 15px; z-index: 12;
   display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end;
