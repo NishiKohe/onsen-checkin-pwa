@@ -31,6 +31,7 @@
   let renderedCount = 0;
   let groupCount = 0;
   let singleCount = 0;
+  let highZoomFallbackDomains = [];
   let timer = null;
   let retries = 0;
   let pickerEpoch = 0;
@@ -380,6 +381,85 @@
     return markers;
   }
 
+  function highZoomFallbackMarkers(m, items, view) {
+    const currentMode = domainMode();
+    const domains = currentMode === "all"
+      ? DOMAINS
+      : DOMAINS.filter(domain => domain === currentMode);
+    const primaryLayers = {
+      onsen: "spots-symbol",
+      castle: "castles-v62-symbol",
+      scenic: "scenic-v734-points"
+    };
+    const box = [[0, 0], [view.width, view.height]];
+    const markers = [];
+    const fallback = [];
+    const margin = 20;
+
+    for (const domain of domains) {
+      const visible = [];
+
+      for (const raw of items) {
+        if (raw.domain !== domain) continue;
+        const item = normalizeItem(raw);
+        if (!Number.isFinite(item.lng) || !Number.isFinite(item.lat)) continue;
+
+        let point;
+        try { point = m.project([item.lng, item.lat]); }
+        catch { continue; }
+
+        if (
+          !Number.isFinite(point?.x) ||
+          !Number.isFinite(point?.y) ||
+          point.x < -margin ||
+          point.x > view.width + margin ||
+          point.y < -margin ||
+          point.y > view.height + margin
+        ) {
+          continue;
+        }
+
+        visible.push({ item, x: point.x, y: point.y });
+      }
+
+      if (!visible.length) continue;
+
+      const layerId = primaryLayers[domain];
+      let renderedOriginal = 0;
+
+      try {
+        if (
+          m.getLayer?.(layerId) &&
+          m.getLayoutProperty?.(layerId, "visibility") !== "none"
+        ) {
+          renderedOriginal = m.queryRenderedFeatures(
+            box,
+            { layers: [layerId] }
+          ).length;
+        }
+      } catch {}
+
+      if (renderedOriginal > 0) continue;
+
+      fallback.push(domain);
+
+      for (const entry of visible) {
+        markers.push({
+          kind: "single",
+          item: entry.item,
+          x: entry.x,
+          y: entry.y,
+          lng: entry.item.lng,
+          lat: entry.item.lat,
+          fallback: true
+        });
+      }
+    }
+
+    highZoomFallbackDomains = fallback;
+    return markers;
+  }
+
   function markerButton(marker, index, view) {
     const button = document.createElement("button");
     button.type = "button";
@@ -423,18 +503,11 @@
 
     const epoch = ++renderEpoch;
     const zoom = Number(m.getZoom?.() || 0);
+    const markers = zoom >= DETAIL_ZOOM
+      ? highZoomFallbackMarkers(m, items, view)
+      : aggregate(m, items);
 
-    if (zoom >= DETAIL_ZOOM) {
-      overlay.replaceChildren();
-      overlay.items = [];
-      overlay.hidden = true;
-      renderedCount = 0;
-      groupCount = 0;
-      singleCount = 0;
-      return true;
-    }
-
-    const markers = aggregate(m, items);
+    if (zoom < DETAIL_ZOOM) highZoomFallbackDomains = [];
     if (epoch !== renderEpoch) return false;
 
     const fragment = document.createDocumentFragment();
@@ -445,7 +518,7 @@
 
     overlay.replaceChildren(fragment);
     overlay.items = markers;
-    overlay.hidden = false;
+    overlay.hidden = markers.length === 0;
     overlay.classList.remove("is-moving");
 
     renderedCount = markers.length;
@@ -476,6 +549,7 @@
       renderedCount = 0;
       groupCount = 0;
       singleCount = 0;
+      highZoomFallbackDomains = [];
       return false;
     }
 
@@ -733,6 +807,7 @@
         renderedCount,
         groupCount,
         singleCount,
+        highZoomFallbackDomains: [...highZoomFallbackDomains],
         mode: domainMode(),
         overlay: !!$("mapClusterOverlayV738"),
         overlayHidden: $("mapClusterOverlayV738")?.hidden ?? true,
