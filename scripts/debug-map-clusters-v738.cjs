@@ -2,13 +2,18 @@
 const { chromium } = require("playwright");
 
 (async () => {
-  const browser = await chromium.launch({ headless: true, args: ["--disable-dev-shm-usage"] });
+  const browser = await chromium.launch({
+    headless: true,
+    args: ["--disable-dev-shm-usage"]
+  });
+
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     geolocation: { latitude: 35.69, longitude: 139.70, accuracy: 25 },
     permissions: ["geolocation"],
     serviceWorkers: "block"
   });
+
   const page = await context.newPage();
 
   page.on("console", msg => {
@@ -16,66 +21,76 @@ const { chromium } = require("playwright");
       console.log("BROWSER", msg.type(), msg.text());
     }
   });
-  page.on("pageerror", error => console.log("PAGEERROR", String(error)));
+
+  page.on("pageerror", error =>
+    console.log("PAGEERROR", String(error))
+  );
 
   await page.goto(
-    "https://nishikohe.github.io/onsen-checkin-pwa/?aggregation-debug=739",
-    { waitUntil: "domcontentloaded" }
+    "https://nishikohe.github.io/onsen-checkin-pwa/?aggregation-debug=7310",
+    { waitUntil: "domcontentloaded", timeout: 60000 }
   );
 
   await page.waitForFunction(() =>
-    window.OnsenBuildInfo?.version === "v73.9" &&
-    window.OnsenMapClustersV738?.diagnostics?.().build === "v73.9" &&
+    window.OnsenBuildInfo?.version === "v73.10" &&
+    window.OnsenMapClustersV738?.diagnostics?.().build === "v73.10" &&
     window.OnsenMapClustersV738?.diagnostics?.().active,
     null,
     { timeout: 60000 }
   );
 
-  await page.evaluate(() => map.jumpTo({ center: [139.7, 35.69], zoom: 6.5 }));
-  await page.waitForTimeout(3000);
+  await page.evaluate(() => {
+    map.jumpTo({ center: [139.7, 35.69], zoom: 6.5 });
+  });
+
+  await page.waitForFunction(() => {
+    const d = window.OnsenMapClustersV738?.diagnostics?.();
+    return d?.groupCount > 0 && d.renderedCount > 0;
+  }, null, { timeout: 20000 });
 
   const status = await page.evaluate(() => {
-    const m = map;
-    const rect = m.getCanvas().getBoundingClientRect();
-    const box = [[0, 0], [rect.width, rect.height]];
-    const groupSource = m.getSource("map-v738-groups");
-    const singleSource = m.getSource("map-v738-singles");
-    const groups = m.queryRenderedFeatures(box, { layers: ["map-v738-cluster"] });
-    const singles = m.queryRenderedFeatures(box, { layers: ["map-v738-single"] });
-    const all = window.OnsenMapDiscoveryV737?.catalog?.() || [];
+    const d = window.OnsenMapClustersV738.diagnostics();
+    const overlay = document.getElementById("mapClusterOverlayV738");
+    const markers = [
+      ...overlay.querySelectorAll(".map-cluster-marker-v738")
+    ];
+    const groups = markers.filter(button =>
+      button.classList.contains("is-group")
+    );
 
     return {
       version: window.OnsenBuildInfo?.version,
-      aggregation: window.OnsenMapClustersV738?.diagnostics?.(),
-      catalog: all.reduce((acc, item) => {
-        acc[item.domain] = (acc[item.domain] || 0) + 1;
-        return acc;
-      }, {}),
-      center: m.getCenter().toArray(),
-      zoom: m.getZoom(),
-      styleLoaded: m.isStyleLoaded(),
-      groupSourceLoaded: m.isSourceLoaded("map-v738-groups"),
-      singleSourceLoaded: m.isSourceLoaded("map-v738-singles"),
-      groupSourceDataSize: groupSource?._data?.features?.length || 0,
-      singleSourceDataSize: singleSource?._data?.features?.length || 0,
-      renderedGroups: groups.length,
-      renderedSingles: singles.length,
-      groupSamples: groups.slice(0, 5).map(feature => ({
-        count: Number(feature.properties.count),
-        domain: feature.properties.domain,
-        members: String(feature.properties.members || "").split("\u001f").length,
-        coordinates: feature.geometry.coordinates
+      aggregation: d,
+      catalog: window.OnsenMapDiscoveryV737
+        .catalog()
+        .reduce((acc, item) => {
+          acc[item.domain] = (acc[item.domain] || 0) + 1;
+          return acc;
+        }, {}),
+      center: map.getCenter().toArray(),
+      zoom: map.getZoom(),
+      styleLoaded: map.isStyleLoaded(),
+      overlayHidden: overlay.hidden,
+      domMarkers: markers.length,
+      domGroups: groups.length,
+      domSingles: markers.length - groups.length,
+      groupSamples: groups.slice(0, 5).map(button => ({
+        count: Number(button.dataset.count),
+        members: Number(button.dataset.memberCount),
+        domain: button.dataset.domain
       })),
-      groupVisibility: m.getLayoutProperty("map-v738-cluster", "visibility"),
-      singleVisibility: m.getLayoutProperty("map-v738-single", "visibility"),
-      originalMinZoom: m.getLayer("spots-symbol")?.minzoom,
-      scenicMinZoom: m.getLayer("scenic-v734-points")?.minzoom
+      originalMinZoom: map.getLayer("spots-symbol")?.minzoom,
+      scenicMinZoom: map.getLayer("scenic-v734-points")?.minzoom
     };
   });
 
-  console.log("AGGREGATION DEBUG", JSON.stringify(status));
+  console.log("DOM AGGREGATION DEBUG", JSON.stringify(status));
+
   await browser.close();
 })().catch(error => {
-  console.error("AGGREGATION DEBUG FATAL", error.stack || error);
+  console.error(
+    "DOM AGGREGATION DEBUG FATAL",
+    error.stack || error
+  );
   process.exitCode = 1;
 });
