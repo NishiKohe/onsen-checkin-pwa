@@ -92,7 +92,7 @@
 
     const scoped = storage.readUserItem(STATE_KEY);
     const legacy = localStorage.getItem(STATE_KEY);
-    if (scoped === null && legacy !== null) {
+    if (scoped === null && legacy !== null && storage.listProfiles?.()[0]?.id === profileId) {
       storage.writeUserItem(STATE_KEY, legacy);
       localStorage.removeItem(STATE_KEY);
     }
@@ -104,7 +104,7 @@
     const storage = userStorage();
     if (storage?.readUserItem) {
       const raw = storage.readUserItem(STATE_KEY);
-      if (raw !== null) return safeParse(raw, null);
+      return safeParse(raw, null);
     }
     return readJson(STATE_KEY, null);
   }

@@ -15,13 +15,21 @@ on:
       - "collection-pref-fold-v737.js"
       - "collection-pref-fold-v737.css"
       - "scripts/test-map-immersive-v736.cjs"
-      - "scripts/test-map-clusters-v738.cjs"
       - "collection-domain-controller-v732.js"
       - "collection-map-navigation-v735.js"
       - "collection-domain-controller-v732.css"
       - "castle-map-v62.js"
       - "scenic-map-v71.js"
       - "scenic-map-renderer-v734.js"
+      - "profile-storage.js"
+      - "profile-storage.css"
+      - "profile-game-extension-v61.js"
+      - "game-runtime-v59.js"
+      - "character-runtime-v61.js"
+      - "castle-visit-runtime-v61.js"
+      - "scenic-runtime-v70.js"
+      - "progression-runtime-v69.js"
+      - "scripts/test-profile-backup.cjs"
       - "travel-domain-recovery-v728.js"
       - "photo-exif-runtime-v731.js"
       - "trip-manual-recovery-v731.js"
@@ -88,8 +96,8 @@ jobs:
           detail=Path('map-immersive-v736.js').read_text()
           css=Path('map-immersive-v736.css').read_text()
           clusters=Path('map-clusters-v738.js').read_text()
-          assert 'const version="v73.10"' in build and './sw.js?v=73.10' in build
-          assert 'onsen-checkin-v73.10' in sw
+          assert 'const version="v73.10"' in build and './sw.js?v=73.10-save1' in build
+          assert 'onsen-checkin-v73.10-save1' in sw
           for asset in ('map-domain-controller-v736.js','map-immersive-v736.js','map-immersive-v736.css','scenic-map-renderer-v734.js','collection-map-navigation-v735.js','map-discovery-v737.js','map-detail-compact-v737.js','map-ux-v737.css','collection-pref-fold-v737.js','collection-pref-fold-v737.css','map-clusters-v738.js','map-clusters-v738.css'):
               assert asset in sw, asset
           for key in ('map-domain-controller-v736.js?v=73.6','scenic-map-renderer-v734.js?v=73.6','collection-map-navigation-v735.js?v=73.6','map-immersive-v736.js?v=73.6','map-discovery-v737.js?v=73.7','map-detail-compact-v737.js?v=73.7','collection-pref-fold-v737.js?v=73.7','map-clusters-v738.js?v=73.10','map-clusters-v738.css?v=73.10'):
@@ -139,3 +147,5 @@ jobs:
           assert 'function setAll(expanded)' in fold and 'collection-common-rows-v732' in fold
           print('Trip v73.1, collection v73.2, achievements and v73.7 UX guards OK')
           PY
+      - name: Profile backup and restore
+        run: node scripts/test-profile-backup.cjs

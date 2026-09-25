@@ -1,6 +1,6 @@
 (() => {
   const version="v73.10";
-  const preferredWorker="./sw.js?v=73.10";
+  const preferredWorker="./sw.js?v=73.10-save1";
   window.OnsenBuildInfo={version,updatedAt:"2026-09-25"};
   const bridges=[
     ["OnsenGameV68Bridge","gameV68BridgeScript","./game-v68-bridge.js?v=68.2","v68.2 game bridge"],

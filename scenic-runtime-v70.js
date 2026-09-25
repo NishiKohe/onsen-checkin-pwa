@@ -20,8 +20,9 @@
 
   function storage() { return window.OnsenUserStorage || null; }
   function readRaw() {
-    const raw = storage()?.readUserItem?.(STATE_KEY);
-    if (raw != null) { try { return JSON.parse(raw); } catch {} }
+    if (storage()?.readUserItem) {
+      try { return JSON.parse(storage().readUserItem(STATE_KEY) || "null"); } catch { return null; }
+    }
     try { return JSON.parse(localStorage.getItem(STATE_KEY) || "null"); } catch { return null; }
   }
   function writeRaw(value) {

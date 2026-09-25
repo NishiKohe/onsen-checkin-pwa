@@ -36,6 +36,8 @@
 .profile-rename { padding: 7px 8px; background: #17212c; color: #9fb3c8; font-size: 9px; }
 .profile-create-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 7px; margin-top: 12px; }
 .profile-create-row input { min-width: 0; padding: 10px 11px; border: 1px solid #2a3a4e; border-radius: 10px; background: #0b1118; color: #edf4fa; outline: none; }
+.profile-backup-row { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 12px; }
+.profile-backup-row button { padding: 9px 6px; background: #17212c; color: #dbe8f5; font-size: 11px; }
 .profile-note { margin: 10px 2px 0; color: #7f95aa; font-size: 10px; line-height: 1.5; }
 
 @media (max-width: 520px) {
@@ -43,4 +45,5 @@
   .profile-dialog-card { padding: 13px; }
   .profile-row { grid-template-columns: 1fr; }
   .profile-rename { width: 100%; }
+  .profile-backup-row { grid-template-columns: 1fr; }
 }

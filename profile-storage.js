@@ -3,7 +3,7 @@
   const CURRENT_PROFILE_KEY = "onsenAppCurrentProfileV1";
   const MIGRATION_KEY = "onsenAppProfileMigrationV1";
   const PREFIX = "onsenApp:user:";
-  const SAVE_SCHEMA_VERSION = 4;
+  const SAVE_SCHEMA_VERSION = 6;
   const USER_KEYS = new Set([
     "checkins",
     "visitCandidatesV1",
@@ -12,7 +12,13 @@
     "visitLogMigrationV1",
     "visitLocationSamplesV1",
     "achievementStateV1",
-    "uiProgressStateV1"
+    "uiProgressStateV1",
+    "gameStateV1",
+    "characterStateV1",
+    "castleVisitsV1",
+    "scenicVisitStateV1",
+    "progressionStateV1",
+    "visitDomainCandidatesV728"
   ]);
 
   const storageProto = Storage.prototype;
@@ -102,6 +108,16 @@
   }
 
   migrateLegacyData();
+
+  // Keys added after the original migration also belong to the first profile.
+  for (const key of ["gameStateV1", "characterStateV1", "castleVisitsV1",
+    "scenicVisitStateV1", "progressionStateV1", "visitDomainCandidatesV728"]) {
+    const legacy = rawGet(key);
+    const firstId = state.profiles[0]?.id;
+    if (legacy !== null && firstId && rawGet(scopedKey(key, firstId)) === null) {
+      rawSet(scopedKey(key, firstId), legacy);
+    }
+  }
 
   storageProto.getItem = function patchedGetItem(key) {
     if (this === localStorage && isUserKey(key)) return rawGetItem.call(this, scopedKey(String(key)));
@@ -195,6 +211,38 @@
     };
   }
 
+  function importCurrentUserData(payload) {
+    if (!payload || payload.format !== "onsen-checkin-user-save" ||
+        !Number.isInteger(payload.schemaVersion) || payload.schemaVersion < 1 ||
+        !payload.data || typeof payload.data !== "object" || Array.isArray(payload.data)) {
+      throw new Error("バックアップの形式が正しくありません。");
+    }
+    const unknown = Object.keys(payload.data).filter((key) => !USER_KEYS.has(key));
+    if (unknown.length) throw new Error("このアプリで扱えない保存項目が含まれています。");
+    const entries = [...USER_KEYS].map((key) => [key,
+      Object.hasOwn(payload.data, key) ? JSON.stringify(payload.data[key]) : null]);
+    if (entries.some(([, value]) => value === undefined)) {
+      throw new Error("バックアップに保存できない値が含まれています。");
+    }
+    const before = entries.map(([key]) => [key, rawGet(scopedKey(key))]);
+    try {
+      for (const [key, value] of entries) {
+        if (value === null) rawRemoveItem.call(localStorage, scopedKey(key));
+        else rawSet(scopedKey(key), value);
+      }
+    } catch (error) {
+      for (const [key, value] of before) {
+        try {
+          if (value === null) rawRemoveItem.call(localStorage, scopedKey(key));
+          else rawSet(scopedKey(key), value);
+        } catch {}
+      }
+      throw error;
+    }
+    touchCurrentProfile();
+    return entries.filter(([, value]) => value !== null).length;
+  }
+
   function readUserItem(key, profileId = state.currentId) {
     return rawGet(scopedKey(key, profileId));
   }
@@ -229,6 +277,12 @@
           <input id="profileNewName" type="text" maxlength="40" placeholder="新しいユーザー名" />
           <button id="profileCreate" type="button">追加</button>
         </div>
+        <div class="profile-backup-row">
+          <button id="profileExport" type="button">このユーザーをバックアップ</button>
+          <button id="profileImport" type="button">バックアップから復元</button>
+          <input id="profileImportFile" type="file" accept="application/json,.json" hidden />
+        </div>
+        <p id="profileBackupStatus" class="profile-note" role="status" aria-live="polite"></p>
         <p class="profile-note">訪問・達成状況・旅行ログ・実績・装備称号はユーザーごとに別保存されます。現在は端末内保存です。</p>
       </form>`;
     document.body.appendChild(dialog);
@@ -238,6 +292,40 @@
       const id = createProfile(input?.value || "");
       if (input) input.value = "";
       switchProfile(id, true);
+    });
+
+    const backupStatus = (message) => { dialog.querySelector("#profileBackupStatus").textContent = message; };
+    dialog.querySelector("#profileExport")?.addEventListener("click", () => {
+      try {
+        const data = exportCurrentUserData();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `onsen-checkin-${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
+        backupStatus("バックアップをダウンロードしました。安全な場所に保管してください。");
+      } catch (error) { backupStatus(`バックアップに失敗しました: ${error.message}`); }
+    });
+    const importFile = dialog.querySelector("#profileImportFile");
+    dialog.querySelector("#profileImport")?.addEventListener("click", () => importFile.click());
+    importFile?.addEventListener("change", async () => {
+      const file = importFile.files?.[0];
+      importFile.value = "";
+      if (!file) return;
+      try {
+        if (file.size > 5 * 1024 * 1024) throw new Error("5MB以下のJSONを選んでください。");
+        const payload = JSON.parse(await file.text());
+        if (!payload || payload.format !== "onsen-checkin-user-save") throw new Error("バックアップの形式が正しくありません。");
+        const name = currentProfile()?.name || "現在のユーザー";
+        if (!confirm(`${name} の保存データを、このバックアップで置き換えます。続けますか？`)) return;
+        const count = importCurrentUserData(payload);
+        backupStatus(`${count}項目を復元しました。画面を更新します。`);
+        location.reload();
+      } catch (error) { backupStatus(`復元に失敗しました: ${error.message}`); }
     });
 
     refreshProfileUi();
@@ -298,6 +386,7 @@
     renameProfile,
     switchProfile,
     exportCurrentUserData,
+    importCurrentUserData,
     readUserItem,
     writeUserItem,
     getScopedKey: scopedKey
