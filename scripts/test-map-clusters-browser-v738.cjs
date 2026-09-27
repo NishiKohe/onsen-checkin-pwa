@@ -261,7 +261,11 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
           CSS.escape(String(item.id)) +
         '"]'
       );
-      return !!fallback;
+      return !!fallback && !fallback.closest(".is-moving") &&
+        document.elementFromPoint(
+          fallback.getBoundingClientRect().left + fallback.offsetWidth / 2,
+          fallback.getBoundingClientRect().top + fallback.offsetHeight / 2
+        ) === fallback;
     }, sample, { timeout: 10000 });
 
     const detail = await page.evaluate(item => {

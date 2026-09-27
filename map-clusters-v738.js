@@ -652,6 +652,8 @@
   function markMoving() {
     const overlay = $("mapClusterOverlayV738");
     if (overlay && !overlay.hidden) overlay.classList.add("is-moving");
+    // A camera operation can finish without a matching moveend on some devices.
+    schedule(350);
   }
 
   function bind() {

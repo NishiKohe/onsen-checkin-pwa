@@ -1,6 +1,6 @@
 (() => {
   const version="v73.10";
-  const preferredWorker="./sw.js?v=73.10-pins1";
+  const preferredWorker="./sw.js?v=73.10-pins2";
   window.OnsenBuildInfo={version,updatedAt:"2026-09-25"};
   const bridges=[
     ["OnsenGameV68Bridge","gameV68BridgeScript","./game-v68-bridge.js?v=68.2","v68.2 game bridge"],
@@ -20,7 +20,7 @@
     ["mapImmersiveStyleV736","./map-immersive-v736.css?v=73.6"],
     ["mapUxStyleV737","./map-ux-v737.css?v=73.7"],
     ["collectionPrefFoldStyleV737","./collection-pref-fold-v737.css?v=73.7"],
-    ["mapClustersStyleV738","./map-clusters-v738.css?v=73.10"]
+    ["mapClustersStyleV738","./map-clusters-v738.css?v=73.10-pins2"]
   ];
   function addBridge([globalName,id,src,label]){
     if(window[globalName]||document.getElementById(id))return;
@@ -82,7 +82,7 @@
     await waitFor(()=>window.OnsenMapDetailCompactV737?.build==="v73.7",8000);
     await loadScriptOnce("./map-discovery-v737.js?v=73.7","mapDiscoveryV737Script");
     await waitFor(()=>window.OnsenMapDiscoveryV737?.build==="v73.7",8000);
-    await loadScriptOnce("./map-clusters-v738.js?v=73.10-pins1","mapClustersV738Script");
+    await loadScriptOnce("./map-clusters-v738.js?v=73.10-pins2","mapClustersV738Script");
     const clusters=await waitFor(()=>window.OnsenMapClustersV738?.build==="v73.10",8000);
     window.OnsenMapDomainV73?.refresh?.();renderer?.refresh?.();window.OnsenMapDiscoveryV737?.refresh?.();clusters?.refresh?.();
     window.dispatchEvent(new CustomEvent("onsen-critical-bootstrap-v738-ready",{detail:{build:version,castle:!!castle,scenic:!!scenic,scenicFeatures:renderer?.featureCount?.()||0,mapDetail:!!window.OnsenMapDetailV736,discovery:!!window.OnsenMapDiscoveryV737,compact:!!window.OnsenMapDetailCompactV737,collection:!!window.OnsenCollectionPrefFoldV737,clusters:!!clusters}}));
