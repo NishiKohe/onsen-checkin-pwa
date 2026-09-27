@@ -13,6 +13,7 @@ on:
       - "collection-pref-fold-v737.js"
       - "collection-pref-fold-v737.css"
       - "scripts/test-map-clusters-browser-v738.cjs"
+      - "scripts/test-map-ux-browser-v737.cjs"
       - "scripts/debug-map-clusters-v738.cjs"
       - ".github/workflows/map-ux-browser-v737.yml"
       - "build-info.js"
@@ -38,6 +39,7 @@ jobs:
         run: |
           node --check map-discovery-v737.js
           node --check map-detail-compact-v737.js
+          node --check scripts/test-map-ux-browser-v737.cjs
           node --check map-clusters-v738.js
           node --check collection-pref-fold-v737.js
           node --check build-info.js
@@ -53,7 +55,9 @@ jobs:
       - name: Verify current commit on mobile browser
         env:
           ONSEN_TEST_BASE_URL: http://127.0.0.1:8765/
-        run: node scripts/test-map-clusters-browser-v738.cjs
+        run: |
+          node scripts/test-map-clusters-browser-v738.cjs
+          node scripts/test-map-ux-browser-v737.cjs
       - name: Upload failure screenshot
         if: failure()
         uses: actions/upload-artifact@v4

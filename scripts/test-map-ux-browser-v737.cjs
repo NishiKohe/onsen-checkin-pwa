@@ -1,7 +1,7 @@
 "use strict";
 const assert = require("node:assert/strict");
 const { chromium } = require("playwright");
-const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
+const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/onsen-checkin-pwa/";
 (async () => {
   const browser = await chromium.launch({ headless: true, args: ["--disable-dev-shm-usage"] });
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1,
@@ -14,11 +14,11 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     for (let i = 0; i < 24; i++) {
       await page.goto(`${BASE}?qa=73.7-${i}`, { waitUntil: "domcontentloaded", timeout: 60000 });
       await page.waitForTimeout(1800);
-      published = await page.evaluate(() => window.OnsenBuildInfo?.version === "v73.7");
+      published = await page.evaluate(() => window.OnsenBuildInfo?.version === "v73.10");
       if (published) break;
       await page.waitForTimeout(2200);
     }
-    assert.ok(published, "v73.7 was not published within the deployment window");
+    assert.ok(published, "v73.10 did not boot");
     await page.waitForFunction(() => window.OnsenMapDiscoveryV737?.build === "v73.7" &&
       window.OnsenMapDetailCompactV737?.build === "v73.7" &&
       window.OnsenCollectionPrefFoldV737?.build === "v73.7" &&
@@ -65,6 +65,10 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     assert.ok(compact.height <= compact.limit, JSON.stringify(compact));
     await page.locator("#scenicMapPanelV71 .map-detail-expand-v737").click();
     assert.equal(await page.evaluate(() => window.OnsenMapDetailCompactV737.diagnostics().expanded), true);
+    assert.ok(await page.locator("#mapPlaceDetailV737").isVisible());
+    assert.ok(await page.locator("#mapPlaceDetailV737").getByText("指定と所在地").isVisible());
+    await page.locator("#mapPlaceDetailV737 .map-place-close-v737").click();
+    assert.equal(await page.evaluate(() => window.OnsenMapDetailCompactV737.diagnostics().expanded), false);
     await page.locator("#scenicMapPanelV71 .map-detail-close-v736").click();
     assert.equal(await page.locator("#scenicMapPanelV71").isVisible(), false);
     console.log("PASS combined search opens compact scenic sheet and expands/collapses");
