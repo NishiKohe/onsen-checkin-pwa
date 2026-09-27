@@ -450,13 +450,30 @@
     if (zoom < DETAIL_ZOOM) highZoomFallbackDomains = [];
     if (epoch !== renderEpoch) return false;
 
-    const fragment = document.createDocumentFragment();
-
+    const existing = new Map(
+      [...overlay.querySelectorAll(".map-cluster-marker-v738")]
+        .map(button => [button.dataset.markerKey, button])
+    );
+    const retained = new Set();
     markers.forEach((marker, index) => {
-      fragment.appendChild(markerButton(marker, index, view));
+      const key = marker.kind === "group"
+        ? "group:" + marker.items.map(item => item.domain + ":" + item.id).sort().join("|")
+        : "single:" + marker.item.domain + ":" + marker.item.id + ":" + marker.item.visited;
+      let button = existing.get(key);
+      if (!button) {
+        button = markerButton(marker, index, view);
+        button.dataset.markerKey = key;
+        overlay.appendChild(button);
+      } else {
+        button.dataset.mapAggregateIndex = String(index);
+        button.style.left = (view.offsetX + marker.x) + "px";
+        button.style.top = (view.offsetY + marker.y) + "px";
+      }
+      retained.add(key);
     });
-
-    overlay.replaceChildren(fragment);
+    for (const [key, button] of existing) {
+      if (!retained.has(key)) button.remove();
+    }
     overlay.items = markers;
     overlay.hidden = markers.length === 0;
     overlay.classList.remove("is-moving");
