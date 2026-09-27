@@ -261,7 +261,7 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
           CSS.escape(String(item.id)) +
         '"]'
       );
-      return !!fallback && !fallback.closest(".is-moving") &&
+      return !!fallback &&
         document.elementFromPoint(
           fallback.getBoundingClientRect().left + fallback.offsetWidth / 2,
           fallback.getBoundingClientRect().top + fallback.offsetHeight / 2

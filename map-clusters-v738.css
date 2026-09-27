@@ -9,13 +9,6 @@
   transition: opacity .12s ease;
 }
 .map-cluster-overlay-v738[hidden] { display: none !important; }
-.map-cluster-overlay-v738.is-moving {
-  opacity: .45;
-  pointer-events: none;
-}
-.map-cluster-overlay-v738.is-moving .map-cluster-marker-v738 {
-  pointer-events: none;
-}
 .map-cluster-marker-v738 {
   position: absolute;
   transform: translate(-50%, -50%);
