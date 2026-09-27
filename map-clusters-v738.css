@@ -1,4 +1,4 @@
-/* v73.10: wide-view aggregation uses an independent DOM overlay; original MapLibre pins return at zoom 10. */
+/* Wide-view groups and close-view individual pins share an independent DOM overlay. */
 .map-cluster-overlay-v738 {
   position: absolute;
   inset: 0;

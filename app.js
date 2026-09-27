@@ -16,7 +16,21 @@ const el = (id) => document.getElementById(id);
 
 init().catch((err) => {
   console.error(err);
-  alert("アプリの初期化に失敗しました。ページを再読み込みしてください。");
+  const shell = document.querySelector(".map-shell");
+  if (shell && !document.getElementById("mapStartupError")) {
+    const notice = document.createElement("div");
+    notice.id = "mapStartupError";
+    notice.setAttribute("role", "alert");
+    notice.style.cssText = "position:absolute;inset:25% 12px auto;z-index:30;padding:18px;border-radius:12px;background:#182432;color:#fff;text-align:center;box-shadow:0 8px 24px #0008";
+    const message = document.createElement("p");
+    message.textContent = "地図を表示できませんでした。ブラウザを再起動してから、もう一度お試しください。";
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.textContent = "地図を再読み込み";
+    retry.addEventListener("click", () => location.reload());
+    notice.append(message, retry);
+    shell.appendChild(notice);
+  }
 });
 
 async function init() {

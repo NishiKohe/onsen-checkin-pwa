@@ -1,7 +1,7 @@
 "use strict";
 const assert = require("node:assert/strict");
 const { chromium } = require("playwright");
-const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
+const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/onsen-checkin-pwa/";
 
 (async () => {
   const browser = await chromium.launch({
@@ -112,7 +112,7 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
 
     assert.equal(
       await page.evaluate(() => map.getLayer("spots-symbol")?.minzoom),
-      10
+      23
     );
 
     console.log(
@@ -256,23 +256,15 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
     }, sample);
 
     await page.waitForFunction(item => {
-      const original = map.queryRenderedFeatures(
-        map.project([item.lng, item.lat]),
-        { layers: ["scenic-v734-points"] }
-      ).length;
       const fallback = document.querySelector(
         '#mapClusterOverlayV738 .map-cluster-marker-v738[data-domain="scenic"][data-id="' +
           CSS.escape(String(item.id)) +
         '"]'
       );
-      return original > 0 || !!fallback;
+      return !!fallback;
     }, sample, { timeout: 10000 });
 
     const detail = await page.evaluate(item => {
-      const original = map.queryRenderedFeatures(
-        map.project([item.lng, item.lat]),
-        { layers: ["scenic-v734-points"] }
-      ).length;
       const fallback = document.querySelector(
         '#mapClusterOverlayV738 .map-cluster-marker-v738[data-domain="scenic"][data-id="' +
           CSS.escape(String(item.id)) +
@@ -285,31 +277,22 @@ const BASE = "https://nishikohe.github.io/onsen-checkin-pwa/";
           "scenic-v734-points",
           "visibility"
         ),
-        originalRendered: original,
         fallbackVisible: !!fallback,
         aggregation: window.OnsenMapClustersV738.diagnostics(),
-        selected:
-          window.OnsenMapDetailV736.select("scenic", item.id) &&
-          window.OnsenMapDetailV736.present("scenic", item.id),
         checkinExists: !!document.getElementById("scenicMapCheckinV71")
       };
     }, sample);
 
     assert.equal(detail.sourceCount, 433);
-    assert.equal(detail.originalMinZoom, 10);
+    assert.equal(detail.originalMinZoom, 23);
     assert.equal(detail.visible, "visible");
-    assert.ok(
-      detail.originalRendered > 0 || detail.fallbackVisible,
-      "no visible scenic pin at zoom 11.5: " +
-        JSON.stringify(detail)
-    );
-    if (detail.originalRendered === 0) {
-      assert.ok(
-        detail.aggregation.highZoomFallbackDomains.includes("scenic"),
-        JSON.stringify(detail)
-      );
-    }
-    assert.equal(detail.selected, true);
+    assert.ok(detail.fallbackVisible, "no DOM scenic pin at zoom 11.5: " + JSON.stringify(detail));
+    assert.ok(detail.aggregation.highZoomFallbackDomains.includes("scenic"));
+    await page.locator(
+      '#mapClusterOverlayV738 .map-cluster-marker-v738[data-domain="scenic"][data-id="' +
+        sample.id + '"]'
+    ).click();
+    assert.ok(await page.locator("#scenicMapPanelV71").isVisible());
     assert.equal(detail.checkinExists, true);
 
     console.log(

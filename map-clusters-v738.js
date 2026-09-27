@@ -267,8 +267,8 @@
       try {
         m.setLayerZoomRange(
           id,
-          Math.max(DETAIL_ZOOM, range.min),
-          range.max
+          23,
+          24
         );
       } catch {
         return false;
@@ -382,81 +382,21 @@
   }
 
   function highZoomFallbackMarkers(m, items, view) {
-    const currentMode = domainMode();
-    const domains = currentMode === "all"
-      ? DOMAINS
-      : DOMAINS.filter(domain => domain === currentMode);
-    const primaryLayers = {
-      onsen: "spots-symbol",
-      castle: "castles-v62-symbol",
-      scenic: "scenic-v734-points"
-    };
-    const box = [[0, 0], [view.width, view.height]];
     const markers = [];
-    const fallback = [];
     const margin = 20;
-
-    for (const domain of domains) {
-      const visible = [];
-
-      for (const raw of items) {
-        if (raw.domain !== domain) continue;
-        const item = normalizeItem(raw);
-        if (!Number.isFinite(item.lng) || !Number.isFinite(item.lat)) continue;
-
-        let point;
-        try { point = m.project([item.lng, item.lat]); }
-        catch { continue; }
-
-        if (
-          !Number.isFinite(point?.x) ||
-          !Number.isFinite(point?.y) ||
-          point.x < -margin ||
-          point.x > view.width + margin ||
-          point.y < -margin ||
-          point.y > view.height + margin
-        ) {
-          continue;
-        }
-
-        visible.push({ item, x: point.x, y: point.y });
-      }
-
-      if (!visible.length) continue;
-
-      const layerId = primaryLayers[domain];
-      let renderedOriginal = 0;
-
-      try {
-        if (
-          m.getLayer?.(layerId) &&
-          m.getLayoutProperty?.(layerId, "visibility") !== "none"
-        ) {
-          renderedOriginal = m.queryRenderedFeatures(
-            box,
-            { layers: [layerId] }
-          ).length;
-        }
-      } catch {}
-
-      if (renderedOriginal > 0) continue;
-
-      fallback.push(domain);
-
-      for (const entry of visible) {
-        markers.push({
-          kind: "single",
-          item: entry.item,
-          x: entry.x,
-          y: entry.y,
-          lng: entry.item.lng,
-          lat: entry.item.lat,
-          fallback: true
-        });
-      }
+    for (const raw of items) {
+      const item = normalizeItem(raw);
+      if (!Number.isFinite(item.lng) || !Number.isFinite(item.lat)) continue;
+      let point;
+      try { point = m.project([item.lng, item.lat]); }
+      catch { continue; }
+      if (!Number.isFinite(point?.x) || !Number.isFinite(point?.y) ||
+          point.x < -margin || point.x > view.width + margin ||
+          point.y < -margin || point.y > view.height + margin) continue;
+      markers.push({ kind: "single", item, x: point.x, y: point.y,
+        lng: item.lng, lat: item.lat, fallback: true });
     }
-
-    highZoomFallbackDomains = fallback;
+    highZoomFallbackDomains = [...new Set(markers.map(marker => marker.item.domain))];
     return markers;
   }
 
