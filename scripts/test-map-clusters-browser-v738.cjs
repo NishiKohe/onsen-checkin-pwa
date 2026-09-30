@@ -29,7 +29,7 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
     });
 
     await page.waitForFunction(() =>
-      window.OnsenBuildInfo?.version === "v73.10" &&
+      window.OnsenBuildInfo?.version === "v73.11" &&
       window.OnsenMapClustersV738?.diagnostics?.().build === "v73.10" &&
       window.OnsenMapClustersV738?.diagnostics?.().active &&
       window.OnsenScenicRendererV734?.featureCount?.() === 433 &&

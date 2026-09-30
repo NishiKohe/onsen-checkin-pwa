@@ -8,6 +8,9 @@ on:
       - "map-discovery-v737.js"
       - "map-detail-compact-v737.js"
       - "map-ux-v737.css"
+      - "unified-checkin-v7311.js"
+      - "scripts/test-unified-checkin-v7311.cjs"
+      - "scripts/test-unified-checkin-browser-v7311.cjs"
       - "map-clusters-v738.js"
       - "map-clusters-v738.css"
       - "collection-pref-fold-v737.js"
@@ -39,6 +42,8 @@ jobs:
         run: |
           node --check map-discovery-v737.js
           node --check map-detail-compact-v737.js
+          node --check unified-checkin-v7311.js
+          node scripts/test-unified-checkin-v7311.cjs
           node --check scripts/test-map-ux-browser-v737.cjs
           node --check map-clusters-v738.js
           node --check collection-pref-fold-v737.js
@@ -58,10 +63,14 @@ jobs:
         run: |
           node scripts/test-map-clusters-browser-v738.cjs
           node scripts/test-map-ux-browser-v737.cjs
-      - name: Upload failure screenshot
-        if: failure()
+          node scripts/test-unified-checkin-browser-v7311.cjs
+      - name: Upload browser screenshots
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: map-clusters-v738-failure
-          path: map-clusters-v738-failure.png
+          path: |
+            *-failure.png
+            unified-checkin-mobile.png
+            unified-checkin-result.png
           if-no-files-found: ignore

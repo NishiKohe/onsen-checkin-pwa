@@ -1,7 +1,7 @@
 (() => {
-  const version="v73.10";
-  const preferredWorker="./sw.js?v=73.10-detail1";
-  window.OnsenBuildInfo={version,updatedAt:"2026-09-25"};
+  const version="v73.11";
+  const preferredWorker="./sw.js?v=73.11-checkin1";
+  window.OnsenBuildInfo={version,updatedAt:"2026-09-30"};
   const bridges=[
     ["OnsenGameV68Bridge","gameV68BridgeScript","./game-v68-bridge.js?v=68.2","v68.2 game bridge"],
     ["OnsenGameV69Bridge","gameV69BridgeScript","./game-v69-bridge.js?v=69.1","v69.1 mining bridge"],
@@ -18,7 +18,7 @@
     ["scenicMapStyleV71","./scenic-map-v71.css?v=73.6"],
     ["collectionDomainStyleV732","./collection-domain-controller-v732.css?v=73.6"],
     ["mapImmersiveStyleV736","./map-immersive-v736.css?v=73.6"],
-    ["mapUxStyleV737","./map-ux-v737.css?v=73.10-detail1"],
+    ["mapUxStyleV737","./map-ux-v737.css?v=73.11-checkin1"],
     ["collectionPrefFoldStyleV737","./collection-pref-fold-v737.css?v=73.7"],
     ["mapClustersStyleV738","./map-clusters-v738.css?v=73.10-pins4"]
   ];
@@ -78,8 +78,9 @@
     await waitFor(()=>window.OnsenCollectionMapNavigationV735?.build==="v73.5",8000);
     await loadScriptOnce("./map-immersive-v736.js?v=73.6","mapImmersiveV736Script");
     await waitFor(()=>window.OnsenMapDetailV736?.build==="v73.6",8000);
-    await loadScriptOnce("./map-detail-compact-v737.js?v=73.10-detail1","mapDetailCompactV737Script");
+    await loadScriptOnce("./map-detail-compact-v737.js?v=73.11-checkin1","mapDetailCompactV737Script");
     await waitFor(()=>window.OnsenMapDetailCompactV737?.build==="v73.7",8000);
+    await loadScriptOnce("./unified-checkin-v7311.js?v=73.11", "unifiedCheckinV7311Script");
     await loadScriptOnce("./map-discovery-v737.js?v=73.7","mapDiscoveryV737Script");
     await waitFor(()=>window.OnsenMapDiscoveryV737?.build==="v73.7",8000);
     await loadScriptOnce("./map-clusters-v738.js?v=73.10-pins4","mapClustersV738Script");

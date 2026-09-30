@@ -82,6 +82,10 @@
       </div>
     </div>
 
+    <div class="unified-checkin-bar" id="unifiedCheckinBar">
+      <button type="button" id="unifiedCheckinButton" disabled>チェックインを準備中…</button>
+      <p id="unifiedCheckinStatus" role="status" aria-live="polite">範囲内の温泉・城・名勝をまとめて取得</p>
+    </div>
     <section class="panel">
       <h2 id="spotTitle">スポットを選択</h2>
       <p id="spotSub">地図のピンをタップしてください</p>
@@ -93,6 +97,10 @@
       <details class="details"><summary>訪問履歴（このユーザー）</summary><ul id="historyList" class="history"></ul></details>
     </section>
   </main>
+  <dialog id="unifiedCheckinResult" class="map-place-detail-v737 unified-checkin-result" aria-labelledby="unifiedCheckinResultTitle">
+    <div class="map-place-head-v737"><h2 id="unifiedCheckinResultTitle">チェックイン結果</h2><button id="unifiedCheckinResultClose" type="button" class="map-place-close-v737" aria-label="結果を閉じる">×</button></div>
+    <div id="unifiedCheckinResultBody" class="map-place-content-v737"></div>
+  </dialog>
 
   <section id="collectionView" class="collection-view" hidden aria-label="コレクション">
     <div class="collection-shell">

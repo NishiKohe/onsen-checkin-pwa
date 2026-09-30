@@ -14,11 +14,11 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
     for (let i = 0; i < 24; i++) {
       await page.goto(`${BASE}?qa=73.7-${i}`, { waitUntil: "domcontentloaded", timeout: 60000 });
       await page.waitForTimeout(1800);
-      published = await page.evaluate(() => window.OnsenBuildInfo?.version === "v73.10");
+      published = await page.evaluate(() => window.OnsenBuildInfo?.version === "v73.11");
       if (published) break;
       await page.waitForTimeout(2200);
     }
-    assert.ok(published, "v73.10 did not boot");
+    assert.ok(published, "v73.11 did not boot");
     await page.waitForFunction(() => window.OnsenMapDiscoveryV737?.build === "v73.7" &&
       window.OnsenMapDetailCompactV737?.build === "v73.7" &&
       window.OnsenCollectionPrefFoldV737?.build === "v73.7" &&
@@ -64,7 +64,7 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
     assert.equal(compact.expanded, false);
     assert.ok(compact.height <= compact.limit, JSON.stringify(compact));
     await page.locator("#scenicMapPanelV71 .map-detail-expand-v737").click();
-    assert.equal(await page.evaluate(() => window.OnsenMapDetailCompactV737.diagnostics().expanded), true);
+    await page.waitForFunction(() => window.OnsenMapDetailCompactV737.diagnostics().expanded, null, { timeout: 5000 });
     assert.ok(await page.locator("#mapPlaceDetailV737").isVisible());
     assert.ok(await page.locator("#mapPlaceDetailV737").getByText("指定と所在地").isVisible());
     await page.locator("#mapPlaceDetailV737 .map-place-close-v737").click();
@@ -78,7 +78,9 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
     await page.locator("#mapDiscoveryQueryV737").fill(samples[1].name);
     await page.locator("#mapDiscoveryResultsV737 button").filter({ hasText: samples[1].name }).first().click();
     await page.waitForFunction(id => window.OnsenMapDetailV736.diagnostics().currentSelection?.id === id, samples[1].id);
-    assert.equal(await page.locator("#castleMapCheckinV62").count(), 1, "existing castle check-in remains wired");
+    assert.equal(await page.locator("#castleMapCheckinV62").count(), 1, "legacy internal control remains available to adapters");
+    assert.equal(await page.locator("#castleMapCheckinV62").isVisible(), false);
+    assert.equal(await page.locator("#castleMapLocateV62").isVisible(), false);
     await page.locator("#castleMapPanelV62 .map-detail-close-v736").click();
     console.log("PASS castle filter + original check-in control");
 
