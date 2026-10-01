@@ -48,11 +48,16 @@ html[data-app-tab="map"] .main.map-detail-open:not(.map-detail-expanded) > .pane
 @media(max-width:600px) { .map-place-detail-v737 { width:100%; max-width:none; max-height:90dvh; margin:auto 0 0; border-radius:18px 18px 0 0; } }
 /* v73.11: a single check-in action for every category, independent of selection. */
 .unified-checkin-bar { display:none; }
-html[data-app-tab="map"] .unified-checkin-bar { display:grid; position:absolute; z-index:24; bottom:10px; left:50%; transform:translateX(-50%); width:min(540px,calc(100% - 24px)); gap:5px; }
-#unifiedCheckinButton { width:100%; min-height:56px; padding:12px 16px; border:1px solid #8bc6b7; border-radius:16px; color:#092c28; background:#91dfc6; font-size:17px; font-weight:800; box-shadow:0 5px 20px #0005; touch-action:manipulation; }
+html[data-app-tab="map"] body.has-app-tabs .main { display:grid !important; grid-template-columns:minmax(0,1fr) !important; grid-template-rows:minmax(0,1fr) auto auto !important; }
+html[data-app-tab="map"] .unified-checkin-bar { display:grid; position:relative; grid-row:3; justify-self:center; z-index:24; box-sizing:border-box; width:min(540px,100%); padding:12px 12px 10px; gap:6px; background:#101d29; border:1px solid #34485a; border-bottom:0; border-radius:20px 20px 0 0; }
+html[data-app-tab="map"] .main.map-detail-open > .unified-checkin-bar { border-radius:0; border-top:1px solid #2c3d4d; }
+#unifiedCheckinButton { width:100%; min-height:56px; padding:12px 16px; border:1px solid #8bc6b7; border-radius:14px; color:#092c28; background:#91dfc6; font-size:17px; font-weight:800; box-shadow:none; touch-action:manipulation; }
 #unifiedCheckinButton:disabled { opacity:.7; }
-#unifiedCheckinStatus { margin:0; padding:4px 8px; border-radius:8px; background:rgba(12,24,35,.95); color:#e4edf5; font-size:12px; line-height:1.4; text-align:center; max-height:3.6em; overflow:auto; }
-html[data-app-tab="map"] .main > .panel { bottom:118px !important; padding-bottom:14px !important; max-height:min(36dvh,280px) !important; }
+#unifiedCheckinStatus { margin:0; padding:0 4px; background:transparent; color:#b9c9d7; font-size:12px; line-height:1.4; text-align:center; max-height:3.6em; overflow:auto; }
+html[data-app-tab="map"] body.has-app-tabs .main.map-detail-open > .panel:not([hidden]) { position:relative !important; grid-row:2; justify-self:center; align-self:end; left:auto !important; right:auto !important; bottom:auto !important; top:auto !important; transform:none !important; margin:0 !important; width:min(540px,100%) !important; max-height:min(32dvh,260px) !important; padding:14px 16px !important; border-radius:20px 20px 0 0 !important; border-bottom:0 !important; background:#101d29 !important; box-shadow:none !important; }
+html[data-app-tab="map"] .main > .panel .map-detail-handle-v736 { display:none !important; }
+html[data-app-tab="map"] #map .maplibregl-ctrl-bottom-left,
+html[data-app-tab="map"] #map .maplibregl-ctrl-bottom-right { bottom:var(--map-dock-height,100px); }
 html[data-app-tab="map"] .main > .panel #btnCheckin,
 html[data-app-tab="map"] .main > .panel .kv,
 html[data-app-tab="map"] .main > .panel .castle-map-actions-v62,
@@ -64,4 +69,4 @@ html[data-app-tab="map"] .main > .panel #scenicMapMessageV71 { display:none !imp
 .unified-checkin-result ul { margin:0; padding-left:20px; }
 .unified-checkin-result li { margin:8px 0; overflow-wrap:anywhere; line-height:1.5; }
 .unified-checkin-note { color:#bacbd9; font-size:13px; line-height:1.6; }
-@media(max-height:560px) { html[data-app-tab="map"] .main > .panel { bottom:100px !important; max-height:calc(100% - 160px) !important; } }
+@media(max-height:560px) { html[data-app-tab="map"] body.has-app-tabs .main.map-detail-open > .panel:not([hidden]) { max-height:25dvh !important; } }

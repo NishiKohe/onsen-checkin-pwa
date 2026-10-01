@@ -33,6 +33,17 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
       return { panelBottom: p.bottom, buttonTop: b.top, buttonBottom: b.bottom, viewport: innerHeight };
     });
     assert.ok(bounds.panelBottom <= bounds.buttonTop && bounds.buttonBottom <= bounds.viewport, JSON.stringify(bounds));
+    for (const viewport of [{ width: 320, height: 568 }, { width: 390, height: 844 }]) {
+      await page.setViewportSize(viewport);
+      await page.evaluate(() => { document.getElementById("unifiedCheckinStatus").textContent = "位置情報の取得がタイムアウトしました。電波の届く場所で再度お試しください。"; });
+      await page.waitForFunction(() => {
+        const panel = document.querySelector('.main > .panel:not([hidden])').getBoundingClientRect();
+        const bar = document.getElementById("unifiedCheckinBar").getBoundingClientRect();
+        const main = document.querySelector(".main").getBoundingClientRect();
+        return Math.abs(panel.bottom - bar.top) < 1 && Math.abs(panel.width - bar.width) < 1 && bar.bottom <= main.bottom + 1 && panel.top > main.top;
+      });
+    }
+    await page.evaluate(() => { document.getElementById("unifiedCheckinStatus").textContent = "範囲内の温泉・城・名勝をまとめて取得"; });
     await page.screenshot({ path: "unified-checkin-mobile.png" });
     await context.setGeolocation({ latitude: target.lat, longitude: target.lng, accuracy: 25 });
     await page.locator("#unifiedCheckinButton").click();
@@ -57,6 +68,12 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
         return id;
       }, domain);
       const panel = page.locator('.main > .panel:not([hidden])');
+      const dock = await page.evaluate(() => {
+        const panel = document.querySelector('.main > .panel:not([hidden])').getBoundingClientRect();
+        const bar = document.getElementById("unifiedCheckinBar").getBoundingClientRect();
+        return { gap: Math.abs(panel.bottom - bar.top), widthDifference: Math.abs(panel.width - bar.width) };
+      });
+      assert.ok(dock.gap < 1 && dock.widthDifference < 1, `${domain}: ${JSON.stringify(dock)}`);
       assert.equal(await panel.locator('button:visible').count(), 2, "only close and detail remain in each place sheet");
       await panel.locator(".map-detail-expand-v737").click();
       await page.waitForFunction(() => document.getElementById("mapPlaceDetailV737").open);

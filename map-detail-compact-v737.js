@@ -4,6 +4,7 @@
   let installed = false;
   let selection = null;
   let opener = null;
+  let dockObserver = null;
   function main() { return document.querySelector(".main"); }
   function dialog() { return document.getElementById("mapPlaceDetailV737"); }
   function row(label, value) {
@@ -88,7 +89,16 @@
     const subtitle = document.getElementById("spotSub");
     if (subtitle) subtitle.textContent = `${item.prefecture || "温泉"} ・ ${visited ? "訪問記録あり" : "未訪問"}`;
   }
+  function syncDockSize() {
+    const root = main();
+    if (!root) return;
+    const height = [...root.querySelectorAll(":scope > .panel, :scope > .unified-checkin-bar")]
+      .reduce((sum, item) => sum + item.getBoundingClientRect().height, 0);
+    root.style.setProperty("--map-dock-height", `${Math.ceil(height)}px`);
+  }
   function ensureControls() {
+    for (const item of main()?.querySelectorAll(":scope > .panel, :scope > .unified-checkin-bar") || []) dockObserver?.observe(item);
+    syncDockSize();
     for (const panel of main()?.querySelectorAll(":scope > .panel") || []) {
       if (panel.querySelector(".map-detail-expand-v737")) continue;
       const button = document.createElement("button");
@@ -111,7 +121,9 @@
     d.addEventListener("keydown", event => { if (event.key === "Escape") event.stopPropagation(); });
     d.addEventListener("click", event => { if (event.target === d) expand(false); });
     d.addEventListener("close", () => { main()?.classList.remove("map-detail-expanded"); if (opener?.isConnected) opener.focus(); opener = null; });
+    if (typeof ResizeObserver !== "undefined") dockObserver = new ResizeObserver(syncDockSize);
     ensureControls();
+    window.addEventListener("resize", syncDockSize);
     if (main()) new MutationObserver(ensureControls).observe(main(), { childList: true });
     window.addEventListener("onsen-map-detail-v736-opened", event => { if (selection?.domain !== event.detail.domain || selection?.id !== event.detail.id) expand(false); selection = event.detail; ensureControls(); refreshSummary(); });
     window.addEventListener("onsen-map-detail-v736-closed", () => { expand(false); selection = null; });
