@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - "past-visit-checklist.js"
+      - "scripts/test-past-visit-checklist.cjs"
       - "map-discovery-v737.js"
       - "map-detail-compact-v737.js"
       - "map-ux-v737.css"
