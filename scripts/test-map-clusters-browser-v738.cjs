@@ -63,6 +63,18 @@ const BASE = process.env.ONSEN_TEST_BASE_URL || "https://nishikohe.github.io/ons
 
     console.log("PASS complete catalogs", JSON.stringify(start));
 
+    await page.evaluate(() => {
+      window.__liveStartEpoch = window.OnsenMapClustersV738.diagnostics().renderEpoch;
+      map.easeTo({ center: [139.4, 35.9], zoom: 7, duration: 1600 });
+    });
+    await page.waitForFunction(() => {
+      const d = window.OnsenMapClustersV738.diagnostics(), center = map.getCenter();
+      return map.isMoving() && d.renderEpoch > window.__liveStartEpoch + 3 &&
+        Math.abs(d.renderedCamera.zoom - map.getZoom()) < .1 &&
+        Math.abs(d.renderedCamera.lng - center.lng) < .04;
+    }, null, { timeout: 5000 });
+    console.log("PASS marker counts and positions refresh during camera movement");
+    await page.evaluate(() => map.stop());
     await page.locator('[data-map-domain="all"]').click();
     await page.evaluate(() => {
       map.jumpTo({ center: [139.70, 35.69], zoom: 6.5 });

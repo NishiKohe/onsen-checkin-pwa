@@ -1,6 +1,6 @@
 (() => {
   const version="v73.11";
-  const preferredWorker="./sw.js?v=73.11-dock2";
+  const preferredWorker="./sw.js?v=73.11-live1";
   window.OnsenBuildInfo={version,updatedAt:"2026-09-30"};
   const bridges=[
     ["OnsenGameV68Bridge","gameV68BridgeScript","./game-v68-bridge.js?v=68.2","v68.2 game bridge"],
@@ -83,7 +83,7 @@
     await loadScriptOnce("./unified-checkin-v7311.js?v=73.11", "unifiedCheckinV7311Script");
     await loadScriptOnce("./map-discovery-v737.js?v=73.7","mapDiscoveryV737Script");
     await waitFor(()=>window.OnsenMapDiscoveryV737?.build==="v73.7",8000);
-    await loadScriptOnce("./map-clusters-v738.js?v=73.10-pins4","mapClustersV738Script");
+    await loadScriptOnce("./map-clusters-v738.js?v=73.11-live1","mapClustersV738Script");
     const clusters=await waitFor(()=>window.OnsenMapClustersV738?.build==="v73.10",8000);
     window.OnsenMapDomainV73?.refresh?.();renderer?.refresh?.();window.OnsenMapDiscoveryV737?.refresh?.();clusters?.refresh?.();
     window.dispatchEvent(new CustomEvent("onsen-critical-bootstrap-v738-ready",{detail:{build:version,castle:!!castle,scenic:!!scenic,scenicFeatures:renderer?.featureCount?.()||0,mapDetail:!!window.OnsenMapDetailV736,discovery:!!window.OnsenMapDiscoveryV737,compact:!!window.OnsenMapDetailCompactV737,collection:!!window.OnsenCollectionPrefFoldV737,clusters:!!clusters}}));

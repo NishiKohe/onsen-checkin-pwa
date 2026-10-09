@@ -36,6 +36,9 @@
   let retries = 0;
   let pickerEpoch = 0;
   let renderEpoch = 0;
+  let cameraItems = null;
+  let cameraFrame = null;
+  let renderedCamera = null;
   const originalZoom = new Map();
   const $ = id => document.getElementById(id);
 
@@ -481,6 +484,8 @@
     renderedCount = markers.length;
     groupCount = markers.filter(marker => marker.kind === "group").length;
     singleCount = renderedCount - groupCount;
+    const center = m.getCenter?.();
+    renderedCamera = { zoom, lng: center?.lng, lat: center?.lat };
 
     return true;
   }
@@ -502,6 +507,7 @@
       }
 
       active = false;
+      cameraItems = null;
       featuresCount = 0;
       renderedCount = 0;
       groupCount = 0;
@@ -519,6 +525,7 @@
     }
 
     featuresCount = items.length;
+    cameraItems = items;
     renderOverlay(m, items);
     active = true;
 
@@ -667,10 +674,16 @@
   }
 
   function markMoving() {
-    const overlay = $("mapClusterOverlayV738");
-    if (overlay && !overlay.hidden) overlay.classList.add("is-moving");
-    // A camera operation can finish without a matching moveend on some devices.
-    schedule(350);
+    if (cameraFrame !== null) return;
+    cameraFrame = requestAnimationFrame(() => {
+      cameraFrame = null;
+      const m = mapInstance();
+      if (!m || !active || !cameraItems || document.documentElement.dataset.appTab !== "map") return;
+      // Camera changes reuse the filtered catalog; no storage reads or layer rebuilds per frame.
+      renderOverlay(m, cameraItems);
+      const legend = $("mapClusterLegendV738");
+      if (legend) legend.hidden = domainMode() !== "all" || m.getZoom() >= DETAIL_ZOOM || renderedCount === 0;
+    });
   }
 
   function bind() {
@@ -689,6 +702,9 @@
 
     m.on?.("movestart", markMoving);
     m.on?.("zoomstart", markMoving);
+    m.on?.("move", markMoving);
+    m.on?.("zoom", markMoving);
+    m.on?.("resize", markMoving);
     m.on?.("moveend", () => schedule(0));
     m.on?.("zoomend", () => schedule(0));
   }
@@ -766,6 +782,8 @@
         renderedCount,
         groupCount,
         singleCount,
+        renderEpoch,
+        renderedCamera,
         highZoomFallbackDomains: [...highZoomFallbackDomains],
         mode: domainMode(),
         overlay: !!$("mapClusterOverlayV738"),
