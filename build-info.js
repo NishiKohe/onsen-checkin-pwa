@@ -1,6 +1,6 @@
 (() => {
   const version="v73.11";
-  const preferredWorker="./sw.js?v=73.11-live1";
+  const preferredWorker="./sw.js?v=73.12-checklist1";
   window.OnsenBuildInfo={version,updatedAt:"2026-09-30"};
   const bridges=[
     ["OnsenGameV68Bridge","gameV68BridgeScript","./game-v68-bridge.js?v=68.2","v68.2 game bridge"],
@@ -11,7 +11,7 @@
     ["OnsenAchievementDomainV721","achievementDomainControllerV721Script","./achievement-domain-controller-v721.js?v=72.1","v72.1 achievement domain controller"],
     ["OnsenTravelDomainRecoveryV731","travelDomainRecoveryV731Script","./travel-domain-recovery-v728.js?v=73.1","v73.1 travel candidate runtime"],
     ["OnsenPhotoExifV731","photoExifV731Script","./photo-exif-runtime-v731.js?v=73.1","v73.1 photo EXIF runtime"],
-    ["OnsenTripManualRecoveryV731","tripManualRecoveryV731Script","./trip-manual-recovery-v731.js?v=73.1","v73.1 manual trip recovery"],
+    ["OnsenTripManualRecoveryV731","tripManualRecoveryV731Script","./trip-manual-recovery-v731.js?v=73.12","v73.1 manual trip recovery"],
     ["OnsenTripPhotoRecoveryV731","tripPhotoRecoveryV731Script","./trip-photo-recovery-v731.js?v=73.1","v73.1 photo trip recovery"]
   ];
   const styles=[

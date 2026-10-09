@@ -84,7 +84,7 @@
     for(let i=0;i<240;i+=1){if(document.getElementById("tripManualSpot")&&window.OnsenCastleVisits&&window.OnsenScenicRuntime)break;await new Promise(r=>setTimeout(r,50));}
     if(!ensureUi())return;
     document.addEventListener("click",(event)=>{const target=event.target instanceof Element?event.target.closest("#tripManualSave"):null;if(!target)return;event.preventDefault();event.stopImmediatePropagation();saveManual();},true);
-    window.OnsenTripManualRecoveryV731={build:BUILD,rebuildSuggestions,saveManual,catalogs};
+    window.OnsenTripManualRecoveryV731={build:BUILD,rebuildSuggestions,saveManual,catalogs,refresh,savePastVisit:(domain,entity,date)=>domain==="onsen"?saveOnsen(entity,date):domain==="castle"?saveCastle(entity,date):saveScenic(entity,date)};
     window.dispatchEvent(new CustomEvent("onsen-trip-manual-recovery-ready",{detail:{build:BUILD}}));
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>install().catch(console.warn),{once:true});else install().catch(console.warn);

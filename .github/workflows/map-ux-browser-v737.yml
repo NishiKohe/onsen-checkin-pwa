@@ -64,6 +64,7 @@ jobs:
           node scripts/test-map-clusters-browser-v738.cjs
           node scripts/test-map-ux-browser-v737.cjs
           node scripts/test-unified-checkin-browser-v7311.cjs
+          node scripts/test-past-visit-checklist.cjs
       - name: Upload browser screenshots
         if: always()
         uses: actions/upload-artifact@v4
@@ -73,4 +74,5 @@ jobs:
             *-failure.png
             unified-checkin-mobile.png
             unified-checkin-result.png
+            past-visit-checklist-mobile.png
           if-no-files-found: ignore

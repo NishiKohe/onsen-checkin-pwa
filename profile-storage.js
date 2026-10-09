@@ -18,7 +18,8 @@
     "castleVisitsV1",
     "scenicVisitStateV1",
     "progressionStateV1",
-    "visitDomainCandidatesV728"
+    "visitDomainCandidatesV728",
+    "pastVisitChecklistV1"
   ]);
 
   const storageProto = Storage.prototype;
@@ -111,7 +112,8 @@
 
   // Keys added after the original migration also belong to the first profile.
   for (const key of ["gameStateV1", "characterStateV1", "castleVisitsV1",
-    "scenicVisitStateV1", "progressionStateV1", "visitDomainCandidatesV728"]) {
+    "scenicVisitStateV1", "progressionStateV1", "visitDomainCandidatesV728",
+    "pastVisitChecklistV1"]) {
     const legacy = rawGet(key);
     const firstId = state.profiles[0]?.id;
     if (legacy !== null && firstId && rawGet(scopedKey(key, firstId)) === null) {
