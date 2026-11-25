@@ -3,7 +3,7 @@
   const CANDIDATE_KEY = "visitDomainCandidatesV728";
   const LEGACY_CANDIDATE_KEY = "visitCandidatesV1";
   const SETTINGS_KEY = "visitSettingsV1";
-  const MAX_PENDING = 300;
+  const MAX_RESOLVED_HISTORY = 300;
   const VERIFIED_ACCURACY_M = 150;
   const NEARBY_MARGIN_M = 300;
   const MERGE_MS = 30 * 60 * 1000;
@@ -17,7 +17,16 @@
   };
   const writeJson = (key, value) => localStorage.setItem(key, JSON.stringify(value));
   const loadCandidates = () => readJson(CANDIDATE_KEY, []);
-  const saveCandidates = (list) => writeJson(CANDIDATE_KEY, list.slice(-MAX_PENDING));
+  function saveCandidates(list) {
+    // Pending memories must survive long trips and large photo imports.
+    // Only completed/dismissed history is bounded; preserve input order.
+    const resolved = new Set(list.filter((item) =>
+      item?.status === "confirmed" || item?.status === "dismissed"
+    ).slice(-MAX_RESOLVED_HISTORY));
+    writeJson(CANDIDATE_KEY, list.filter((item) =>
+      item?.status !== "confirmed" && item?.status !== "dismissed" || resolved.has(item)
+    ));
+  }
   const settings = () => ({ tripMode: false, activeSessionId: null, ...readJson(SETTINGS_KEY, {}) });
   const pending = () => loadCandidates().filter((x) => x?.status === "pending").sort((a,b) => Number(b.detectedAt||0)-Number(a.detectedAt||0));
   const rad = (v) => Number(v) * Math.PI / 180;
@@ -154,7 +163,12 @@
     const base=window.getVisitVerificationSummary?.()||{onsite:0,recordedOnly:0};
     const castleRecords=window.OnsenCastleVisits?.list?.()||[],castleBy=new Map();
     for(const r of castleRecords){const id=String(r.entityId||r.spotId||"");if(!id)continue;const onsite=r.verificationLevel==="onsite";const prev=castleBy.get(id);if(!prev||onsite)castleBy.set(id,{onsite});}
-    const scenicValues=Object.values(window.OnsenScenicRuntime?.loadState?.().visited||{}),scenicOnsite=scenicValues.filter((r)=>r?.verificationLevel==="onsite"||["gps_scenic","photo_exif"].includes(r?.verificationType)).length;
+    const scenicValues=Object.values(window.OnsenScenicRuntime?.loadState?.().visited||{}),scenicOnsite=scenicValues.filter((r)=>{
+      if(r?.verificationLevel==="recorded")return false;
+      if(r?.verificationLevel==="onsite")return true;
+      // Older saves may have only the verification type.
+      return ["gps_scenic","photo_exif"].includes(r?.verificationType);
+    }).length;
     const onsite=Number(base.onsite||0)+[...castleBy.values()].filter(x=>x.onsite).length+scenicOnsite;
     const recordedOnly=Number(base.recordedOnly||0)+[...castleBy.values()].filter(x=>!x.onsite).length+(scenicValues.length-scenicOnsite);
     return {onsite,recordedOnly};
