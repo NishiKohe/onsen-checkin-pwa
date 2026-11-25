@@ -15,3 +15,6 @@
 .settlement-footer { margin-top: 18px; border-top: 1px solid #ddd7c7; padding-top: 14px; }
 #tripSettlement #settlementConfirm { background: #245b4e; color: white; border-color: #245b4e; width: 100%; font-weight: bold; }
 @media (max-width: 400px) { #tripSettlement { padding: 12px; } .settlement-actions > button { flex: 1 1 120px; } }
+
+/* Keep the batch action reachable while reviewing a long trip. */
+.settlement-footer { position: sticky; bottom: 0; z-index: 2; background: #fffdf7; box-shadow: 0 -8px 16px #fffdf7; }
