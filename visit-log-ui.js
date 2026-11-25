@@ -5,7 +5,6 @@
     settings: "visitSettingsV1",
     migration: "visitLogMigrationV1"
   };
-  const MAX_PENDING = 250;
   const VERIFIED_ACCURACY_M = 150;
   const NEARBY_MARGIN_M = 300;
   const PHOTO_NEARBY_MARGIN_M = 1000;
@@ -84,7 +83,12 @@
   }
 
   function saveCandidates(list) {
-    writeJson(KEYS.candidates, list.slice(-MAX_PENDING));
+    const resolved = new Set(list.filter((item) =>
+      item?.status === "confirmed" || item?.status === "dismissed"
+    ).slice(-250));
+    writeJson(KEYS.candidates, list.filter((item) =>
+      item?.status !== "confirmed" && item?.status !== "dismissed" || resolved.has(item)
+    ));
   }
 
   function loadSessions() {

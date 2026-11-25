@@ -258,7 +258,13 @@
       strength
     }];
     if (!existing) candidates.push(record);
-    writeJson(CANDIDATE_KEY, candidates.slice(-250));
+    // Keep every pending photo; bound only resolved history.
+    const resolved = new Set(candidates.filter((item) =>
+      item?.status === "confirmed" || item?.status === "dismissed"
+    ).slice(-250));
+    writeJson(CANDIDATE_KEY, candidates.filter((item) =>
+      item?.status !== "confirmed" && item?.status !== "dismissed" || resolved.has(item)
+    ));
   }
 
   function clearPhotoFallbackForm() {

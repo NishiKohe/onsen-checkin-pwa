@@ -5,11 +5,15 @@ on:
     branches:
       - codex/travel-recovery-preserve-pending
     paths:
+      - visit-log-ui.js
+      - photo-recovery-fallback.js
       - travel-domain-recovery-v728.js
       - scripts/test-travel-recovery.cjs
       - .github/workflows/travel-recovery.yml
   pull_request:
     paths:
+      - visit-log-ui.js
+      - photo-recovery-fallback.js
       - travel-domain-recovery-v728.js
       - scripts/test-travel-recovery.cjs
       - .github/workflows/travel-recovery.yml
@@ -25,6 +29,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Syntax and recovery behavior
         run: |
+          node --check visit-log-ui.js
+          node --check photo-recovery-fallback.js
           node --check travel-domain-recovery-v728.js
           node --check scripts/test-travel-recovery.cjs
           node scripts/test-travel-recovery.cjs

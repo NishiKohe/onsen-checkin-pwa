@@ -43,7 +43,44 @@ async function harness() {
     setScenic: visited => { scenic = { visited }; }, failWrites: value => { failWrites = value; } };
 }
 
+
+function testLegacyRetention() {
+  for (const [file, exportName] of [
+    ["visit-log-ui.js", "saveCandidates"],
+    ["photo-recovery-fallback.js", "savePhotoCandidate"]
+  ]) {
+    const data = new Map();
+    const context = vm.createContext({
+      window: { addEventListener() {} }, document: { getElementById: () => null },
+      localStorage: { getItem: key => data.get(key) ?? null,
+        setItem: (key, value) => data.set(key, value) },
+      setTimeout() {}, console
+    });
+    const source = fs.readFileSync(file, "utf8");
+    const end = source.lastIndexOf("})();");
+    vm.runInContext(source.slice(0, end) + "window.testSave = " + exportName + ";\n" + source.slice(end), context);
+    const pending = Array.from({ length: 650 }, (_, i) => ({
+      id: "legacy-" + i, spotId: "spot-" + i, status: "pending", source: "photo_exif"
+    }));
+    const resolved = Array.from({ length: 350 }, (_, i) => ({
+      id: "done-" + i, status: i % 2 ? "confirmed" : "dismissed"
+    }));
+    data.set("visitCandidatesV1", JSON.stringify([...pending, ...resolved]));
+    if (exportName === "saveCandidates") context.window.testSave([...pending, ...resolved]);
+    else context.window.testSave({
+      match: { spot: { id: "extra", name: "Extra" }, distanceToCenterM: 10, remainingM: 0 },
+      source: "photo_exif", strength: "photo_verified_range", evidence: {}
+    });
+    const saved = JSON.parse(data.get("visitCandidatesV1"));
+    assert.equal(saved.filter(x => x.status === "pending").length, exportName === "saveCandidates" ? 650 : 651);
+    assert.deepEqual(saved.filter(x => x.status === "pending").slice(0, 650), pending);
+    assert.deepEqual(saved.filter(x => x.status !== "pending"), resolved.slice(-250));
+  }
+  console.log("PASS legacy onsen and fallback photos retain pending candidates");
+}
+
 async function main() {
+  testLegacyRetention();
   const h = await harness();
   assert(h.api, "runtime installs");
   const candidate = (i, status = "pending") => ({
