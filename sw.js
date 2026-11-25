@@ -1,5 +1,6 @@
 const CACHE_NAME = "onsen-checkin-v73.12-dev1";
 const CORE_ASSETS = [
+  "./trip-settlement.js", "./trip-settlement.css",
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css", "./footer-navigation-v46.css",
   "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css", "./mining-pickaxe-v691.css",
   "./castle-collection-ui-v61.css", "./castle-map-v62.css", "./endless-battle-v68.css", "./scenic-collection-ui-v70.css", "./scenic-map-v71.css", "./collection-domain-controller-v732.css", "./map-immersive-v736.css", "./map-ux-v737.css", "./collection-pref-fold-v737.css", "./map-clusters-v738.css",

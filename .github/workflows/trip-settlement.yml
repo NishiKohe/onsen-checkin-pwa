@@ -1,0 +1,45 @@
+name: Trip settlement prototype
+on:
+  push:
+    branches: [codex/trip-settlement]
+  pull_request:
+    paths: [trip-settlement.js, trip-settlement.css, visit-log-ui.js, travel-domain-recovery-v728.js, scripts/test-trip-settlement.cjs, scripts/test-trip-settlement-browser.cjs, .github/workflows/trip-settlement.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax and behavior
+        run: |
+          node --check trip-settlement.js
+          node scripts/test-trip-settlement.cjs
+          node scripts/test-travel-recovery.cjs
+          node scripts/test-profile-backup.cjs
+          node scripts/test-unified-checkin-v7311.cjs
+          node scripts/test-developer-visit-plan.cjs
+          node scripts/test-map-immersive-v736.cjs
+          node scripts/test-collection-map-navigation-v735.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start app
+        run: python3 -m http.server 8765 >/tmp/settlement-http.log 2>&1 &
+      - name: Mobile browser
+        env:
+          ONSEN_TEST_BASE_URL: http://127.0.0.1:8765/
+        run: node scripts/test-trip-settlement-browser.cjs
+      - name: Preview screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trip-settlement-preview
+          path: trip-settlement-*.png
+          if-no-files-found: ignore
