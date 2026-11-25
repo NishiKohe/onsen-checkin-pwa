@@ -35,6 +35,7 @@ const { chromium } = require("playwright");
       assert(await page.evaluate(() => document.getElementById("tripSettlement").getBoundingClientRect().right <= innerWidth));
       assert(await page.evaluate(() => document.getElementById("tripSettlement").scrollWidth <= document.getElementById("tripSettlement").clientWidth));
     }
+    assert(await page.locator("#settlementConfirm").evaluate(el => { const r = el.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; }), "batch action remains in the viewport during review");
     await page.screenshot({ path: "trip-settlement-mobile.png", fullPage: true });
     await page.locator("#settlementSelect").click();
     await page.locator("#settlementConfirm").click();
