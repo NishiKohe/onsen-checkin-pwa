@@ -1,7 +1,7 @@
 name: Trip settlement prototype
 on:
   push:
-    branches: [codex/trip-settlement]
+    branches: [main, codex/trip-settlement]
   pull_request:
     paths: [trip-settlement.js, trip-settlement.css, visit-log-ui.js, travel-domain-recovery-v728.js, scripts/test-trip-settlement.cjs, scripts/test-trip-settlement-browser.cjs, .github/workflows/trip-settlement.yml]
   workflow_dispatch:
