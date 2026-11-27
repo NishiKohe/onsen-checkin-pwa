@@ -149,12 +149,12 @@
     return true;
   }
 
-  function confirm(id) {
+  function confirm(id, { refresh = true } = {}) {
     const list=loadCandidates(),candidate=list.find((x)=>x.id===id&&x.status==="pending");if(!candidate)return false;
     const onsite=onsiteStrength(candidate.strength);
     const ok=candidate.entityType==="onsen"?confirmOnsen(candidate,onsite):candidate.entityType==="castle"?confirmCastle(candidate,onsite):candidate.entityType==="scenic"?confirmScenic(candidate,onsite):false;
     if(!ok)return false;
-    candidate.status="confirmed";candidate.resolvedAt=Date.now();saveCandidates(list);refreshAll();return true;
+    candidate.status="confirmed";candidate.resolvedAt=Date.now();saveCandidates(list);if(refresh)refreshAll();return true;
   }
   function dismiss(id){const list=loadCandidates(),c=list.find((x)=>x.id===id&&x.status==="pending");if(!c)return;c.status="dismissed";c.resolvedAt=Date.now();saveCandidates(list);render();}
   function showOnMap(id){const c=loadCandidates().find((x)=>x.id===id);if(!c)return;window.OnsenMapDomainV73?.open?.(c.entityType,c.entityId,{source:"travel-recovery-v731"});}

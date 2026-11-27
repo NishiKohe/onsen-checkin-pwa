@@ -62,6 +62,7 @@
     window.isSpotOnsiteVerified = isSpotOnsiteVerified;
     window.isGroupOnsiteComplete = (memberIds) => (memberIds || []).every(isSpotOnsiteVerified);
     window.getVisitVerificationSummary = getVerificationSummary;
+    window.OnsenVisitCandidates = { pending: pendingCandidates, confirm: confirmCandidate, dismiss: dismissCandidate, refresh: refreshVisitDependentUi };
     window.openTripView = () => forceThreeWayTab("trip");
   }
 
@@ -450,10 +451,10 @@
     return loadCandidates().filter((item) => item.status === "pending").sort((a, b) => b.detectedAt - a.detectedAt);
   }
 
-  function confirmCandidate(candidateId) {
+  function confirmCandidate(candidateId, { refresh = true } = {}) {
     const candidates = loadCandidates();
     const candidate = candidates.find((item) => item.id === candidateId && item.status === "pending");
-    if (!candidate) return;
+    if (!candidate) return false;
     const already = loadCheckins().some((item) => item.spotId === candidate.spotId);
     if (!already) {
       const onsite = candidate.strength === "verified_range" || candidate.strength === "photo_verified_range";
@@ -477,7 +478,8 @@
     candidate.status = "confirmed";
     candidate.resolvedAt = Date.now();
     saveCandidates(candidates);
-    refreshVisitDependentUi();
+    if (refresh) refreshVisitDependentUi();
+    return true;
   }
 
   function dismissCandidate(candidateId) {
@@ -622,16 +624,21 @@
     for (const item of loadCheckins()) {
       if (!item?.spotId) continue;
       const current = bySpot.get(item.spotId);
-      const onsite = item.verificationLevel === "onsite" || ["gps_manual", "gps_legacy", "gps_recovered", "photo_exif"].includes(item.verificationType);
+      const onsite = isOnsiteRecord(item);
       if (!current || (onsite && !current.onsite)) bySpot.set(item.spotId, { onsite, item });
     }
     const onsite = [...bySpot.values()].filter((value) => value.onsite).length;
     return { total: bySpot.size, onsite, recordedOnly: bySpot.size - onsite };
   }
 
+  function isOnsiteRecord(item) {
+    if (item.verificationLevel === "recorded") return false;
+    return item.verificationLevel === "onsite" || ["gps_manual", "gps_legacy", "gps_recovered", "photo_exif"].includes(item.verificationType);
+  }
+
   function isSpotOnsiteVerified(spotId) {
     return loadCheckins().some((item) => item.spotId === spotId &&
-      (item.verificationLevel === "onsite" || ["gps_manual", "gps_legacy", "gps_recovered", "photo_exif"].includes(item.verificationType)));
+      isOnsiteRecord(item));
   }
 
   function renderTripView() {

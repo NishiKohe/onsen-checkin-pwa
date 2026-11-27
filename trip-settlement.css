@@ -1,0 +1,20 @@
+#tripSettlement { background: #fffdf7; border: 1px solid #ddd7c7; border-radius: 14px; padding: 18px; margin: 14px 0; color: #243d38; min-width: 0; }
+#tripSettlement h3 { font-size: 21px; margin: 0 0 10px; }
+#tripSettlement p { line-height: 1.6; overflow-wrap: anywhere; }
+.settlement-filters, .settlement-actions, .settlement-row-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.settlement-filters > label { display: grid; gap: 5px; flex: 1 1 120px; min-width: 0; }
+#tripSettlement select, #tripSettlement button { font: inherit; min-height: 44px; border: 1px solid #c8cebf; border-radius: 8px; padding: 9px 12px; max-width: 100%; background: #fff; color: #243d38; cursor: pointer; }
+#tripSettlement button:disabled { opacity: .5; cursor: default; }
+#tripSettlement :focus-visible { outline: 3px solid #9c6d22; outline-offset: 3px; }
+.settlement-row { padding: 16px 0; border-top: 1px solid #e1e2d8; margin-top: 14px; }
+.settlement-row > label { display: flex; gap: 10px; align-items: center; min-height: 44px; cursor: pointer; }
+.settlement-row strong { overflow-wrap: anywhere; }
+.settlement-row input { width: 24px; height: 24px; flex-shrink: 0; accent-color: #245b4e; }
+.settlement-meta { color: #657064; font-size: 13px; margin: 7px 0; }
+.settlement-evidence { font-size: 14px; margin: 7px 0; }
+.settlement-footer { margin-top: 18px; border-top: 1px solid #ddd7c7; padding-top: 14px; }
+#tripSettlement #settlementConfirm { background: #245b4e; color: white; border-color: #245b4e; width: 100%; font-weight: bold; }
+@media (max-width: 400px) { #tripSettlement { padding: 12px; } .settlement-actions > button { flex: 1 1 120px; } }
+
+/* Keep the batch action reachable while reviewing a long trip. */
+.settlement-footer { position: sticky; bottom: 0; z-index: 2; background: #fffdf7; box-shadow: 0 -8px 16px #fffdf7; }
