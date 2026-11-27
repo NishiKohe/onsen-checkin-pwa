@@ -1,0 +1,43 @@
+name: Travel recovery regression
+
+on:
+  push:
+    branches:
+      - codex/travel-recovery-preserve-pending
+    paths:
+      - visit-log-ui.js
+      - photo-recovery-fallback.js
+      - travel-domain-recovery-v728.js
+      - scripts/test-travel-recovery.cjs
+      - .github/workflows/travel-recovery.yml
+  pull_request:
+    paths:
+      - visit-log-ui.js
+      - photo-recovery-fallback.js
+      - travel-domain-recovery-v728.js
+      - scripts/test-travel-recovery.cjs
+      - .github/workflows/travel-recovery.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  recovery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax and recovery behavior
+        run: |
+          node --check visit-log-ui.js
+          node --check photo-recovery-fallback.js
+          node --check travel-domain-recovery-v728.js
+          node --check scripts/test-travel-recovery.cjs
+          node scripts/test-travel-recovery.cjs
+      - name: Existing save, visit and navigation regressions
+        run: |
+          node scripts/test-profile-backup.cjs
+          node scripts/test-unified-checkin-v7311.cjs
+          node scripts/test-developer-visit-plan.cjs
+          node scripts/test-map-immersive-v736.cjs
+          node scripts/test-collection-map-navigation-v735.cjs
