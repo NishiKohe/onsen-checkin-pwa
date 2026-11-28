@@ -1,5 +1,6 @@
 const CACHE_NAME = "onsen-checkin-v73.12-dev1";
 const CORE_ASSETS = [
+  "./trip-gpx-import.js", "./trip-gpx-import.css",
   "./trip-settlement.js", "./trip-settlement.css",
   "./", "./index.html", "./manifest.webmanifest", "./style.css", "./app-shell.css", "./footer-navigation-v46.css",
   "./game-ui-v60.css", "./game-hub-v61.css", "./encyclopedia-ui-v61.css", "./mining-game-v69.css", "./mining-pickaxe-v691.css",

@@ -59,10 +59,10 @@
       checkbox.checked = selected.has(c.key); checkbox.dataset.key = c.key; checkbox.setAttribute("aria-label", `${LABELS[c.entityType]} ${c.name || "名称不明"}を選択`);
       checkbox.addEventListener("change", () => { if (owner !== profile()) { render(); return; } checkbox.checked ? selected.add(c.key) : selected.delete(c.key); syncControls(); });
       label.append(checkbox, text("strong", `${LABELS[c.entityType]}　${c.name || "名称不明"}`)); row.appendChild(label);
-      const source = String(c.source || "").startsWith("photo") ? "写真" : "GPS";
+      const source = c.source === "gpx_import" ? "GPX" : String(c.source || "").startsWith("photo") ? "写真" : "GPS";
       const at = c.day === "unknown" ? "日時不明" : new Date(Number(c.detectedAt)).toLocaleString("ja-JP");
       row.appendChild(text("p", `${at}　${c.prefecture || ""}`, "settlement-meta"));
-      row.appendChild(text("p", `${source}・${c.onsite ? "範囲内／現地確認として記録" : "付近／訪問記録として保存"}`, "settlement-evidence"));
+      row.appendChild(text("p", `${source}・${c.source === "gpx_import" ? (c.strength === "gpx_in_range" ? "範囲内／訪問記録として保存" : "付近／訪問記録として保存") : c.onsite ? "範囲内／現地確認として記録" : "付近／訪問記録として保存"}`, "settlement-evidence"));
       if (c.remainingM != null && Number.isFinite(Number(c.remainingM)) && Number(c.remainingM) > 0) row.appendChild(text("p", `取得範囲まで約${Math.round(Number(c.remainingM))}m。実際に訪れたか確認してください。`, "settlement-meta"));
       const actions = document.createElement("div"); actions.className = "settlement-row-actions";
       const map = text("button", "地図で確認"); map.type = "button";
