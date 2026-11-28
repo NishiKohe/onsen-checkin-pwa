@@ -5,3 +5,7 @@
 .gpx-file input { max-width: 100%; min-height: 44px; font: inherit; }
 .gpx-note { font-size: 13px; color: #b7cec1; }
 #tripGpxStatus { font-size: 14px; }
+
+.gpx-import { min-width: 0; box-sizing: border-box; }
+.gpx-file { min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.gpx-file input { width: 100%; min-width: 0; box-sizing: border-box; }
