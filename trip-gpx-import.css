@@ -1,0 +1,11 @@
+.gpx-import { padding: 16px; margin: 14px 0; border: 1px solid #52655e; border-radius: 12px; background: #182b29; color: #e7f0eb; }
+.gpx-import h3 { margin: 0 0 10px; font-size: 19px; }
+.gpx-import p { line-height: 1.6; overflow-wrap: anywhere; }
+.gpx-file { display: grid; gap: 8px; font-weight: bold; }
+.gpx-file input { max-width: 100%; min-height: 44px; font: inherit; }
+.gpx-note { font-size: 13px; color: #b7cec1; }
+#tripGpxStatus { font-size: 14px; }
+
+.gpx-import { min-width: 0; box-sizing: border-box; }
+.gpx-file { min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.gpx-file input { width: 100%; min-width: 0; box-sizing: border-box; }

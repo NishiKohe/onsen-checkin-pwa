@@ -127,7 +127,7 @@
     if(typeof loadCheckins!=="function"||typeof saveCheckins!=="function")return false;
     if(loadCheckins().some((item)=>String(item.spotId||"")===String(candidate.entityId)))return true;
     const list=loadCheckins();
-    list.push({spotId:candidate.entityId,name:candidate.name,prefecture:candidate.prefecture||"",checkedAt:Number(candidate.detectedAt||Date.now()),accuracyM:candidate.accuracyM??null,zoneLabel:candidate.zoneLabel||null,entityType:"onsen",verificationType:candidate.source==="photo_exif"?"photo_exif":(onsite?"gps_recovered":"self_report_nearby"),verificationLevel:onsite?"onsite":"recorded",recordSource:"visit_candidate_confirmation",recoveredAt:Date.now(),evidence:candidate.evidence||[]});
+    list.push({spotId:candidate.entityId,name:candidate.name,prefecture:candidate.prefecture||"",checkedAt:Number(candidate.detectedAt||Date.now()),accuracyM:candidate.accuracyM??null,zoneLabel:candidate.zoneLabel||null,entityType:"onsen",verificationType:candidate.source==="gpx_import"?"gpx_import":candidate.source==="photo_exif"?"photo_exif":(onsite?"gps_recovered":"self_report_nearby"),verificationLevel:onsite?"onsite":"recorded",recordSource:"visit_candidate_confirmation",recoveredAt:Date.now(),evidence:candidate.evidence||[]});
     saveCheckins(list);return true;
   }
 
@@ -135,7 +135,7 @@
     const visits=window.OnsenCastleVisits;if(!visits)return false;
     if(visits.isVisited?.(candidate.entityId))return true;
     const state=visits.loadState();
-    state.records.push({categoryId:"castle",entityType:"castle",entityId:candidate.entityId,spotId:candidate.entityId,checkedAt:Number(candidate.detectedAt||Date.now()),verificationLevel:onsite?"onsite":"recorded",verificationType:candidate.source==="photo_exif"?"photo_exif":(onsite?"gps_recovered":"self_report_nearby"),recordSource:"visit_candidate_confirmation",lat:candidate.evidence?.[0]?.lat??null,lng:candidate.evidence?.[0]?.lng??null,accuracyM:candidate.accuracyM??null,distanceM:candidate.distanceM??null,radiusM:candidate.radiusM??null,coordinateSource:candidate.coordinateSource||null,coordinateVerification:"travel_recovery_v731",evidence:candidate.evidence||[],recoveredAt:Date.now()});
+    state.records.push({categoryId:"castle",entityType:"castle",entityId:candidate.entityId,spotId:candidate.entityId,checkedAt:Number(candidate.detectedAt||Date.now()),verificationLevel:onsite?"onsite":"recorded",verificationType:candidate.source==="gpx_import"?"gpx_import":candidate.source==="photo_exif"?"photo_exif":(onsite?"gps_recovered":"self_report_nearby"),recordSource:"visit_candidate_confirmation",lat:candidate.evidence?.[0]?.lat??null,lng:candidate.evidence?.[0]?.lng??null,accuracyM:candidate.accuracyM??null,distanceM:candidate.distanceM??null,radiusM:candidate.radiusM??null,coordinateSource:candidate.coordinateSource||null,coordinateVerification:"travel_recovery_v731",evidence:candidate.evidence||[],recoveredAt:Date.now()});
     visits.saveState(state,"travel_candidate_recovered",{castleId:candidate.entityId,strictGps:onsite});
     return true;
   }
@@ -144,7 +144,7 @@
     const runtime=window.OnsenScenicRuntime;if(!runtime)return false;
     if(runtime.isVisited?.(candidate.entityId))return true;
     const state=runtime.loadState(),entry=runtime.get?.(candidate.entityId)||{};
-    state.visited[String(candidate.entityId)]={visitedAt:Number(candidate.detectedAt||Date.now()),verificationType:candidate.source==="photo_exif"?"photo_exif":(onsite?"gps_scenic":"past_self_report"),verificationLevel:onsite?"onsite":"recorded",recordSource:"visit_candidate_confirmation",source:"travel_domain_recovery_v731",lat:candidate.evidence?.[0]?.lat??null,lng:candidate.evidence?.[0]?.lng??null,accuracyM:candidate.accuracyM??null,zoneLabel:candidate.zoneLabel||null,distanceM:candidate.distanceM??null,radiusM:candidate.radiusM??null,specialScenic:entry.specialScenic===true,evidence:candidate.evidence||[],recoveredAt:Date.now()};
+    state.visited[String(candidate.entityId)]={visitedAt:Number(candidate.detectedAt||Date.now()),verificationType:candidate.source==="gpx_import"?"gpx_import":candidate.source==="photo_exif"?"photo_exif":(onsite?"gps_scenic":"past_self_report"),verificationLevel:onsite?"onsite":"recorded",recordSource:"visit_candidate_confirmation",source:"travel_domain_recovery_v731",lat:candidate.evidence?.[0]?.lat??null,lng:candidate.evidence?.[0]?.lng??null,accuracyM:candidate.accuracyM??null,zoneLabel:candidate.zoneLabel||null,distanceM:candidate.distanceM??null,radiusM:candidate.radiusM??null,specialScenic:entry.specialScenic===true,evidence:candidate.evidence||[],recoveredAt:Date.now()};
     runtime.saveState(state,"scenic_travel_candidate_recovered");
     return true;
   }
@@ -187,7 +187,7 @@
     return root;
   }
   function domainLabel(type){return type==="onsen"?"♨ 温泉":type==="castle"?"🏯 名城":"◇ 名勝";}
-  function strengthLabel(c){if(c.source==="photo_exif")return onsiteStrength(c.strength)?"写真・範囲内":"写真・付近";return onsiteStrength(c.strength)?"GPS範囲内":"GPS付近";}
+  function strengthLabel(c){if(c.source==="gpx_import")return c.strength==="gpx_in_range"?"GPX・範囲内（訪問記録）":"GPX・付近（訪問記録）";if(c.source==="photo_exif")return onsiteStrength(c.strength)?"写真・範囲内":"写真・付近";return onsiteStrength(c.strength)?"GPS範囲内":"GPS付近";}
   function render() {
     const root=ensureRoot();if(!root)return;
     const items=pending();root.innerHTML="";

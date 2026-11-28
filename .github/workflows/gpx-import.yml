@@ -1,0 +1,48 @@
+name: GPX trip import
+on:
+  push:
+    branches: [main, codex/gpx-import]
+    paths: [trip-gpx-import.js, trip-gpx-import.css, trip-settlement.js, travel-domain-recovery-v728.js, scripts/test-gpx-import.cjs, scripts/test-gpx-import-browser.cjs, .github/workflows/gpx-import.yml]
+  pull_request:
+    paths: [trip-gpx-import.js, trip-gpx-import.css, trip-settlement.js, travel-domain-recovery-v728.js, scripts/test-gpx-import.cjs, scripts/test-gpx-import-browser.cjs, .github/workflows/gpx-import.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Matching and existing regressions
+        run: |
+          node --check trip-gpx-import.js
+          node scripts/test-gpx-import.cjs
+          node scripts/test-trip-settlement.cjs
+          node scripts/test-travel-recovery.cjs
+          node scripts/test-profile-backup.cjs
+          node scripts/test-unified-checkin-v7311.cjs
+      - name: Install Chromium
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Start app
+        run: python3 -m http.server 8765 >/tmp/gpx-http.log 2>&1 &
+      - name: Browser import and settlement
+        env:
+          ONSEN_TEST_BASE_URL: http://127.0.0.1:8765/
+        run: |
+          node scripts/test-gpx-import-browser.cjs
+          node scripts/test-trip-settlement-browser.cjs
+      - name: Preview screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpx-import-preview
+          path: |
+            gpx-import-*.png
+            trip-settlement-*.png
+          if-no-files-found: ignore
